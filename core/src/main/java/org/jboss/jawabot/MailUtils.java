@@ -5,8 +5,9 @@ package org.jboss.jawabot;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
-import org.apache.log4j.Logger;
 import org.jboss.jawabot.config.beans.ConfigBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
@@ -15,7 +16,7 @@ import org.jboss.jawabot.config.beans.ConfigBean;
  * @author Ondrej Zizka
  */
 public class MailUtils {
-   private static final Logger log = Logger.getLogger( MailUtils.class );
+   private static final Logger log = LoggerFactory.getLogger( MailUtils.class );
 
    private JawaBot jawaBot;
 

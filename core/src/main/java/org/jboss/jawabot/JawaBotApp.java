@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.ex.JawaBotException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.config.JaxbConfigPersister;
 import org.jboss.jawabot.usermgr.UserManager;
 import org.jboss.weld.environment.se.Weld;
@@ -20,7 +20,7 @@ import org.jboss.weld.environment.se.jpa.EntityManagerStore;
 @Singleton
 public class JawaBotApp
 {
-   private static final Logger log = Logger.getLogger(JawaBotApp.class);
+   private static final Logger log = LoggerFactory.getLogger(JawaBotApp.class);
 
    @Inject private Instance<IModuleHook> moduleHookInstances;
    @Inject private EntityManagerStore emf; // To have it created at the very start.

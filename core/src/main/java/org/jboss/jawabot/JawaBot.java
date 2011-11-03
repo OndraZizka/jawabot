@@ -7,6 +7,8 @@ import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -14,12 +16,11 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.state.beans.StateBean;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.groupmgr.GroupManager;
 import org.jboss.jawabot.plugin.pastebin.IPasteBinManager;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
-import org.jboss.jawabot.plugin.pastebin.MemoryPasteBinManager;
 import org.jboss.jawabot.state.JaxbStatePersister;
 import org.jboss.jawabot.state.beans.ReservationBean;
 
@@ -35,9 +36,10 @@ import org.jboss.jawabot.state.beans.ReservationBean;
  * 
  * @author Ondrej Zizka
  */
+@ApplicationScoped
 public class JawaBot
 {
-   private static final Logger log = Logger.getLogger( JawaBot.class );
+   private static final Logger log = LoggerFactory.getLogger( JawaBot.class );
 
    
 
@@ -58,6 +60,7 @@ public class JawaBot
 
    // ResourceManager
 	private ResourceManager resourceManager = new ResourceManager();
+   @Produces @FromJawaBot
    public ResourceManager getResourceManager() {      return resourceManager;   }
    public void setResourceManager(ResourceManager resourceManager) { this.resourceManager = resourceManager; }
 
