@@ -45,16 +45,16 @@ public class JaxbConfigPersister
     */
    public ConfigBean load() throws JawaBotIOException
    {
-       log.info( "Loading config from: " + this.filePath );
+       log.info( "Looking for config: " + this.filePath );
 
        try {
            // Try filesystem, then classpath.
            InputStream is;
            if( new File( this.filePath ).exists() ) {
-               log.info( "Loading config from the filesystem." );
+               log.info( "    Found in filesystem." );
                is = new FileInputStream( this.filePath );
            } else {
-               log.info( "Loading config from the classpath." );
+               log.info( "    Loading config from classpath." );
                is = JaxbConfigPersister.class.getClassLoader().getResourceAsStream( this.filePath );
            }
            if( null == is ) {
