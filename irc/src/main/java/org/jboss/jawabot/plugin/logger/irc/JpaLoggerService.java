@@ -2,6 +2,7 @@ package org.jboss.jawabot.plugin.logger.irc;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -43,5 +44,10 @@ public class JpaLoggerService implements ILoggerService, EntitiesPackagesProvide
       });
    }
    
+   @Override
+   public Collection<Class> getEntityClasses() {
+      return Collections.EMPTY_LIST;
+   }
+
 }// class
 

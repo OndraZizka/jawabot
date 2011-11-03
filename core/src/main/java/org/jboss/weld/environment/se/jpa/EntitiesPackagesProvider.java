@@ -14,5 +14,7 @@ public interface EntitiesPackagesProvider {
     */
    public Collection<String> getEntityPackages();
    
+   public Collection<Class> getEntityClasses();
+   
 }// class
 

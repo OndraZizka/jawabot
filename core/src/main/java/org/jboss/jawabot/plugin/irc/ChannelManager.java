@@ -2,6 +2,7 @@ package org.jboss.jawabot.plugin.irc;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -48,6 +49,12 @@ public class ChannelManager implements EntitiesPackagesProvider {
       return em.createQuery("SELECT ch FROM Channel ch ORDER BY ch.name", Channel.class).setFirstResult(from).setMaxResults(offset).getResultList();
    }
 
+   public List<Channel> getUsersInChannel(Channel channel) {
+      return Arrays.asList( new Channel[]{ new Channel("#jbossqa"), new Channel("#seam"), new Channel("#richfaces") } );
+   }
+
+
+   
    
    @Override
    public Collection<String> getEntityPackages() {
@@ -56,9 +63,9 @@ public class ChannelManager implements EntitiesPackagesProvider {
       });
    }
 
-   public List<Channel> getUsersInChannel(Channel channel) {
-      return Arrays.asList( new Channel[]{ new Channel("#jbossqa"), new Channel("#seam"), new Channel("#richfaces") } );
+   @Override
+   public Collection<Class> getEntityClasses() {
+      return Collections.EMPTY_LIST;
    }
-
 
 }// class

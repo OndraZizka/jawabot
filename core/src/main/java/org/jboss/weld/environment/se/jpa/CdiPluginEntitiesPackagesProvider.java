@@ -16,8 +16,8 @@ public class CdiPluginEntitiesPackagesProvider implements EntitiesPackagesProvid
    @Inject Instance<EntitiesPackagesProvider> epps;
 
    @Override
-   public Collection<String> getEntityPackages() {
-      
+   public Collection<String> getEntityPackages() 
+   {
       Set<String> packages = new HashSet<String>();
       for( EntitiesPackagesProvider epp : epps ){
          // Prevent recursion or circularity.
@@ -26,6 +26,19 @@ public class CdiPluginEntitiesPackagesProvider implements EntitiesPackagesProvid
          packages.addAll( epp.getEntityPackages() );
       }
       return packages;
+   }
+
+   @Override
+   public Collection<Class> getEntityClasses() 
+   {
+      Set<Class> classes = new HashSet<Class>();
+      for( EntitiesPackagesProvider epp : epps ){
+         // Prevent recursion or circularity.
+         if( epp == this || epp instanceof CdiPluginEntitiesPackagesProvider )
+            continue;
+         classes.addAll( epp.getEntityClasses() );
+      }
+      return classes;
    }
    
 }// class

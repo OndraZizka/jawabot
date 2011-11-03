@@ -2,18 +2,11 @@
 package org.jboss.weld.environment.se.jpa;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
+import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import org.jboss.weld.introspector.ConstructorSignature;
-import org.jboss.weld.introspector.MethodSignature;
-import org.jboss.weld.introspector.WeldConstructor;
-import org.jboss.weld.introspector.WeldField;
-import org.jboss.weld.introspector.WeldMethod;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,13 +15,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.Stack;
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.persistence.Entity;
 import org.hibernate.ejb.Ejb3Configuration;
 import org.jboss.weld.environment.se.jpa.scan.ClassScanner;
-import org.jboss.weld.introspector.WeldClass;
 
 /**
  * A store for entity managers. It is basically a ThreadLocal which stores the entity manager.
@@ -100,10 +90,13 @@ public class EntityManagerStoreImpl implements EntityManagerStore
             }
             
             // Concrete classes. TODO.
-            try {
-               ejbConf.addAnnotatedClass( Class.forName("org.jboss.jawabot.irc.model.IrcMessage") );
-            } catch( ClassNotFoundException ex ) {
-               log.error("Failed loading IrcMessage entity. " + ex, ex);
+            for( Class cls : entPackProv.getEntityClasses() ){
+               log.debug("  Adding entity class to Ejb3Configuration: " + "");
+               try {
+                  ejbConf.addAnnotatedClass( cls );
+               } catch( Throwable ex ) {
+                  log.error("Failed loading IrcMessage entity. " + ex, ex);
+               }
             }
             
             
@@ -133,7 +126,7 @@ public class EntityManagerStoreImpl implements EntityManagerStore
 
 		/**
 		 * Creates an entity manager and stores it in a stack. The use of a stack allows to implement
-		 * transaction with a 'requires new' behaviour.
+		 * transaction with a "requires new" behavior.
 		 *
 		 * @return the created entity manager
 		 */
@@ -180,14 +173,19 @@ public class EntityManagerStoreImpl implements EntityManagerStore
        *  @param pack
        *  @return 
        */
-      private List<Class<? extends Object>> getEntityClassesFromPackage(String pack) throws ClassNotFoundException {
-         try {
+      private List<Class<? extends Object>> getEntityClassesFromPackage(String pack) throws ClassNotFoundException 
+      {
             Class seed = Class.forName( pack + ".package-info" );
-         } catch( ClassNotFoundException ex ) {
-            throw ex;
-         }
-         Class<? extends Object>[] clss = ClassScanner.DiscoverClasses( null, pack, null );
-         return Arrays.asList( clss );
+            
+            List<Class<? extends Object>> classes = Collections.EMPTY_LIST;
+            try {
+               classes = ClassScanner.discoverClasses( seed, pack, Object.class );
+            }  catch( URISyntaxException ex ) {
+               log.error( "  Error when scanning package "+pack+" classes: " + ex, ex );
+            } catch( IOException ex ) {
+               log.error( "  Error when scanning package "+pack+" classes: " + ex, ex );
+            }
+            return classes;
       }
       
       

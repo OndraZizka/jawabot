@@ -758,10 +758,9 @@ public class JawaIrcBot extends PircBot
 
    
    /** Extracts the state bean from the bot's current state. */
-   public StateBean extractState() {
-
+   public StateBean extractState()
+   {
       StateBean state = new StateBean();
-
       return state;
    }
 
