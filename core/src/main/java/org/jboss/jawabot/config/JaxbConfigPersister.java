@@ -9,7 +9,8 @@ import java.io.Writer;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.jawabot.config.beans.*;
 
 /**
@@ -18,7 +19,7 @@ import org.jboss.jawabot.config.beans.*;
  */
 public class JaxbConfigPersister implements ConfigPersister
 {
-   private static final Logger log = Logger.getLogger(JaxbConfigPersister.class);
+   private static final Logger log = LoggerFactory.getLogger(JaxbConfigPersister.class);
 
 
    private String filePath = "JawaBotConfig.xml";
