@@ -45,27 +45,40 @@
             </executions>
             <configuration>
                <appendAssemblyId>false</appendAssemblyId>
-               <!--
+               <!-- Built-in.
                <descriptorRefs>
-                   <descriptorRef>jar-with-dependencies</descriptorRef>
+                   <descriptorRef>bin</descriptorRef>
                </descriptorRefs>
                -->
                <descriptors>
-                  <descriptor>src/assembly/assembly.xml</descriptor>
-                  <!-- Built-in.
-                  <descriptorId>jar-with-dependencies</descriptorId>
+                  <!--
                   -->
+                  <descriptor>src/assembly/assembly.xml</descriptor>
                </descriptors>
                <archive>
+                  <!-- http://maven.apache.org/shared/maven-archiver/index.html -->
                   <manifest>
+                     <addClasspath>true</addClasspath>
                      <mainClass>${mainClass}</mainClass>
                      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                   </manifest>
                </archive>
-   
             </configuration>
          </plugin>
+            <!-- Seems to be useless - addClasspath doesn't work. -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
          
       </plugins>
       
@@ -81,6 +94,43 @@
       </pluginManagement>
       
    </build>
+   
+   <profiles>
+      <!-- Distribution of project. Performed on deploy phase. -->
+      <profile><id>dist</id>
+         <build>
+            <plugins>
+               
+               <!-- Google Code upload - http://maven.riedelcastro.org/gcupload-maven-plugin/index.html -->
+               <plugin>
+                  <groupId>org.riedelcastro</groupId>
+                  <artifactId>gcupload-maven-plugin</artifactId>
+                  <version>1.0</version>
+                  <executions>
+                     <execution> <phase>deploy</phase> <goals> <goal>gcupload</goal> </goals> </execution>
+                  </executions>
+                  <configuration>
+                     <projectName>jawabot</projectName>
+                     <allowSnapshots>true</allowSnapshots>
+                     <uploads>
+                        <upload>
+                           <extension>jar</extension>
+                           <labels>Featured</labels>
+                        </upload>
+                     </uploads>
+                  </configuration>
+               </plugin>
+               
+            </plugins>
+         </build>
+         <pluginRepositories>
+             <pluginRepository>
+                 <id>repository.riedelcastro.org</id>
+                 <url>http://repository.riedelcastro.org</url>
+             </pluginRepository>
+         </pluginRepositories>
+      </profile>
+   </profiles>
 
 
 
