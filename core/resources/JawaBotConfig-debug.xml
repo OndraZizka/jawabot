@@ -71,12 +71,27 @@
    <plugins>
       <plugin name="reservation"></plugin>
       <plugin name="jira"></plugin>
-      <plugin name="logger"></plugin>
-      <plugin name="whereis"></plugin>
-      <plugin name="autoop"></plugin>
+      <plugin name="logger">
+         <settings
+            logEnabledByDefault="true"
+         />
+      </plugin>
+      <plugin name="whereis">
+         <settings
+            scanPeriodMin="30"
+         />
+      </plugin>
+      <plugin name="autoop">
+         <settings
+            begForOpPeriod="0"
+         />
+         <nicks>ozizka</nicks>
+      </plugin>
       <plugin name="messenger"></plugin>
    </plugins>
 
+
+   <!-- TODO: Move to reservation plugin's config. -->
    <resources>
 		<resource name="jawa01" note="EAP"/>
 		<resource name="jawa02" note="EAP"/>
