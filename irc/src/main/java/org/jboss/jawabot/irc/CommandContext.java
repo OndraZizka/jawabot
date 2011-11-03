@@ -9,14 +9,14 @@ package org.jboss.jawabot.irc;
  */
 public class CommandContext {
 
-   String fromUser;
+   public final String fromUser;
    
-   String fromChannel;
+   public final String fromChannel;
 
-   boolean isPrivate;
+   public final boolean isPrivate;
 
    /** Normalized user nick - the part without suffixes. */
-   String fromUserNorm;
+   public final String fromUserNorm;
 
 
    /** Const */
