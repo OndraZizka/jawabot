@@ -166,7 +166,7 @@ public class JawaIrcBot extends PircBot
          }
       }
       
-      JawaBotApp.throwFormattedExceptionIfNeeded( exs, errModules );
+      PluginUtils.throwFormattedExceptionIfNeeded( exs, errModules, JawaBotException.class );
       
    }// initAndStartPlugins()
    

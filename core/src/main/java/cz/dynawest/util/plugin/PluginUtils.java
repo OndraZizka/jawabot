@@ -43,10 +43,8 @@ public class PluginUtils {
    /**
     *  Initialization of all modules.
     *  Currently listed statically.
-    * 
-    *  COPIED from JawaBotApp, perhaps refactor to reuse the code somehow?
     */
-   public static <T extends IPluginLifeCycle> List<T> initAndStartModules( String[] moduleNames, Class<T> cls, Object initObj ) throws PluginEx {
+   public static <T extends IPluginLifeCycle> List<T> initAndStartModules( String[] moduleNames, Object initObj ) throws PluginEx {
 
       //IPluginLifeCycle[] moduleHooks = new IPluginLifeCycle[moduleNames.length];
       List<T> moduleHooks = new ArrayList(moduleNames.length);

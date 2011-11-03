@@ -1,12 +1,14 @@
 
 package org.jboss.jawabot.irc;
 
+import cz.dynawest.util.plugin.PluginEx;
 import org.jboss.jawabot.IModuleHook;
 import org.jboss.jawabot.config.beans.ConfigBean;
 
 import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.jboss.jawabot.ex.JawaBotIOException;
+import org.jboss.jawabot.ex.JawaBotPluginEx;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Ondrej Zizka
  */
-public class IrcModuleHook implements IModuleHook 
+public class IrcModuleHook implements IModuleHook<JawaBotException>
 {
    private static final Logger log = LoggerFactory.getLogger(IrcModuleHook.class);
     
@@ -27,10 +29,21 @@ public class IrcModuleHook implements IModuleHook
     
    @Override
    public void initModule( JawaBot jawaBot, ConfigBean configBean ) throws JawaBotIOException, UnknownResourceException, JawaBotException {
-      bot = new JawaIrcBot( jawaBot );
-      bot.applyConfig( configBean );
-      bot.init();
+      this.bot = new JawaIrcBot( jawaBot );
+      this.bot.applyConfig( configBean );
+      this.bot.init();
    }
+   
+   @Override
+   public void initModule(Object initObject) throws PluginEx {
+      JawaBot jawaBot = (JawaBot)initObject;
+      try {
+         this.initModule( jawaBot, jawaBot.getConfig() );
+      } catch (JawaBotException ex) {
+         throw new PluginEx(ex);
+      }
+   }
+
 
    @Override
    public void destroyModule() {
@@ -49,7 +62,7 @@ public class IrcModuleHook implements IModuleHook
 
    
    @Override
-   public void startModule() throws JawaBotException {
+   public void startModule() throws JawaBotPluginEx {
       bot.connectAndJoin();
    }
 

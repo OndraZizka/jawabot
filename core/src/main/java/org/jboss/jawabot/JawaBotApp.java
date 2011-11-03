@@ -2,14 +2,13 @@ package org.jboss.jawabot;
 
 import cz.dynawest.util.plugin.PluginLoadEx;
 import cz.dynawest.util.plugin.PluginUtils;
+import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.apache.log4j.Logger;
@@ -77,7 +76,8 @@ public class JawaBotApp
       try {
          String configFilePath = System.getProperty("config", "JawaBotConfig-debug.xml");
          this.init( configFilePath );
-         this.initAndStartModules(); // TODO: Move to JawaBot.
+         //this.initAndStartModules(); // TODO: Move to JawaBot.
+         CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, this.getJawaBot(), JawaBotException.class);
          this.getJawaBot().waitForShutdown();
       } catch ( JawaBotException ex ) {
          ex.printStackTrace();
@@ -99,6 +99,7 @@ public class JawaBotApp
    
    /**
     *  Initialization of all modules (like IRC and Web).
+    *  @deprecated  in favor of CdiPluginUtils.initAndStartPlugins
     */
    private void initAndStartModules() throws JawaBotException {
 
@@ -135,7 +136,7 @@ public class JawaBotApp
          }
       }
       
-      throwFormattedExceptionIfNeeded( exs, errModules );
+      PluginUtils.throwFormattedExceptionIfNeeded( exs, errModules, JawaBotException.class );
       
    }// initAndStartModules()
 
@@ -144,6 +145,7 @@ public class JawaBotApp
     *  Initialization of all modules.
     *  Currently listed statically - IRC and Web.
     *  With a bit of PHP style on top.
+    *  @deprecated 
     */
    private void initAndStartModules_Old() throws JawaBotException {
 
@@ -191,47 +193,13 @@ public class JawaBotApp
          }
       }
       
-      throwFormattedExceptionIfNeeded( exs, errModules );
+      PluginUtils.throwFormattedExceptionIfNeeded( exs, errModules, JawaBotException.class );
       
    }// initAndStartModules_Old()
 
    
    
-   
-   /**
-    *  Formats a list of exceptions into a readable block.
-    *  @param exs
-    *  @param errModules
-    *  @throws JawaBotException 
-    */
-   public static void throwFormattedExceptionIfNeeded( List<Throwable> exs, List<String> errModules ) throws JawaBotException 
-   {
-      if( exs.size() != 0 ){
-         StringBuilder sb = new StringBuilder("Some modules couldn't be initialized or started: ")
-           .append( StringUtils.join( errModules, ", ") )
-           .append("\n");
-         for( Throwable ex : exs ) {
-            if( ex instanceof PluginLoadEx ){
-               PluginLoadEx plex = (PluginLoadEx) ex;
-               sb.append("\n  ")
-                 .append( plex.getModuleClass() )
-                 .append( ": " )
-                 .append( ExceptionUtils.getRootCauseMessage(plex) );
-            }
-            else{
-               sb.append("\n")
-                 .append( ExceptionUtils.getRootCauseMessage(ex) )
-                 .append("\n")
-                 .append( StringUtils.join( ExceptionUtils.getRootCauseStackTrace(ex), "\n") );
-            }
-            sb.append("\n");
-         }
-         throw new JawaBotException( sb.toString(), null);
-      }
-   }
-
-
-   
+     
    
    /*
     *  Initialization of a single module, implemented by given class.

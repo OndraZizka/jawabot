@@ -15,10 +15,9 @@ public class CdiPluginUtils {
    
    
    /**
-    *  Initialization of all plugins.
-    *  Copied from JawaBotApp. TODO: Generalize? Or should I rely on CDI?
+    *  Initialization of all available plugins.
     */
-   private static <TPlugin extends IPluginLifeCycle, TEx extends Exception> 
+   public static <TPlugin extends IPluginLifeCycle, TEx extends Exception> 
            void initAndStartPlugins( Instance<TPlugin> pluginHookInstances, Object initObject, Class<TEx> exCls ) throws TEx {
 
       

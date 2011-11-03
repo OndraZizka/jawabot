@@ -5,9 +5,9 @@ package cz.dynawest.util.plugin;
  *  
  *  @author Ondrej Zizka
  */
-public interface IPluginLifeCycle <T> {
+public interface IPluginLifeCycle <TInit> {
    
-   public void initModule ( T initObject ) throws PluginEx;
+   public void initModule ( TInit initObject ) throws PluginEx;
    
    public void startModule() throws PluginEx;
    
