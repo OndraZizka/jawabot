@@ -3,6 +3,7 @@ package org.jboss.weld.environment.se.jpa.scan;
 
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.jar.*;
 import java.util.regex.*;
@@ -21,8 +22,8 @@ public class ClassScanner {
    /**
     * Returns an array of class in the same package as the the SeedClass
     * 
-    * @param pFilterName     - Regular expression to match the desired classes' name (nullif no filtering needed)
-    * @param pFilterClass   - The super class of the desired classes (null if no filtering needed)
+    * @param nameFilter     - Regular expression to match the desired classes' name (nullif no filtering needed)
+    * @param classFilter   - The super class of the desired classes (null if no filtering needed)
     * 
     * @return                - The array of matched classes, null if there is a problem.
     * 
@@ -31,312 +32,236 @@ public class ClassScanner {
     *                              (adapted from http://www.javaworld.com/javaworld/javatips/jw-javatip113.html)
     */
    @SuppressWarnings( "unchecked" )
-   public static <T> Class<? extends T>[] DiscoverClasses(
-           final Class<?> pSeedClass,
-           final String pFilterName,
-           final Class<T> pFilterClass) {
+   public static <T> List<Class<? extends T>> discoverClasses( Class<?> seedClass, String nameFilter, Class<T> classFilter) throws URISyntaxException, IOException 
+   {
+      assert classFilter != null;
+      
+      List<Class<? extends T>> classes = new LinkedList();
 
-      final Pattern aClsNamePattern = (pFilterName == null) ? null : Pattern.compile( pFilterName );
+      PkgInfo pkgInfo = createPackageInfo( seedClass );
+      List<String> classNames = discoverClassNames_inPackage( pkgInfo );
+      
+      Pattern clsNamePat = (nameFilter == null) ? null : Pattern.compile( nameFilter );
 
-      PkgInfo aPkgInfo = null;
+      
+      // For each className found in package...
+      for( final String clsName : classNames ) {
 
-      try {
-         aPkgInfo = GetPackageInfoOf( pSeedClass );
-      } catch( Throwable e ) {
-      }
-
-      if( aPkgInfo == null ) {
-         return null;
-      }
-
-      final List<String> aClassNames = DiscoverClassNames_inPackage( aPkgInfo );
-
-      if( aClassNames == null ) {
-         return null;
-      }
-
-      if( aClassNames.size() == 0 ) {
-         return null;
-      }
-
-      final ArrayList<Class<?>> aClasses = new ArrayList<Class<?>>();
-      for( final String aClassName : aClassNames ) {
-
-         if( (aClsNamePattern != null) && !aClsNamePattern.matcher( aClassName ).matches() ) {
+         if( (clsNamePat != null) && !clsNamePat.matcher( clsName ).matches() ) {
             continue;
          }
 
          // Get the class and filter it
-         Class<?> aClass = null;
+         Class<?> cls = null;
          try {
-            aClass = Class.forName( aClassName );
+            cls = Class.forName( clsName );
          } catch( ClassNotFoundException e ) {
             continue;
          } catch( NoClassDefFoundError e ) {
             continue;
          }
 
-         if( (pFilterClass != null) && !pFilterClass.isAssignableFrom( aClass ) ) {
+         if( !classFilter.isAssignableFrom( cls ) ) {
             continue;
          }
-
-         if( pFilterClass != null ) {
-            if( !pFilterClass.isAssignableFrom( aClass ) ) {
-               continue;
-            }
-
-            aClasses.add( aClass.asSubclass( pFilterClass ) );
-         } else {
-            aClasses.add( aClass );
-         }
+         
+         classes.add( cls.asSubclass(classFilter) );
       }
 
-      Collections.sort( aClasses, ClassComparator.INSTANCE );
-      Class<? extends T>[] aClassesArray = aClasses.toArray( (Class<? extends T>[]) (new Class[aClasses.size()]) );
+      //Collections.sort( classes, ClassComparator.INSTANCE ); // Makes no sense here
 
-      return aClassesArray;
+      return classes;
    }
    
 
    
    
-
-   static private String GetClassName_afterPackageAsPath( final String pFileName, final String pPkgAsPath)
+   /**
+    * 
+    */
+   private static String getClassName_afterPackageAsPath( final String fileName, final String pkgAsPath)
    {
-      final String CName = pFileName.substring( 0, pFileName.length() - 6 ).replace( '/', '.' ).replace( '\\', '.' );
-      final String CName_AfterPackageAsPath = CName.substring( pPkgAsPath.length() );
+      String cname = fileName.substring( 0, fileName.length() - 6 ).replace( '/', '.' ).replace( '\\', '.' );
+      String CName_AfterPackageAsPath = cname.substring( pkgAsPath.length() );
       return CName_AfterPackageAsPath;
    }
 
-   static private String GetClassName_ofPackageAsPath( final String pFileName, final String pPkgAsPath) { 
-      final boolean aIsClass = pFileName.endsWith( ".class" );
-      if( !aIsClass ) {
+   /**
+    *   @returns  null if the file does not end with .class or it's path does not match given package path.
+    */
+   private static String getClassName_ofPackageAsPath( final String filePath, final String pkgAsPath ) { 
+      if( ! filePath.endsWith( ".class" ) ) 
          return null;
-      }
 
-      final boolean aIsBelongToPackage = pFileName.startsWith( pPkgAsPath );
-      if( !aIsBelongToPackage ) {
+      if( ! filePath.startsWith( pkgAsPath ) )
          return null;
-      }
 
-      final String aClassName = ClassScanner.GetClassName_afterPackageAsPath( pFileName, pPkgAsPath );
-      return aClassName;
+      return ClassScanner.getClassName_afterPackageAsPath( filePath, pkgAsPath );
    }
 
-   static private File GetPackageFile(
-           final String pPkgName,
-           final File pPkgPath) {
+   /**
+    * 
+    */
+   static private File getPackageFile( String pkgName, File pkgPath ) {
 
-      final String aPkgFileName = pPkgPath.getAbsoluteFile().toString() + '/' + pPkgName.replace( '.', '/' );
-      final File aPkgFile = new File( aPkgFileName );
+      final String dirPath = pkgPath.getAbsoluteFile().toString() + '/' + pkgName.replace( '.', '/' );
+      final File pkgDir = new File( dirPath );
 
-      final boolean aIsExist = aPkgFile.exists();
-      final boolean aIsDirectory = aPkgFile.isDirectory();
-      final boolean aIsExist_asDirectory = aIsExist && aIsDirectory;
-      if( !aIsExist_asDirectory ) {
+      if( !pkgDir.exists() || !pkgDir.isDirectory() )
          return null;
-      }
 
-      return aPkgFile;
+      return pkgDir;
    }
 
-   static private boolean Check_isJarFile(final File pFile) {
+   /**
+    * 
+    */
+   private static boolean isJarFile(final File pFile) {
       final boolean aIsJarFile = pFile.toString().endsWith( ".jar" );
       return aIsJarFile;
    }
 
-   static private List<String> DiscoverClassNames_fromJarFile(final PkgInfo pPkgInfo) {
+   
+   /**
+    * 
+    */
+   private static List<String> discoverClassNames_fromJarFile(final PkgInfo pkgInfo) throws IOException {
 
-      final ArrayList<String> aClassNames = new ArrayList<String>();
-      try {
-         final JarFile JF = new JarFile( pPkgInfo.PkgPath );
-         final Enumeration<JarEntry> JEs = JF.entries();
+      final List<String> classNames = new LinkedList();
+      
+      final JarFile jarFile = new JarFile( pkgInfo.path );
+      final Enumeration<JarEntry> jarEntries = jarFile.entries();
 
-         while(JEs.hasMoreElements()) {
-            final JarEntry aJE = JEs.nextElement();
-            final String aJEName = aJE.getName();
-
-            final String aSimpleName = GetClassName_ofPackageAsPath( aJEName, pPkgInfo.PkgAsPath );
-            if( aSimpleName == null ) {
-               continue;
-            }
-
-            final String aClassName = pPkgInfo.PkgName + '.' + aSimpleName;
-            aClassNames.add( aClassName );
-         }
-
-         JF.close();
-      } catch( IOException e ) {
+      while( jarEntries.hasMoreElements() ) {
+         JarEntry jarEntry = jarEntries.nextElement();
+         
+         String simpleName = getClassName_ofPackageAsPath( jarEntry.getName(), pkgInfo.nameAsPath );
+         if( simpleName != null ) 
+            classNames.add( pkgInfo.name + "." + simpleName );
       }
-
-      return aClassNames;
+      
+      jarFile.close();
+      return classNames;
    }
 
-   static private void DiscoverClassNames_fromDirectory(
-           final String pAbsolutePackagePath,
-           final String pPackageName,
-           final File pPackageFolder,
-           final ArrayList<String> pClassNames) 
+   
+   /**
+    * 
+    */
+   private static void discoverClassNames_fromDirectory( String absPkgPath, String packageName, File packageFolder, List<String> classNames) 
    {
-      final File[] aFiles = pPackageFolder.listFiles();
+      final File[] aFiles = packageFolder.listFiles();
       for( File aFile : aFiles ) {
          if( aFile.isDirectory() ) {
-            DiscoverClassNames_fromDirectory( pAbsolutePackagePath, pPackageName, aFile, pClassNames );
+            discoverClassNames_fromDirectory( absPkgPath, packageName, aFile, classNames );
             continue;
          }
 
-         final String aFileName = aFile.getAbsolutePath().substring( pAbsolutePackagePath.length() + 1 );
+         final String aFileName = aFile.getAbsolutePath().substring( absPkgPath.length() + 1 );
          final boolean aIsClassFile = aFileName.endsWith( ".class" );
          if( !aIsClassFile ) {
             continue;
          }
 
          final String aSimpleName = aFileName.substring( 0, aFileName.length() - 6 ).replace( '/', '.' ).replace( '\\', '.' );
-         final String aClassName = pPackageName + '.' + aSimpleName;
-         pClassNames.add( aClassName );
+         final String aClassName = packageName + '.' + aSimpleName;
+         classNames.add( aClassName );
       }
    }
-
-   static private List<String> DiscoverClassNames_fromDirectory(PkgInfo pPkgInfo) {
-
-      final ArrayList<String> aClassNames = new ArrayList<String>();
-      final File aPkgFile = ClassScanner.GetPackageFile( pPkgInfo.PkgName, pPkgInfo.PkgPath );
-      if( aPkgFile == null ) {
-         return aClassNames;
-      }
-
-      DiscoverClassNames_fromDirectory( aPkgFile.getAbsolutePath(), pPkgInfo.PkgName, aPkgFile, aClassNames );
-      return aClassNames;
-   }
-
-   
-   
-   
-   static public class PkgInfo {
-
-      PkgInfo(
-              final File pPkgPath,
-              final String pPkgName,
-              final String pPkgAsPath) {
-
-         this.PkgPath = pPkgPath;
-         this.PkgName = pPkgName;
-         this.PkgAsPath = pPkgAsPath;
-      }
-      final File PkgPath;
-      final String PkgName;
-      final String PkgAsPath;
-   }
-
-   
-   
-   static public PkgInfo GetPackageInfoOf(Class<?> pClass) {
-      File aPkgPath = null;
-      String aPkgName = null;
-      String aPkgAsPath = null;
-
-      try {
-         aPkgPath = new File( pClass.getProtectionDomain().getCodeSource().getLocation().toURI() );
-         aPkgName = pClass.getPackage().getName();
-         aPkgAsPath = aPkgName.replace( '.', '/' ) + '/';
-      } catch( Throwable e ) {
-      }
-
-      if( aPkgPath == null ) {
-         return null;
-      }
-
-      final PkgInfo aPkgInfo = new PkgInfo( aPkgPath, aPkgName, aPkgAsPath );
-      return aPkgInfo;
-   }
-
-   
-   
-   static public List<String> DiscoverClassNames_inPackage(final PkgInfo pPkgInfo) {
-
-      if( pPkgInfo == null ) {
-         return null;
-      }
-
-      List<String> aClassNames = new ArrayList();
-      if( pPkgInfo.PkgPath.isDirectory() ) {
-
-         aClassNames = ClassScanner.DiscoverClassNames_fromDirectory( pPkgInfo );
-
-      } else if( pPkgInfo.PkgPath.isFile() ) {
-         boolean aIsJarFile = ClassScanner.Check_isJarFile( pPkgInfo.PkgPath );
-         if( !aIsJarFile ) {
-            return null;
-         }
-
-         aClassNames = ClassScanner.DiscoverClassNames_fromJarFile( pPkgInfo );
-      }
-
-      return aClassNames;
-   }
-
-   
-   
-   
-   
-   
-
-   public static void main(String... pArgs) {
-      Class<?> aSeedClass = ClassScanner.class;
-      try {
-         aSeedClass = Class.forName( pArgs[0] );
-      } catch( Exception E ) {
-      }
-
-      if( aSeedClass == null ) {
-         aSeedClass = ClassScanner.class;
-      }
-
-      final Class<?>[] aClasses = DiscoverClasses( aSeedClass, null, null );
-
-      System.out.println( "[" );
-      if( aClasses != null ) {
-         for( Class aClass : aClasses ) {
-            System.out.println( "\t" + aClass );
-         }
-      }
-      System.out.println( "]" );
-   }
-}
-
-
-
-// ----------------------------------------------------------------------
-
-class StringComparator implements Comparator<String> {
-
-   public static final StringComparator INSTANCE = new StringComparator();
 
    /**
-    * Compares two strings.
-    **/
-   public int compare(final String s1, final String s2) {
-      if( s1 == s2 ) return 0;
-      if( s1 == null ) return -1;
-      if( s2 == null ) return 1;
-      if( s1.equals( s2 ) ) return 0;
-      return s1.compareTo( s2 );
+    * 
+    */
+   private static List<String> discoverClassNames_fromDirectory(PkgInfo pPkgInfo) {
+
+      final List<String> classNames = new LinkedList();
+      
+      final File aPkgFile = ClassScanner.getPackageFile( pPkgInfo.name, pPkgInfo.path );
+      if( aPkgFile == null ) {
+         return classNames;
+      }
+
+      discoverClassNames_fromDirectory( aPkgFile.getAbsolutePath(), pPkgInfo.name, aPkgFile, classNames );
+      return classNames;
    }
+
+   
+   
+   /**
+    * 
+    */
+   private static class PkgInfo {
+
+      PkgInfo( File pPkgPath, String pPkgName, String pPkgAsPath) {
+         this.path = pPkgPath;
+         this.name = pPkgName;
+         this.nameAsPath = pPkgAsPath;
+      }
+      
+      final File path;
+      final String name;
+      final String nameAsPath;
+   }
+
+   
+   /**
+    * 
+    */
+   private static PkgInfo createPackageInfo(Class<?> cls) throws URISyntaxException {
+
+      File pkgPath = new File( cls.getProtectionDomain().getCodeSource().getLocation().toURI() );
+      if( pkgPath == null )
+         return null;
+
+      String name = cls.getPackage().getName();
+      String nameSlash = name.replace( '.', '/' ) + '/';
+
+      return new PkgInfo( pkgPath, name, nameSlash );
+   }
+
+   
+   
+   /**
+    * 
+    */
+   private static List<String> discoverClassNames_inPackage( PkgInfo pkgInfo ) throws IOException {
+
+      assert pkgInfo != null;
+
+      if( pkgInfo.path.isDirectory() )
+         return ClassScanner.discoverClassNames_fromDirectory( pkgInfo );
+      
+      if( !pkgInfo.path.isFile() )
+         throw new IllegalStateException("  Package "+pkgInfo.path+" is not in a directory nor .jar file.");
+         
+      if( !ClassScanner.isJarFile( pkgInfo.path ) )
+         throw new IllegalStateException("  Package "+pkgInfo.path+" is in a file which is not a .jar.");
+      
+      return ClassScanner.discoverClassNames_fromJarFile( pkgInfo );
+   }
+
+   
+   
+   
+   
+   
+   /**
+    *   main()
+    */
+   public static void main(String... pArgs) throws URISyntaxException, IOException {
+      
+      Class<?> seedClass = null;
+      try { 
+         seedClass = Class.forName( pArgs[0] );
+      } catch( Exception ex ) {
+         seedClass = ClassScanner.class;
+      }
+     
+      List<Class<? extends Object>> classes = discoverClasses( seedClass, null, Object.class );
+      for( Class cls : classes ) {
+         System.out.println( "\t" + cls );
+      }
+   }
+   
 }
 
-
-class ClassComparator implements Comparator<Class<?>> {
-
-   public static final ClassComparator INSTANCE = new ClassComparator();
-
-   /** Compares two classes. */
-   public int compare(final Class<?> c1, final Class<?> c2) {
-
-      if( c1 == c2 ) return 0;
-      if( c1 == null ) return -1;
-      if( c2 == null ) return 1;
-      if( c1.equals( c2 ) ) return 0;
-
-      return c1.getCanonicalName().compareTo( c2.getCanonicalName() );
-   }
-}
