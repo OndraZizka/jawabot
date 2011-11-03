@@ -8,9 +8,9 @@
     
     <weld:scan>
       
+        <!--
         <weld:include name="org.jboss.jawabot.**"/>
       
-        <!--
         <weld:exclude name="**" />
       
         <weld:include name="org.jboss.jawabot.web._co.**"/>
