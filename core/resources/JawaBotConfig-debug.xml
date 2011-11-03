@@ -27,7 +27,7 @@
    />
 
    <irc>
-      <defaultNick>JawaBot-debug</defaultNick>
+      <defaultNick>gpark</defaultNick>
       <defaultNick2>JawaBot-debug_</defaultNick2>
       <!--
       <server host="irc.freenode.org">
@@ -53,6 +53,7 @@
    <!-- TODO: Not used yet. -->
    <web
       bind="0.0.0.0"
+      port="8080"
       path="/"
    />
    

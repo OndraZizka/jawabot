@@ -104,7 +104,7 @@ public class LoggerIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
             ))  continue;
             if( ! this.loggerService.isLoggingEnabledForChannel( ch ) ) continue;
             ev.setChannel(ch);
-            log.info("Saving: " + ev);
+            //log.debug("Saving: " + ev);
             this.loggerService.storeEvent( ev );
         }
         ev.setChannel(null);
