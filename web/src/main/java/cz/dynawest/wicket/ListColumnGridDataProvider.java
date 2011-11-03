@@ -18,14 +18,12 @@ package cz.dynawest.wicket;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
+import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
+import org.apache.wicket.markup.repeater.data.ListDataProvider;
 
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 
 
@@ -43,13 +41,11 @@ import org.apache.wicket.model.Model;
  *       Custom iterator can't be implemented without private access to the ArrayList
  *       because it uses modCount. So we can't check for concurrent modification.
  */
-public class ListColumnGridDataProvider<T extends Serializable> implements IDataProvider<T>
+public class ListColumnGridDataProvider<T extends Serializable> extends  ListDataProvider<T>
 {
 	private static final long serialVersionUID = 1L;
 
-	/** reference to the list used as dataprovider for the dataview */
-	private final List<T> list;
-   
+ 
    private int columns = 1;
    
    public int getColumns() { return columns; }
@@ -72,21 +68,19 @@ public class ListColumnGridDataProvider<T extends Serializable> implements IData
     * @param list  List to shuffle. Kept intact.
     * @return      new shuffled list.
     */
-   private List<T> recalculateList( List<T> list )
+   private static <T> List<T> recalculateList( List<T> list, int cols )
    {
-      int cols = this.getColumns();
-      
       // Column height.
       int colHeight = list.size() / cols;
       // Last items may not fit whole row.
       colHeight += ( (list.size() % cols) == 0 ? 0 : 1 );
-      System.out.println( "HEI: "+colHeight );///
+      //System.out.println( "HEI: "+colHeight );///
       
       List list2 = new ArrayList<T>( list );
       for ( int i = 0; i < list.size(); i++ ) {
          int newIndex = (i % colHeight) * cols + (i / colHeight);
          list2.set( newIndex, list.get(i) );
-         System.out.println("  list2["+newIndex+"] <- list["+i+"] ");///
+         //System.out.println("  list2["+newIndex+"] <- list["+i+"] ");///
       }
       return list2;
    }
@@ -95,9 +89,9 @@ public class ListColumnGridDataProvider<T extends Serializable> implements IData
 	/**
 	 * Constructs an empty provider. Useful for lazy loading together with {@linkplain #getData()}
 	 */
-	public ListColumnGridDataProvider()
-	{
-		this(Collections.<T> emptyList());
+	public ListColumnGridDataProvider()	
+   {
+		super();
 	}
 
 	/**
@@ -107,32 +101,17 @@ public class ListColumnGridDataProvider<T extends Serializable> implements IData
 	 */
 	public ListColumnGridDataProvider(List<T> list)
 	{
-		if (list == null)
-		{
-			throw new IllegalArgumentException("argument [list] cannot be null");
-		}
-
-		this.list = list;
-		
-	}
-
-	/**
-	 * Subclass to lazy load the list
-	 * 
-	 * @return The list
-	 */
-	protected List<T> getData()
-	{
-		return list;
+      super( list );
 	}
 
 	/**
 	 * @see IDataProvider#iterator(int, int)
 	 */
+   @Override
 	public Iterator<? extends T> iterator(final int first, final int count)
 	{
 		List<T> list = getData();
-      list = this.recalculateList( list );
+      list = this.recalculateList( list, this.columns );
 
 		int toIndex = first + count;
 		if (toIndex > list.size())
@@ -140,29 +119,6 @@ public class ListColumnGridDataProvider<T extends Serializable> implements IData
 			toIndex = list.size();
 		}
 		return list.subList(first, toIndex).listIterator();
-	}
-
-	/**
-	 * @see IDataProvider#size()
-	 */
-	public int size()
-	{
-		return getData().size();
-	}
-
-	/**
-	 * @see IDataProvider#model(Object)
-	 */
-	public IModel<T> model(T object)
-	{
-		return new Model<T>(object);
-	}
-
-	/**
-	 * @see org.apache.wicket.model.IDetachable#detach()
-	 */
-	public void detach()
-	{
 	}
   
 }
