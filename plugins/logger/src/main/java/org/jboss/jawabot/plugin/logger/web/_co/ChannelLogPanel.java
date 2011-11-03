@@ -2,6 +2,7 @@
 package org.jboss.jawabot.plugin.logger.web._co;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -41,7 +42,7 @@ import org.jboss.jawabot.plugin.logger.web.IrcEventCriteriaLDM;
  *  TODO: The way I instantiate LDM smells. Perhaps I should avoid 
  *        making it a CDI bean and set it's EntityManager manually?
  */
-public class ChannelLogPanel extends Panel {
+public class ChannelLogPanel extends Panel implements Serializable {
    
    @Inject private ChannelLogManager channelLogManager;
    
@@ -177,6 +178,14 @@ public class ChannelLogPanel extends Panel {
             int rgb2 =  rgb & 0xFFFFFF;
             return String.format("%x", rgb2 );
        }
-   }
+   }// class NickToColor
+
+   
+    /*@Override
+    protected void onDetach() {
+        this.model = null;
+        this.channelLogManager = null;
+        super.onDetach();
+    }*/
 
 }

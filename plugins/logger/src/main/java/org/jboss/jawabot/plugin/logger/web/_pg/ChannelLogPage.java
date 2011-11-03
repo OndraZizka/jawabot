@@ -61,6 +61,15 @@ public class ChannelLogPage extends BaseLayoutPage implements Serializable {
             add(new ChannelLogPanel("channelLogPanel", chan));
         }
     }
+
+    /*
+    @Override
+    protected void onDetach() {
+        this.channelManager = null;
+        super.onDetach();
+    }*/
+    
+    
     
     //<editor-fold defaultstate="collapsed" desc="get/set">
     public boolean isOnlyShowMessages() {
