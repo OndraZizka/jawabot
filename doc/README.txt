@@ -3,6 +3,8 @@
 JawaBot
 *******
 
+Please keep in mind that this is my sand-box for technologies I learn.
+
 Architecture
 ============
 
