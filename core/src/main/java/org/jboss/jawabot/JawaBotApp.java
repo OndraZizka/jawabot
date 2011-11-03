@@ -4,6 +4,10 @@ import cz.dynawest.util.plugin.PluginLoadEx;
 import cz.dynawest.util.plugin.PluginUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -13,6 +17,8 @@ import org.apache.log4j.Logger;
 import org.jboss.jawabot.config.JaxbConfigPersister;
 import org.jboss.jawabot.pastebin.PasteBinManager;
 import org.jboss.jawabot.usermgr.UserManager;
+import org.jboss.weld.environment.se.Weld;
+import org.jboss.weld.environment.se.WeldContainer;
 
 
 @Singleton
@@ -22,6 +28,8 @@ public class JawaBotApp
    /*static{
       org.apache.log4j.BasicConfigurator.configure();
    }*/
+   
+   @Inject private BeanManager beanManager;
 
    
    // Things shown in the "help" command reply.
@@ -44,18 +52,31 @@ public class JawaBotApp
    public static PasteBinManager getPasteBinManager() { return pasteBinManager; }
 
    
-
+   
    /**
     * Main.
     */
    public static void main(String[] args) throws JawaBotException {
 
+      WeldContainer weld = new Weld().initialize();
+      JawaBotApp jawaBotApp = weld.instance().select(JawaBotApp.class).get();
+      
+      jawaBotApp.run(args);
+   }
+   
+
+   /**
+    * Run.
+    */
+   public void run(String[] args) throws JawaBotException {
+
       log.debug( JawaBotApp.class.getSimpleName() + "#main() start.");
 
       try {
-         init();
-         initAndStartModules(); // TODO: Move to JawaBot.
-         getJawaBot().waitForShutdown();
+         String configFilePath = System.getProperty("config", "JawaBotConfig-debug.xml");
+         this.init( configFilePath );
+         this.initAndStartModules(); // TODO: Move to JawaBot.
+         this.getJawaBot().waitForShutdown();
       } catch ( JawaBotException ex ) {
          ex.printStackTrace();
       }
@@ -67,8 +88,7 @@ public class JawaBotApp
    /**
     *  Init.
     */
-   private static void init() throws JawaBotException {
-      String configFilePath = System.getProperty("config", "JawaBotConfig-debug.xml");
+   private void init( String configFilePathString ) throws JawaBotException {
       ConfigBean cb = new JaxbConfigPersister(configFilePath).load();
       JawaBotApp.jawaBot = JawaBot.create( cb );
    }
@@ -80,12 +100,14 @@ public class JawaBotApp
     *  Currently listed statically - IRC and Web.
     *  With a bit of PHP style on top.
     */
-   private static void initAndStartModules() throws JawaBotException {
+   private void initAndStartModules() throws JawaBotException {
 
       String[] moduleNames = new String[] {
          "org.jboss.jawabot.irc.IrcModuleHook",
          "org.jboss.jawabot.mod.web.WebModuleHook",
       };
+      
+      Set<Bean<?>> beans = beanManager.getBeans(IModuleHook.class);
       
       IModuleHook[] moduleHooks = new IModuleHook[moduleNames.length];
 
