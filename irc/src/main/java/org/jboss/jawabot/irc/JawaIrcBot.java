@@ -464,7 +464,14 @@ public class JawaIrcBot extends PircBot
         }
 
       
-        // About or Help.
+        // Join a channel.
+        if( command.startsWith( "rename " ) ) {
+            wasValidCommand = true;
+            this.changeNick( command.substring(7).trim() );
+        }
+
+
+				// About or Help.
         else if( command.startsWith( "about" ) || command.startsWith( "help" ) ) {
             wasValidCommand = true;
             reply = commandHandler.onHelp( ctx, command );
