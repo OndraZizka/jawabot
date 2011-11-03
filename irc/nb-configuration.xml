@@ -23,7 +23,10 @@ Any value defined here will override the pom.xml file value but is only applicab
     </properties>
     <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
         <word>init</word>
+        <word>jawabot</word>
         <word>ozizka</word>
+        <word>pastebin</word>
         <word>plugins</word>
+        <word>rhusar</word>
     </spellchecker-wordlist>
 </project-shared-configuration>

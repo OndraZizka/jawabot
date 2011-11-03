@@ -7,7 +7,6 @@ import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
-import java.util.Map.Entry;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -47,9 +46,14 @@ public class JawaIrcBot extends PircBot
    private JawaBot jawaBot;
    public JawaBot getJawaBot() { return jawaBot; }
    public void setJawaBot(JawaBot jawaBot) { this.jawaBot = jawaBot; }
+   
+   // Proxy provided to plugins to allow them to send messages etc.
+   // Will likely be changed to our own API with objects like IrcMessage.
+   private IrcBotProxy pircBotProxy;
       
    private boolean initialized = false;
    public boolean isInitialized() {      return initialized;   }
+   
 
    // Plugin instances "placeholder".
    // TODO:  Change somehow to Weld.instance() or such and move to the method.
@@ -74,6 +78,7 @@ public class JawaIrcBot extends PircBot
    
    public JawaIrcBot( JawaBot jawaBot ) {
       this.jawaBot = jawaBot;
+      this.pircBotProxy = new IrcBotProxy(this);
    }
    
    
@@ -312,12 +317,11 @@ public class JawaIrcBot extends PircBot
          
          // Pass it to the IRC plugins.
          //for ( Entry<String, IIrcPluginHook> entry : this.pluginsByClass.entrySet() ) {
-         for( IIrcPluginHook plugin : this.plugins ) {
+         for( final IIrcPluginHook plugin : this.plugins ) {
+            /*
             try {
-               plugin.onMessage( msg );
+               plugin.onMessage( msg, this.pircBotProxy );
             }
-            // TODO: Filter repeated exceptions.
-            //catch( IrcPluginException ex ) {
             catch( NullPointerException ex ) {
                log.error( "Plugin misbehaved: " + ex, ex );
             }
@@ -330,6 +334,13 @@ public class JawaIrcBot extends PircBot
                      log.error( "  Cause: " + ex.getCause() );
                }
             }
+            */
+            new ExceptionHandlerDecorator() {
+               public void doIt( IrcMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
+                  plugin.onMessage( msg, pircBotProxy );
+               }
+            }.handle( msg, pircBotProxy );
+
          }// for
          
       }// if( !wasCommand )
@@ -340,11 +351,70 @@ public class JawaIrcBot extends PircBot
 
    /** Private IRC message - no channel, only from user. */
 	@Override
-	protected void onPrivateMessage(String sender, String login, String hostname, String message) {
-      handleJawaBotCommand(null, sender, message.trim());
+	protected void onPrivateMessage(String sender, String login, String hostname, String msgText) {
+      
+      // If it's a core command, don't pass it to  plugins.
+      if( handleJawaBotCommand(null, sender, msgText.trim()) )
+         return;
+
+      
+      // Was not a command -> handle with plugins.
+      
+      IrcMessage msg = new IrcMessage("not.supported.yet", sender, null, msgText, new Date());
+
+      for( final IIrcPluginHook plugin : this.plugins ) {
+         /*
+         try {
+            plugin.onPrivateMessage( msg, this.pircBotProxy );
+         }
+         // TODO: Filter repeated exceptions.
+         catch( NullPointerException ex ) {
+            log.error( "Plugin misbehaved: " + ex, ex );
+         }
+         catch( Throwable ex ) {
+            if( System.getProperty("bot.irc.plugins.noStackTraces") == null )
+               log.error( "Plugin misbehaved: " + ex.getMessage(), ex );
+            else {
+               log.error( "Plugin misbehaved: " + ex );
+               if( ex.getCause() != null )
+                  log.error( "  Cause: " + ex.getCause() );
+            }
+         }*/
+         new ExceptionHandlerDecorator() {
+            public void doIt( IrcMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
+               plugin.onPrivateMessage( msg, pircBotProxy );
+            }
+         }.handle( msg, pircBotProxy );
+      }// for
+      
 	}
 
    
+   /**
+    *  Decorator to save me handling exceptions everywhere.
+    */
+   private static abstract class ExceptionHandlerDecorator {
+      public void handle( /*IIrcPluginHook plugin,*/ IrcMessage msg, IrcBotProxy pircBotProxy ){
+         try {
+            this.doIt( msg, pircBotProxy );
+         }
+         // TODO: Filter repeated exceptions.
+         //catch( IrcPluginException ex ) {
+         catch( NullPointerException ex ) {
+            log.error( "Plugin misbehaved: " + ex, ex );
+         }
+         catch( Throwable ex ) {
+            if( System.getProperty("bot.irc.plugins.noStackTraces") == null )
+               log.error( "Plugin misbehaved: " + ex.getMessage(), ex );
+            else {
+               log.error( "Plugin misbehaved: " + ex );
+               if( ex.getCause() != null )
+                  log.error( "  Cause: " + ex.getCause() );
+            }
+         }
+      }
+      public abstract void doIt( IrcMessage msg, IrcBotProxy pircBotProxy ) throws Throwable;
+   }
 
 
 
@@ -535,7 +605,8 @@ public class JawaIrcBot extends PircBot
 
       // Invalid command?
       if( ! wasValidCommand ){
-         sendMessage( replyTo, "Invalid command, see " + JawaBotApp.PROJECT_DOC_URL );
+         //sendMessage( replyTo, "Invalid command, see " + JawaBotApp.PROJECT_DOC_URL );
+         // Nothing - plugins must checkt it too.
       }
 
       // Invalid syntax?

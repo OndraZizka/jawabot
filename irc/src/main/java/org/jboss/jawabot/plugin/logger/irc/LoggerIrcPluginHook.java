@@ -3,6 +3,7 @@ package org.jboss.jawabot.plugin.logger.irc;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import org.jboss.jawabot.irc.IIrcPluginHook;
+import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.model.IrcMessage;
 import org.jboss.weld.environment.se.jpa.JpaTransactional;
@@ -22,14 +23,24 @@ public class LoggerIrcPluginHook implements IIrcPluginHook<Object> {
    @Inject JpaLoggerService loggerService;
    
    
+   // IRC stuff.
+   
    @Override
    @JpaTransactional
-   public void onMessage(IrcMessage message) throws IrcPluginException {
+   public void onMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException {
       loggerService.storeMessage(message);
    }
 
    @Override
-   public void initModule(Object initObject) throws IrcPluginException {
+   public void onPrivateMessage(IrcMessage message, IrcBotProxy bot) throws IrcPluginException {
+      throw new UnsupportedOperationException("Not supported yet.");
+   }
+
+   
+   // Lifecycle.
+   
+   @Override
+   public void initModule( Object initObject ) throws IrcPluginException {
    }
 
    @Override
@@ -43,7 +54,7 @@ public class LoggerIrcPluginHook implements IIrcPluginHook<Object> {
    @Override
    public void destroyModule() throws IrcPluginException {
    }
-   
+  
 
    
 }// class

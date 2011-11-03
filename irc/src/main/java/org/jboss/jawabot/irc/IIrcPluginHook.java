@@ -10,7 +10,9 @@ import org.jboss.jawabot.irc.model.IrcMessage;
  */
 public interface IIrcPluginHook <TInitObject extends Object> extends IPluginLifeCycle <TInitObject, JawaBotException> {
    
-   public void onMessage( IrcMessage message ) throws IrcPluginException;
+   public void onMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException;
+   
+   public void onPrivateMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException;
    
 }// class
 
