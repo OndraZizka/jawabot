@@ -12,7 +12,7 @@ import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.apache.log4j.Logger;
 import org.jboss.jawabot.config.JaxbConfigPersister;
-import org.jboss.jawabot.plugin.pastebin.PasteBinManager;
+import org.jboss.jawabot.plugin.pastebin.MemoryPasteBinManager;
 import org.jboss.jawabot.usermgr.UserManager;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
@@ -50,8 +50,8 @@ public class JawaBotApp
    public static UserManager getUserManager() { return userManager; }
 
    // PasteBin manager.
-   private static final PasteBinManager pasteBinManager = new PasteBinManager();
-   public static PasteBinManager getPasteBinManager() { return pasteBinManager; }
+   private static final MemoryPasteBinManager pasteBinManager = new MemoryPasteBinManager();
+   public static MemoryPasteBinManager getPasteBinManager() { return pasteBinManager; }
 
    
    

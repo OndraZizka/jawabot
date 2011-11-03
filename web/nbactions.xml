@@ -43,7 +43,6 @@
         </action>
         <action>
             <actionName>build</actionName>
-            <preAction>build-with-dependencies</preAction>
             <goals>
                 <goal>install</goal>
             </goals>

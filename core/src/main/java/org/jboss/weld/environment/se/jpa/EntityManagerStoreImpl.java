@@ -1,23 +1,21 @@
 //package de.laliluna.transactions;
 package org.jboss.weld.environment.se.jpa;
 
-import org.jboss.weld.environment.se.events.ContainerInitialized;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.Stack;
 import javax.annotation.PostConstruct;
-import org.hibernate.cfg.AnnotationConfiguration;
+import javax.inject.Inject;
 import org.hibernate.ejb.Ejb3Configuration;
 
 /**
  * A store for entity managers. It is basically a ThreadLocal which stores the entity manager.
- * The {@link de.laliluna.transactions.TransactionInterceptor} is expected to register entity manager. The application code
+ * The {@link org.jboss.weld.environment.se.jpa.JpaTransactionInterceptor} is expected to register entity manager. The application code
  * can get the current entity manager either by injecting the store or the {@link EntityManagerDelegate}.
  *
  * @author Sebastian Hennebrueder
@@ -25,26 +23,35 @@ import org.hibernate.ejb.Ejb3Configuration;
 @ApplicationScoped
 public class EntityManagerStoreImpl implements EntityManagerStore {
 
-		final Logger logger = LoggerFactory.getLogger(EntityManagerStoreImpl.class);
+		private final Logger log = LoggerFactory.getLogger(EntityManagerStoreImpl.class);
 		
 		private EntityManagerFactory emf;
 		
 		private ThreadLocal<Stack<EntityManager>> emStackThreadLocal = new ThreadLocal<Stack<EntityManager>>();
+      
+      @Inject 
+		private CdiPluginEntitiesPackagesProvider entPackProv;
+
 
 		@PostConstruct
-		public void init(/*@Observes ContainerInitialized containerInitialized*/) {
+      //@Inject 
+		public void init(/*@Observes ContainerInitialized containerInitialized*/   /*CdiPluginEntitiesPackagesProvider entPackProv*/ ) {
             // Hibernate, not JPA
             // new AnnotationConfiguration().addPackage(...)
             
-            emf = new Ejb3Configuration()
-            /* .addProperties( properties ) //add some properties
-               .addRerousce( "mypath/MyOtherCLass.hbm.xml ) //add an hbm.xml file
-               .addRerousce( "mypath/orm.xml ) //add an EJB3 deployment descriptor
-               .configure("/mypath/hibernate.cfg.xml") //add a regular hibernate.cfg.xml*/
-               .configure("TestPU", null)
-               .addPackage("org.jboss.jawabot.irc.ent")
-               .addPackage("org.jboss.jawabot.irc.model")
-               .buildEntityManagerFactory(); //Create the entity manager factory
+            Ejb3Configuration ejbConf = new Ejb3Configuration();
+            /* ejbConf.addProperties( properties ) //add some properties
+               ejbConf.addRerousce( "mypath/MyOtherCLass.hbm.xml ) //add an hbm.xml file
+               ejbConf.addRerousce( "mypath/orm.xml ) //add an EJB3 deployment descriptor
+               ejbConf.configure("/mypath/hibernate.cfg.xml") //add a regular hibernate.cfg.xml*/
+            ejbConf.configure("TestPU", null);
+            //ejbConf.addPackage("org.jboss.jawabot.irc.ent");
+            //ejbConf.addPackage("org.jboss.jawabot.irc.model");
+            for( String pack :  entPackProv.getEntityPackages() ){
+               log.debug("  Adding entity package to Ejb3Configuration: " + pack);
+               ejbConf.addPackage( pack );
+            }
+            emf = ejbConf.buildEntityManagerFactory(); //Create the entity manager factory
      
 
 				//emf = Persistence.createEntityManagerFactory("TestPU");
@@ -53,7 +60,7 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
 
 		@Override
 		public EntityManager get() {
-				logger.debug("Getting the current entity manager");
+				log.debug("Getting the current entity manager");
 				
 				final Stack<EntityManager> entityManagerStack = emStackThreadLocal.get();
 				
@@ -61,7 +68,9 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
 				{
 						// If nothing is found, we return null to cause a NullPointer exception in the business code.
 						// This leads to a nicer stack trace starting with client code. */
-						logger.warn("No entity manager was found. Did you forget to mark your method as transactional?");
+						log.warn("No entity manager was found. "
+                          + "Did you forget to mark your method as @"+JpaTransactional.class.getSimpleName()+"? "
+                          + "Was the bean loaded through CDI?");
 
 						return null;
 				} else {
@@ -77,7 +86,7 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
 		 */
 		@Override
 		public EntityManager createAndRegister() {
-				logger.debug("Creating and registering an entity manager");
+				log.debug("Creating and registering an entity manager");
 				Stack<EntityManager> entityManagerStack = emStackThreadLocal.get();
 				if (entityManagerStack == null) {
 						entityManagerStack = new Stack<EntityManager>();
@@ -98,7 +107,7 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
 		 */
 		@Override
 		public void unregister(EntityManager entityManager) {
-				logger.debug("Unregistering an entity manager");
+				log.debug("Unregistering an entity manager");
 				final Stack<EntityManager> entityManagerStack = emStackThreadLocal.get();
 				if (entityManagerStack == null || entityManagerStack.isEmpty()) {
 						throw new IllegalStateException("Removing of entity manager failed. Your entity manager was not found.");

@@ -12,11 +12,12 @@ import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
 
 /**
-Now, we can create a transaction interceptor. It will start a transaction before a transactional method is called and commit it after the method was executed.
-In addition it will register an entity manager in the EntityManagerStore and unregister it afterwards. Finally, it will roll back transactions in case of an exception.
-
-The annotations @Interceptor and @Transactional tell Weld that every time it finds a @Transactional annotation it needs to call the interceptor.
-
+ * Now, we can create a transaction interceptor. It will start a transaction before a transactional method is called and commit it after the method was executed.
+ * In addition it will register an entity manager in the EntityManagerStore and unregister it afterwards. 
+ * Finally, it will roll back transactions in case of an exception.
+ * 
+ * The annotations @Interceptor and @Transactional tell Weld that every time it finds a @Transactional annotation it needs to call the interceptor.
+ * 
  * 
  * A simple transaction interceptor which registers an entity manager in a ThreadLocal and unregisters after the
  * method was called.

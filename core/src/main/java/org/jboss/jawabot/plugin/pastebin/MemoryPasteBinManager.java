@@ -11,8 +11,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import org.jboss.weld.environment.se.jpa.JpaTransactional;
 
 /**
  *  Manages PasteBin entries.
@@ -20,7 +19,7 @@ import javax.persistence.EntityManager;
  *  @author Ondrej Zizka
  */
 @ApplicationScoped
-public class PasteBinManager implements IPasteBinManager {
+public class MemoryPasteBinManager implements IPasteBinManager {
    
    private Queue<PasteBinEntry> entriesQueue = new ConcurrentLinkedQueue<PasteBinEntry>();
    private Map<Long, PasteBinEntry> idToEntryMap = new HashMap();
@@ -49,7 +48,7 @@ public class PasteBinManager implements IPasteBinManager {
    }
 
    @Override
-   public List<PasteBinEntry> getPastes_OrderByWhenDesc(int i) {
+   public List<PasteBinEntry> getLastPastes_OrderByWhenDesc(int i) {
       return new ArrayList( new TreeSet( this.entriesQueue ) );
    }
 

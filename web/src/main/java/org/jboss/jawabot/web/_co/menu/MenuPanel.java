@@ -2,11 +2,14 @@
 package org.jboss.jawabot.web._co.menu;
 
 
+import cz.dynawest.wicket.LabelLink;
 import org.jboss.jawabot.web._base.ConveniencePageBase;
 import java.util.List;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
@@ -15,6 +18,7 @@ import org.jboss.jawabot.web.JawaBotSession;
 import org.jboss.jawabot.web._co.GroupLinkPanel;
 import org.jboss.jawabot.web._co.PastebinLinkPanel;
 import org.jboss.jawabot.web._co.ResourceLinkPanel;
+import org.jboss.jawabot.web._pg.PasteBinPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +66,13 @@ public class MenuPanel extends Panel
       
       
       // PasteBin
-      List<PasteBinEntry> pastebins = ((ConveniencePageBase)getPage()).getJawaBot().getPasteBinManager().getPastes_OrderByWhenDesc(10);
+      /*add( new Link("new_paste", new Model("") ) {
+            public void onClick() {
+                this.setResponsePage( PasteBinPage.class );
+            }
+        } );*/
+      
+      List<PasteBinEntry> pastebins = ((ConveniencePageBase)getPage()).getJawaBot().getPasteBinManager().getLastPastes_OrderByWhenDesc(10);
       
       add(new ListView<PasteBinEntry>("pastebinList", new ListModel( pastebins ) ) {
         @Override protected void populateItem(ListItem<PasteBinEntry> item) {

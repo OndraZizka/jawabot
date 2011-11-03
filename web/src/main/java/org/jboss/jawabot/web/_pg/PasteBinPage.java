@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javax.inject.Inject;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
@@ -27,7 +28,9 @@ import org.apache.wicket.util.string.Strings;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.Reservation;
 import org.jboss.jawabot.Resource;
+import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
 import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
+import org.jboss.jawabot.plugin.pastebin.MemoryPasteBinManager;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.state.ent.User;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
@@ -35,16 +38,19 @@ import org.jboss.jawabot.web._base.BaseLayoutPage;
 
 
 /**
- *
+ *  Page with form to submit new paste entry.
+ * 
  * @author Ondrej Zizka
  */
 public class PasteBinPage extends BaseLayoutPage
 {
    private static final Logger log = LoggerFactory.getLogger( PasteBinPage.class );
+   
+   @Inject private JpaPasteBinManager pbManager;
 
 
    // This page's model.
-   private PasteBinEntry entry;
+   private PasteBinEntry entry = new PasteBinEntry();
 
 
    public PasteBinPage( PageParameters parameters ) {
@@ -57,12 +63,12 @@ public class PasteBinPage extends BaseLayoutPage
       // New entry.
       Form form = new Form( "form", new CompoundPropertyModel( this.entry ) ){
          @Override protected void onSubmit() {
+            pbManager.addEntry(entry);
             //setResponsePage( new PasteBinPage( new PageParameters() ));
-
          }
       };
       this.add( form );
-      form.add( new TextField( "by" ) );
+      form.add( new TextField( "author" ) );
       form.add( new TextField( "to" ) );
       form.add( new TextArea( "text" ) );
       form.add( new Button("submit") );
@@ -78,7 +84,7 @@ public class PasteBinPage extends BaseLayoutPage
             final PasteBinEntry entry = item.getModelObject();
             item.add( new Link("entry"){
                {
-                  add( new Label( "by", entry.getAuthor() ) );
+                  add( new Label( "author", entry.getAuthor() ) );
                   add( new Label( "for", entry.getFor() ) );
                   add( new Label( "from", DateUtils.toStringSQL( entry.getWhen() ) ) );
                   add( new Label( "channel", entry.getChannel() ) );

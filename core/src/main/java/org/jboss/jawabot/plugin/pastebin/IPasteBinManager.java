@@ -18,6 +18,6 @@ public interface IPasteBinManager {
 
    PasteBinEntry getPaste(long id);
 
-   List<PasteBinEntry> getPastes_OrderByWhenDesc(int i);
+   List<PasteBinEntry> getLastPastes_OrderByWhenDesc(int i);
    
 }
