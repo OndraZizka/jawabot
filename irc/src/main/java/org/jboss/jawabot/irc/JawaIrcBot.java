@@ -25,6 +25,7 @@ import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.config.beans.ServerBean;
 import org.jboss.jawabot.irc.model.IrcMessage;
 import org.jibble.pircbot.NickAlreadyInUseException;
+import org.jibble.pircbot.User;
 
 
 
@@ -78,10 +79,17 @@ public class JawaIrcBot extends PircBot
    private CommandHandler commandHandler;
 
    
-   /**  Current handler of onChannelInfo().   PircBot callbacks are called synchronously, we don't need sync. */
-   private ChannelInfoHandler currentChannelInfoHandler = null;
-   public void setCurrentChannelInfoHandler(ChannelInfoHandler handler) { this.currentChannelInfoHandler = handler; }
-      
+    /**  Current handler of onChannelInfo().   PircBot callbacks are called synchronously, so we don't need synchronization. */
+    private ChannelInfoHandler currentOnChannelInfoHandler = null;
+    private void setCurrentChannelInfoHandler( ChannelInfoHandler handler ) { this.currentOnChannelInfoHandler = handler; }
+
+    
+    /**  Current handler of onUserList().  */
+    private Map<String, UserListHandler> currentOnUserListHandlers = new HashMap();
+    private UserListHandler setCurrentUserListHandler( String channnel, UserListHandler handler ) {
+        return this.currentOnUserListHandlers.put(channnel, handler); 
+    }
+         
    
    
    
@@ -687,40 +695,75 @@ public class JawaIrcBot extends PircBot
 
    
    
-   
-   /**
+
+    /**
     *  Server sent channel info, likely on a plugin's request, or after connect.
     *  Send it to the appropriate handler - likely given by plugin.
     */
-   @Override
-   protected void onChannelInfo( String channel, int userCount, String topic ) {
-      if( this.currentChannelInfoHandler == null )
+    @Override
+    protected void onChannelInfo( String channel, int userCount, String topic ) {
+      if( this.currentOnChannelInfoHandler == null )
          return;
-      this.currentChannelInfoHandler.onChannelInfo( channel, userCount, topic );
-   }
-   
-   public void listChannels( ChannelInfoHandler handler ) {
-        if( this.currentChannelInfoHandler != null  )
+      this.currentOnChannelInfoHandler.onChannelInfo( channel, userCount, topic );
+    }
+
+    public void listChannels( ChannelInfoHandler handler ) {
+        if( this.currentOnChannelInfoHandler != null  )
         {
             // The same handler.
-            if( this.currentChannelInfoHandler.equals( handler ) )
+            if( this.currentOnChannelInfoHandler.equals( handler ) )
                 return;
-        
+
             // Warning is the most we can do.
             log.warn("Overwriting current ChannelInfoHandler."
-            + "\n    Old: " + this.currentChannelInfoHandler
+            + "\n    Old: " + this.currentOnChannelInfoHandler
             + "\n    New: " + handler);
         }
-        this.currentChannelInfoHandler = handler;
+        this.currentOnChannelInfoHandler = handler;
 
         // PircBot will call onChannelInfo() and we will redirect these calls to the handler.
-        // Unfortunatelly, there's no way to recognize when it finished,
-        // so the
+        // Unfortunatelly, there's no way to recognize when it finished.
         this.listChannels();
-   }
+    }
 
 
 
+    /**
+     *  Gets users in a channel. PircBot does it asynchronously, so must we.
+     */
+    protected void listUsersInChannel( String channel, UserListHandler handler ){
+        User[] users = this.getUsers(channel);
+        if( users.length != 0 ){
+            handler.onUserList(channel, users);
+            return;
+        }
+        
+        UserListHandler oldHandler = this.setCurrentUserListHandler( channel, handler );
+        if( null != oldHandler ){
+            // The same handler.
+            if( oldHandler.equals( handler ) )  return;
+            // Warning is the most we can do.
+            log.warn("Overwriting current ChannelInfoHandler." + "\n    Old: " + oldHandler + "\n    New: " + handler);
+        }
+        
+        this.joinChannel(channel);
+        // PircBot will call onUserList() and we will redirect these calls to the handler.
+    }
+   
+    /**
+    *  Server sent channel info, likely on a plugin's request, or after connect.
+    *  Send it to the appropriate handler - likely given by plugin.
+    */
+    @Override
+    protected void onUserList(String channel, User[] users) {
+        UserListHandler handler = this.currentOnUserListHandlers.get(channel);
+        if( null != handler )
+            handler.onUserList( channel, users );
+    }
+
+
+
+   
 
 
 

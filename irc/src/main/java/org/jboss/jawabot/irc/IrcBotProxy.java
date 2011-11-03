@@ -135,6 +135,12 @@ public class IrcBotProxy {
         jawaIrcBot.listChannels( channelInfoHandler );
     }
 
+    public void listUsersInChannel(String channel, UserListHandler handler) {
+        jawaIrcBot.listUsersInChannel(channel, handler);
+    }
+
+    
+
     /*public final void listChannels(String parameters) {
         jawaIrcBot.listChannels(parameters);
     }

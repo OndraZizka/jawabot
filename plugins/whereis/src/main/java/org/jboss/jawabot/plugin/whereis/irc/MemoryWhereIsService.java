@@ -24,15 +24,15 @@ public class MemoryWhereIsService
 
     
     // We need to have two maps - channelsToUsers is to delete the old entries.
-    private Map<String, Set<SeenInfo>> userToChannels = new HashMap();
-    private Map<String, Set<SeenInfo>> channelsToUsers = new HashMap();
+    private final Map<String, Set<SeenInfo>> userToChannels = new HashMap();
+    private final Map<String, Set<SeenInfo>> channelsToUsers = new HashMap();
 
     
-    public void updateUserInfo( User user, String channel, Date now ) {
+    public synchronized void updateUserInfo( User user, String channel, Date now ) {
         this.updateUserInfo( user.getNick(), channel, now);
     }
     
-    public void updateUserInfo( String nick, String channel, Date now ) {
+    public synchronized void updateUserInfo( String nick, String channel, Date now ) {
         log.debug("   Updating info about user: " + nick );
         
         // User -> channels/when mapping.
