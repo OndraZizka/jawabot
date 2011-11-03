@@ -6,6 +6,7 @@ import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
@@ -20,28 +21,36 @@ import org.jboss.weld.environment.se.jpa.EntityManagerStore;
 @Singleton
 public class JawaBotApp
 {
-   private static final Logger log = LoggerFactory.getLogger(JawaBotApp.class);
+    private static final Logger log = LoggerFactory.getLogger(JawaBotApp.class);
 
-   @Inject private Instance<IModuleHook> moduleHookInstances;
-   @Inject private EntityManagerStore emf; // To have it created at the very start.
+    @Inject private Instance<IModuleHook> moduleHookInstances;
+    @Inject private EntityManagerStore emf; // To have it created at the very start.
    
 
    
-   // Things shown in the "help" command reply.
-   public static final String VERSION = "2.0.0-SNAPSHOT";
-   //public static final String PROJECT_DOC_URL = "https://docspace.corp.redhat.com/clearspace/docs/DOC-29621";
-   public static final String PROJECT_DOC_URL = "http://code.google.com/p/jawabot/";
+    // Things shown in the "help" command reply.
+    public static final String VERSION;
+    static{
+        String version = null;
+        try { version = JawaBotApp.class.getPackage().getImplementationVersion(); } catch( Throwable ex ){ }
+        if( version == null ) version = "";
+        VERSION = StringUtils.defaultString( version, "" );
+     }
+   
+   
+    //public static final String PROJECT_DOC_URL = "https://docspace.corp.redhat.com/clearspace/docs/DOC-29621";
+    public static final String PROJECT_DOC_URL = "http://code.google.com/p/jawabot/";
 
    
 
-   // JawaBot instance reference.
-   private static JawaBot jawaBot;
-   @Produces public static JawaBot getJawaBot() { return jawaBot; }
+    // JawaBot instance reference.
+    private static JawaBot jawaBot;
+    @Produces public static JawaBot getJawaBot() { return jawaBot; }
 
    
-   // UserManager instance. Read-only, no need to sync.
-   private static final UserManager userManager = new UserManager();
-   public static UserManager getUserManager() { return userManager; }
+    // UserManager instance. Read-only, no need to sync.
+    private static final UserManager userManager = new UserManager();
+    public static UserManager getUserManager() { return userManager; }
 
 
    
