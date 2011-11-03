@@ -26,18 +26,23 @@ import javax.persistence.Table;
 @NamedQueries({
    @NamedQuery(name = "Grp.findAll", query = "SELECT g FROM Grp g"),
    @NamedQuery(name = "Grp.findByName", query = "SELECT g FROM Grp g WHERE g.name = :name")})
-public class Group implements Serializable
+public class Group implements Serializable, Comparable<Group> 
 {
    private static final long serialVersionUID = 1L;
+   private static final Logger log = Logger.getLogger( Group.class.getName() );
+
+   
    @Id
    @Basic(optional = false)
    @Column(name = "name", nullable = false, length = 16)
    private String name;
+   
    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group1", fetch = FetchType.LAZY)
    private Collection<UserInGroup> userInGroupCollection;
+   
    @OneToMany(cascade = CascadeType.ALL, mappedBy = "grp", fetch = FetchType.LAZY)
    private Collection<ResourceInGroup> resourceInGroupCollection;
-  private static final Logger log = Logger.getLogger( Group.class.getName() );
+   
 
    public Group() {
    }
@@ -46,28 +51,31 @@ public class Group implements Serializable
       this.name = name;
    }
 
-   public String getName() {
-      return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
-
-   public Collection<UserInGroup> getUserInGroupCollection() {
-      return userInGroupCollection;
-   }
-
-   public void setUserInGroupCollection(Collection<UserInGroup> userInGroupCollection) {
-      this.userInGroupCollection = userInGroupCollection;
-   }
-
-   public Collection<ResourceInGroup> getResourceInGroupCollection() {
-      return resourceInGroupCollection;
-   }
-
-   public void setResourceInGroupCollection(Collection<ResourceInGroup> resourceInGroupCollection) {
-      this.resourceInGroupCollection = resourceInGroupCollection;
+   
+   
+   
+   // Get / set
+   
+   public String getName() { return name; }
+   public void setName(String name) { this.name = name; }
+   
+   public Collection<UserInGroup> getUserInGroupCollection() { return userInGroupCollection; }
+   public void setUserInGroupCollection(Collection<UserInGroup> userInGroupCollection) { this.userInGroupCollection = userInGroupCollection; }
+   
+   public Collection<ResourceInGroup> getResourceInGroupCollection() { return resourceInGroupCollection; }
+   public void setResourceInGroupCollection(Collection<ResourceInGroup> resourceInGroupCollection) { this.resourceInGroupCollection = resourceInGroupCollection; }
+   
+   
+   
+   
+   
+   // Overrides
+   
+   @Override
+      public int compareTo(Group o) {
+      if( o == null || o.getName() == null ) return -1;
+      if( this.getName() == null ) return 1;
+      return this.getName().compareTo( o.getName() );
    }
 
    @Override

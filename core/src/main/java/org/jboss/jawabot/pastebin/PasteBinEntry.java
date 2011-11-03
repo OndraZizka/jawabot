@@ -2,6 +2,7 @@
 package org.jboss.jawabot.pastebin;
 
 import cz.dynawest.util.DateUtils;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,7 +14,7 @@ import javax.persistence.TemporalType;
  *  @author Ondrej Zizka
  */
 @Entity
-public class PasteBinEntry {
+public class PasteBinEntry implements Serializable {
 
    private Long id;
    private String by;

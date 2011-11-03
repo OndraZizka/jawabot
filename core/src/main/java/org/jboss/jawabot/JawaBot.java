@@ -2,7 +2,6 @@ package org.jboss.jawabot;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
@@ -16,6 +15,8 @@ import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.state.beans.StateBean;
 import org.apache.log4j.Logger;
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
+import org.jboss.jawabot.groupmgr.GroupManager;
+import org.jboss.jawabot.pastebin.PasteBinManager;
 import org.jboss.jawabot.state.JaxbStatePersister;
 import org.jboss.jawabot.state.beans.ReservationBean;
 
@@ -52,11 +53,23 @@ public class JawaBot
    
 
 
-   //@XmlElement(name="resourceManager")
+   // ResourceManager
 	private ResourceManager resourceManager = new ResourceManager();
    public ResourceManager getResourceManager() {      return resourceManager;   }
    public void setResourceManager(ResourceManager resourceManager) { this.resourceManager = resourceManager; }
 
+   
+   // GroupManager
+	private GroupManager groupManager = new GroupManager();
+   public GroupManager getGroupManager() { return groupManager; }
+   public void setGroupManager(GroupManager groupManager) { this.groupManager = groupManager; }
+      
+
+   // PasteBinManager
+   private PasteBinManager pasteBinManager = new PasteBinManager();
+   public PasteBinManager getPasteBinManager() { return pasteBinManager; }
+   
+   
 
 
    /** [JAXB] Returns a list of all reservation calendars. */
