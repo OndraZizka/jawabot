@@ -1,4 +1,4 @@
-package org.jboss.jawabot.plugin.jira.config.core;
+package org.jboss.jawabot.plugin.jira.core;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -1,7 +1,7 @@
 
 package org.jboss.jawabot.plugin.jira.config;
 
-import org.jboss.jawabot.plugin.jira.config.core.JiraBotException;
+import org.jboss.jawabot.plugin.jira.core.JiraBotException;
 
 /**
  *

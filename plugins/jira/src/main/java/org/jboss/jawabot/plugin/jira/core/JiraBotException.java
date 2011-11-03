@@ -1,11 +1,13 @@
-package org.jboss.jawabot.plugin.jira.config.core;
+package org.jboss.jawabot.plugin.jira.core;
+
+import org.jboss.jawabot.ex.JawaBotPluginEx;
 
 
 /**
  *
  * @author Ondrej Zizka
  */
-public class JiraBotException extends Exception {
+public class JiraBotException extends JawaBotPluginEx {
 
 	public JiraBotException(Throwable cause) {
 		super(cause);

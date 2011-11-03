@@ -1,10 +1,11 @@
 
-package org.jboss.jawabot.plugin.jira.config.core;
+package org.jboss.jawabot.plugin.jira.core;
 
 /**
- * Immutable.
+ *  Data POJO used in ChannelsStatusStore.
+ *  Immutable.
  * 
- * @author Ondrej Zizka
+ *  @author Ondrej Zizka
  */
 public class IssueShownInfo {
    public final int shownAtCount;

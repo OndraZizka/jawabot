@@ -1,12 +1,15 @@
 
-package org.jboss.jawabot.plugin.jira.config.core;
+package org.jboss.jawabot.plugin.jira.core;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
- * @author Ondrej Zizka
+ *  Keeps info about our activity in channels -
+ *  when we informed about a jira, etc -
+ *  and decides whether it's too early to repeat the information and such.
+ * 
+ *  @author Ondrej Zizka
  */
 public class ChannelsStatusStore {
 

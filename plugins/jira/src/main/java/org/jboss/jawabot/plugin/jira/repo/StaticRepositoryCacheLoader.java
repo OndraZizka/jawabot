@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class StaticRepositoryCacheLoader implements RepositoryCacheLoader {
+public class StaticRepositoryCacheLoader implements IRepositoryCacheLoader {
 
 	private static Map<String, RepositoryCache.Site> staticMappings;
 	private static Set<String> ignoredPrefixes;

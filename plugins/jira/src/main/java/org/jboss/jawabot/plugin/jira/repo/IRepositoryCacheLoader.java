@@ -3,8 +3,7 @@ package org.jboss.jawabot.plugin.jira.repo;
 import java.util.Map;
 
 import java.util.Set;
-import org.jboss.jawabot.plugin.jira.config.core.JiraBot;
-import org.jboss.jawabot.plugin.jira.config.core.JiraBotException;
+import org.jboss.jawabot.plugin.jira.core.JiraBotException;
 
 
 /**
@@ -12,7 +11,7 @@ import org.jboss.jawabot.plugin.jira.config.core.JiraBotException;
  * {@link StaticRepositoryCacheLoader}, however you may want to externalize the loading / storing
  * to a flat text file or even a database in the future.
  */
-public interface RepositoryCacheLoader {
+public interface IRepositoryCacheLoader {
 
     /**
      * a method that is guaranteed to be called before the initial loading of the repository because you may

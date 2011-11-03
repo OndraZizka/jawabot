@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import org.jboss.jawabot.plugin.jira.config.core.JiraBotException;
+import org.jboss.jawabot.plugin.jira.core.JiraBotException;
 import org.jboss.jawabot.plugin.jira.config.beans.ConfigBean;
 import org.jboss.jawabot.plugin.jira.config.beans.ProjectBean;
 import org.jboss.jawabot.plugin.jira.config.beans.RepositoryBean;
@@ -14,10 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- * @author Ondrej Zizka
+ *  Creates a RepositoryCache from the provided ConfigBean.
+ *  @author Ondrej Zizka
  */
-public class ConfigRepositoryCacheLoader implements RepositoryCacheLoader {
+public class ConfigRepositoryCacheLoader implements IRepositoryCacheLoader {
 	private static final Logger log = LoggerFactory.getLogger( ConfigRepositoryCacheLoader.class );
 
    private ConfigBean config;

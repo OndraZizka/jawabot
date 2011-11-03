@@ -1,5 +1,8 @@
 
-package org.jboss.jawabot.plugin.jira.config.core;
+package org.jboss.jawabot;
+
+import org.jboss.jawabot.ex.JawaBotException;
+
 
 /**
  *  Options - the mapping files, included & excluded paths, and some global options.
@@ -19,7 +22,7 @@ public class Options {
    /**
     *  Parse Options from the given app's arguments.
     */
-   public static Options createFromParams( String[] args ) throws JiraBotException
+   public static Options createFromParams( String[] args ) throws JawaBotException
    {
       Options options = new Options();
 
@@ -30,7 +33,7 @@ public class Options {
          if( arg.startsWith("-logProfile=")){  options.logProfile = arg.substring("-logProfile=".length());   continue; }
          if( arg.startsWith("-profile=")){  options.profile = arg.substring("-profile=".length());   continue; }
 
-         throw new JiraBotException("What should I do with this param?  => "+arg);
+         throw new JawaBotException("What should I do with this param?  => "+arg);
       }
 
       return options;
@@ -42,7 +45,7 @@ public class Options {
    /**
     *   Checks whether all the paths exist.
     */
-   public static void validateOptions( Options options ) throws JiraBotException {
+   public static void validateOptions( Options options ) throws JawaBotException {
 
    }// validateOptions()
 

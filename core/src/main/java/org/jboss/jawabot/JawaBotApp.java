@@ -1,7 +1,6 @@
 package org.jboss.jawabot;
 
 import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
@@ -12,7 +11,6 @@ import org.jboss.jawabot.ex.JawaBotException;
 import org.apache.log4j.Logger;
 import org.jboss.jawabot.config.JaxbConfigPersister;
 import org.jboss.jawabot.usermgr.UserManager;
-import org.jboss.weld.environment.se.StartMain;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
@@ -62,7 +60,7 @@ public class JawaBotApp
       
       jawaBotApp.run(args);
    }
-   
+
 
    /**
     * Run.
@@ -70,6 +68,8 @@ public class JawaBotApp
    public void run(String[] args) throws JawaBotException {
 
       log.debug( JawaBotApp.class.getSimpleName() + "#main() start.");
+      
+      //Options options = Options.createFromParams( args );
 
       try {
          String configFilePath = System.getProperty("config", "JawaBotConfig-debug.xml");

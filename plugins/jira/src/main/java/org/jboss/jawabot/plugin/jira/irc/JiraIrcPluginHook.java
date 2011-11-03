@@ -12,9 +12,9 @@ import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.plugin.jira.config.beans.ConfigBean;
 import org.jboss.jawabot.plugin.jira.config.beans.RepositoryBean;
-import org.jboss.jawabot.plugin.jira.config.core.ChannelsStatusStore;
-import org.jboss.jawabot.plugin.jira.config.core.IssueShownInfo;
-import org.jboss.jawabot.plugin.jira.config.core.TimeoutCache;
+import org.jboss.jawabot.plugin.jira.core.ChannelsStatusStore;
+import org.jboss.jawabot.plugin.jira.core.IssueShownInfo;
+import org.jboss.jawabot.plugin.jira.core.TimeoutCache;
 import org.jboss.jawabot.plugin.jira.repo2.RepositoriesManager;
 import org.jboss.jawabot.plugin.jira.scrapers.IssueInfo;
 import org.jboss.jawabot.plugin.jira.scrapers.ScrapingException;
@@ -236,10 +236,6 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
                bot.sendMessage( replyTo, ex.getMessage() );
                return;
             }
-            /*catch( Throwable ex ){
-               log.error( ex );
-               continue;
-            }*/
          }
 
          // If the request contains the URL, don't repeat it.
@@ -260,21 +256,19 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 
 
 
-   
-   /**
-    * Formats the string for response for the given issue.
-    * @returns  "[#TOOLS-102] Implement Bugzilla support [Open, Major, Ondrej Zizka]
-    */
-   public String formatResponse( IssueInfo issue ){
-      String reply = String.format("[#%s] %s [%s, %s, %s]",
-              issue.getId(),
-              issue.getTitle(),
-              issue.getStatus(), issue.getPriority(), issue.getAssignedTo());
-      return reply;
-   }
+ 		/**
+		 * Formats the string for response for the given issue.
+		 * @returns  "[#TOOLS-102] Implement Bugzilla support [Open, Major, Ondrej Zizka]
+		 */
+		public String formatResponse(IssueInfo issue) {
+				String reply = String.format("[#%s] %s [%s, %s, %s]",
+								issue.getId(),
+								issue.getTitle(),
+								issue.getStatus(), issue.getPriority(), issue.getAssignedTo());
+				return reply;
+		}
 
-
-
+		
 		/**
 		 * Handles a command, which is (assumably) sent as PM to the bot.
 		 *
@@ -284,78 +278,70 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 		 *
 		 * @returns  true if the request was valid JiraBot command.
 		 */
-    boolean handleJiraBotCommand( String from, String command, boolean isFromPrivateMessage, IrcBotProxy bot ) {
+		boolean handleJiraBotCommand(String from, String command, boolean isFromPrivateMessage, IrcBotProxy bot) {
 
-			boolean wasValidCommand = false;
+				boolean wasValidCommand = false;
 
-         String replyTo = this.config.settings.debug ? this.config.settings.debugChannel : from;
+				String replyTo = this.config.settings.debug ? this.config.settings.debugChannel : from;
 
-			command = command.toLowerCase();
+				command = command.toLowerCase();
 
-         // Join a channel.
-         if( command.startsWith("join") ) {
-            wasValidCommand = true;
+				// Join a channel.
+				if (command.startsWith("join")) {
+						wasValidCommand = true;
 
-            if( ! this.config.settings.allowJoinCommand ){
-               bot.sendMessage( replyTo, "join command not allowed - use /invite (if you are an op) or allow in JiraBot settings.");
-            } else {
-               String channel = command.substring(4).trim();
-               if( ! channel.startsWith("#") )
-                  channel = "#" + channel;
-               if( ! StringUtils.isAlphanumeric( channel.substring(1) ) ){
-                  bot.sendMessage( replyTo, "Invalid channel name - must be alphanumeric: "+channel );
-               }else{
-                  bot.sendMessage( replyTo, "Joining channel: "+channel );
-                  bot.joinChannel( channel );
-               }
-            }
-         }
-
-
-			// Clear cache.
-			else if (command.startsWith("clearcache")) {
-				wasValidCommand = true;
-				String clearJiraID = command.substring(10).trim().toUpperCase();
-				if ("".equals(clearJiraID)) {
-					bot.sendMessage( replyTo, "Clearing the cache.");
-					this.issueCache.clear();
-				} else {
-					bot.sendMessage( replyTo, "Removing " + clearJiraID + " from the cache.");
-					this.issueCache.removeItem(clearJiraID);
+						if (!this.config.settings.allowJoinCommand) {
+								bot.sendMessage(replyTo, "join command not allowed - use /invite (if you are an op) or allow in JiraBot settings.");
+						} else {
+								String channel = command.substring(4).trim();
+								if (!channel.startsWith("#")) {
+										channel = "#" + channel;
+								}
+								if (!StringUtils.isAlphanumeric(channel.substring(1))) {
+										bot.sendMessage(replyTo, "Invalid channel name - must be alphanumeric: " + channel);
+								} else {
+										bot.sendMessage(replyTo, "Joining channel: " + channel);
+										bot.joinChannel(channel);
+								}
+						}
 				}
-			}
+				// Clear cache.
+				else if (command.startsWith("clearcache")) {
+						wasValidCommand = true;
+						String clearJiraID = command.substring(10).trim().toUpperCase();
+						if ("".equals(clearJiraID)) {
+								bot.sendMessage(replyTo, "Clearing the cache.");
+								this.issueCache.clear();
+						} else {
+								bot.sendMessage(replyTo, "Removing " + clearJiraID + " from the cache.");
+								this.issueCache.removeItem(clearJiraID);
+						}
+				}
+				// About or Help.
+				else if (command.startsWith("about jira") || command.startsWith("help jira")) {
+						wasValidCommand = true;
+						bot.sendMessage(replyTo,
+										"Hi, I'm a bot which brings some useful info about JIRA issues to IRC channels. Version: " + VERSION);
+						bot.sendMessage(replyTo,
+										"If you want me in your channel, invite me, usually done by typing '/invite " + bot.getNick() + "' in that channel.");
+						bot.sendMessage(replyTo,
+										"If you don't like me, kick me off. Or say 'jirabot please leave'.");
+						bot.sendMessage(replyTo,
+										"For more info, see " + PROJECT_DOC_URL);
+				}
+			  // Specially for Rado:  Thanks.
+				else if (command.startsWith("thank")) {
+						wasValidCommand = true;
+						bot.sendMessage(replyTo, "yw");
+				}
+				else if (command.contains("good")) {
+						wasValidCommand = true;
+						bot.sendMessage(replyTo, "Oh yes indeed.");
+				}
 
-			// About or Help.
-			else if( command.startsWith("about jira") || command.startsWith("help jira") ) {
-				wasValidCommand = true;
-				bot.sendMessage( replyTo,
-								"Hi, I'm a bot which brings some useful info about JIRA issues to IRC channels. Version: "+VERSION);
-				bot.sendMessage( replyTo,
-								"If you want me in your channel, invite me, usually done by typing '/invite " + bot.getNick() + "' in that channel.");
-				bot.sendMessage( replyTo,
-								"If you don't like me, kick me off. Or say 'jirabot please leave'.");
-				bot.sendMessage( replyTo,
-								"For more info, see "+PROJECT_DOC_URL);
-			}
+				return wasValidCommand;
 
-			// Specially for Rado:  Thanks.
-			else if( command.startsWith("thank") ) {
-				wasValidCommand = true;
-				bot.sendMessage( replyTo, "yw");
-			}
-			else if( command.contains("good") ) {
-				wasValidCommand = true;
-				bot.sendMessage( replyTo, "Oh yes indeed.");
-			}
+		}// handleJiraBotCommand()
 
-			return wasValidCommand;
-
-    }// handleJiraBotCommand()
-
-		
-
-   
-
-   
 }// class
 
