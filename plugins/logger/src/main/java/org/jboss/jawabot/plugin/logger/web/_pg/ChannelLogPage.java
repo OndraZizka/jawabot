@@ -38,10 +38,12 @@ public class ChannelLogPage extends BaseLayoutPage
      Channel chan = name == null ? null : channelManager.byName( name );
  
      if( chan == null ){
+        log.debug("Channel is null, using ChannelListPanel.");
         add( new Label("heading", "Logged Channels"));
         add( new ChannelListPanel("channelLogPanel") );
      }
      else{
+        log.debug("Using ChannelLogPanel with channel: " +chan);
         add( new Label("heading", "Channel "+chan.getName()+" - details"));
         add( new ChannelLogPanel( "channelLogPanel", chan ) );
      }

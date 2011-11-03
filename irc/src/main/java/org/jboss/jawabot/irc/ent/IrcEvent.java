@@ -27,7 +27,7 @@ import javax.persistence.Temporal;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="TYPE", discriminatorType=DiscriminatorType.CHAR, length=1)
 @DiscriminatorValue("E")
-@NamedQuery(name="irc.events.byCriteria", query="SELECT ev FROM IrcEvent ev WHERE ev.channel = ? AND `ev.when` BETWEEN ? AND ?")
+@NamedQuery(name="irc.events.byCriteria", query="SELECT ev FROM IrcEvent ev WHERE ev.channel = ? AND ev.when BETWEEN ? AND ?")
 public class IrcEvent implements Serializable
 {
     private static final long serialVersionUID = 1L;

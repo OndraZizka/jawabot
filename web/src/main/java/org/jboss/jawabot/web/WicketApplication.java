@@ -1,5 +1,6 @@
 package org.jboss.jawabot.web;
 
+import cz.dynawest.wicket.LoggingUtils;
 import java.util.Iterator;
 import java.util.Set;
 import javax.enterprise.inject.spi.Bean;
@@ -41,7 +42,9 @@ import org.slf4j.LoggerFactory;
  */
 public class WicketApplication extends InjectingSeamApplication
 {
+   static { LoggingUtils.setFormatOfAllAppenders(); }
    private static final Logger log = LoggerFactory.getLogger( WicketApplication.class );
+   static { LoggingUtils.setFormatOfAllAppenders(); }
 
    
    @Inject private Instance<IPageMount> pageMounts;
