@@ -25,10 +25,6 @@
             <excludes> <exclude>**/*.java</exclude> </excludes>
             <filtering>false</filtering>
          </resource>
-         <resource>
-            <directory>resources</directory>
-            <includes> <include>*.xml</include> <include>*.properties</include> </includes>
-         </resource>
       </resources>
 
       <testResources>
