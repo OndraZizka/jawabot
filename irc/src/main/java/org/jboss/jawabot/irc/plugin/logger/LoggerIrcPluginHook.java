@@ -1,7 +1,6 @@
 package org.jboss.jawabot.irc.plugin.logger;
 
 import cz.dynawest.util.plugin.PluginEx;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import org.jboss.jawabot.irc.IIrcPluginHook;
@@ -30,19 +29,19 @@ public class LoggerIrcPluginHook implements IIrcPluginHook<Object> {
    }
 
    @Override
-   public void initModule(Object initObject) throws PluginEx {
+   public void initModule(Object initObject) throws IrcPluginException {
    }
 
    @Override
-   public void startModule() throws PluginEx {
+   public void startModule() throws IrcPluginException {
    }
 
    @Override
-   public void stopModule() throws PluginEx {
+   public void stopModule() throws IrcPluginException {
    }
 
    @Override
-   public void destroyModule() throws PluginEx {
+   public void destroyModule() throws IrcPluginException {
    }
    
 

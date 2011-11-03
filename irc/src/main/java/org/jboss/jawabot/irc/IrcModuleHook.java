@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Ondrej Zizka
  */
-public class IrcModuleHook implements IModuleHook<JawaBotException>
+public class IrcModuleHook implements IModuleHook<JawaBot, JawaBotException>
 {
    private static final Logger log = LoggerFactory.getLogger(IrcModuleHook.class);
     
@@ -35,13 +35,8 @@ public class IrcModuleHook implements IModuleHook<JawaBotException>
    }
    
    @Override
-   public void initModule(Object initObject) throws PluginEx {
-      JawaBot jawaBot = (JawaBot)initObject;
-      try {
-         this.initModule( jawaBot, jawaBot.getConfig() );
-      } catch (JawaBotException ex) {
-         throw new PluginEx(ex);
-      }
+   public void initModule(JawaBot jawaBot) throws JawaBotException {
+      this.initModule( jawaBot, jawaBot.getConfig() );
    }
 
 
@@ -62,7 +57,7 @@ public class IrcModuleHook implements IModuleHook<JawaBotException>
 
    
    @Override
-   public void startModule() throws JawaBotPluginEx {
+   public void startModule() throws JawaBotException {
       bot.connectAndJoin();
    }
 
