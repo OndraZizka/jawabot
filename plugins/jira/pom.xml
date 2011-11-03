@@ -13,6 +13,7 @@
    <packaging>jar</packaging>
 
    <name>JawaBot 2.0 plugin jira</name>
+   <url>https://docspace.corp.redhat.com/clearspace/docs/DOC-20386</url>
 
    <parent>
       <groupId>org.jboss.jawabot</groupId>
@@ -25,14 +26,16 @@
       <resources>
          <resource>
             <directory>src/main/java</directory>
-            <includes> <include>**/*.xml</include> <include>**/*.properties</include> </includes>
+            <includes> <include>**/*</include> </includes>
+            <excludes><exclude>**/*.java</exclude></excludes>
          </resource>
       </resources>
 
       <testResources>
          <testResource>
             <directory>src/test/resources</directory>
-            <includes> <include>**/*.xml</include> <include>**/*.properties</include> </includes>
+            <includes> <include>**/*</include> </includes>
+            <excludes><exclude>**/*.java</exclude></excludes>
          </testResource>
       </testResources>
 
@@ -48,6 +51,19 @@
          <artifactId>JawaBot-irc</artifactId>
       </dependency>
       
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>net.sourceforge.htmlunit</groupId>
+         <artifactId>htmlunit</artifactId>
+         <scope>compile</scope>
+         <version>2.4</version>
+      </dependency>
+
    </dependencies>
    
 </project>
