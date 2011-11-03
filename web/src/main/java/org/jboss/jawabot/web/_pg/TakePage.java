@@ -1,8 +1,6 @@
 
 package org.jboss.jawabot.web._pg;
 
-
-
 import cz.dynawest.util.DateUtils;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,13 +39,17 @@ public class TakePage extends BaseLayoutPage
 
    // -- Form backing --
 
-   private List<CheckBoxWrap<Resource>> checks = new ArrayList();
    private ReservationWrap resv = new ReservationWrap("ozizka", new Date(), DateUtils.addDays( new Date(), 1 ), null);
+
+   //private List<CheckBoxWrap<Resource>> checks = new ArrayList();
+   private CheckBoxWrapList<Resource> checks = new CheckBoxWrapList();
+   
 
    // Note
    private String note;
    public String getNote() {      return note;   }
    public void setNote(String note) {      this.note = note;   }
+   
    
 
    // -- Const --
@@ -60,7 +62,8 @@ public class TakePage extends BaseLayoutPage
 
       
       // Free resources.
-      List<Resource> resources = JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName();
+      //List<Resource> resources = JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName();
+      CheckBoxWrapList<Resource> resources = new CheckBoxWrapList<Resource>( JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName() );
 
       final CheckGroup chgrp = new CheckGroup("chgrp", checks);
 
@@ -81,9 +84,11 @@ public class TakePage extends BaseLayoutPage
 
         .add( new TextField("note", new PropertyModel(this, "note")) )
         .add( chgrp
-           .add(new ListView<Resource>("freeResources", new ListModel( resources ) ) {
-              @Override protected void populateItem(ListItem<Resource> item) {
-                 String name = item.getModelObject().getName();
+           .add(new ListView<CheckBoxWrap<Resource>>("freeResources", new ListModel( resources ) ) 
+           {
+              @Override protected void populateItem(ListItem<CheckBoxWrap<Resource>> item)
+              {
+                 String name = item.getModelObject().getItem().getName();
                  item.add( new Check("check", item.getModel(), chgrp) )
                  .add( new Label("label", new PropertyModel(item.getModel(), "name") ));
               }
@@ -101,12 +106,47 @@ public class TakePage extends BaseLayoutPage
 
 
 // Wrapper for lists with CheckBoxes.
+
+// Wrapper for lists with CheckBoxes.
 class CheckBoxWrap<T extends Object> {
+
    private boolean checked;
    private T item;
+
+   public CheckBoxWrap( boolean checked, T item ) {
+      this.checked = checked;
+      this.item = item;
+   }
 
    public boolean isChecked() { return checked; }
    public void setChecked( boolean checked ) { this.checked = checked; }
    public T getItem() { return item; }
    public void setItem( T item ) { this.item = item; }
+}
+
+// Wrapper for lists with CheckBoxes.
+class CheckBoxWrapList<T extends Object> extends ArrayList<CheckBoxWrap<T>> {
+
+   public CheckBoxWrapList() {
+   }
+   
+   public CheckBoxWrapList( List<T> items ) {
+      this.doImport( items );
+   }
+   
+   public void doImport( List<T> items ){
+      for ( T item : items ) {
+         this.add( new CheckBoxWrap<T>( true, item ) );
+      }      
+   }
+   
+   public List<T> doExport(){
+      ArrayList checkedItems = new ArrayList();
+      for ( CheckBoxWrap<T> wrap : this ) {
+         if( wrap.isChecked() )
+            checkedItems.add( wrap.getItem() );
+      }
+      return checkedItems;
+   }
+   
 }
