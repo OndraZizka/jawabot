@@ -17,7 +17,6 @@
 package cz.dynawest.wicket;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -105,6 +104,12 @@ public class ListColumnGridDataProvider<T extends Serializable> extends  ListDat
 	public ListColumnGridDataProvider(List<T> list)
 	{
       super( list );
+	}
+   
+	public ListColumnGridDataProvider(List<T> list, int columns)
+	{
+      super( list );
+      this.columns = columns;
 	}
 
 	/**

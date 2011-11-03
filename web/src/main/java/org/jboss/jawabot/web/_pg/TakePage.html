@@ -5,10 +5,16 @@
 
 <wicket:extend>
 
-   <h2>Take resource</h2>
+   <h2>Take resources</h2>
 
    <form wicket:id="form" action="">
       
+      
+      <!-- Collisions -->
+      <table class="common" wicket:id="reservationResult">
+      </table>
+
+      <!-- Take form -->
       <table class="common">
          <tbody>
             <tr><td>User: </td> <td><input type="text" wicket:id="user" value="user" /></td></tr>
@@ -21,6 +27,7 @@
       <div  wicket:id="feedback" />
 
 
+      <!-- Resources with checkboxes -->
       <!--
       <ul wicket:id="chgrp">
          <li wicket:id="freeResources"><input type="checkbox" wicket:id="check"/> <label wicket:id="label">jawa01</label></li>

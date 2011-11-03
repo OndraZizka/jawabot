@@ -24,7 +24,6 @@ import org.jboss.jawabot.web._pg.test.ChessGridTestPage;
 import org.jboss.seam.wicket.SeamApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.jboss.weld.wicket.WeldApplication;
 
 
 /**
@@ -37,7 +36,6 @@ import org.slf4j.LoggerFactory;
 public class WicketApplication extends SeamApplication
 {
    static { LoggingUtils.setFormatOfAllAppenders(); }
-   //private static final Logger log = LoggerFactory.getLogger( WicketApplication.class );
    private static final Logger log = LoggerFactory.getLogger( WicketApplication.class );
    static { LoggingUtils.setFormatOfAllAppenders(); }
 

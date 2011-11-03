@@ -30,6 +30,7 @@ import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.state.ent.User;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
+import org.jboss.jawabot.web._co.ReservationListPanel;
 import org.jboss.jawabot.web._co.ReserveLinkPanel;
 import org.jboss.jawabot.web._co.ResourceLinkPanel;
 
@@ -95,6 +96,8 @@ public class HomePage extends BaseLayoutPage
      // Reservations.
      List<ReservationWrap> resvs = JawaBotApp.getJawaBot().getResourceManager().getReservations();
 
+     add( new ReservationListPanel("reservations", resvs) );
+     /*
      add(new ListView<ReservationWrap>("reservations", new ListModel<ReservationWrap>( resvs ) ) {
         @Override protected void populateItem(ListItem<ReservationWrap> item) {
            ReservationWrap res = item.getModelObject();
@@ -105,6 +108,7 @@ public class HomePage extends BaseLayoutPage
            item.add(new Label("note", "" ));
         }
      });
+      */
   }
 
 

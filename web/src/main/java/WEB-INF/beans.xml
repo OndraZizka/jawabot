@@ -7,11 +7,15 @@
           http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
     
     <weld:scan>
+       
+        <weld:include name="org.jboss.jawabot.**"/>
       
+        <!--
         <weld:exclude name="**" />
       
         <weld:include name="org.jboss.jawabot.web._co.**"/>
         <weld:include name="org.jboss.jawabot.web._pg.test.**"/>
+        -->
 
     </weld:scan>
     
