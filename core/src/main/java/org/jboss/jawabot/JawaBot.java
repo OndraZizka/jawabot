@@ -12,8 +12,6 @@ import org.apache.commons.io.FileUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.groupmgr.GroupManager;
-import org.jboss.jawabot.plugin.pastebin.IPasteBinManager;
-import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
 
 
 
@@ -54,14 +52,6 @@ public class JawaBot
    public GroupManager getGroupManager() { return groupManager; }
    public void setGroupManager(GroupManager groupManager) { this.groupManager = groupManager; }
       
-
-   // PasteBinManager
-   //private MemoryPasteBinManager pasteBinManager = new MemoryPasteBinManager();
-   @Inject private JpaPasteBinManager pasteBinManager;
-   public IPasteBinManager getPasteBinManager() { return pasteBinManager; }
-   
-   
-
 
 
 

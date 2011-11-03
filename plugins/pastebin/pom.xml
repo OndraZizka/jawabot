@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+
+   <groupId>org.jboss.jawabot</groupId>
+   <artifactId>JawaBot-plugin-pastebin</artifactId>
+   <packaging>jar</packaging>
+
+   <name>JawaBot 2.0 plugin pastebin</name>
+
+   <parent>
+      <groupId>org.jboss.jawabot</groupId>
+      <artifactId>JawaBot-plugins</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
+   </parent>
+
+   <build>
+
+      <resources>
+         <resource>
+            <directory>src/main/java</directory>
+            <includes> <include>**/*</include> </includes>
+            <excludes><exclude>**/*.java</exclude></excludes>
+         </resource>
+      </resources>
+
+      <testResources>
+         <testResource>
+            <directory>src/test/resources</directory>
+            <includes> <include>**/*</include> </includes>
+            <excludes><exclude>**/*.java</exclude></excludes>
+         </testResource>
+      </testResources>
+
+   </build>
+
+
+
+   <!-- Dependencies -->
+   <dependencies>
+
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-core</artifactId>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-irc</artifactId>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-web</artifactId>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-testbase</artifactId>
+         <version>${project.version}</version>
+         <scope>test</scope>
+      </dependency>
+      
+   </dependencies>
+   
+</project>

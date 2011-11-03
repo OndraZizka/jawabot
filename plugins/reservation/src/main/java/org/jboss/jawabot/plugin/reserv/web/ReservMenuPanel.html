@@ -6,9 +6,6 @@
 <wicket:panel>
    <ul id="menu" class="flat level0">
       
-      <!-- Account MenuBox -->
-      <li wicket:id="accountBox" class="level0 collapsed" />
-
       <!-- Actions -->
       <li class="level0 collapsed"><span>Actions</span>
          <ul class="flat level1">
@@ -25,32 +22,6 @@
             </wicket:container>
          </ul></li>
 
-      <!-- Groups 
-      <li class="level0 collapsed"><span>Groups</span>
-         <ul class="flat level1">
-            <wicket:container wicket:id="groupList">
-               <li><a wicket:id="link" href="/group/eap"><span xwicket:id="name">EAP</span></a></li>
-            </wicket:container>
-            <wicket:remove>
-               <li><a href="/groups/eap">SOA</a></li>
-               <li><a href="/groups/soa">JBDS</a></li>
-            </wicket:remove>
-         </ul></li>
-      -->
-
-      <!-- Pastebin -->
-      <li class="level0 collapsed"><span>Pastebin</span>
-         <ul class="flat level1">
-            <wicket:link><li><a href="/pastebin/new"><span>New paste</span></a></li></wicket:link>
-            <wicket:container wicket:id="pastebinList">
-               <li><a wicket:id="link" href="/pastebin/23"><span xwicket:id="name">PB-23</span></a></li>
-            </wicket:container>
-            <wicket:remove>
-               <li><a href="/pastebin/22">PB-22</a></li>
-               <li><a href="/pastebin/21">PB-21</a></li>
-               <li><a href="/pastebin/20">PB-20</a></li>
-            </wicket:remove>
-         </ul></li>
 
    </ul>
 </wicket:panel>

@@ -1,5 +1,5 @@
 
-package org.jboss.jawabot.web._pg;
+package org.jboss.jawabot.plugin.pastebin.web._pg;
 
 import cz.dynawest.util.DateUtils;
 import cz.dynawest.wicket.WMC;

@@ -1,5 +1,5 @@
 
-package org.jboss.jawabot.web._co;
+package org.jboss.jawabot.plugin.pastebin.web._co;
 
 import cz.dynawest.util.DateUtils;
 import org.apache.wicket.markup.html.basic.Label;
@@ -8,7 +8,7 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
-import org.jboss.jawabot.web._pg.PasteBinShowPage;
+import org.jboss.jawabot.plugin.pastebin.web._pg.PasteBinShowPage;
 
 /**
  *  

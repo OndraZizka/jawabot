@@ -4,9 +4,7 @@ import java.util.Set;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import org.jboss.jawabot.web._pg.LoginPage;
-import org.jboss.jawabot.web._pg.PasteBinShowPage;
 import org.jboss.jawabot.web._pg.HomePage;
-import org.jboss.jawabot.web._pg.PasteBinPage;
 import cz.dynawest.wicket.NonVersionedHybridUrlCodingStrategy;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,8 +65,6 @@ public class WicketApplication extends InjectingSeamApplication
       System.out.println("----  Wicket init() ----");
       
       mountBookmarkablePage("group", GroupPage.class);
-      mountBookmarkablePage("pastebin/new", PasteBinPage.class);
-      mount(new NonVersionedHybridUrlCodingStrategy("pastebin", PasteBinShowPage.class));
       
       //mountBookmarkablePage("login", LoginPage.class);
       //mount(new NonVersionedHybridUrlCodingStrategy("login", LoginPage.class));

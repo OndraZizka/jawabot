@@ -38,8 +38,6 @@ public class ReservMenuPanel extends Panel {
     protected void onInitialize() {
         super.onInitialize();
 
-
-
         // Resources.
 
         //List<Resource> resources = ((ConveniencePageBase)getPage()).getJawaBot().getResourceManager().getResourcesWithNoReservations();
