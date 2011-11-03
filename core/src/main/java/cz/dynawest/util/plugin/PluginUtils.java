@@ -43,7 +43,7 @@ public class PluginUtils {
     * 
     *  COPIED from JawaBotApp, perhaps refactor to reuse the code somehow?
     */
-   private void initAndStartModules( String[] moduleNames, Object initObj ) throws PluginEx {
+   public static void initAndStartModules( String[] moduleNames, Object initObj ) throws PluginEx {
 
       IPluginLifeCycle[] moduleHooks = new IPluginLifeCycle[moduleNames.length];
 
