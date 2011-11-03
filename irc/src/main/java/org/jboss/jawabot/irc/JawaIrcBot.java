@@ -52,10 +52,14 @@ public class JawaIrcBot extends PircBot
    public boolean isInitialized() {      return initialized;   }
 
    // Plugin instances "placeholder".
+   // TODO:  Change somehow to Weld.instance() or such and move to the method.
    @Inject private Instance<IIrcPluginHook> pluginHookInstances;
 
    /** Plugins map */
    private SortedMap<String, IIrcPluginHook> pluginsByClass = new TreeMap();
+   
+   /** Plugins list */
+   private List<IIrcPluginHook> plugins;
    
    //private ConfigBean config;
    public ConfigBean getConfig() {      return this.getJawaBot().getConfig();   }
@@ -99,7 +103,7 @@ public class JawaIrcBot extends PircBot
       this.commandHandler = new CommandHandlerImpl(this);
       
       //this.initAndStartPlugins();
-      CdiPluginUtils.initAndStartPlugins( this.pluginHookInstances, JawaBotApp.getJawaBot(), JawaBotException.class );
+      this.plugins = CdiPluginUtils.initAndStartPlugins( this.pluginHookInstances, JawaBotApp.getJawaBot(), JawaBotException.class );
       
       this.initialized = true;
 	}
@@ -307,14 +311,15 @@ public class JawaIrcBot extends PircBot
          IrcMessage msg = new IrcMessage("not.supported.yet", sender, channel, msgText, new Date());
          
          // Pass it to the IRC plugins.
-         for ( Entry<String, IIrcPluginHook> entry : this.pluginsByClass.entrySet() ) {
+         //for ( Entry<String, IIrcPluginHook> entry : this.pluginsByClass.entrySet() ) {
+         for( IIrcPluginHook plugin : this.plugins ) {
             try {
-               entry.getValue().onMessage( msg );
+               plugin.onMessage( msg );
             }
+            // TODO: Filter repeated exceptions.
             //catch( IrcPluginException ex ) {
             catch( NullPointerException ex ) {
                log.error( "Plugin misbehaved: " + ex, ex );
-               // TODO: Filter same exceptions.
             }
             catch( Throwable ex ) {
                if( System.getProperty("bot.irc.plugins.printStackTraces") != null )

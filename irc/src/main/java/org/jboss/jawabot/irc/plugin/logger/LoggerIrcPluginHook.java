@@ -5,6 +5,7 @@ import javax.persistence.EntityManager;
 import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.model.IrcMessage;
+import org.jboss.weld.environment.se.jpa.JpaTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +21,7 @@ public class LoggerIrcPluginHook implements IIrcPluginHook<Object> {
    
    
    @Override
+   @JpaTransactional
    public void onMessage(IrcMessage message) throws IrcPluginException {
       log.info(" IRC message: " + message);
       log.info(" em: " + em);

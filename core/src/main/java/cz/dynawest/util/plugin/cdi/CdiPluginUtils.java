@@ -18,7 +18,7 @@ public class CdiPluginUtils {
     *  Initialization of all available plugins.
     */
    public static <TPlugin extends IPluginLifeCycle, TEx extends Exception> 
-           void initAndStartPlugins( Instance<TPlugin> pluginHookInstances, Object initObject, Class<TEx> exCls ) throws TEx {
+           List<TPlugin> initAndStartPlugins( Instance<TPlugin> pluginHookInstances, Object initObject, Class<TEx> exCls ) throws TEx {
 
       
       // For listing of init errors.
@@ -56,6 +56,8 @@ public class CdiPluginUtils {
       }
       
       PluginUtils.throwFormattedExceptionIfNeeded( exs, errModules, exCls );
+      
+      return pluginHooks_initOk;
       
    }// initAndStartPlugins()
    
