@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.plugin.jira.config.beans.ProjectBean;
 import org.jboss.jawabot.plugin.jira.config.beans.RepositoryBean;
 
@@ -23,7 +23,7 @@ import org.jboss.jawabot.plugin.jira.config.beans.RepositoryBean;
  */
 public class RepositoriesManager
 {
-   private static final Logger log = Logger.getLogger( RepositoriesManager.class );
+   private static final Logger log = LoggerFactory.getLogger( RepositoriesManager.class );
 
 
    // TODO: ignored prefixes, evt. account information.

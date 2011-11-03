@@ -1,7 +1,7 @@
 
 package org.jboss.jawabot.plugin.jira.scrapers;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 
 /**
  *
@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
  */
 public class ScrapersManager
 {
-   private static final Logger log = Logger.getLogger( ScrapersManager.class );
+   private static final Logger log = LoggerFactory.getLogger( ScrapersManager.class );
 
 
     // -- SCRAPERS -- //

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 
 
 /**
@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  */
 public class TimeoutCache<TCachedItem>
 {
-   private static final Logger log = Logger.getLogger( TimeoutCache.class );
+   private static final Logger log = LoggerFactory.getLogger( TimeoutCache.class );
 
 
 	// Please keep it low, Jiras change frequently... and loading it is not so expensive.
