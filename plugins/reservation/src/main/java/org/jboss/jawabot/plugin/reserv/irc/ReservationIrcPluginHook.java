@@ -1,6 +1,5 @@
 package org.jboss.jawabot.plugin.reserv.irc;
 
-import java.util.logging.Level;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.jboss.jawabot.irc.IIrcPluginHook;
@@ -45,22 +44,24 @@ public class ReservationIrcPluginHook extends IrcPluginHookBase implements IIrcP
     private ConfigBean appConfig;
 
     
-    @Inject ReservService reservService;
+    @Inject private ReservService reservService;
     
-    @Inject ReservationCommandHandler commandHandler;
+    @Inject private ReservationCommandHandler commandHandler;
     
-    @Inject MailUtils mailUtils;
+    //@Inject private MailUtils mailUtils;
         
         
 
     @Override
     public void initModule( Object initObject ) throws JawaBotException {
+        log.debug("Initializing...");
         if( ! ( initObject instanceof JawaBot ) )
             throw new JawaBotException("Expected JawaBot as initObject, got: " + initObject.getClass() );
         JawaBot jawaBot = (JawaBot) initObject;
         this.appConfig = jawaBot.getConfig();
         //this.config = this.loadConfig( appConfig.plugins.get("reserv") );
-        this.config = this.loadConfig( "..." ); // TODO!
+        //this.config = this.loadConfig( "..." ); // TODO!
+        this.config = this.reservService.getConfig();
     }
     
     private ReservPluginConfigBean loadConfig( String path ){
@@ -108,8 +109,7 @@ public class ReservationIrcPluginHook extends IrcPluginHookBase implements IIrcP
 
     @Override
     public void onPrivateMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
-        
-        
+        // TODO
     }
     
     
@@ -241,7 +241,7 @@ public class ReservationIrcPluginHook extends IrcPluginHookBase implements IIrcP
             // Send mail announcements.
             for( MailData mail : reply.mailAnnouncements ) {
                 try {
-                    trySendMail( mail, ctx.fromUserNorm, ctx.fromChannel );
+                    reservService.trySendMail( mail, ctx.fromUserNorm, ctx.fromChannel );
                 }
                 catch( JawaBotException ex ) {
                     log.error(" Sending mail failed: " + ex, ex);
@@ -284,93 +284,6 @@ public class ReservationIrcPluginHook extends IrcPluginHookBase implements IIrcP
     }// handleJiraBotCommand()
 
 
-
-
-
-
-   
-   
-    /**
-     * Sends an announcement mail to a mailing list (currently jboss-qa-brno).
-     * @deprecated in favor of #announceTakeOnMailingList( ReservationsBookingResult bookingResult, String customComment)
-     */
-    private void announceTakeOnMailingList(Resource resource, ReservationWrap reservation, String customComment) throws JawaBotException {
-        ReservPluginConfigBean cnf = this.getConfig();
-        String subject = ReservUtils.formatReservationInfoLine(resource.getName(), reservation);
-        trySendMail( new MailData(subject, customComment), reservation.getForUser(), cnf.settings.announceDefaultChannel );
-    }
-
-    /**
-     * Sends an announcement mail to a mailing list.
-     * @deprecated  in favor of CommandHandlerImpl.createTakeAnnouncementMail() .
-     */
-    private void announceTakeOnMailingList( ReservationsBookingResult bookingResult, String customComment ) throws JawaBotException {
-        ReservPluginConfigBean cnf = this.getConfig();
-        String subject = ReservUtils.formatReservationInfoLine( bookingResult );
-
-        // Message body.
-
-        // Custom comment.
-        StringBuilder sb = new StringBuilder();
-        if( null != customComment ) {
-            sb.append( customComment ).append( "\n" );
-        }
-
-        // List the reservations.
-        if( bookingResult.resultingReservations.size() > 1 ) {
-            for( ReservationWrap resvWrap : bookingResult.resultingReservations ) {
-                sb.append( ReservUtils.formatReservationInfoLine( resvWrap.resourceName, resvWrap ) );
-                sb.append( "\n" );
-            }
-        }
-
-        String messageBody = sb.toString();
-
-        trySendMail( new MailData(subject, messageBody), bookingResult.claimedResv.getForUser(), cnf.settings.announceDefaultChannel );
-    }
-
-
-
-    /**
-     * Tries to send a mail; eventual failure is announced on the given channel.
-     */
-    private void trySendMail( MailData mail, String fromUser, String fallbackErrorMsgChannel ) throws JawaBotException {
-        try {
-            // Send the mail announcement.
-            sendMail( fromUser, mail );
-        }
-        catch( JawaBotException ex ) {
-            String excMessage = ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage();
-            String reply = excMessage; //"Unable to send announcement email: "+excMessage;
-            log.error( reply );
-            //bot.sendMessage( fallbackErrorMsgChannel, reply);
-            throw new JawaBotException( reply );
-        }
-    }
-
-
-    /**
-     * Sends a mail announcement about user's action.
-     */
-    private void sendMail( String fromUser, MailData mail ) throws JawaBotException {
-
-        ReservPluginConfigBean cnf = this.getConfig();
-
-        log.debug( String.format( "Sending mail: host %s, to %s, from %s <%s>",
-            cnf.settings.smtpHost,
-            cnf.settings.announceEmailTo,
-            fromUser,
-            cnf.settings.announceEmailFrom ) );
-
-        String messageBody = (StringUtils.isBlank( mail.messageBody ) ? "" : mail.messageBody + "\n\n");
-        messageBody += "Possible sender's e-mail: " + fromUser + "@redhat.com\nThis message was "
-            + "generated by JawaBot " + JawaBotApp.VERSION + ".\n" + JawaBotApp.PROJECT_DOC_URL;
-        mail.messageBody = messageBody;
-        mail.fromName = fromUser + " via JawaBot";
-
-        new MailUtils(null).sendMail( mail );
-
-    }
 
 
     private ReservPluginConfigBean getConfig() {

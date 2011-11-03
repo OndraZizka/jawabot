@@ -6,7 +6,10 @@
       announceEmailTo = "ozizka@redhat.com"
       announceEmailFrom = "jawabot-no-reply@redhat.com"
       announceDefaultChannel = "#some"
+      
+      stateFilePath = "conf/JawaBotState.xml"
    />
+   <!-- State will be persisted to a DB later. -->
 
 
    <resources>
@@ -44,7 +47,8 @@
    </resources>
 
    <resourceGroups>
-      <group name="brno" channel="#jboss-qa-brno" mail="jboss-qa-brno@redhat.com"> jawa01 jawa02 jawa03 jawa04 jawa05 jawa06 jawa07 jawa08 jawa09 jawa10 jawa11 jawa12 jawa13 jawa14 jawa15 jawa16 jawa17 jawa18 jawa19 jawa20 jawa21 jawa22 jawa23 jawa24 jawa25 jawa26 jawa27 jawa28 jawa29 xen19 xen64</group>
+      <group name="brno" channel="#jboss-qa-brno" mail="jboss-qa-brno@redhat.com"
+      > jawa01 jawa02 jawa03 jawa04 jawa05 jawa06 jawa07 jawa08 jawa09 jawa10 jawa11 jawa12 jawa13 jawa14 jawa15 jawa16 jawa17 jawa18 jawa19 jawa20 jawa21 jawa22 jawa23 jawa24 jawa25 jawa26 jawa27 jawa28 jawa29 xen19 xen64</group>
 
       <group name="eap">jawa01 jawa02 jawa03 jawa04</group>
       <group name="soa">jawa06 jawa07 jawa08 jawa09</group>

@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.plugin.reserv.bus.ReservUtils;
 import org.jboss.jawabot.MailData;
 import org.jboss.jawabot.ex.JawaBotException;
+import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.irc.CommandContext;
 import org.jboss.jawabot.irc.CommandReply;
 import org.jboss.jawabot.plugin.reserv.bus.ReservService;
@@ -152,6 +153,11 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
             }
             
             reply.wasSuccessful = true;
+         }
+         catch( UnknownResourceException ex ) {
+            reply.addReply( ex.getMessage() );
+            log.debug( "Unknown resource to 'take': "+ex );
+            break;
          }
          catch( JawaBotException ex ) {
             reply.addReply( ex.getMessage() );

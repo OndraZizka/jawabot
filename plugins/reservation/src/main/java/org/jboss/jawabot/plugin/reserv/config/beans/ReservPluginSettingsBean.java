@@ -14,5 +14,8 @@ public class ReservPluginSettingsBean implements Serializable {
     @XmlAttribute public String announceEmailTo = "jboss-qa-brno@redhat.com";
     @XmlAttribute public String announceEmailFrom = "jawabot-no-reply@redhat.com";
     @XmlAttribute public String announceDefaultChannel = "#jbosssoaqa";
+    
+    
+    @XmlAttribute public String stateFilePath = "JawaBotState.xml";
 
 }// class

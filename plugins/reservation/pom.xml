@@ -2,27 +2,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-   <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-   </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-   <groupId>org.jboss.jawabot</groupId>
-   <artifactId>JawaBot-plugin-reservation</artifactId>
-   <packaging>jar</packaging>
+    <groupId>org.jboss.jawabot</groupId>
+    <artifactId>JawaBot-plugin-reservation</artifactId>
+    <packaging>jar</packaging>
    
-   <description>This plugin does the original JawaBot's job - reservation of jawa machines in BRQ QA lab :-)</description>
+    <description>This plugin does the original JawaBot's job - reservation of jawa machines in BRQ QA lab :-)</description>
 
-   <name>JawaBot 2.0 plugin reservation</name>
+    <name>JawaBot 2.0 plugin reservation</name>
 
-   <parent>
-      <groupId>org.jboss.jawabot</groupId>
-      <artifactId>JawaBot-plugins</artifactId>
-      <version>2.0.0-SNAPSHOT</version>
-   </parent>
+    <parent>
+        <groupId>org.jboss.jawabot</groupId>
+        <artifactId>JawaBot-plugins</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
 
-   <build>
+    <build>
 
       <resources>
          <resource>
@@ -40,37 +40,54 @@
             <directory>src/test/resources</directory>
          </testResource>
       </testResources>
-
-   </build>
-
-
-
-   <!-- Dependencies -->
-   <dependencies>
-
-      <dependency>
-         <groupId>org.jboss.jawabot</groupId>
-         <artifactId>JawaBot-core</artifactId>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.jawabot</groupId>
-         <artifactId>JawaBot-irc</artifactId>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.jawabot</groupId>
-         <artifactId>JawaBot-web</artifactId>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.jawabot</groupId>
-         <artifactId>JawaBot-testbase</artifactId>
-         <version>${project.version}</version>
-         <scope>test</scope>
-      </dependency>
       
       
-   </dependencies>
+        <plugins>
+            <plugin> <artifactId>maven-antrun-plugin</artifactId>
+                <executions> <execution> <phase>compile</phase>  <goals><goal>run</goal></goals> <configuration> <tasks>
+                    <!-- For running in NetBeans. -->
+                    <copy todir="workdir/conf">
+                        <fileset dir="conf" includes="**"/>
+                    </copy>
+                    <!-- For tests. -->
+                    <copy todir="target/workdir/conf">
+                        <fileset dir="conf" includes="**"/>
+                    </copy>
+                </tasks> </configuration> </execution> </executions>
+            </plugin>
+        </plugins>
+
+
+    </build>
+
+
+
+    <!-- Dependencies -->
+    <dependencies>
+
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-core</artifactId>
+        </dependency>
+      
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-irc</artifactId>
+        </dependency>
+      
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-web</artifactId>
+        </dependency>
+      
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-testbase</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+      
+      
+    </dependencies>
    
 </project>

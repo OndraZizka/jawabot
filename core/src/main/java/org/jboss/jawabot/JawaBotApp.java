@@ -53,7 +53,9 @@ public class JawaBotApp
 
     // JawaBot instance reference.
     private static JawaBot jawaBot;
-    @Produces public static JawaBot getJawaBot() { return jawaBot; }
+    @Produces public static JawaBot getJawaBot() {
+        return jawaBot;
+    }
 
    
     // UserManager instance. Read-only, no need to sync.
@@ -91,8 +93,8 @@ public class JawaBotApp
          JawaBotApp.jawaBot = JawaBot.create( cb );
          
          // TODO: Move to JawaBot.
-         CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, JawaBotApp.getJawaBot(), JawaBotException.class);
-         JawaBotApp.getJawaBot().waitForShutdown();
+         CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, JawaBotApp.jawaBot, JawaBotException.class);
+         JawaBotApp.jawaBot.waitForShutdown();
       } catch ( JawaBotException ex ) {
          log.error( "Error during JawaBot initialization", ex );
       }

@@ -31,11 +31,11 @@ public class MailUtils {
     */
    public void sendMail( MailData mail ) throws JawaBotException {
 
-      log.debug( String.format("Sending mail: host %s, to %s, from <%s>",
-			config.settings.smtpHost,
-			config.settings.announceEmailTo,
-			config.settings.announceEmailFrom
-      ) );
+        log.debug( String.format("Sending mail: host %s, to %s, from <%s>",
+            config.settings.smtpHost,
+            config.settings.announceEmailTo,
+            config.settings.announceEmailFrom
+        ) );
 
 		try {
 			SimpleEmail email = new SimpleEmail();

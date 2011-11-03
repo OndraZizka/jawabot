@@ -33,11 +33,13 @@ public class JawaBot
    
 
    @Produces @FromJawaBot
-   public ConfigBean getConfig() {      return config;   }
+   public ConfigBean getConfig() {
+       return config;
+   }
    private ConfigBean config;
 
    private final MailUtils mailUtils = new MailUtils( this.config );
-   @Produces /*@FromJawaBot*/ public MailUtils getMailUtils() { return this.mailUtils; }
+   @Produces @FromJawaBot public MailUtils getMailUtils() { return this.mailUtils; }
 
    private boolean initialized = false;
    public boolean isInitialized() {      return initialized;   }
@@ -63,15 +65,17 @@ public class JawaBot
     * Creates the bot, loads the configuration, initializes and returns the bot.
     */
    public static JawaBot create( ConfigBean cb ) throws JawaBotException {
-      JawaBot bot = new JawaBot();
+      log.debug("Creating JawaBot.");
+      JawaBot bot = new JawaBot(0);
       bot.applyConfig(cb);
       bot.init();
       return bot;
    }
 	
 
-	/** Const */
-	public JawaBot() {
+	/** Const - to prevent instantiation from CDI. */
+	private JawaBot( int a ) {
+        log.debug("Constructing JawaBot.");
 	}
 
 
