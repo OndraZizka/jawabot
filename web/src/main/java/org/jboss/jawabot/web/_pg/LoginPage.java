@@ -4,6 +4,7 @@ package org.jboss.jawabot.web._pg;
 
 import java.io.Serializable;
 import java.util.logging.*;
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
@@ -22,6 +23,9 @@ import org.jboss.jawabot.web._base.BaseLayoutPage;
 public class LoginPage extends BaseLayoutPage
 {
   private static final Logger log = Logger.getLogger( HomePage.class.getName() );
+  
+  
+  public static final String PARAM_LOGOUT = "logout";
 
 
   private UserLoginInfo userLoginInfo = new UserLoginInfo();
@@ -37,6 +41,14 @@ public class LoginPage extends BaseLayoutPage
   public LoginPage( PageParameters parameters ) {
      super(parameters);
      //setVersioned(false);
+     
+     
+     // Logout
+     if( parameters.getString(PARAM_LOGOUT) != null ){
+        this.getSession().logout();
+     }
+        
+        
 
      form = (Form) new Form("loginForm"){
 
@@ -45,8 +57,12 @@ public class LoginPage extends BaseLayoutPage
          }
 
          @Override protected void onValidate() {
-            //log.info( "LoginPage: onValidate" );
-            //log.info("Pass1: "+tfPass.getValue());
+            log.info( "LoginPage: onValidate" );
+            log.info("Pass1: "+tfPass.getValue());
+            
+            if( ! tfPass.getValue().equals( tfUser.getValue() ) )
+               tfPass.error("Wrong password." + tfPass.getValue() +  " / " +  tfUser.getValue() );
+            
          }
      };
 
@@ -54,15 +70,16 @@ public class LoginPage extends BaseLayoutPage
      form.add( new FeedbackPanel("feedback") );
      form.add( tfUser = (TextField)         new TextField("user", new PropertyModel(this.userLoginInfo, "user")).setRequired(true));
      form.add( tfPass = (PasswordTextField) new PasswordTextField("pass", new PropertyModel(this.userLoginInfo, "pass")).setRequired(true));
+     
+     // Validation.
      form.add( new AbstractFormValidator() {
          @Override public FormComponent<?>[] getDependentFormComponents() {
             return new FormComponent[]{tfUser, tfPass};
          }
          @Override public void validate(Form<?> form) {
-            //log.info("Pass2: "+tfPass.getValue());
-            if( ! "foo".equals( tfPass.getValue() ) )
+            if( ! tfUser.getValue().equals( tfPass.getValue() ) )
                this.error(tfPass, "wrongPassword");
-            // TODO: Real password validation.
+            // TODO: Use some service which queries IRC, then falls back to DB check or such.
          }
      });
      

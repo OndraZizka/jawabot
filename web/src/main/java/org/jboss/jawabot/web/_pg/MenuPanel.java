@@ -19,6 +19,8 @@ import org.jboss.jawabot.web.JawaBotSession;
 import org.jboss.jawabot.web._co.GroupLinkPanel;
 import org.jboss.jawabot.web._co.PastebinLinkPanel;
 import org.jboss.jawabot.web._co.ResourceLinkPanel;
+import org.jboss.jawabot.web._co.menu.AccountBoxPanel;
+import org.jboss.jawabot.web._co.menu.MenuBoxPanel;
 
 
 /**
@@ -38,6 +40,9 @@ public class MenuPanel extends Panel
    @Override
    protected void onInitialize() {
       super.onInitialize();
+      
+      // User box - MenuBox test.
+      add( new MenuBoxPanel( "accountBox", "Account", new AccountBoxPanel("content") ) );
 
       // User box.
       add( new WebMarkupContainer("userNotLogged"){

@@ -19,6 +19,14 @@ public class JawaBotSession extends WebSession
    private String loggedUser;
    public String getLoggedUser() {      return loggedUser;   }
    public void setLoggedUser(String loggedUser) {      this.loggedUser = loggedUser;   }
+   
+   public void logout(){
+      this.setLoggedUser(null);
+   }
+   
+   public boolean isUserLogged(){
+      return this.loggedUser != null;
+   }
 
    
    public JawaBotSession(Request request) {

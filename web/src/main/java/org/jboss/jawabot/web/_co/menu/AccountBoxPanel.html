@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="cz" lang="cz">
+<head/>
+<body>
+
+<wicket:panel>
+   
+         <!-- Login -->
+         <ul class="flat level1">
+            <wicket:link>
+               <wicket:container wicket:id="userNotLogged">
+                  <li><a href="/login">Login</a></li>
+                  <!--<li><a href="/register">Register</a></li>-->
+               </wicket:container>
+               <wicket:container wicket:id="userLogged">
+                  <li wicket:id="loggedUser">ozizka</li>
+                  <li><a href="/login?logout">Logout</a></li>
+               </wicket:container>
+            </wicket:link>
+         </ul>
+
+</wicket:panel>
+
+</body>
+</html>
