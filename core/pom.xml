@@ -98,12 +98,32 @@
       -->
 
       <!-- Playing with CDI in a Standalone app. -->
+      <!-- Replacing this bundle with bunch of artifacts: http://seamframework.org/Community/WeldSEAndSlf4j
       <dependency>
          <groupId>org.jboss.weld.se</groupId>
          <artifactId>weld-se</artifactId>
          <version>1.1.1.Final</version>
          <type>jar</type>
       </dependency>
+      -->
+      <dependency>
+         <groupId>org.jboss.weld.se</groupId>
+         <artifactId>weld-se-core</artifactId>
+         <version>1.1.1.Final</version>
+      </dependency>
+      <!-- weld-se-core brings these.
+      <dependency>
+         <groupId>org.jboss.weld</groupId>
+         <artifactId>weld-core</artifactId>
+         <version>1.1.1.Final</version>
+      </dependency>
+      <dependency>
+         <groupId>org.javassist</groupId>
+         <artifactId>javassist</artifactId>
+         <version>3.14.0-GA</version>
+      </dependency>
+      -->
+
         
       <!-- Hibernate -->
       <!--<dependency>
