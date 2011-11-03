@@ -194,7 +194,7 @@ public class JawaIrcBot extends PircBot
                this.intentionalDisconnect = false;
                this.connect( server.host );
                // Wait for potential "ERROR :Trying to reconnect too fast."
-               log.info("Waiting for " + (delaySec += 4) + " seconds..." );
+               log.info("Waiting " + (delaySec += 4) + " seconds for potential \"ERROR :Trying to reconnect too fast.\"");
                Thread.sleep( delaySec * 1000 );
                
                if( this.isConnected() ){
@@ -203,8 +203,7 @@ public class JawaIrcBot extends PircBot
                }
             }catch( NickAlreadyInUseException ex ){
                log.warn("Nick already in use. Waiting few seconds. ");
-               Thread.sleep(2000); // ERROR :Trying to reconnect too fast.
-               Thread.sleep(3000);
+               Thread.sleep(5000);
                nickToTry = cnf.irc.defaultNick + "-" + i;
                //log.info("Changing nick to '"+nickToTry+"'...");
                //this.changeNick(nickToTry);
