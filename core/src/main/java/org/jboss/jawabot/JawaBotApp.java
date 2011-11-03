@@ -1,14 +1,9 @@
 package org.jboss.jawabot;
 
-import cz.dynawest.util.plugin.PluginLoadEx;
-import cz.dynawest.util.plugin.PluginUtils;
 import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
-import java.util.ArrayList;
-import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.jboss.jawabot.config.beans.ConfigBean;
