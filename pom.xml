@@ -22,6 +22,7 @@
       <!--<module>assem-onejar</module>-->
       <!--<module>assem-zip</module>-->
       <module>assem-appassemble</module>
+      <module>testbase</module>
    </modules>
 
    
@@ -62,17 +63,17 @@
 
    <!-- Dependencies -->
    <dependencies>
+      
+
 
       <!-- Commons -->
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
-        <version>2.6</version>
       </dependency>
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.0.1</version>
       </dependency>
       
 
@@ -108,6 +109,12 @@
            <groupId>commons-lang</groupId>
            <artifactId>commons-lang</artifactId>
            <version>2.6</version>
+         </dependency>
+      
+         <dependency>
+           <groupId>commons-io</groupId>
+           <artifactId>commons-io</artifactId>
+           <version>2.0.1</version>
          </dependency>
       
          <!-- Slf4j -->

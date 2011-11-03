@@ -70,7 +70,7 @@
    
    <!-- TODO: Not used yet. Will probably point to other file. -->
    <plugins>
-      <plugin name="reservation"></plugin>
+      <plugin name="reservation" config="JawaBotConfig-plugin-reservation.xml"></plugin>
       <plugin name="jira"></plugin>
       <plugin name="logger">
          <settings

@@ -1,9 +1,6 @@
 package org.jboss.jawabot.irc;
 
-import java.util.Arrays;
-import java.util.List;
 import org.jboss.jawabot.irc.ent.IrcEvent;
-import org.jibble.pircbot.PircBot;
 import org.jibble.pircbot.User;
 
 /**
@@ -201,6 +198,11 @@ public class IrcBotProxy {
 
     public final String getLogin() {
         return jawaIrcBot.getLogin();
+    }
+
+
+    public void sendDebugMessage( String msg ) {
+        jawaIrcBot.sendDebugMessage( msg );
     }
 
 }// class

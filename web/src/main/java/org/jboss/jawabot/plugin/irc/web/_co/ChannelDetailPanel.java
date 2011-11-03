@@ -1,7 +1,6 @@
 
 package org.jboss.jawabot.plugin.irc.web._co;
 
-import cz.dynawest.util.DateUtils;
 import java.util.List;
 import javax.inject.Inject;
 import org.apache.wicket.markup.html.basic.Label;
@@ -10,9 +9,6 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
-import org.jboss.jawabot.JawaBotApp;
-import org.jboss.jawabot.ReservationWrap;
-import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.plugin.irc.Channel;
 import org.jboss.jawabot.plugin.irc.ChannelManager;
 import org.slf4j.Logger;
@@ -26,7 +22,9 @@ import org.slf4j.LoggerFactory;
 public class ChannelDetailPanel extends Panel {
    private static final Logger log = LoggerFactory.getLogger( ChannelDetailPanel.class );
    
+   
    @Inject private ChannelManager channelManager;
+   
    
    public ChannelDetailPanel( String id, final String name ) {
       super( id );
@@ -38,10 +36,6 @@ public class ChannelDetailPanel extends Panel {
    }
 
    
-   private Resource getResource(){
-      return (Resource) getDefaultModelObject();
-   }
-
    
    @Override
    protected void onInitialize() {

@@ -5,11 +5,8 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import org.jboss.jawabot.web._pg.LoginPage;
 import org.jboss.jawabot.web._pg.PasteBinShowPage;
-import org.jboss.jawabot.web._pg.LeavePage;
-import org.jboss.jawabot.web._pg.ResourcePage;
 import org.jboss.jawabot.web._pg.HomePage;
 import org.jboss.jawabot.web._pg.PasteBinPage;
-import org.jboss.jawabot.web._pg.TakePage;
 import cz.dynawest.wicket.NonVersionedHybridUrlCodingStrategy;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +16,6 @@ import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
 import org.apache.wicket.devutils.inspector.InspectorPage;
-import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
 import org.jboss.jawabot.mod.web.IPageMount;
 import org.jboss.jawabot.mod.web.MountProxy;
@@ -69,12 +65,8 @@ public class WicketApplication extends InjectingSeamApplication
    @Override
    protected void init() {
       System.out.println("----  Wicket init() ----");
-      //mountBookmarkablePage("res",  ResourcesPage.class);
-      //mountBookmarkablePage("res/",  ResourcePage.class);
-      mount(new MixedParamHybridUrlCodingStrategy("res", ResourcePage.class, new String[]{"name"}));
+      
       mountBookmarkablePage("group", GroupPage.class);
-      mountBookmarkablePage("take",  TakePage.class);
-      mountBookmarkablePage("leave", LeavePage.class);
       mountBookmarkablePage("pastebin/new", PasteBinPage.class);
       mount(new NonVersionedHybridUrlCodingStrategy("pastebin", PasteBinShowPage.class));
       

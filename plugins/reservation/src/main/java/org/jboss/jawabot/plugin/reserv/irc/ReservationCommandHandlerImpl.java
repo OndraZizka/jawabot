@@ -2,25 +2,23 @@
 package org.jboss.jawabot.plugin.reserv.irc;
 
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javax.inject.Inject;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.jawabot.JawaBot;
-import org.jboss.jawabot.JawaBotUtils;
+import org.jboss.jawabot.plugin.reserv.bus.ReservUtils;
 import org.jboss.jawabot.MailData;
-import org.jboss.jawabot.JawaBotApp;
-import org.jboss.jawabot.Reservation;
-import org.jboss.jawabot.ReservationWrap;
-import org.jboss.jawabot.Resource;
-import org.jboss.jawabot.ResourceManager;
-import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.jboss.jawabot.irc.CommandContext;
 import org.jboss.jawabot.irc.CommandReply;
-import org.jboss.jawabot.irc.JawaIrcBot;
+import org.jboss.jawabot.plugin.reserv.bus.ReservService;
+import org.jboss.jawabot.plugin.reserv.bus.Reservation;
+import org.jboss.jawabot.plugin.reserv.bus.ReservationWrap;
+import org.jboss.jawabot.plugin.reserv.bus.Resource;
+import org.jboss.jawabot.plugin.reserv.bus.ResourceManager;
+import org.jboss.jawabot.plugin.reserv.bus.ResourceManager.ReservationsBookingResult;
 
 /**
  *  Handles received text commands, using CommandContext as input 
@@ -38,21 +36,10 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
    private static final Logger log = LoggerFactory.getLogger( ReservationCommandHandlerImpl.class );
 
    
-   
-   private JawaIrcBot ircBot;
-
-   public JawaIrcBot getIrcBot() { return ircBot; }
-   private JawaBot getJawaBot() { return ircBot.getJawaBot(); }
+   @Inject ResourceManager resourceManager;
+   @Inject ReservService   reservService;
    
    
-
-   
-   /** Const */
-   public ReservationCommandHandlerImpl( JawaIrcBot bot ) {
-      this.ircBot = bot;
-   }
-
-
 
    /**
     *  Take command - user asks for resource(s) for certain period.
@@ -64,7 +51,7 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
       
       CommandReply reply = new CommandReply();
 
-      ResourceManager resourceManager = this.getJawaBot().getResourceManager();
+      //ResourceManager resourceManager = this.getJawaBot().getResourceManager();
 
       do {
 
@@ -116,7 +103,7 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
             // Collision with another reservation.
             if( bookingResult.type == ReservationWrap.Type.COLLISION ){
                for( ReservationWrap resvWrap : bookingResult.resultingReservations ){
-                  String twoDatesStr = JawaBotUtils.formatTwoDatesString( resvWrap.getFrom(), resvWrap.getTo(), false);
+                  String twoDatesStr = ReservUtils.formatTwoDatesString( resvWrap.getFrom(), resvWrap.getTo(), false);
                   // Reservation collision!  jawa18 is reserved for ozizka from 2009-11-09 to 2009-11-15.
                   String msg = String.format("Reservation collision!  %s is reserved for %s %s.",
                      resvWrap.getResourceName(),
@@ -134,7 +121,7 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
 
                // Send the IRC reply.
 
-               String twoDatesStr = JawaBotUtils.formatTwoDatesString(fromDate, toDate, false);
+               String twoDatesStr = ReservUtils.formatTwoDatesString(fromDate, toDate, false);
 
                // E.g.: jawa18 was succesfully kept for ozizka from 2009-11-27 to 2009-12-02.
                final String RESERVATION_OK_FORMAT = "%s was succesfully %s for %s %s.";
@@ -156,7 +143,7 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
                //announceTakeOnMailingList( bookingResult, customComment );
                MailData mail = createTakeAnnouncementMail( bookingResult, customComment );
                reply.mailAnnouncements.add( mail );
-               reply.mailAnnounceRecipients.add( this.getJawaBot().getConfig().settings.announceEmailTo ); // Currently only default.
+               reply.mailAnnounceRecipients.add( this.reservService.getConfig().settings.announceEmailTo ); // Currently only default.
                
                // TODO: Add additional e-mails and IRC channels to send to, depending on resource group etc.
                //reply.additionalAnnounceChannels.add( ... );
@@ -191,7 +178,7 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
     */
    /*private*/ static MailData createTakeAnnouncementMail( ReservationsBookingResult bookingResult, String customComment ) {
       
-      String subject = JawaBotUtils.formatReservationInfoLine( bookingResult );
+      String subject = ReservUtils.formatReservationInfoLine( bookingResult );
 
       // Message body.
 
@@ -203,7 +190,7 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
       // List the reservations.
       if( bookingResult.resultingReservations.size() > 1 ){
          for( ReservationWrap resvWrap : bookingResult.resultingReservations ){
-            mailBodySB.append( JawaBotUtils.formatReservationInfoLine(resvWrap.resourceName, resvWrap) );
+            mailBodySB.append( ReservUtils.formatReservationInfoLine(resvWrap.resourceName, resvWrap) );
             mailBodySB.append("\n");
          }
       }
@@ -237,9 +224,9 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
 
          Date fromDate = datesHolder.getFrom();
          Date toDate = datesHolder.getTo();
-         String twoDatesStr = JawaBotUtils.formatTwoDatesString(fromDate, toDate, false);
+         String twoDatesStr = ReservUtils.formatTwoDatesString(fromDate, toDate, false);
          
-         List<Resource> freeResources = this.getJawaBot().getResourceManager().findFreeResources( fromDate, toDate );
+         List<Resource> freeResources = this.resourceManager.findFreeResources( fromDate, toDate );
          Collections.sort( freeResources );
          
          String message = String.format("Free "+twoDatesStr+": "+ StringUtils.join(freeResources, ", ") );
@@ -274,12 +261,12 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
       try {
          if( "all".equals(resName) ){
             log.debug("Leaving ALL resources.");
-            List<Resource> leftResources = this.getJawaBot().getResourceManager().leaveAll( ctx.fromUserNorm );
+            List<Resource> leftResources = this.resourceManager.leaveAll( ctx.fromUserNorm );
             leftResourcesStr = StringUtils.join( leftResources, ", " );
          }
          else {
             log.debug("Leaving one resource: "+resName);
-            this.getJawaBot().getResourceManager().leave( resName, ctx.fromUserNorm );
+            this.resourceManager.leave( resName, ctx.fromUserNorm );
             leftResourcesStr = resName;
          }
       } catch (JawaBotException ex) {
@@ -297,8 +284,8 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
       reply.addBoth( msg ); // Or "You left...".
 
       // Announce on mailing list.
-      reply.mailAnnouncements.add( new MailData("Leaving "+leftResourcesStr, "") );
-      reply.mailAnnounceRecipients.add( this.getJawaBot().getConfig().settings.announceEmailTo ); // Currently only default.
+      reply.mailAnnouncements.add( new MailData("Leaving " + leftResourcesStr, "") );
+      reply.mailAnnounceRecipients.add( this.reservService.getConfig().settings.announceEmailTo ); // Currently only default.
 
       reply.wasSuccessful = true;
       return reply;
@@ -319,7 +306,7 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
       do{
          // List resources.
          if( "".equals( params ) ){
-            reply.addReply( this.getJawaBot().getResourceManager().listResourcesAsString() );
+            reply.addReply( this.resourceManager.listResourcesAsString() );
             break;
          }
 
@@ -327,7 +314,7 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
          String[] parts = params.split(" ");
          String resName = parts[1];
          try {
-            String list = this.getJawaBot().getResourceManager().printResourceReservations( resName );
+            String list = this.resourceManager.printResourceReservations( resName );
             for( String line : list.split("\n") ){
                reply.addReply( line );
             }

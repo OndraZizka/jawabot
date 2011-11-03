@@ -43,8 +43,8 @@ public class Group implements Serializable, Comparable<Group>
    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group", fetch = FetchType.LAZY)
    private Collection<UserInGroup> userInGroupCollection;
    
-   @OneToMany(cascade = CascadeType.ALL, mappedBy = "group", fetch = FetchType.LAZY)
-   private Collection<ResourceInGroup> resourceInGroupCollection;
+   //@OneToMany(cascade = CascadeType.ALL, mappedBy = "group", fetch = FetchType.LAZY)
+   //private Collection<ResourceInGroup> resourceInGroupCollection;
    
 
    public Group() {
@@ -65,8 +65,8 @@ public class Group implements Serializable, Comparable<Group>
    public Collection<UserInGroup> getUserInGroupCollection() { return userInGroupCollection; }
    public void setUserInGroupCollection(Collection<UserInGroup> userInGroupCollection) { this.userInGroupCollection = userInGroupCollection; }
    
-   public Collection<ResourceInGroup> getResourceInGroupCollection() { return resourceInGroupCollection; }
-   public void setResourceInGroupCollection(Collection<ResourceInGroup> resourceInGroupCollection) { this.resourceInGroupCollection = resourceInGroupCollection; }
+   //public Collection<ResourceInGroup> getResourceInGroupCollection() { return resourceInGroupCollection; }
+   //public void setResourceInGroupCollection(Collection<ResourceInGroup> resourceInGroupCollection) { this.resourceInGroupCollection = resourceInGroupCollection; }
    
    
    

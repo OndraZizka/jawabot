@@ -35,6 +35,9 @@
                 </configuration>
             </plugin>
         </plugins>
+        
+     <!-- Plugins' tests need test classes. TODO: Create standalone "testbase" package. -->
+     <sourceDirectory>src/main/java</sourceDirectory>
 
       <resources>
          <resource>
@@ -49,12 +52,12 @@
          </resource>
       </resources>
 
-      <testResources>
-         <testResource>
-            <directory>src/test/resources</directory>
-            <includes> <include>**/*</include> </includes>
-         </testResource>
-      </testResources>
+   <testResources>
+      <testResource>
+         <directory>src/test/resources</directory>
+         <includes> <include>**/*</include> </includes>
+      </testResource>
+   </testResources>
 
    </build>
 
@@ -199,6 +202,15 @@
          <groupId>javax.transaction</groupId>
          <artifactId>jta</artifactId>
          <version>1.0.1B</version>
+      </dependency>
+      -->
+
+      <!-- Would create cyclic dependency.
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-testbase</artifactId>
+         <version>${project.version}</version>
+         <scope>test</scope>
       </dependency>
       -->
    </dependencies>

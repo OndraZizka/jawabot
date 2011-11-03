@@ -42,11 +42,38 @@ public class IrcUtils {
       if( null == msg || msg.equals("") || null == nick || nick.equals("") )
          return false;
 
-      return msg.startsWith( nick.toLowerCase() )
+      return msg.toLowerCase().startsWith( nick.toLowerCase() )
           // At least one char besides the nick.
           && msg.length() > nick.length() + 2
-          // Char after the usual nick is something that "terminates the nick".
+          // Char after the nick is something that "terminates the nick".
           && StringUtils.contains(" ,:", msg.charAt( nick.length() ) );
+   }
+   
+   
+   /**
+    * @returns  0 if the message is not for given nick,
+    *           or position of start of the message after nick.
+    * TODO:  Support multiple nicks:  "ozizka, pskopek: Msg."
+    */
+   public static int getMsgStartAfterNick( String msg, String nick ) {
+      if( null == msg || msg.equals("") || null == nick || nick.equals("") )
+         return 0;
+
+      if( ! msg.toLowerCase().startsWith( nick.toLowerCase() ) )
+          return 0;
+      
+      int nickLen = nick.length();
+      
+      // At least one char besides the nick.
+      if( msg.length() <= nickLen + 2 )
+          return 0;
+      
+      // Char after the nick is something that "terminates the nick".
+      if( ! StringUtils.contains(" ,:", msg.charAt( nickLen ) ) )
+          return 0;
+      
+      String afterNick = msg.substring( nickLen );
+      return nickLen + StringUtils.indexOfAnyBut( afterNick, " ,:");          
    }
 
 

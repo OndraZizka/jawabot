@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.IModel;
 import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.JawaBotApp;
-import org.jboss.jawabot.ResourceManager;
+
 
 /**
  * This abstracts access to this app's managers and makes it easier.
@@ -17,16 +17,12 @@ import org.jboss.jawabot.ResourceManager;
 public class ConveniencePageBase extends WebPage {
 
 
-
    // Accesssors.
    
    public JawaBot getJawaBot(){
       return JawaBotApp.getJawaBot();
    }
 
-   public ResourceManager getResourceManager(){
-      return this.getJawaBot().getResourceManager();
-   }
 
 
 

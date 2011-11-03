@@ -3,16 +3,10 @@ package org.jboss.jawabot.web._pg;
 
 
 import cz.dynawest.util.DateUtils;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.inject.Inject;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -25,18 +19,9 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.util.ListModel;
-import org.apache.wicket.util.string.Strings;
-import org.jboss.jawabot.JawaBotApp;
-import org.jboss.jawabot.Reservation;
-import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
 import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
-import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
-import org.jboss.jawabot.state.ent.User;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
-import org.jboss.jawabot.plugin.irc.web._co.ChannelLinkPanel;
 import org.jboss.jawabot.plugin.irc.web._co.ChannelLinkSimplePanel;
 import org.jboss.jawabot.web._co.UserLinkSimplePanel;
 
@@ -51,8 +36,10 @@ public class PasteBinPage extends BaseLayoutPage
 {
    private static final Logger log = LoggerFactory.getLogger( PasteBinPage.class );
    
+   
    @Inject private JpaPasteBinManager pbManager;
 
+   
 
    // This page's model.
    private PasteBinEntry entry = new PasteBinEntry();
@@ -111,68 +98,6 @@ public class PasteBinPage extends BaseLayoutPage
 
    }// build()
 
-
-
-
-
-   /**
-    * @returns resource wrapped with information about the nearest reservation.
-    */
-   private List<ResourceWithNearestFreePeriodDTO> getResourceWithNearestFreePeriod( List<Resource> resources ) {
-		List<ResourceWithNearestFreePeriodDTO> resDTOs = new ArrayList();
-		for( Resource res : resources )
-      {
-         final Date NOW = new Date();
-
-         Reservation nearestResv = JawaBotApp.getJawaBot().getResourceManager().getNearestFutureReservationForResource(res);
-         ResourceWithNearestFreePeriodDTO resDTO;
-         if( nearestResv == null )
-            resDTO = new ResourceWithNearestFreePeriodDTO(res, 0, -1 );
-         else if( nearestResv.getFrom().before( NOW ) )
-            resDTO = new ResourceWithNearestFreePeriodDTO(res, -1, DateUtils.getDaysDiff( NOW, nearestResv.getFrom() ));
-         else
-            resDTO = new ResourceWithNearestFreePeriodDTO(res,
-                    DateUtils.getDaysDiff( NOW, nearestResv.getFrom() ),
-                    DateUtils.getDaysDiff( NOW, nearestResv.getTo() )
-            );
-         resDTOs.add(resDTO);
-		}
-		return resDTOs;
-   }
-
-
-
-   /**
-    *  Prepared for user field auto-completion.
-    */
-   public AutoCompleteTextField getAutoCompleteTextField() {
-      final AutoCompleteTextField field = new AutoCompleteTextField( "user", new Model("") ) {
-
-         @Override
-         protected Iterator getChoices( String input ) {
-            if ( Strings.isEmpty( input ) ) {
-               return Collections.EMPTY_LIST.iterator();
-            }
-
-            input = input.toLowerCase();
-
-            List<User> users = JawaBotApp.getUserManager().getUsersRange_OrderByName(0, 1000);
-            for( User user : users )
-            {
-               String name = user.getName().toLowerCase();
-               if( StringUtils.isBlank( name ) ) continue;
-               if( name.startsWith( input )
-                || name.substring(1).startsWith( input ) 
-               ) {
-                  users.add( user );
-                  if ( users.size() == 20 ) break;
-               }
-            }
-            return users.iterator();
-         }
-      };
-      return field;
-   }
 
 
 

@@ -14,18 +14,12 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
-import org.jboss.jawabot.state.beans.StateBean;
 import org.jibble.pircbot.PircBot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jboss.jawabot.JawaBot;
-import org.jboss.jawabot.JawaBotUtils;
 import org.jboss.jawabot.MailData;
 import org.jboss.jawabot.JawaBotApp;
-import org.jboss.jawabot.ReservationCalendar;
-import org.jboss.jawabot.ReservationWrap;
-import org.jboss.jawabot.Resource;
-import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.config.beans.ServerBean;
 import org.jboss.jawabot.irc.ent.IrcEvAction;
 import org.jboss.jawabot.irc.ent.IrcEvJoin;
@@ -121,18 +115,6 @@ public class JawaIrcBot extends PircBot
    
    
 
-    /** Returns a list of all reservation calendars. */
-    Map<Resource, ReservationCalendar> getReservationCalendars() {
-        return this.getJawaBot().getResourceManager().getReservationCalendars();
-    }
-
-    void setReservationCalendars(Map<Resource, ReservationCalendar> cals) {
-        this.getJawaBot().getResourceManager().setReservationCalendars(cals);
-    }
-
-    
-    
-    
     /**
      * Init - .
      */
@@ -285,21 +267,22 @@ public class JawaIrcBot extends PircBot
      */
     @Override
     protected void onMessage( String channel, String sender, String login, String hostname, String msgText ) {
-        if (!this.isInitialized()) {
+        if( ! this.isInitialized() ) {
             log.warn("Called onMessage(), but not initialized yet.");
             return;
         }
 
 
-        // Either process a command or search for Jira IDs.
+        // Either process a command or dispatch the message to plugins.
         boolean wasCommand = false;
 
         String msgNorm = msgText.trim().toLowerCase();
 
         // Check for presence of bot nick prolog.
+        /**
         boolean startsWithUsualNick = IrcUtils.isMsgForNick( msgNorm, USUAL_NICK );
         boolean startsWithBotNick = IrcUtils.isMsgForNick( msgNorm, this.getNick() );
-
+        
         // If the prolog is present,
         if( startsWithUsualNick || startsWithBotNick ) {
 
@@ -311,6 +294,13 @@ public class JawaIrcBot extends PircBot
             else {
                 prologEnd = startsWithUsualNick ? USUAL_NICK.length() : this.getNick().length();
             }
+         */
+
+        int prologEnd = Math.max(
+              IrcUtils.getMsgStartAfterNick( msgNorm, USUAL_NICK ),
+              IrcUtils.getMsgStartAfterNick( msgNorm, this.getNick() ) );
+        
+        if( prologEnd != 0 ){
 
             // Get the rest of the message sans eventual starting colon.
             String command = msgNorm.substring( prologEnd );
@@ -319,14 +309,13 @@ public class JawaIrcBot extends PircBot
 
             // and process the command.
             wasCommand = handleJawaBotCommand(channel, sender, command);
-
         }
 
 
         // Not a command?
         if( ! wasCommand ) {
 
-            IrcEvMessage msg = new IrcEvMessage(null, channel, sender, msgText, new Date());
+            IrcEvMessage msg = new IrcEvMessage( null, channel, sender, msgText, new Date() );
 
             // Pass it to the IRC plugins.
             //for ( Entry<String, IIrcPluginHook> entry : this.pluginsByClass.entrySet() ) {
@@ -443,61 +432,11 @@ public class JawaIrcBot extends PircBot
         String command = commandOrig.toLowerCase();
 
 
-        // Take / Keep
-        if( command.startsWith("take") || command.startsWith("keep") ) {
-            wasValidCommand = true;
 
-            String params = command.substring(4).trim();
-            reply = commandHandler.onTake( ctx, params );
-
-        }// take
-
-
-
-        // Find
-        else if ( command.startsWith("find") || command.startsWith("free") ) {
-            wasValidCommand = true;
-
-            String params = commandOrig.substring(4).trim();
-            reply = this.commandHandler.onFind(ctx, params);
-
-        }
-        
-        // Leave (resource)
-        else if ( command.startsWith("leave") ) {
-            cmd_leave:
-            {
-                wasValidCommand = true;
-
-                String params = command.substring(5).trim();
-                reply = commandHandler.onLeave(ctx, params);
-
-            }// cmd_leave
-        }
-        
-        // List
-        else if (command.startsWith("list")) {
-            wasValidCommand = true;
-
-            String params = command.substring(4).trim();
-            reply = commandHandler.onList(ctx, params);
-        } // Save the state. Non-private to "prevent" someone flooding.
-        /*else if( !isFromPrivateMessage && command.startsWith("save") ) {
-            wasValidCommand = true;
-            try {
-                this.getJawaBot().saveState();
-                sendMessage(replyTo, "State saved.");
-            } catch( JawaBotIOException ex ) {
-                String msg = "Error saving state: "+ex.getMessage();
-                sendMessage(replyTo, msg);
-                log.error( msg, ex);
-            }
-        }*/
-                
 
 
         // Join a channel.
-        else if( command.startsWith( "join" ) ) {
+        if( command.startsWith( "join" ) ) {
             wasValidCommand = true;
             reply = commandHandler.onJoin( ctx, command.substring( 4 ).trim() );
         }
@@ -571,26 +510,14 @@ public class JawaIrcBot extends PircBot
 
 
         // If the state changed, save.
-        // TODO: Watch state changes in the reservationsManager.
         if( stateChanged ) {
-            try {
-                this.getJawaBot().saveState();
-                String msg = String.format( "State saved after %s on %s did command: %s", fromUser, fromChannel, commandOrig );
-                log.info( msg );
-                sendDebugMessage( msg );
-            }
-            catch( JawaBotIOException ex ) {
-                String msg = "Error saving state: " + ex.getMessage();
-                log.error( msg, ex );
-                sendDebugMessage( msg );
-            }
+            // TODO
         }
 
 
         // Invalid command?
         if( !wasValidCommand ) {
-            //sendMessage( replyTo, "Invalid command, see " + JawaBotApp.PROJECT_DOC_URL );
-            // Nothing - plugins must checkt it too.
+            // Nothing - plugins must check it too.
         }
 
         // Invalid syntax?
@@ -608,47 +535,7 @@ public class JawaIrcBot extends PircBot
 
 
    
-   
-    /**
-     * Sends an announcement mail to a mailing list (currently jboss-qa-brno).
-     * @deprecated in favor of #announceTakeOnMailingList( ReservationsBookingResult bookingResult, String customComment)
-     */
-    private void announceTakeOnMailingList(Resource resource, ReservationWrap reservation, String customComment) {
-        ConfigBean cnf = this.getConfig();
-        String subject = JawaBotUtils.formatReservationInfoLine(resource.getName(), reservation);
-        trySendMail(new MailData(subject, customComment), reservation.getForUser(), cnf.settings.announceDefaultChannel);
-    }
-
-    /**
-     * Sends an announcement mail to a mailing list.
-     * @deprecated  in favor of CommandHandlerImpl.createTakeAnnouncementMail() .
-     */
-    private void announceTakeOnMailingList( ReservationsBookingResult bookingResult, String customComment ) {
-        ConfigBean cnf = this.getConfig();
-        String subject = JawaBotUtils.formatReservationInfoLine( bookingResult );
-
-        // Message body.
-
-        // Custom comment.
-        StringBuilder sb = new StringBuilder();
-        if( null != customComment ) {
-            sb.append( customComment ).append( "\n" );
-        }
-
-        // List the reservations.
-        if( bookingResult.resultingReservations.size() > 1 ) {
-            for( ReservationWrap resvWrap : bookingResult.resultingReservations ) {
-                sb.append( JawaBotUtils.formatReservationInfoLine( resvWrap.resourceName, resvWrap ) );
-                sb.append( "\n" );
-            }
-        }
-
-        String messageBody = sb.toString();
-
-        trySendMail(new MailData(subject, messageBody), bookingResult.claimedResv.getForUser(), cnf.settings.announceDefaultChannel);
-    }
-
-
+ 
 
     /**
      * Tries to send a mail; eventual failure is announced on the given channel.
@@ -904,26 +791,9 @@ public class JawaIrcBot extends PircBot
 
 
 
-    /** Updates the bot to according to the state stored in the bean. */
-    private void applyState( StateBean state ) throws UnknownResourceException {
-        throw new UnsupportedOperationException( "Not yet implemented" );
-    }
-
-
-   
-    /** Extracts the state bean from the bot's current state. */
-    public StateBean extractState() {
-        StateBean state = new StateBean();
-        return state;
-    }
-
-
-
-
-
 
     /** Send a message to the debug channel. */
-    private void sendDebugMessage( String msg ) {
+    public void sendDebugMessage( String msg ) {
         this.sendMessage( this.getConfig().settings.debugChannel, msg );
     }
 

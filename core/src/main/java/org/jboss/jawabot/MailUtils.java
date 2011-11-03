@@ -18,37 +18,35 @@ import org.slf4j.LoggerFactory;
 public class MailUtils {
    private static final Logger log = LoggerFactory.getLogger( MailUtils.class );
 
-   private JawaBot jawaBot;
+   private ConfigBean config;
 
-   public MailUtils(JawaBot jawaBot) {
-      this.jawaBot = jawaBot;
+   public MailUtils(ConfigBean config) {
+      this.config = config;
    }
 
-
-
+   
+   
    /**
     * Sends a mail announcement about user's action.
     */
    public void sendMail( MailData mail ) throws JawaBotException {
 
-      ConfigBean cnf = this.jawaBot.getConfig();
-
       log.debug( String.format("Sending mail: host %s, to %s, from <%s>",
-			cnf.settings.smtpHost,
-			cnf.settings.announceEmailTo,
-			cnf.settings.announceEmailFrom
+			config.settings.smtpHost,
+			config.settings.announceEmailTo,
+			config.settings.announceEmailFrom
       ) );
 
 		try {
 			SimpleEmail email = new SimpleEmail();
-			email.setHostName( cnf.settings.smtpHost );
-			email.addTo( cnf.settings.announceEmailTo ); // TODO: Let it depend on the resource's group.
-			email.setFrom( cnf.settings.announceEmailFrom, mail.fromName );
+			email.setHostName( config.settings.smtpHost );
+			email.addTo( config.settings.announceEmailTo ); // TODO: Let it depend on the resource's group.
+			email.setFrom( config.settings.announceEmailFrom, mail.fromName );
 			email.setSubject( mail.subject );
 			email.setMsg(  mail.messageBody );
 			email.send();
 		} catch( EmailException ex ) {
-			throw new JawaBotException("Can't mail to "+cnf.settings.announceEmailTo+": "+ex.getMessage(), ex);
+			throw new JawaBotException("Can't mail to "+config.settings.announceEmailTo+": "+ex.getMessage(), ex);
 		}
    }
 

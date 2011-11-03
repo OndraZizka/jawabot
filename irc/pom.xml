@@ -22,7 +22,8 @@
       <resources>
          <resource>
             <directory>src/main/java</directory>
-            <excludes> <exclude>**/*.java</exclude> </excludes>
+            <includes><include>**/*</include></includes>
+            <excludes><exclude>**/*.java</exclude></excludes>
             <filtering>false</filtering>
          </resource>
       </resources>
@@ -30,7 +31,6 @@
       <testResources>
          <testResource>
             <directory>src/test/resources</directory>
-            <includes> <include>*.xml</include> <include>*.properties</include> </includes>
          </testResource>
       </testResources>
 

@@ -2,30 +2,24 @@
 package org.jboss.jawabot.web._co.menu;
 
 
-import org.jboss.jawabot.web._base.ConveniencePageBase;
 import java.util.List;
 import javax.inject.Inject;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.util.ListModel;
-import org.jboss.jawabot.FromJawaBot;
-import org.jboss.jawabot.Resource;
-import org.jboss.jawabot.ResourceManager;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
 import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
-import org.jboss.jawabot.state.ent.Group;
 import org.jboss.jawabot.web.JawaBotSession;
-import org.jboss.jawabot.web._co.GroupLinkPanel;
 import org.jboss.jawabot.web._co.PastebinLinkPanel;
-import org.jboss.jawabot.web._co.ResourceLinkPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 /**
- *
- * @author Ondrej Zizka
+ *  Global menu panel - container for plugins' menu contributions.
+ *  TODO: Implement method to let plugins contribute.
+  * @author Ondrej Zizka
  */
 public class MenuPanel extends Panel
 {
@@ -34,8 +28,6 @@ public class MenuPanel extends Panel
    
    @Inject private JpaPasteBinManager pbManager;
    
-   @Inject @FromJawaBot private ResourceManager resourceManager;
-
    
    public MenuPanel( String id ) {
       super( id );
@@ -49,17 +41,6 @@ public class MenuPanel extends Panel
       // User box - MenuBox test.
       add( new MenuBoxPanel( "accountBox", "Account", new AccountBoxPanel("content") ) );
 
-
-      // Resources.
-      
-      //List<Resource> resources = ((ConveniencePageBase)getPage()).getJawaBot().getResourceManager().getResourcesWithNoReservations();
-      List<Resource> resources = this.resourceManager.getResourcesWithNoReservations();
-
-      add(new ListView<Resource>("resourceList", new ListModel( resources ) ) {
-        @Override protected void populateItem(ListItem<Resource> item) {
-           item.add( new ResourceLinkPanel("link", item.getModelObject()));
-        }
-      });
 
       
       // Groups.
@@ -95,16 +76,15 @@ public class MenuPanel extends Panel
 
   
 
-  @Override public JawaBotSession getSession(){ return (JawaBotSession) super.getSession(); } // TODO: CDI.
+  @Override public JawaBotSession getSession(){
+     return (JawaBotSession) super.getSession();
+  } // TODO: CDI.
   
-  private boolean isUserLogged(){ return null != getSession().getLoggedUser(); }
+  
+  private boolean isUserLogged(){
+     return null != getSession().getLoggedUser();
+  }
 
-   @Override
-   protected void onDetach() {
-      this.resourceManager = null;
-      super.onDetach();
-   }
-  
   
 
 }// class MenuPanel
