@@ -49,7 +49,6 @@ public class ListColumnGridDataProvider<T extends Serializable> implements IData
 
 	/** reference to the list used as dataprovider for the dataview */
 	private final List<T> list;
-	private List<T> list2;
    
    private int columns = 1;
    
