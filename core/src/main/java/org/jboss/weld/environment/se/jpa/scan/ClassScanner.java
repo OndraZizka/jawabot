@@ -19,9 +19,7 @@ import java.util.jar.*;
  */
 @Deprecated
 public class ClassScanner {
-   
-   
-   
+      
    /**
     * Returns an array of class in the same package as the the SeedClass
     * 
@@ -38,11 +36,16 @@ public class ClassScanner {
    {
       assert classFilter != null;
       
-      List<Class<? extends T>> classes = new LinkedList();
-
       PkgInfo pkgInfo = PkgInfo.fromClass( seedClass );
-      List<String> classNames = discoverClassNames_inPackage( pkgInfo );
-      
+      List<String> classNames = scanPackage( pkgInfo );
+      return filterClassesByType( classNames, classFilter );
+   }
+   
+   /**
+    * 
+    */
+   private static <T> List<Class<? extends T>> filterClassesByType( List<String> classNames, Class<T> classFilter ){
+      List<Class<? extends T>> classes = new LinkedList();
       
       // For each className found in package...
       for( final String clsName : classNames ) {
@@ -58,23 +61,17 @@ public class ClassScanner {
          if( classFilter.isAssignableFrom( cls ) )
             classes.add( cls.asSubclass(classFilter) );
       }
-
-      //Collections.sort( classes, ClassComparator.INSTANCE ); // Makes no sense here
-
       return classes;
    }
-   
    
    
    /**
     * 
     */
-   private static List<String> discoverClassNames_inPackage( PkgInfo pkgInfo ) throws IOException {
-
-      assert pkgInfo != null;
+   private static List<String> scanPackage( PkgInfo pkgInfo ) throws IOException {
 
       if( pkgInfo.path.isDirectory() )
-         return ClassScanner.discoverClassNames_fromDirectory( pkgInfo );
+         return ClassScanner.scanDirectory( pkgInfo );
       
       if( !pkgInfo.path.isFile() )
          throw new IllegalStateException("  Package "+pkgInfo.path+" is not in a directory nor .jar file.");
@@ -82,42 +79,14 @@ public class ClassScanner {
       if( ! pkgInfo.path.getPath().endsWith(".jar") )
          throw new IllegalStateException("  Package "+pkgInfo.path+" is in a file which is not a .jar.");
       
-      return ClassScanner.discoverClassNames_fromJarFile( pkgInfo );
+      return ClassScanner.scanJarFile( pkgInfo );
    }
    
-
-   
-   /**
-    *   @returns  null if the file does not end with .class or it's path does not match given package path.
-    */
-   private static String getClassName_ofPackageAsPath( final String filePath, final String pkgAsPath ) { 
-      if( ! filePath.endsWith( ".class" ) )     return null;
-      if( ! filePath.startsWith( pkgAsPath ) )  return null;
-
-      //  org/jboss/jawabot/plugin/pastebin/MemoryPasteBinManager.class + org.jboss.jawabot.plugin.pastebin
-      //  -> org.jboss.jawabot.plugin.pastebin.MemoryPasteBinManager
-      return filePath.substring( 0, filePath.length() - 6 ).replace( File.separatorChar, '.' );
-   }
-
-   /**
-    * 
-    */
-   private static File getPackageFile( String pkgName, File pkgPath ) {
-
-      final String dirPath = pkgPath.getAbsolutePath() + '/' + pkgName.replace( '.', '/' );
-      final File pkgDir = new File( dirPath );
-
-      if( !pkgDir.exists() || !pkgDir.isDirectory() )
-         return null;
-
-      return pkgDir;
-   }
-
    
    /**
     * 
     */
-   private static List<String> discoverClassNames_fromJarFile( PkgInfo pkgInfo) throws IOException {
+   private static List<String> scanJarFile( PkgInfo pkgInfo ) throws IOException {
 
       List<String> classNames = new LinkedList();
       
@@ -126,57 +95,67 @@ public class ClassScanner {
 
       while( jarEntries.hasMoreElements() ) {
          JarEntry jarEntry = jarEntries.nextElement();
+         String name = jarEntry.getName();
+         if( ! name.endsWith( ".class" ) )              continue;
+         if( ! name.startsWith( pkgInfo.nameAsPath ) )  continue;
          
-         String simpleName = getClassName_ofPackageAsPath( jarEntry.getName(), pkgInfo.nameAsPath );
-         if( simpleName != null ) 
-            classNames.add( pkgInfo.name + "." + simpleName );
+         String fullClassName = classFilePathToClassName( name );
+         classNames.add( fullClassName );
       }
       
       jarFile.close();
       return classNames;
    }
 
-   
-   /**
-    * 
-    */
-   private static List<String> discoverClassNames_fromDirectory(PkgInfo pPkgInfo) {
-
-      final List<String> classNames = new LinkedList();
-      
-      final File aPkgFile = ClassScanner.getPackageFile( pPkgInfo.name, pPkgInfo.path );
-      if( aPkgFile == null ) {
-         return classNames;
-      }
-
-      discoverClassNames_fromDirectory_Recursive( aPkgFile.getAbsolutePath(), pPkgInfo.name, aPkgFile, classNames );
-      return classNames;
+   /*
+    *   org/jboss/jawabot/plugin/pastebin/MemoryPasteBinManager.class + org.jboss.jawabot.plugin.pastebin
+    *   org.jboss.jawabot.plugin.pastebin.MemoryPasteBinManager
+    */   
+   private static String classFilePathToClassName(String name) {
+      return name.substring( 0, name.length() - 6 ).replace( File.separatorChar, '.' );
    }
    
    
+
+   
    /**
     * 
     */
-   private static void discoverClassNames_fromDirectory_Recursive( String absPkgPath, String packageName, File packageDir, List<String> classNames) 
-   {
-      File[] dirEntries = packageDir.listFiles();
+   private static List<String> scanDirectory( PkgInfo pPkgInfo ) {
+
+      final List<String> classNames = new LinkedList();
       
-      for( File file : dirEntries ) {
+      String dirPath = pPkgInfo.path.getAbsolutePath() + '/' + pPkgInfo.name.replace( '.', '/' ); // TODO: asPath?
+      File pkgDir = new File( dirPath );
+      if( !pkgDir.exists() || !pkgDir.isDirectory() )
+         return classNames;
+
+      scanDirectory_Recursive( pkgDir.getAbsolutePath(), pPkgInfo.name, pkgDir, classNames );
+      return classNames;
+   }
+   
+
+   /**
+    * 
+    */
+   private static void scanDirectory_Recursive( final String absPkgPath, String packageName, File packageDir, List<String> classNames) 
+   {
+      for( File dirEntry : packageDir.listFiles() ) {
          
          // Directory.
-         if( file.isDirectory() ) {
-            discoverClassNames_fromDirectory_Recursive( absPkgPath, packageName, file, classNames );
+         if( dirEntry.isDirectory() ) {
+            scanDirectory_Recursive( absPkgPath, packageName, dirEntry, classNames );
             continue;
          }
 
-         if( ! file.getPath().endsWith( ".class" ) )
+         if( ! dirEntry.getPath().endsWith( ".class" ) )
             continue;
          
-         String fileName = file.getAbsolutePath().substring( absPkgPath.length() + 1 );
+         String fileName = dirEntry.getAbsolutePath().substring( absPkgPath.length() + 1 );
 
          String simpleName = fileName.substring( 0, fileName.length() - 6 ).replace( File.separatorChar, '.' );
-         String className = packageName + '.' + simpleName;
-         classNames.add( className );
+         String fullClassName = packageName + "." + simpleName;
+         classNames.add( fullClassName );
       }
    }
 
@@ -237,6 +216,5 @@ class PkgInfo {
 
       return new PkgInfo( pkgPath, name, nameSlash );
    }
-   
    
 }

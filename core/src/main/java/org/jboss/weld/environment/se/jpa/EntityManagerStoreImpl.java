@@ -179,7 +179,7 @@ public class EntityManagerStoreImpl implements EntityManagerStore
             
             List<Class<? extends Object>> classes = Collections.EMPTY_LIST;
             try {
-               classes = ClassScanner.discoverClasses( seed, pack, Object.class );
+               classes = ClassScanner.discoverClasses( seed, Object.class );
             }  catch( URISyntaxException ex ) {
                log.error( "  Error when scanning package "+pack+" classes: " + ex, ex );
             } catch( IOException ex ) {
