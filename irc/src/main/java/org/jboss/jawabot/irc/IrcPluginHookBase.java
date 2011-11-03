@@ -1,7 +1,7 @@
 package org.jboss.jawabot.irc;
 
 import org.jboss.jawabot.ex.JawaBotException;
-import org.jboss.jawabot.irc.model.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcMessage;
 
 /**
  *  Base abstract class to relieve people from writing every method of the interface.

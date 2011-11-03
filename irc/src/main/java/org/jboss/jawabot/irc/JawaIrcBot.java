@@ -26,7 +26,7 @@ import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.config.beans.ServerBean;
-import org.jboss.jawabot.irc.model.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcMessage;
 import org.jibble.pircbot.NickAlreadyInUseException;
 import org.jibble.pircbot.User;
 

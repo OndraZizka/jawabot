@@ -13,7 +13,7 @@ import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
-import org.jboss.jawabot.irc.model.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcMessage;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
 import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
 import org.slf4j.Logger;
