@@ -21,11 +21,12 @@ public class ChannelLogManager {
     @Inject EntityManager em;
     
     
-    
+    @JpaTransactional
     public List<IrcEvent> getEventsByCriteria( IrcEventCriteria crit ){
         return getEventsByCriteria(crit, 0, Integer.MAX_VALUE, false);
     }
 
+    @JpaTransactional
     public List<IrcEvent> getEventsByCriteria( IrcEventCriteria crit, boolean descending ){
         return getEventsByCriteria(crit, 0, Integer.MAX_VALUE, descending);
     }

@@ -7,14 +7,13 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.jboss.jawabot.plugin.logger.bus.ChannelLogManager;
 import org.jboss.jawabot.plugin.logger.irc.IrcEventCriteria;
+import org.jboss.weld.environment.se.jpa.JpaTransactional;
 
 
 
 /**
  *  LoadableDetachableModel which loads IrcEvents based on given criteria.
  *  @author Ondrej Zizka
- * 
- *  TODO:  Don't use EM, use some IrcEventsManager or such.
  */
 @Dependent
 public class IrcEventCriteriaLDM extends LoadableDetachableModel<List<IrcEvent>>
@@ -36,6 +35,7 @@ public class IrcEventCriteriaLDM extends LoadableDetachableModel<List<IrcEvent>>
 
     
     @Override
+    @JpaTransactional
     protected List<IrcEvent> load() {
         return this.chanMan.getEventsByCriteria( crit );
     }

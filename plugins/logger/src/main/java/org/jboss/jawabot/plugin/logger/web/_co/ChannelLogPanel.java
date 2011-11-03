@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.behavior.AttributeAppender;
