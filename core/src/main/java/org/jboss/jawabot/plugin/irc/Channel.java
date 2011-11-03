@@ -14,7 +14,7 @@ import javax.persistence.UniqueConstraint;
  *  @author Ondrej Zizka
  */
 @Entity
-@Table(
+@Table( name="jb_channels",
         uniqueConstraints=@UniqueConstraint(columnNames={"name","server"})
 )
 public class Channel implements Serializable {

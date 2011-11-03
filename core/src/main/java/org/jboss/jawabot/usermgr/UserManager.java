@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.state.ent.User;
+import org.jboss.weld.environment.se.jpa.JpaTransactional;
 
 /**
  *  
@@ -27,25 +28,26 @@ public class UserManager {
       }
    }
 
-
-   public List<User> getUsersRange_OrderByName(int from, int to){
-      // TODO: Impl
-      return this.users;
+   @JpaTransactional
+   public List<User> getUsersRange_OrderByName( int from, int offset ){
+      return em.createQuery("SELECT u FROM User u ORDER BY u.name", User.class).setFirstResult(from).setMaxResults(offset).getResultList();
    }
 
+   @JpaTransactional
    public User byID( long userId ) {
-      // TODO: Impl
-      return new User("ozizka");
+      return em.find( User.class, userId );
    }
 
-   public User byName(String userName) {
-      // TODO: Impl
-      return new User("ozizka");
+   @JpaTransactional
+   public User byName( String userName ) {
+      return em.createQuery("SELECT u FROM User u WHERE u.name = ?", User.class).setParameter( 1, userName ).getSingleResult();
    }
 
-   public List<User> getUsersNameStartsWith(String input) {
-      // TODO: Impl
-      return users;
+   @JpaTransactional
+   public List<User> getUsersNameStartsWith( String start, int from, int offset ) {
+      return em.createQuery("SELECT u FROM User u WHERE name LIKE '?%' ORDER BY u.name", User.class)
+              .setParameter( 1, start )
+              .setFirstResult(from).setMaxResults(offset).getResultList();
    }
 
 

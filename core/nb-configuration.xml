@@ -6,6 +6,10 @@ The configuration is intended to be shared among all the users of project and
 therefore it is assumed to be part of version control checkout.
 Without this configuration present, some functionality in the IDE may be limited or fail altogether.
 -->
+    <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+        <word>plugin</word>
+        <word>plugins</word>
+    </spellchecker-wordlist>
     <properties xmlns="http://www.netbeans.org/ns/maven-properties-data/1">
         <!--
 Properties that influence various parts of the IDE, especially code formatting and the like. 
@@ -20,9 +24,21 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-editor-indent.CodeStyle.project.expand-tabs>true</org-netbeans-modules-editor-indent.CodeStyle.project.expand-tabs>
         <org-netbeans-modules-editor-indent.CodeStyle.project.text-limit-width>80</org-netbeans-modules-editor-indent.CodeStyle.project.text-limit-width>
         <org-netbeans-modules-editor-indent.CodeStyle.project.text-line-wrap>none</org-netbeans-modules-editor-indent.CodeStyle.project.text-line-wrap>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeForParen>false</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeForParen>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeTryParen>false</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeTryParen>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinCatchParens>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinCatchParens>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinSwitchParens>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinSwitchParens>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeIfParen>false</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeIfParen>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinAnnotationParens>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinAnnotationParens>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeSynchronizedParen>false</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeSynchronizedParen>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeSwitchParen>false</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeSwitchParen>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinForParens>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinForParens>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinMethodCallParens>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinMethodCallParens>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinSynchronizedParens>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinSynchronizedParens>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinTryParens>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinTryParens>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeCatchParen>false</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeCatchParen>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeWhileParen>false</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceBeforeWhileParen>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinIfParens>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinIfParens>
+        <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinBraces>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinBraces>
     </properties>
-    <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
-        <word>plugin</word>
-        <word>plugins</word>
-    </spellchecker-wordlist>
 </project-shared-configuration>

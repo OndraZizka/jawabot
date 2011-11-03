@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import javax.inject.Inject;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.basic.Label;
@@ -28,7 +27,6 @@ import org.jboss.jawabot.Reservation;
 import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
-import org.jboss.jawabot.state.ent.User;
 import org.jboss.jawabot.usermgr.UserManager;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.web._co.ReservationListPanel;
@@ -157,12 +155,11 @@ public class HomePage extends BaseLayoutPage
                return Collections.EMPTY_LIST.iterator();
             }
             
-            return userManager.getUsersNameStartsWith( input.toLowerCase() ).iterator() ;
+            return userManager.getUsersNameStartsWith( input.toLowerCase(), 0, 80 ).iterator() ;
          }
       };
       return field;
    }
-
 
 
 

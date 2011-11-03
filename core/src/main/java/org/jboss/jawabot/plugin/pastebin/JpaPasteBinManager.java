@@ -3,6 +3,7 @@ package org.jboss.jawabot.plugin.pastebin;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,6 +25,7 @@ public class JpaPasteBinManager implements IPasteBinManager, EntitiesPackagesPro
 
    @JpaTransactional
    public synchronized boolean addEntry( PasteBinEntry e ) {
+      e.setWhen( new Date() );
       em.persist(e);
       return true;
    }
@@ -49,7 +51,7 @@ public class JpaPasteBinManager implements IPasteBinManager, EntitiesPackagesPro
    @Override
    public Collection<String> getEntityPackages() {
       return Arrays.asList( new String[]{
-         "org.jboss.jawabot.plugin.pastebin",
+         PasteBinEntry.class.getPackage().getName(),
       });
    }
 

@@ -35,7 +35,8 @@ import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.state.ent.User;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.plugin.irc.web._co.ChannelLinkPanel;
-import org.jboss.jawabot.web._co.UserLinkPanel;
+import org.jboss.jawabot.plugin.irc.web._co.ChannelLinkSimplePanel;
+import org.jboss.jawabot.web._co.UserLinkSimplePanel;
 
 
 
@@ -67,6 +68,8 @@ public class PasteBinPage extends BaseLayoutPage
          @Override protected void onSubmit() {
             pbManager.addEntry(entry);
             //setResponsePage( new PasteBinPage( new PageParameters() ));
+            entry.setId(null);
+            entry.setText("");
          }
       };
       this.add( form );
@@ -86,9 +89,9 @@ public class PasteBinPage extends BaseLayoutPage
             @Override
             protected void populateItem( final ListItem<PasteBinEntry> item ) {
                final PasteBinEntry entry = item.getModelObject();
-               item.add( new UserLinkPanel( "author", entry.getAuthor() ) );
-               item.add( new UserLinkPanel( "for", entry.getFor() ) );
-               item.add( new ChannelLinkPanel( "channel", entry.getChannel() ) );
+               item.add( new UserLinkSimplePanel( "author", entry.getAuthor() ) );
+               item.add( new UserLinkSimplePanel( "for", entry.getFor() ) );
+               item.add( new ChannelLinkSimplePanel( "channel", entry.getChannel() ) );
                item.add( new Label( "when", DateUtils.toStringSQL( entry.getWhen() ) ) );
                item.add( new Link( "showLink" ){
                   public void onClick() {

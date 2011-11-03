@@ -1,6 +1,7 @@
 
 package org.jboss.jawabot.plugin.irc.web._co;
 
+import cz.dynawest.wicket.PageParametersUtil;
 import javax.inject.Inject;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
@@ -39,9 +40,10 @@ public class ChannelLinkPanel extends Panel {
    @Override
    protected void onInitialize() {
       super.onInitialize();
-      BookmarkablePageLink<User> link = new BookmarkablePageLink<User>( "link", ChannelPage.class);
+      Channel ch = (Channel)getDefaultModelObject();
+      BookmarkablePageLink<Channel> link = new BookmarkablePageLink<Channel>( "link", ChannelPage.class, PageParametersUtil.create("name", ch.getName()));
       link.add( new Image( "icoType", "Channel.gif" ) );
-      link.add( new Label("label", "" + ((Channel)getDefaultModelObject()).getName() ));
+      link.add( new Label("label", "" + ch.getName() ));
       add(link);
    }
    

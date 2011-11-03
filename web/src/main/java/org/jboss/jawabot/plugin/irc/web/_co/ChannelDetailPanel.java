@@ -28,15 +28,13 @@ public class ChannelDetailPanel extends Panel {
    
    @Inject private ChannelManager channelManager;
    
-   //Resource res;
-
    public ChannelDetailPanel( String id, final String name ) {
       super( id );
       super.setDefaultModel( new Model( channelManager.byName( name ) ) );
    }
 
-   public ChannelDetailPanel( String id, final Channel res ) {
-      super( id, new Model<Channel>(res) );
+   public ChannelDetailPanel( String id, final Channel ch ) {
+      super( id, new Model<Channel>(ch) );
    }
 
    
@@ -60,7 +58,5 @@ public class ChannelDetailPanel extends Panel {
       });
       
    }
-   
-   
    
 }
