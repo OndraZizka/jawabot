@@ -9,7 +9,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.Resource;
-import org.jboss.jawabot.pastebin.PasteBinEntry;
+import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
 import org.jboss.jawabot.state.ent.Group;
 import org.jboss.jawabot.web.JawaBotSession;
 import org.jboss.jawabot.web._co.GroupLinkPanel;

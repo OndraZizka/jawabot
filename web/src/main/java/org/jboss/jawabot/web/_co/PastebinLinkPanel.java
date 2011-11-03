@@ -8,7 +8,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.Resource;
-import org.jboss.jawabot.pastebin.PasteBinEntry;
+import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
 import org.jboss.jawabot.web._pg.ResourcePage;
 
 /**
