@@ -14,7 +14,13 @@ import org.jboss.jawabot.web.RunInJetty;
 public class WebModuleHook implements IModuleHook {
 
     @Override
-    public void initModule( JawaBot jawaBot, ConfigBean configBean ) throws JawaBotException {
+    public void initModule( Object initObject ) throws Exception {
+        RunInJetty.run();
+    }
+    
+    @Override
+    public void initModule( Object jawaBot_, ConfigBean configBean ) throws JawaBotException {
+        JawaBot jawaBot = (JawaBot) jawaBot_;
         RunInJetty.run();
     }
 
@@ -38,5 +44,5 @@ public class WebModuleHook implements IModuleHook {
     @Override
     public void destroyModule() throws JawaBotException {
     }
-    
+
 }

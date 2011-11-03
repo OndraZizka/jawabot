@@ -6,7 +6,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.model.PropertyModel;
-import org.jboss.jawabot.pastebin.PasteBinEntry;
+import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 
 

@@ -27,7 +27,7 @@ import org.apache.wicket.util.string.Strings;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.Reservation;
 import org.jboss.jawabot.Resource;
-import org.jboss.jawabot.pastebin.PasteBinEntry;
+import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.state.ent.User;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
@@ -78,7 +78,7 @@ public class PasteBinPage extends BaseLayoutPage
             final PasteBinEntry entry = item.getModelObject();
             item.add( new Link("entry"){
                {
-                  add( new Label( "by", entry.getBy() ) );
+                  add( new Label( "by", entry.getAuthor() ) );
                   add( new Label( "for", entry.getFor() ) );
                   add( new Label( "from", DateUtils.toStringSQL( entry.getWhen() ) ) );
                   add( new Label( "channel", entry.getChannel() ) );
