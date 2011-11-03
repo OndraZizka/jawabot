@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN 2.0//EN' 'http://www.springframework.org/dtd/spring-beans-2.0.dtd'>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN 2.5//EN' 'http://www.springframework.org/dtd/spring-beans-2.5.dtd'>
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:tx="http://www.springframework.org/schema/tx"
+     xsi:schemaLocation="
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+>
+
+
+  <!-- Konfigurační soubory -->
+  <bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <property name="locations"><list>
+      <value>classpath:properties/internal.properties</value>
+      <value>file:conf/${profile}/nastaveni.properties</value>
+      <value>file:nastaveni.properties</value>
+    </list></property>
+    <property name="ignoreResourceNotFound" value="true" />
+  </bean>
+  <bean id="dumpPropertiesToLogBean" class="cz.dynawest.util.DumpPropertiesBean">
+    <property name="properties" ref="properties" />
+  </bean>
+ 
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="properties" ref="properties" />
+  </bean>
+
+
+
+  <!-- Data access objects -->
+  <import resource="DataAccess.xml"/>  
+  
+  <!-- Data access objects -->
+  <import resource="Dao.xml"/>
+  
+  <!-- FreeMarker -->
+  <import resource="FreeMarker.xml"/>
+  
+</beans>
