@@ -1,7 +1,6 @@
 
 package org.jboss.jawabot.irc;
 
-import cz.dynawest.util.plugin.PluginUtils;
 import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
@@ -54,7 +53,12 @@ public class JawaIrcBot extends PircBot
    private boolean initialized = false;
    public boolean isInitialized() {      return initialized;   }
    
-
+   // Because Pircbot won't let us know whether we called disconnect() or it came from server.
+   // Since we can't even override connect (damn PircBot), we'll have to set and re-set it for every disconnect()/connect().
+   private boolean intentionalDisconnect = false;
+   public boolean isIntentionalDisconnect() {      return intentionalDisconnect;   }
+   
+   
    // Plugin instances "placeholder".
    // TODO:  Change somehow to Weld.instance() or such and move to the method.
    @Inject private Instance<IIrcPluginHook> pluginHookInstances;
@@ -114,72 +118,26 @@ public class JawaIrcBot extends PircBot
 	}
 
    
+   
    /**
-    *  Iterate available plugins, and initialize them.
+    *  Should connect() and wait().
+    *  Will get notify() onDisconnect(), so it should recover.
+    *  UNUSED, UNTESTED!
     */
-   private void initPlugins() {
-      /*
-      try {
-         String[] pluginNames = new String[] {
-            "org.jboss.jawabot.irc.plugin.logger.LoggerIrcPluginHook",
-            //"org.jboss.jawabot.irc.plugin.resources.ResourcesIrcPluginHook", // Former JawaBot
-         };
-         List<IIrcPluginHook> plugins = PluginUtils.initAndStartModules( pluginNames, IIrcPluginHook.class,  getJawaBot() );
-         for( IIrcPluginHook plugin : plugins ) {
-            this.pluginsByClass.put( plugin.getClass().getName(), plugin );
+   public void connectAndReconnectOnDisconnect() throws JawaBotException {
+      while( true ){
+         synchronized( this ){
+            this.connectAndJoin();
+            try {
+               this.wait();
+            } catch (InterruptedException ex) {
+               log.warn("Interrupted in connectAndReconnectOnDisconnect(): " + ex.getMessage(), ex );
+            }
+            if( this.isIntentionalDisconnect() )
+               break;
          }
       }
-      catch( PluginEx ex ){
-         throw new JawaBotException("Failed loading IRC plugins: " + ex.getMessage(), ex);
-      }
-       */
    }
-   
-   /**
-    *  Initialization of all plugins.
-    *  Copied from JawaBotApp. TODO: Generalize? Or should I rely on CDI?
-    * @deprecated  in favor of CdiPluginUtils.initAndStartPlugins()
-    */
-   private void initAndStartPlugins() throws JawaBotException {
-
-      
-      // For listing of init errors.
-      List<Throwable> exs = new ArrayList<Throwable>();
-      List<String> errModules = new ArrayList<String>();
-      
-      //IModuleHook[] moduleHooks = new IModuleHook[moduleHookInstances];
-      List<IIrcPluginHook> pluginHooks = new ArrayList();
-      for( IIrcPluginHook hook : this.pluginHookInstances ) {
-         pluginHooks.add(hook);
-      }
-      
-      // Init
-      for( IIrcPluginHook hook : pluginHooks ) {
-         try {
-            if( null == hook ) continue;
-            hook.initModule( getJawaBot() );
-         } catch( Throwable ex ) {
-            exs.add( ex );
-            errModules.add( hook.getClass().getName() );
-         }
-      }
-      
-      // Start
-      for( IIrcPluginHook hook : pluginHooks ) {
-         try {
-            if( null == hook ) continue;
-            hook.startModule();
-         } catch( Throwable ex ) {
-            exs.add( ex );
-            errModules.add( hook.getClass().getName() );
-         }
-      }
-      
-      PluginUtils.throwFormattedExceptionIfNeeded( exs, errModules, JawaBotException.class );
-      
-   }// initAndStartPlugins()
-   
-
    
 
 
@@ -227,17 +185,32 @@ public class JawaIrcBot extends PircBot
 
       // Connect to the server
       nickTry: try{
+         this.setVerbose(true);
+         int delaySec = 1;
          for( int i = 1; i <= 5; i++ ){  // 5 - max Nick tries.
             log.info("Trying nick '"+nickToTry+"'...");
             try {
                this.setName( nickToTry  );
+               this.intentionalDisconnect = false;
                this.connect( server.host );
-               break nickTry;
-            }catch (NickAlreadyInUseException ex){
-               log.warn("Nick already in use.");
+               // Wait for potential "ERROR :Trying to reconnect too fast."
+               log.info("Waiting for " + (delaySec += 4) + " seconds..." );
+               Thread.sleep( delaySec * 1000 );
+               
+               if( this.isConnected() ){
+                  log.info("Connected to " + server.host);
+                  break nickTry;
+               }
+            }catch( NickAlreadyInUseException ex ){
+               log.warn("Nick already in use. Waiting few seconds. ");
+               Thread.sleep(2000); // ERROR :Trying to reconnect too fast.
+               Thread.sleep(3000);
                nickToTry = cnf.irc.defaultNick + "-" + i;
+               //log.info("Changing nick to '"+nickToTry+"'...");
+               //this.changeNick(nickToTry);
             }
          }
+         throw new JawaBotException("Could not find unique nick after " + 5 + " attempts, giving up.");
       }
       catch( Exception ex ){
          String msg = "Exception when connecting to the server "+server.host+": "+ex;
@@ -245,9 +218,9 @@ public class JawaIrcBot extends PircBot
       }
 
 
-      log.info("Joining channels...");
+      log.info("Joining channels..." + this.isConnected());
 
-      // Join the default channels
+      // Join the default channels.
       for( String channel : server.autoJoinChannels ){
          log.info(" * joining '"+channel+"'");
          this.joinChannel(channel);
@@ -255,6 +228,7 @@ public class JawaIrcBot extends PircBot
       this.joinChannel("#some");
 
       log.info("Connecting done.");
+      assert this.isConnected();
       
    }// connectAndJoin()
 
@@ -726,25 +700,18 @@ public class JawaIrcBot extends PircBot
 	}
 
 
-   /*
-	@Override
-	protected void onPart(String channel, String sender, String login, String hostname) {
-			System.out.println("Channels: " + this.getChannels().length  + " - " + Arrays.toString(this.getChannels()));
-
-			// Quit if no channels left.
-			if( this.getChannels().length == 0 ) {
-					this.disconnect();
-			}
-	}/**/
-
-
 
 	@Override
 	protected void onDisconnect() {
       log.info("onDisconnect().");
-		// TODO: Reconnect on disconnect - to get over network outages.
-		this.dispose();
+		// TODO: Reconnect on unintentional disconnect - to get over network outages.
+      //       See connectAndReconnectOnDisconnect().      
+      if( this.isIntentionalDisconnect() ){
+         log.info("  Intentional disconnect, disposing PircBot.");
+         this.dispose();
+      }
       synchronized(this){
+         log.info("  notifyAll() on PircBot@" + this.hashCode());
          this.notifyAll();
       }
 	}
