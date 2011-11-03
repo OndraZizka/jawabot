@@ -5,18 +5,13 @@
        xsi:schemaLocation="
           http://java.sun.com/xml/ns/javaee http://docs.jboss.org/cdi/beans_1_0.xsd
           http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
-    
+
+    <!--
     <weld:scan>
       
-        <weld:include name="org.jboss.jawabot.**"/>
+        <weld:include name="**"/>
       
-        <!--
-        <weld:exclude name="**" />
-      
-        <weld:include name="org.jboss.jawabot.web._co.**"/>
-        <weld:include name="org.jboss.jawabot.web._pg.test.**"/>
-        -->
-
     </weld:scan>
+    -->
     
 </beans>
