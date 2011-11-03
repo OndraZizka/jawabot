@@ -2,6 +2,7 @@
 package org.jboss.jawabot.web._pg;
 
 import cz.dynawest.util.DateUtils;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.apache.wicket.datetime.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Check;
+import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.CheckGroup;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -83,14 +85,18 @@ public class TakePage extends BaseLayoutPage
         .add( new DateTextField("to", new PropertyModel(resv, "to"), new StyleDateConverter("S-", true)).add(new DatePicker()) )
 
         .add( new TextField("note", new PropertyModel(this, "note")) )
+        
+        //.add( new CheckBoxMultipleChoice )
+              
+        // Checkboxes
         .add( chgrp
            .add(new ListView<CheckBoxWrap<Resource>>("freeResources", new ListModel( resources ) ) 
            {
-              @Override protected void populateItem(ListItem<CheckBoxWrap<Resource>> item)
+              @Override protected void populateItem(ListItem<CheckBoxWrap<Resource>> li)
               {
-                 String name = item.getModelObject().getItem().getName();
-                 item.add( new Check("check", item.getModel(), chgrp) )
-                 .add( new Label("label", new PropertyModel(item.getModel(), "name") ));
+                 //String name = li.getModelObject().getItem().getName();
+                 li.add( new Check("check", new PropertyModel(li.getModelObject(), "checked"), chgrp) );
+                 li.add( new Label("label", new PropertyModel(li.getModelObject(), "item.name") ));
               }
            })
         )
@@ -105,10 +111,11 @@ public class TakePage extends BaseLayoutPage
 
 
 
-// Wrapper for lists with CheckBoxes.
 
-// Wrapper for lists with CheckBoxes.
-class CheckBoxWrap<T extends Object> {
+/**
+ *  Wrapper for items of lists with CheckBoxes.
+ */
+class CheckBoxWrap<T extends Serializable> implements Serializable {
 
    private boolean checked;
    private T item;
@@ -124,8 +131,11 @@ class CheckBoxWrap<T extends Object> {
    public void setItem( T item ) { this.item = item; }
 }
 
-// Wrapper for lists with CheckBoxes.
-class CheckBoxWrapList<T extends Object> extends ArrayList<CheckBoxWrap<T>> {
+
+/**
+ *  Wrapper for lists with CheckBoxes.
+ */
+class CheckBoxWrapList<T extends Serializable> extends ArrayList<CheckBoxWrap<T>> implements Serializable {
 
    public CheckBoxWrapList() {
    }

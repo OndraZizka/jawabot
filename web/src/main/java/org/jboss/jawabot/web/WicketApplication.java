@@ -18,6 +18,7 @@ import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy
 import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.web._base.BaseLayoutPage_Vut;
+import org.jboss.jawabot.web._pg.CheckBoxMultipleChoiceTestPage;
 import org.jboss.jawabot.web._pg.GroupPage;
 import org.jboss.seam.wicket.SeamApplication;
 import org.slf4j.Logger;
@@ -79,6 +80,7 @@ public class WicketApplication extends SeamApplication
       mount(new QueryStringUrlCodingStrategy("login", LoginPage.class));
       
       
+      mountBookmarkablePage("cbmc", CheckBoxMultipleChoiceTestPage.class);
       mountBookmarkablePage("debug", InspectorPage.class);
       mountBookmarkablePage("cssTest",  BaseLayoutPage.class);
       mountBookmarkablePage("vutTest",  BaseLayoutPage_Vut.class);
