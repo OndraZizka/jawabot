@@ -1,6 +1,9 @@
 
 package org.jboss.jawabot.irc;
 
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import org.jboss.jawabot.IModuleHook;
 import org.jboss.jawabot.config.beans.ConfigBean;
 
@@ -26,10 +29,16 @@ public class IrcModuleHook implements IModuleHook<JawaBot, JawaBotException>
    public JawaIrcBot getBot() { return bot; }
 
    
+   @Inject Instance<JawaIrcBot> jawaIrcBotInst;
+   /*@Produces private JawaIrcBot createJawaIrcBot(){
+      return new JawaIrcBot(null);
+   }*/
    
    @Override
    public void initModule( JawaBot jawaBot, ConfigBean configBean ) throws JawaBotIOException, UnknownResourceException, JawaBotException {
-      this.bot = new JawaIrcBot( jawaBot );
+      //this.bot = new JawaIrcBot( jawaBot );
+      this.bot = jawaIrcBotInst.get();
+      this.bot.setJawaBot( jawaBot );
       this.bot.applyConfig( configBean );
       this.bot.init();
    }

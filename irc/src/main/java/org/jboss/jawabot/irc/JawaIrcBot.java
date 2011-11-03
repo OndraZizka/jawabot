@@ -8,6 +8,7 @@ import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
 import java.util.Map.Entry;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
@@ -34,6 +35,7 @@ import org.jibble.pircbot.NickAlreadyInUseException;
  *
  * @author Ondrej Zizka
  */
+@Dependent
 public class JawaIrcBot extends PircBot
 {
    private static final Logger log = Logger.getLogger( JawaIrcBot.class );
@@ -44,7 +46,8 @@ public class JawaIrcBot extends PircBot
    
    private JawaBot jawaBot;
    public JawaBot getJawaBot() { return jawaBot; }
-   
+   public void setJawaBot(JawaBot jawaBot) { this.jawaBot = jawaBot; }
+      
    private boolean initialized = false;
    public boolean isInitialized() {      return initialized;   }
 
@@ -58,11 +61,13 @@ public class JawaIrcBot extends PircBot
    public ConfigBean getConfig() {      return this.getJawaBot().getConfig();   }
 
    private CommandHandler commandHandler;
-   
 
    
    
+   
    /** Const. */
+   public JawaIrcBot() {  }
+   
    public JawaIrcBot( JawaBot jawaBot ) {
       this.jawaBot = jawaBot;
    }

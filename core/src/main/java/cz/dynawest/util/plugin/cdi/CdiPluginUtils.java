@@ -32,10 +32,12 @@ public class CdiPluginUtils {
       }
       
       // Init
+      List<TPlugin> pluginHooks_initOk = new ArrayList();
       for( TPlugin hook : pluginHooks ) {
          try {
             if( null == hook ) continue;
             hook.initModule( initObject );
+            pluginHooks_initOk.add(hook);
          } catch( Throwable ex ) {
             exs.add( ex );
             errModules.add( hook.getClass().getName() );
@@ -43,7 +45,7 @@ public class CdiPluginUtils {
       }
       
       // Start
-      for( TPlugin hook : pluginHooks ) {
+      for( TPlugin hook : pluginHooks_initOk ) {
          try {
             if( null == hook ) continue;
             hook.startModule();
