@@ -2,6 +2,18 @@
 package org.jboss.weld.environment.se.jpa;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import org.jboss.weld.introspector.ConstructorSignature;
+import org.jboss.weld.introspector.MethodSignature;
+import org.jboss.weld.introspector.WeldConstructor;
+import org.jboss.weld.introspector.WeldField;
+import org.jboss.weld.introspector.WeldMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,16 +22,37 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.Stack;
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.persistence.Entity;
-import org.apache.commons.lang.ClassUtils;
 import org.hibernate.ejb.Ejb3Configuration;
+import org.jboss.weld.environment.se.jpa.scan.ClassScanner;
+import org.jboss.weld.introspector.WeldClass;
 
 /**
  * A store for entity managers. It is basically a ThreadLocal which stores the entity manager.
  * The {@link org.jboss.weld.environment.se.jpa.JpaTransactionInterceptor} is expected to register entity manager. The application code
  * can get the current entity manager either by injecting the store or the {@link EntityManagerDelegate}.
- *
+ * 
+ * 
+ * 
+ 1. Bill Burke has written a nice article about this: http://bill.burkecentral.com/2008/01/14/scanning-java-annotations-at-runtime/
+
+ 2. Hibernate has this already written:
+     * org.hibernate.ejb.packaging.Scanner
+     * org.hibernate.ejb.packaging.NativeScanner
+
+3. CDI might solve this, but don't know - haven't investigated fully yet:
+   http://docs.jboss.org/weld/reference/latest/en-US/html_single/#lookup
+
+      @Inject Instance<MyClass>
+
+   Also for annotations:
+
+      abstract class MyAnnotationQualifier
+      extends AnnotationLiteral<Entity> implements Entity {}
+ 
  * @author Sebastian Hennebrueder
  */
 @ApplicationScoped
@@ -56,12 +89,12 @@ public class EntityManagerStoreImpl implements EntityManagerStore
             for( String pack :  entPackProv.getEntityPackages() ){
                log.debug("  Adding entities to Ejb3Configuration from package: " + pack);
                try {
-                  for( Class cls : ClassUtils.getClassesFromPackage( pack ) ) {
+                  for( Class cls : getEntityClassesFromPackage( pack ) ) {
                      if( null == cls.getAnnotation( Entity.class ) ) continue;
                      log.debug("    * " + cls.getName());
                      ejbConf.addAnnotatedClass( cls );
                   }
-               } catch( IOException ex ) {
+               } catch( ClassNotFoundException ex ) {
                   log.error( "  Package not found, will probably cause 'Unknown entity': " + pack );
                }
             }
@@ -138,6 +171,26 @@ public class EntityManagerStoreImpl implements EntityManagerStore
 				}
 				entityManagerStack.pop();
 		}
+
+      
+      
+      
+      /**
+       *  Util class, which encapsulates how we actually search for entity classes.
+       *  @param pack
+       *  @return 
+       */
+      private List<Class<? extends Object>> getEntityClassesFromPackage(String pack) throws ClassNotFoundException {
+         try {
+            Class seed = Class.forName( pack + ".package-info" );
+         } catch( ClassNotFoundException ex ) {
+            throw ex;
+         }
+         Class<? extends Object>[] clss = ClassScanner.DiscoverClasses( null, pack, null );
+         return Arrays.asList( clss );
+      }
+      
+      
       
 }// class
 

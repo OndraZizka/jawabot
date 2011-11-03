@@ -31,7 +31,7 @@ public class ClassScanner {
     *                              (adapted from http://www.javaworld.com/javaworld/javatips/jw-javatip113.html)
     */
    @SuppressWarnings( "unchecked" )
-   static <T> Class<? extends T>[] DiscoverClasses(
+   public static <T> Class<? extends T>[] DiscoverClasses(
            final Class<?> pSeedClass,
            final String pFilterName,
            final Class<T> pFilterClass) {
