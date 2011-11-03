@@ -33,7 +33,6 @@ public class LoggerIrcPluginHook implements IIrcPluginHook<Object> {
 
    @Override
    public void onPrivateMessage(IrcMessage message, IrcBotProxy bot) throws IrcPluginException {
-      throw new UnsupportedOperationException("Not supported yet.");
    }
 
    

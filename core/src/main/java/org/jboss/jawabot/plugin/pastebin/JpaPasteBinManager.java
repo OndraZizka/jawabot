@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import org.jboss.weld.environment.se.jpa.EntitiesPackagesProvider;
 import org.jboss.weld.environment.se.jpa.JpaTransactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *  Manages PasteBin entries.
@@ -19,7 +21,10 @@ import org.jboss.weld.environment.se.jpa.JpaTransactional;
  *  @author Ondrej Zizka
  */
 @ApplicationScoped
-public class JpaPasteBinManager implements IPasteBinManager, EntitiesPackagesProvider {
+public class JpaPasteBinManager implements IPasteBinManager, EntitiesPackagesProvider
+{
+   private static final Logger log = LoggerFactory.getLogger(JpaPasteBinManager.class);
+   
    
    @Inject private EntityManager em;
    
@@ -60,8 +65,6 @@ public class JpaPasteBinManager implements IPasteBinManager, EntitiesPackagesPro
    public Collection<Class> getEntityClasses() {
       return Collections.EMPTY_LIST;
    }
-   
-   
 
 
 }// class

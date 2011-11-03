@@ -34,8 +34,13 @@ public class PasteBinEnterSession {
    public String getWholeText(){
       return this.lines.toString();
    }
+
    
    
+   public String getChallenger() { return challenger; }
+   public String getChannel() { return channel; }
+   public String getPaster() { return paster; }
+      
    
 }// class
 

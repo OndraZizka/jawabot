@@ -25,8 +25,8 @@ public class IrcModuleHook implements IModuleHook<JawaBot, JawaBotException>
     
    
    
-   private JawaIrcBot bot;
-   public JawaIrcBot getBot() { return bot; }
+   private JawaIrcBot ircBot;
+   public JawaIrcBot getBot() { return ircBot; }
 
    
    @Inject Instance<JawaIrcBot> jawaIrcBotInst;
@@ -37,12 +37,11 @@ public class IrcModuleHook implements IModuleHook<JawaBot, JawaBotException>
    @Override
    public void initModule( JawaBot jawaBot, ConfigBean configBean ) throws JawaBotIOException, UnknownResourceException, JawaBotException {
       //this.bot = new JawaIrcBot( jawaBot );
-      this.bot = jawaIrcBotInst.get();
-      // TODO: Try @New, @Parameters
+      this.ircBot = jawaIrcBotInst.get();
       
-      this.bot.setJawaBot( jawaBot );
-      this.bot.applyConfig( configBean );
-      this.bot.init();
+      this.ircBot.setJawaBot( jawaBot );
+      this.ircBot.applyConfig( configBean );
+      this.ircBot.init();
    }
    
    @Override
@@ -53,7 +52,7 @@ public class IrcModuleHook implements IModuleHook<JawaBot, JawaBotException>
 
    @Override
    public void destroyModule() {
-      bot.dispose();
+      this.ircBot.dispose();
    }
     
    
@@ -69,12 +68,12 @@ public class IrcModuleHook implements IModuleHook<JawaBot, JawaBotException>
    
    @Override
    public void startModule() throws JawaBotException {
-      bot.connectAndJoin();
+      ircBot.connectAndJoin();
    }
 
    @Override
    public void stopModule() {
-      bot.disconnect();
+      ircBot.disconnect();
    }
 
    

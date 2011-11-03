@@ -25,6 +25,19 @@ public class IrcBotProxy {
       pircbot.sendMessage(target, message);
    }
 
+   public final void sendMessage( String user, String channel, String message ) {
+      if( channel == null ){
+         if( user == null )
+            throw new IllegalArgumentException("Neither user nor channel set, can't send the message: " + message);
+         else
+            this.pircbot.sendMessage( user, message );
+      }
+      else {
+         String whoFor = ( user == null ) ? "" : (user + ": ");
+         this.pircbot.sendMessage( channel, whoFor + message );
+      }
+   }
+
    public final void sendNotice(String target, String notice) {
       pircbot.sendNotice(target, notice);
    }

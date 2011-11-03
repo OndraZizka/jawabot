@@ -78,11 +78,14 @@ public class JawaIrcBot extends PircBot
    
    
    /** Const. */
-   public JawaIrcBot() {  }
-   
-   public JawaIrcBot( JawaBot jawaBot ) {
-      this.jawaBot = jawaBot;
+   public JawaIrcBot() {
       this.pircBotProxy = new IrcBotProxy(this);
+   }
+   
+   /** Not used but should be - to keep initialization safe... how to, with CDI? */
+   public JawaIrcBot( JawaBot jawaBot ) {
+      this();
+      this.setJawaBot(jawaBot);
    }
    
    
@@ -198,8 +201,9 @@ public class JawaIrcBot extends PircBot
                this.intentionalDisconnect = false;
                this.connect( server.host );
                // Wait for potential "ERROR :Trying to reconnect too fast."
-               log.info("Waiting " + (delaySec += DELAY_SEC_ADD_IN_NEXT_ATTEMPT) + " seconds for potential \"ERROR :Trying to reconnect too fast.\"");
+               log.info("Waiting " + delaySec + " seconds for potential \"ERROR :Trying to reconnect too fast.\"");
                Thread.sleep( delaySec * 1000 );
+               delaySec += DELAY_SEC_ADD_IN_NEXT_ATTEMPT;
                
                // On nick clash or when reconnecting too quickly, IRC server disconnects us.
                if( this.isConnected() ){

@@ -29,6 +29,23 @@ public class PasteBinEntry implements Serializable {
    private Date   when;
    private String text;
 
+   
+   
+   public PasteBinEntry() {
+      this.when = new Date();
+   }
+
+   
+   public PasteBinEntry( String author, String text ) {
+      this();
+      this.setText(text);
+      this.setAuthor(author);
+   }
+   
+   
+   
+   
+
    @Id @GeneratedValue
    public Long getId() { return id; }
    public void setId(Long id) { this.id = id; }
@@ -39,7 +56,7 @@ public class PasteBinEntry implements Serializable {
    public boolean hasChannel() { return channel != null; }
    public void setChannel(String channel) { this.channel = channel; }
    public String getText() { return text; }
-   public void setText(String text) { this.text = text; }
+   public void setText(String text) { assert null != (this.text = text); }
    @Temporal(TemporalType.TIMESTAMP)
    @Column(name="`when`")
    public Date getWhen() { return when; }
