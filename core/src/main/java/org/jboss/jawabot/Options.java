@@ -12,31 +12,51 @@ import org.jboss.jawabot.ex.JawaBotException;
 public class Options {
 
 
-   private String logProfile = null;
+   // Load configuration from file at custom path.
+   private String configFile = "JawaBotConfig.xml";
 
-   // Options profile - loads configuration from a different file.
+   // Options profile - load configuration from JawaBotConfig-<profile>.xml.
    private String profile = null;
 
+   // Logging profile - log4j-<profile>.xml
+   private String logProfile = null;
+
+   
 
 
    /**
+    *  Creates Options, taking system properties into account.
+    */
+   public Options applySysProps() throws JawaBotException
+   {
+      String val = System.getProperty("config");
+      if( null != val )  this.configFile = val;
+
+      val = System.getProperty("profile");
+      if( null != val )  this.profile = val;
+      
+      val = System.getProperty("logProfile");
+      if( null != val )  this.logProfile = val;
+      
+      return this;
+   }
+   
+   
+   /**
     *  Parse Options from the given app's arguments.
     */
-   public static Options createFromParams( String[] args ) throws JawaBotException
+   public Options applyAppParams( String[] args ) throws JawaBotException
    {
-      Options options = new Options();
-
-
       // For each argument...
       for( int i = 0; i < args.length; i++ ) {
          String arg = args[i];
-         if( arg.startsWith("-logProfile=")){  options.logProfile = arg.substring("-logProfile=".length());   continue; }
-         if( arg.startsWith("-profile=")){  options.profile = arg.substring("-profile=".length());   continue; }
+         if( arg.startsWith("--config=")){  this.configFile = arg.substring("--config=".length());   continue; }
+         if( arg.startsWith("--profile=")){  this.profile = arg.substring("--profile=".length());   continue; }
+         if( arg.startsWith("--logProfile=")){  this.logProfile = arg.substring("--logProfile=".length());   continue; }
 
          throw new JawaBotException("What should I do with this param?  => "+arg);
       }
-
-      return options;
+      return this;
    }
 
 
@@ -44,16 +64,19 @@ public class Options {
 
    /**
     *   Checks whether all the paths exist.
+    *   @throws  JawaBotException when something's wrong.
     */
-   public static void validateOptions( Options options ) throws JawaBotException {
-
+   public Options validate() throws JawaBotException {
+      return this;
    }// validateOptions()
 
-
-
-
-   public String getLogProfile() {					return this.logProfile;				}
-   public String getProfile() {      return this.profile;   }
+   
+   
+   
+   
+   public String getConfigFile() { return configFile; }
+   public String getLogProfile() { return this.logProfile;	}
+   public String getProfile() { return this.profile; }
 
 
 }// class

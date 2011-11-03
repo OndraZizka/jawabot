@@ -28,8 +28,9 @@ public class JawaBotApp
 
    
    // Things shown in the "help" command reply.
-   public static final String VERSION = "2.0.0";
-   public static final String PROJECT_DOC_URL = "https://docspace.corp.redhat.com/clearspace/docs/DOC-29621";
+   public static final String VERSION = "2.0.0-SNAPSHOT";
+   //public static final String PROJECT_DOC_URL = "https://docspace.corp.redhat.com/clearspace/docs/DOC-29621";
+   public static final String PROJECT_DOC_URL = "http://code.google.com/p/jawabot/";
 
    
 
@@ -42,9 +43,6 @@ public class JawaBotApp
    private static final UserManager userManager = new UserManager();
    public static UserManager getUserManager() { return userManager; }
 
-   // PasteBin manager.
-   //private static final MemoryPasteBinManager pasteBinManager = new MemoryPasteBinManager();
-   //public static IPasteBinManager getPasteBinManager() { return pasteBinManager; }
 
    
    
@@ -66,15 +64,14 @@ public class JawaBotApp
     * Run.
     */
    public void run(String[] args) throws JawaBotException {
-
       log.debug( JawaBotApp.class.getSimpleName() + "#main() start.");
       
-      //Options options = Options.createFromParams( args );
+      Options options = new Options().applySysProps().applyAppParams(args).validate();
 
       try {
-         String configFilePath = System.getProperty("config", "JawaBotConfig-debug.xml");
-         this.init( configFilePath );
-         //this.initAndStartModules(); // TODO: Move to JawaBot.
+         this.init( options.getConfigFile() );
+         
+         // TODO: Move to JawaBot.
          CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, JawaBotApp.getJawaBot(), JawaBotException.class);
          JawaBotApp.getJawaBot().waitForShutdown();
       } catch ( JawaBotException ex ) {
@@ -88,8 +85,8 @@ public class JawaBotApp
    /**
     *  Init module instances acquired through CDI.
     */
-   private void init( String configFilePathString ) throws JawaBotException {
-      ConfigBean cb = new JaxbConfigPersister(configFilePathString).load();
+   private void init( String configFile ) throws JawaBotException {
+      ConfigBean cb = new JaxbConfigPersister( configFile ).load();
       JawaBotApp.jawaBot = JawaBot.create( cb );
    }
 
@@ -101,13 +98,5 @@ public class JawaBotApp
    private static BeanManager beanManager;
    
       
-   /**
-    *  Id's for object lookups.
-    */
-   public interface ID {
-      public static final String JAWABOT    = "JawaBot.jawaBot";
-      public static final String RESOURCE_MANAGER    = "JawaBot.resourceManager";
-   }
-   
 
 }// class
