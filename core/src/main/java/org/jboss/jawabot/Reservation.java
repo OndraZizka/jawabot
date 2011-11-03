@@ -28,6 +28,7 @@ public class Reservation implements Comparable<Reservation>, Serializable  {
 
 	/** Which user is this reservation for. */
 	public String getForUser() {		return forUser;	}
+   public void setForUser(String forUser) { this.forUser = forUser; }
    @XmlAttribute
 	private String forUser;
 
@@ -35,6 +36,7 @@ public class Reservation implements Comparable<Reservation>, Serializable  {
 	@Temporal(javax.persistence.TemporalType.DATE)
 	@Column(name="fromDate")
    public Date getFrom() {      return from;   }
+   public void setFrom(Date from) { this.from = from; }
    @XmlAttribute
   	private Date from;
 
@@ -44,6 +46,7 @@ public class Reservation implements Comparable<Reservation>, Serializable  {
 	@Temporal(javax.persistence.TemporalType.DATE)
 	@Column(name="toDate")
 	public Date getTo() {		return to;	}
+   public void setTo(Date to) { this.to = to; }
    @XmlAttribute
 	private Date to;
 

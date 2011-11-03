@@ -1,8 +1,6 @@
 package org.jboss.jawabot.web;
 
 import cz.dynawest.wicket.LoggingUtils;
-import java.util.Enumeration;
-import java.util.logging.Level;
 import org.jboss.jawabot.web._pg.LoginPage;
 import org.jboss.jawabot.web._pg.PasteBinShowPage;
 import org.jboss.jawabot.web._pg.LeavePage;
@@ -16,7 +14,6 @@ import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
 import org.apache.wicket.devutils.inspector.InspectorPage;
-import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
 import org.jboss.jawabot.web._base.BaseLayoutPage;

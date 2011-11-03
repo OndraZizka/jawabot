@@ -60,8 +60,13 @@ public class ReservationWrap /*extends Reservation*/ implements Serializable {
 
    // Delegates
    public Date getTo() {      return resv.getTo();   }
+   public void setTo(Date to) { resv.setTo(to); }
    public Date getFrom() {      return resv.getFrom();   }
+   public void setFrom(Date from) { resv.setFrom(from); }
    public String getForUser() {      return resv.getForUser();   }
+   public void setForUser(String forUser) { resv.setForUser(forUser); }
+      
+   
    public boolean contains(Date date) {      return resv.contains(date);   }
    public int compareTo(Reservation reservation) {      return resv.compareTo(reservation);   }
    public boolean collidesWith(Reservation other) {      return resv.collidesWith(other);   }

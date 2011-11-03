@@ -7,6 +7,7 @@ import cz.dynawest.util.DateUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
 import org.apache.wicket.PageParameters;
@@ -20,6 +21,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.JawaBotApp;
@@ -39,7 +41,7 @@ public class TakePage extends BaseLayoutPage
 
    // -- Form backing --
 
-   private List<Boolean> checks = new ArrayList<Boolean>();
+   private List<CheckBoxWrap<Resource>> checks = new ArrayList();
    private ReservationWrap resv = new ReservationWrap("ozizka", new Date(), DateUtils.addDays( new Date(), 1 ), null);
 
    // Note
@@ -51,16 +53,23 @@ public class TakePage extends BaseLayoutPage
    // -- Const --
    public TakePage(PageParameters parameters) {
       super(parameters);
+      
+      
+      // Current user as default.
+      this.resv.setForUser( StringUtils.defaultString( this.getSession().getLoggedUser() ) );
 
-     // Free resources.
-     List<Resource> resources = JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName();
+      
+      // Free resources.
+      List<Resource> resources = JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName();
 
-     final CheckGroup chgrp = new CheckGroup("chgrp", checks);
+      final CheckGroup chgrp = new CheckGroup("chgrp", checks);
 
-     DateTextField tfFrom, tfTo;
+      DateTextField tfFrom, tfTo;
 
-     add( new Form("form")
-        .add( new TextField("user", new PropertyModel(resv, "forUser")) )
+
+      add( new Form("form")
+        .add( new FeedbackPanel("feedback") )
+        .add( new TextField("user", new PropertyModel(resv, "forUser")).setEnabled(false) )
 
         //.add( tfFrom = new TextField("from", new PropertyModel(resv, "from"), Date.class) )
           //.add(new DatePicker("fromPick", tfFrom))
@@ -85,6 +94,19 @@ public class TakePage extends BaseLayoutPage
       
    }// const
 
-  
+   
 
 }// class TakePage
+
+
+
+// Wrapper for lists with CheckBoxes.
+class CheckBoxWrap<T extends Object> {
+   private boolean checked;
+   private T item;
+
+   public boolean isChecked() { return checked; }
+   public void setChecked( boolean checked ) { this.checked = checked; }
+   public T getItem() { return item; }
+   public void setItem( T item ) { this.item = item; }
+}
