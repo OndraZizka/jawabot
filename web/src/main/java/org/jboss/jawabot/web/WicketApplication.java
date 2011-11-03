@@ -86,6 +86,9 @@ public class WicketApplication extends SeamApplication
       mountBookmarkablePage("debug", InspectorPage.class);
       mountBookmarkablePage("cssTest",  BaseLayoutPage.class);
       mountBookmarkablePage("vutTest",  BaseLayoutPage_Vut.class);
+      
+      
+      getMarkupSettings().setStripWicketTags(true);
    }
 
 

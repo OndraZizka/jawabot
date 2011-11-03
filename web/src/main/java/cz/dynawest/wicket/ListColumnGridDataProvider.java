@@ -18,6 +18,7 @@ package cz.dynawest.wicket;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -76,13 +77,15 @@ public class ListColumnGridDataProvider<T extends Serializable> extends  ListDat
       colHeight += ( (list.size() % cols) == 0 ? 0 : 1 );
       System.out.println( "SIZE: "+list.size()+"  HEI: "+colHeight );///
       
-      List list2 = new ArrayList<T>( colHeight * cols );
+      //List list2 = new ArrayList<T>( colHeight * cols );
+      Object[] list2 = new Object[ colHeight * cols ];
       for ( int i = 0; i < list.size(); i++ ) {
          int newIndex = (i % colHeight) * cols + (i / colHeight);
-         list2.set( newIndex, list.get(i) );
-         System.out.println("  list2["+newIndex+"] <- list["+i+"] ");///
+         //list2.set( newIndex, list.get(i) );
+         list2[ newIndex ] = list.get(i);
+         System.out.println("  list2["+newIndex+"] <- list["+i+"]  = " + list.get(i) );///
       }
-      return list2;
+      return ( List<T> ) Arrays.asList( list2 );
    }
    
 

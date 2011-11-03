@@ -71,8 +71,8 @@ public class TakePage extends BaseLayoutPage
       CheckBoxWrapList<Resource> resources = new CheckBoxWrapList<Resource>( JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName() );
 
       final CheckGroup chgrp = new CheckGroup("chgrp", checks);
+      chgrp.setRenderBodyOnly(false);
 
-      DateTextField tfFrom, tfTo;
 
 
       add( new Form("form")
@@ -112,6 +112,7 @@ public class TakePage extends BaseLayoutPage
 
                @Override
                protected void populateItem( Item<CheckBoxWrap<Resource>> li ) {
+                 if( li.getModelObject() == null ){ populateEmptyItem( li ); return; }
                  li.add( new Check("check", new PropertyModel(li.getModelObject(), "checked"), chgrp) );
                  li.add( new Label("label", new PropertyModel(li.getModelObject(), "item.name") ));
                }

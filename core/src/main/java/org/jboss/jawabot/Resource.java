@@ -1,8 +1,6 @@
 package org.jboss.jawabot;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlAttribute;
 import org.apache.commons.lang.StringUtils;
 
@@ -10,11 +8,9 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Ondrej Zizka
  */
-@Entity
 //@javax.xml.bind.annotation.XmlRootElement
 public class Resource implements Serializable, Comparable<Resource> {
 
-	@Id
    @XmlAttribute
 	private String name;
 	public String getName() {		return name;	}
