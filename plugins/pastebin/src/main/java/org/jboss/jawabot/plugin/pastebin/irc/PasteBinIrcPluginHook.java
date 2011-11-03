@@ -58,8 +58,8 @@ public class PasteBinIrcPluginHook extends IrcPluginHookBase implements IIrcPlug
          bot.sendMessage( paster, "Start pasting your text to me. Finish with \".\" message. I'll take  care of the rest.");
          bot.sendMessage( paster, "The pasted text will be publicly accessible.");
          bot.sendMessage( paster, "The URL will be sent to " + 
-                 // Channel or user?
-                 StringUtils.defaultIfEmpty( message.getChannel(), message.getUser() ) );
+         // Channel or user?
+         StringUtils.defaultIfEmpty( message.getChannel(), message.getUser() ) );
       }
    }
  
@@ -69,6 +69,8 @@ public class PasteBinIrcPluginHook extends IrcPluginHookBase implements IIrcPlug
       String paster = message.getUser();
       PasteBinEnterSession sess = this.userToSession.get( paster );
       if( null == sess )  return;
+      
+      // End of pasted text is demarcated by ".".
       if( ".".equals( message.getText() ) ){
          PasteBinEntry entry = new PasteBinEntry( message.getUser(), sess.getWholeText() );
          pbManager.addEntry( entry );
