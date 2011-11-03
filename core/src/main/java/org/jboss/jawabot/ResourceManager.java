@@ -21,22 +21,13 @@ import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 
 
 
-
-
-
-
-
-//   --------  Dump ground  --------   //
 /**
  * Central storage of resources and reservations.
  *
  * No need to synchronize yet - all done from a single PIRC thread.
  *
- * TODO: Clean up the JAXB annotations - special classes were created for JAXB serialization.
- * 
  * @author Ondrej Zizka
  */
-@XmlRootElement
 public class ResourceManager
 {
    private static final Logger log = Logger.getLogger( ResourceManager.class );
@@ -87,33 +78,12 @@ public class ResourceManager
 	}
 
 
-//   /** Returns a list of all reservation calendars. */
-//   @XmlElement(name="reservation", required=true)
-//   @XmlElementWrapper(name="reservations")
-//   public List<ReservationCalendar> getReservationCalendarsAsList(){
-//      return Arrays.asList( this.reservationCalendars.values().toArray(new ReservationCalendar[0]) );
-//   }
-//
-//   /** Returns a list of all reservation calendars. */
-//   @XmlElement(name="reservationB", required=true)
-//   @XmlElementWrapper(name="reservationsB")
-//   public List<Reservation> getReservationsAsList(){
-//      List<Reservation> res = new ArrayList<Reservation>();
-//      Collection<ReservationCalendar> cals = this.reservationCalendars.values();
-//      for (ReservationCalendar cal : cals) {
-//         res.addAll( cal.getReservations() );
-//      }
-//      return res;
-//   }
 
    /** Returns a list of all reservation calendars. */
-   @XmlElement(name="reservations")
-   @XmlJavaTypeAdapter( value = ReservCalendarMapAdaptor.class )
    public Map<Resource, ReservationCalendar> getReservationCalendars(){
       return this.reservationCalendars;
    }
    public void setReservationCalendars(Map<Resource, ReservationCalendar> cals){
-      //System.out.println("AAA"+cals.keySet());
       this.reservationCalendars = cals;
    }
 
@@ -122,52 +92,34 @@ public class ResourceManager
 
 
    /**
-    * TODO: Book multiple resources.
-    *       Quite easy - just a two-pass process - 1) Check,  2)  Reserve.
-    *
+    *  Book multiple resources for given user from... etc.
+    * 
     * @param resNamesStr A coma-separated names of resources.
-    */
-   public ReservationsBookingResult bookResources( final String resNamesStr, String userNick, Date fromDate, Date toDate ) throws UnknownResourceException
-   {
-      Date today = DateUtils.truncate( new Date(), Calendar.DATE );
-      if( null == fromDate )
-         fromDate = today;
-      if( null == toDate )
-         toDate = today;
-
-		// If fromDate is later than toDate,
-		if( toDate.before(fromDate) ){
-			//throw new JawaBotException("...");
-			// Swap the dates.
-			Date tmp = toDate;
-			toDate = fromDate;
-			fromDate = tmp;
-		}
-
-
-      String[] resNames = StringUtils.split(resNamesStr, ',');
-
-      /*if( resNames.length > 1)
-         // TODO
-         throw new UnsupportedOperationException("Booking multiple resources at once is not yet implemented. JBQA-2877");
-      return bookResource( resNames[0], userNick, fromDate, toDate );
-      */
-      return doBookResources( resNames, userNick, fromDate, toDate );
-   }
-
-
-	/**
-	 * Book the resource for given user from... etc.
-	 * @param resName   Resource name.
 	 * @param fromDate  If null, replaced with today.
 	 * @param toDate    If null, replaced with today.
 	 * @return
 	 * @throws org.jboss.jawabot.JawaBotException
-    * @deprecated  in favor of bookResources()
-	 */
-	ReservationWrap bookResource( String resName, String userNick, Date fromDate, Date toDate ) throws UnknownResourceException {
+    */
+   public ReservationsBookingResult bookResources( final String resNamesStr, String userNick, Date fromDate, Date toDate ) throws UnknownResourceException
+   {
+      String[] resNames = StringUtils.split(resNamesStr, ',');
 
-      return doBookResource(resName, userNick, fromDate, toDate);
+      return doBookResources( resNames, userNick, fromDate, toDate );
+   }
+
+
+   /**
+    *  
+    * @param chosen
+    * @param resv 
+    */
+   public ReservationsBookingResult bookResources(List<Resource> chosen, Reservation resv) throws UnknownResourceException {
+      String[] resNames = new String[chosen.size()];
+      for (int i = 0; i < 10; i++) {
+         resNames[i] = chosen.get(i).getName();
+      }
+      
+      return doBookResources( resNames, resv.getForUser(), resv.getFrom(), resv.getTo() );
    }
 
    
@@ -176,6 +128,7 @@ public class ResourceManager
    
    /**
     *  Performs the actual booking of multiple resources.
+    *  A two-pass process - 1) Check,  2)  Reserve.
     *
     *  Based on the type of the result:
     *    COLLISION: All are of type COLLISION.
@@ -184,6 +137,21 @@ public class ResourceManager
     */
    private ReservationsBookingResult doBookResources( String[] resNames, String forUser, Date fromDate, Date toDate ) throws UnknownResourceException
    {
+
+      // Date check
+      if( null == fromDate )
+         fromDate = DateUtils.truncate( new Date(), Calendar.DATE );
+      if( null == toDate )
+         toDate = fromDate;
+
+		// If fromDate is later than toDate,
+		if( toDate.before(fromDate) ){
+			// Swap the dates.
+			Date tmp = toDate;
+			toDate = fromDate;
+			fromDate = tmp;
+		}
+      
 
       Reservation resClaim = new Reservation(forUser, fromDate, toDate);
 

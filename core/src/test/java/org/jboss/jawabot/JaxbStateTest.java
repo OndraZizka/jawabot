@@ -44,9 +44,9 @@ public class JaxbStateTest extends JawaBotTestBase {
       Date today6 = DateUtils.addDays( today, 6 );
       Date today10 = DateUtils.addDays( today, 10 );
       
-      rm.bookResource("jawa01", "ozizka", today, today5 );
-      rm.bookResource("jawa01", "oskutka", today6, today10 );
-      rm.bookResource("jawa02", "ozizka", today, today10 );
+      rm.bookResources("jawa01", "ozizka", today, today5 );
+      rm.bookResources("jawa01", "oskutka", today6, today10 );
+      rm.bookResources("jawa02", "ozizka", today, today10 );
 
       // Write the XML.
       Writer writer = new SoutCopyingFileWriter("target/testStateSave.xml");
