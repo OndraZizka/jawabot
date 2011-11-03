@@ -75,6 +75,11 @@ public class JawaIrcBot extends PircBot
    private CommandHandler commandHandler;
 
    
+   /**  Current handler of onChannelInfo().   PircBot callbacks are called synchronously, we don't need sync. */
+   private ChannelInfoHandler currentChannelInfoHandler = null;
+   public void setCurrentChannelInfoHandler(ChannelInfoHandler handler) { this.currentChannelInfoHandler = handler; }
+      
+   
    
    
    /** Const. */
@@ -331,7 +336,9 @@ public class JawaIrcBot extends PircBot
 
 
 
-   /** Private IRC message - no channel, only from user. */
+   /**
+    * Private IRC message - no channel, only from user.
+    */
 	@Override
 	protected void onPrivateMessage(String sender, String login, String hostname, String msgText) {
       
@@ -345,23 +352,6 @@ public class JawaIrcBot extends PircBot
       IrcMessage msg = new IrcMessage("not.supported.yet", sender, null, msgText, new Date());
 
       for( final IIrcPluginHook plugin : this.plugins ) {
-         /*
-         try {
-            plugin.onPrivateMessage( msg, this.pircBotProxy );
-         }
-         // TODO: Filter repeated exceptions.
-         catch( NullPointerException ex ) {
-            log.error( "Plugin misbehaved: " + ex, ex );
-         }
-         catch( Throwable ex ) {
-            if( System.getProperty("bot.irc.plugins.noStackTraces") == null )
-               log.error( "Plugin misbehaved: " + ex.getMessage(), ex );
-            else {
-               log.error( "Plugin misbehaved: " + ex );
-               if( ex.getCause() != null )
-                  log.error( "  Cause: " + ex.getCause() );
-            }
-         }*/
          new ExceptionHandlerDecorator() {
             public void doIt( IrcMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
                plugin.onPrivateMessage( msg, pircBotProxy );
@@ -692,9 +682,39 @@ public class JawaIrcBot extends PircBot
 
    }
 
+   
+   
+   
+   /**
+    *  Server sent channel info, likely on a plugin's request, or after connect.
+    *  Send it to the appropriate handler - likely given by plugin.
+    */
+   @Override
+   protected void onChannelInfo( String channel, int userCount, String topic ) {
+      if( this.currentChannelInfoHandler == null )
+         return;
+      this.currentChannelInfoHandler.onChannelInfo( channel, userCount, topic );
+   }
+   
+   public void listChannels( ChannelInfoHandler handler ) {
+        if( this.currentChannelInfoHandler != null  )
+        {
+            // The same handler.
+            if( this.currentChannelInfoHandler.equals( handler ) )
+                return;
+        
+            // Warning is the most we can do.
+            log.warn("Overwriting current ChannelInfoHandler."
+            + "\n    Old: " + this.currentChannelInfoHandler
+            + "\n    New: " + handler);
+        }
+        this.currentChannelInfoHandler = handler;
 
-
-
+        // PircBot will call onChannelInfo() and we will redirect these calls to the handler.
+        // Unfortunatelly, there's no way to recognize when it finished,
+        // so the
+        this.listChannels();
+   }
 
 
 
@@ -706,22 +726,36 @@ public class JawaIrcBot extends PircBot
       //if( this.getConfig().getSettingBool(SETID_ACCEPT_INVITATION))
 			this.joinChannel(channel);
 	}
+    
+    
+
+    @Override
+    protected void onConnect() {
+        for( final IIrcPluginHook plugin : this.plugins ) {
+            plugin.onConnect( this.pircBotProxy );
+        }
+    }
 
 
 
 	@Override
 	protected void onDisconnect() {
-      log.info("onDisconnect().");
-		// TODO: Reconnect on unintentional disconnect - to get over network outages.
-      //       See connectAndReconnectOnDisconnect().      
-      if( this.isIntentionalDisconnect() ){
-         log.info("  Intentional disconnect, disposing PircBot.");
-         this.dispose();
-      }
-      synchronized(this){
-         log.info("  notifyAll() on PircBot@" + this.hashCode());
-         this.notifyAll();
-      }
+        log.info("onDisconnect().");
+
+        for (final IIrcPluginHook plugin : this.plugins) {
+            plugin.onDisconnect(this.pircBotProxy);
+        }
+
+        // TODO: Reconnect on unintentional disconnect - to get over network outages.
+        //       See connectAndReconnectOnDisconnect().      
+        if (this.isIntentionalDisconnect()) {
+            log.info("  Intentional disconnect, disposing PircBot.");
+            this.dispose();
+        }
+        synchronized (this) {
+            log.info("  notifyAll() on PircBot@" + this.hashCode());
+            this.notifyAll();
+        }
 	}
 
 

@@ -18,5 +18,11 @@ public interface IIrcPluginHook <TInitObject extends Object> extends IPluginLife
    
    public void onPart( String channel, String user, IrcBotProxy bot );
    
+   public void onBotJoinChannel( String channel, IrcBotProxy bot );
+
+   public void onConnect( IrcBotProxy pircBotProxy );
+   
+   public void onDisconnect( IrcBotProxy pircBotProxy );
+   
 }// class
 

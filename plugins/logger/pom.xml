@@ -24,15 +24,15 @@
 
       <resources>
          <resource>
-            <directory>resources</directory>
-            <includes> <include>*.xml</include> <include>*.properties</include> </includes>
+            <directory>src/main/java</directory>
+            <includes> <include>**/*.xml</include> <include>**/*.properties</include> </includes>
          </resource>
       </resources>
 
       <testResources>
          <testResource>
             <directory>src/test/resources</directory>
-            <includes> <include>*.xml</include> <include>*.properties</include> </includes>
+            <includes> <include>**/*.xml</include> <include>**/*.properties</include> </includes>
          </testResource>
       </testResources>
 

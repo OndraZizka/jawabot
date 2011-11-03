@@ -29,6 +29,19 @@ public abstract class IrcPluginHookBase implements IIrcPluginHook<Object> {
    public void onPart(String channel, String user, IrcBotProxy bot ) {
    }
 
+   @Override
+   public void onBotJoinChannel(String channel, IrcBotProxy bot) {
+   }
+   
+    @Override
+    public void onConnect( IrcBotProxy pircBotProxy ) {
+    }
+
+    @Override
+    public void onDisconnect( IrcBotProxy pircBotProxy ) {
+    }
+   
+
    
    // Lifecycle.
    

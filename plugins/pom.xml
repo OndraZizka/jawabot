@@ -27,9 +27,10 @@
       <module>resources</module>
       <module>pastebin</module>
       -->
+      <module>jira</module>
       <module>logger</module>
       <module>autoop</module>
-      <module>jira</module>
+      <module>whereis</module>
    </modules>
 
 

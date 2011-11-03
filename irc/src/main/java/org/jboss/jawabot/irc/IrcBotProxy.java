@@ -6,163 +6,166 @@ import org.jibble.pircbot.User;
 /**
  *  Limits possible calls to a set safe to provide to plugins.
  *  Delegates calls to PircBot.
+ * 
+ *  Note: I had to specify the class to JawaIrcBot instead of PircBot 
+ *  to overcome some PircBot's limitations like that onChannelInfo() calls 
+ *  callback method directly, which would prevent plugins differentiate 
+ *  who asked for channel info.
  *  
  *  @author Ondrej Zizka
  */
 public class IrcBotProxy {
-   
-   private PircBot pircbot;
 
-   public IrcBotProxy(PircBot pircbot) {
-      this.pircbot = pircbot;
-   }
-   
-   
-   
-   // Sending.
-   
-   public final void sendMessage(String target, String message) {
-      pircbot.sendMessage(target, message);
-   }
+    private JawaIrcBot jawaIrcBot;
 
-   public final void sendMessage( String user, String channel, String message ) {
-      if( channel == null ){
-         if( user == null )
-            throw new IllegalArgumentException("Neither user nor channel set, can't send the message: " + message);
-         else
-            this.pircbot.sendMessage( user, message );
-      }
-      else {
-         String whoFor = ( user == null ) ? "" : (user + ": ");
-         this.pircbot.sendMessage( channel, whoFor + message );
-      }
-   }
+    public IrcBotProxy( JawaIrcBot jawaIrcBot ) {
+        this.jawaIrcBot = jawaIrcBot;
+    }
 
-   public final void sendNotice(String target, String notice) {
-      pircbot.sendNotice(target, notice);
-   }
+    
+    // ==== Sending. ==== 
+    
+    public final void sendMessage(String target, String message) {
+        jawaIrcBot.sendMessage(target, message);
+    }
 
-   public final void sendInvite(String nick, String channel) {
-      pircbot.sendInvite(nick, channel);
-   }
+    public final void sendMessage(String user, String channel, String message) {
+        if (channel == null) {
+            if (user == null) {
+                throw new IllegalArgumentException("Neither user nor channel set, can't send the message: " + message);
+            } else {
+                this.jawaIrcBot.sendMessage(user, message);
+            }
+        } else {
+            String whoFor = (user == null) ? "" : (user + ": ");
+            this.jawaIrcBot.sendMessage(channel, whoFor + message);
+        }
+    }
 
-   public final void sendCTCPCommand(String target, String command) {
-      pircbot.sendCTCPCommand(target, command);
-   }
+    public final void sendNotice(String target, String notice) {
+        jawaIrcBot.sendNotice(target, notice);
+    }
 
-   public final void sendAction(String target, String action) {
-      pircbot.sendAction(target, action);
-   }
+    public final void sendInvite(String nick, String channel) {
+        jawaIrcBot.sendInvite(nick, channel);
+    }
 
+    public final void sendCTCPCommand(String target, String command) {
+        jawaIrcBot.sendCTCPCommand(target, command);
+    }
 
-   // Users related.
-   
-   public final void op(String channel, String nick) {
-      pircbot.op(channel, nick);
-   }
+    public final void sendAction(String target, String action) {
+        jawaIrcBot.sendAction(target, action);
+    }
 
-   public final void deOp(String channel, String nick) {
-      pircbot.deOp(channel, nick);
-   }
+    
+    // ==== Users related. ==== 
+    
+    public final void op(String channel, String nick) {
+        jawaIrcBot.op(channel, nick);
+    }
 
-   public final void kick(String channel, String nick, String reason) {
-      pircbot.kick(channel, nick, reason);
-   }
+    public final void deOp(String channel, String nick) {
+        jawaIrcBot.deOp(channel, nick);
+    }
 
-   public final void kick(String channel, String nick) {
-      pircbot.kick(channel, nick);
-   }
+    public final void kick(String channel, String nick, String reason) {
+        jawaIrcBot.kick(channel, nick, reason);
+    }
 
-   public final void voice(String channel, String nick) {
-      pircbot.voice(channel, nick);
-   }
+    public final void kick(String channel, String nick) {
+        jawaIrcBot.kick(channel, nick);
+    }
 
-   public final void deVoice(String channel, String nick) {
-      pircbot.deVoice(channel, nick);
-   }
+    public final void voice(String channel, String nick) {
+        jawaIrcBot.voice(channel, nick);
+    }
 
-   public final void ban(String channel, String hostmask) {
-      pircbot.ban(channel, hostmask);
-   }
+    public final void deVoice(String channel, String nick) {
+        jawaIrcBot.deVoice(channel, nick);
+    }
 
-   public final void unBan(String channel, String hostmask) {
-      pircbot.unBan(channel, hostmask);
-   }
+    public final void ban(String channel, String hostmask) {
+        jawaIrcBot.ban(channel, hostmask);
+    }
 
+    public final void unBan(String channel, String hostmask) {
+        jawaIrcBot.unBan(channel, hostmask);
+    }
 
+    
+    // ==== Channel related. ==== 
+    
+    public final User[] getUsers(String channel) {
+        return jawaIrcBot.getUsers(channel);
+    }
 
-   // Channel related.
-   
-   public final User[] getUsers(String channel) {
-      return pircbot.getUsers(channel);
-   }
+    public final void setTopic(String channel, String topic) {
+        jawaIrcBot.setTopic(channel, topic);
+    }
 
-   public final void setTopic(String channel, String topic) {
-      pircbot.setTopic(channel, topic);
-   }
+    public final void setMode(String channel, String mode) {
+        jawaIrcBot.setMode(channel, mode);
+    }
 
-   public final void setMode(String channel, String mode) {
-      pircbot.setMode(channel, mode);
-   }
+    public final void partChannel(String channel, String reason) {
+        jawaIrcBot.partChannel(channel, reason);
+    }
 
-   public final void partChannel(String channel, String reason) {
-      pircbot.partChannel(channel, reason);
-   }
+    public final void partChannel(String channel) {
+        jawaIrcBot.partChannel(channel);
+    }
 
-   public final void partChannel(String channel) {
-      pircbot.partChannel(channel);
-   }
+    public final void joinChannel(String channel, String key) {
+        jawaIrcBot.joinChannel(channel, key);
+    }
 
-   public final void joinChannel(String channel, String key) {
-      pircbot.joinChannel(channel, key);
-   }
+    public final void joinChannel(String channel) {
+        jawaIrcBot.joinChannel(channel);
+    }
 
-   public final void joinChannel(String channel) {
-      pircbot.joinChannel(channel);
-   }
+    
+    //  ==== Bot- and connection-related. ====
+    
+    public final String[] getChannels() {
+        return jawaIrcBot.getChannels();
+    }
+    
+    public final void listChannels( ChannelInfoHandler channelInfoHandler ) {
+        jawaIrcBot.listChannels( channelInfoHandler );
+    }
 
-   
-   //  Bot- and connection-related.
-   
-   public final String[] getChannels() {
-      return pircbot.getChannels();
-   }
-   
-   public final void listChannels(String parameters) {
-      pircbot.listChannels(parameters);
-   }
+    /*public final void listChannels(String parameters) {
+        jawaIrcBot.listChannels(parameters);
+    }
 
-   public final void listChannels() {
-      pircbot.listChannels();
-   }
+    public final void listChannels() {
+        jawaIrcBot.listChannels();
+    }*/
 
-   
-   public final String getVersion() {
-      return pircbot.getVersion();
-   }
+    public final String getVersion() {
+        return jawaIrcBot.getVersion();
+    }
 
-   public final String getServer() {
-      return pircbot.getServer();
-   }
+    public final String getServer() {
+        return jawaIrcBot.getServer();
+    }
 
-   public final int getPort() {
-      return pircbot.getPort();
-   }
+    public final int getPort() {
+        return jawaIrcBot.getPort();
+    }
 
-   public String getNick() {
-      return pircbot.getNick();
-   }
+    public String getNick() {
+        return jawaIrcBot.getNick();
+    }
 
-   public final String getName() {
-      return pircbot.getName();
-   }
+    public final String getName() {
+        return jawaIrcBot.getName();
+    }
 
-   public final String getLogin() {
-      return pircbot.getLogin();
-   }
-
-   
-   
-   
+    public final String getLogin() {
+        return jawaIrcBot.getLogin();
+    }
+    
 }// class
 
