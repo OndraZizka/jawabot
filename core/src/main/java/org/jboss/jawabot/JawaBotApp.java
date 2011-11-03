@@ -109,6 +109,8 @@ public class JawaBotApp
       
       Set<Bean<?>> beans = beanManager.getBeans(IModuleHook.class);
       
+      // TODO:  Traverse that beans, not moduleNames.
+      
       IModuleHook[] moduleHooks = new IModuleHook[moduleNames.length];
 
       // For listing of init errors.
