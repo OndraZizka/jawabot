@@ -14,7 +14,9 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.Resource;
+import org.jboss.jawabot.groupmgr.Group;
 import org.jboss.jawabot.web.JawaBotSession;
+import org.jboss.jawabot.web._co.GroupLinkPanel;
 import org.jboss.jawabot.web._co.ResourceLinkPanel;
 
 
@@ -52,6 +54,18 @@ public class MenuPanel extends Panel
       List<Resource> resources = ((ConveniencePageBase)getPage()).getJawaBot().getResourceManager().getResourcesWithNoReservations();
 
       add(new ListView<Resource>("resourceList", new ListModel( resources ) ) {
+        @Override protected void populateItem(ListItem<Resource> item) {
+           item.add( new ResourceLinkPanel("link", item.getModelObject()));
+        }
+      });
+
+      add(new ListView<Group>("groupList", new ListModel( resources ) ) {
+        @Override protected void populateItem(ListItem<Group> item) {
+           item.add( new GroupLinkPanel("link", item.getModelObject()));
+        }
+      });
+
+      add(new ListView<Resource>("pastebinList", new ListModel( resources ) ) {
         @Override protected void populateItem(ListItem<Resource> item) {
            item.add( new ResourceLinkPanel("link", item.getModelObject()));
         }

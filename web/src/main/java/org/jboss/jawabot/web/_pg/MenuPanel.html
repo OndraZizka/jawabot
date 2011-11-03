@@ -38,17 +38,26 @@
       <!-- Groups -->
       <li class="level0 collapsed"><span>Groups</span>
          <ul class="flat level1">
-            <li><a href="/groups/eap">eap</a></li>
-            <li><a href="/groups/soa">soa</a></li>
+            <wicket:container wicket:id="groupList">
+               <li><a wicket:id="link" href="/group/eap"><span xwicket:id="name">EAP</span></a></li>
+            </wicket:container>
+            <wicket:remove>
+               <li><a href="/groups/eap">SOA</a></li>
+               <li><a href="/groups/soa">JBDS</a></li>
+            </wicket:remove>
          </ul></li>
 
       <!-- Pastebin -->
-      <li class="level0 collapsed"><span>Groups</span>
+      <li class="level0 collapsed"><span>Pastebin</span>
          <ul class="flat level1">
-            <li><a href="/pastebin/new">PasteBin</a></li>
-            <li><a href="/pastebin/22">PB-22</a></li>
-            <li><a href="/pastebin/21">PB-21</a></li>
-            <li><a href="/pastebin/20">PB-20</a></li>
+            <wicket:container wicket:id="pastebinList">
+               <li><a wicket:id="link" href="/pastebin/22"><span xwicket:id="name">PB-23</span></a></li>
+            </wicket:container>
+            <wicket:remove>
+               <li><a href="/pastebin/22">PB-22</a></li>
+               <li><a href="/pastebin/21">PB-21</a></li>
+               <li><a href="/pastebin/20">PB-20</a></li>
+            </wicket:remove>
          </ul></li>
 
    </ul>

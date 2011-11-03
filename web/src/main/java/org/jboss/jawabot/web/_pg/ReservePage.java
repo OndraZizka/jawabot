@@ -26,12 +26,21 @@ import org.jboss.jawabot.web._base.BaseLayoutPage;
  */
 public class ReservePage extends BaseLayoutPage {
 
+   // Page params.
+   public final static String PARAM_RES = "res";
+   public final static String PARAM_FROM = "fromDateOffset";
+   public final static String PARAM_TO = "toDateOffset";
+   public final static String PARAM_USER = "user"; // optional
+   
+
+   // Page state.
    private Resource selectedResource = null;
    private Date dateFrom = null;
    private Date dateTo = null;
    private String owner = null;
    private String note = null;
 
+   //<editor-fold defaultstate="collapsed" desc="comment">
    public Date getDateFrom() { return dateFrom; }
    public void setDateFrom( Date dateFrom ) { this.dateFrom = dateFrom; }
    public Date getDateTo() { return dateTo; }
@@ -42,6 +51,7 @@ public class ReservePage extends BaseLayoutPage {
    public void setSelectedResource( Resource selectedResource ) { this.selectedResource = selectedResource; }
    public String getNote() { return note; }
    public void setNote( String note ) { this.note = note; }
+   //</editor-fold>
 
 
    public ReservePage( PageParameters params ) {
@@ -83,8 +93,8 @@ public class ReservePage extends BaseLayoutPage {
       
 
       // Action handling.
-      Integer fromOffset = params.getInt("fromDateOffset", 0);
-      Integer toOffset   = params.getAsInteger("toDateOffset");
+      Integer fromOffset = params.getInt(PARAM_FROM, 0);
+      Integer toOffset   = params.getAsInteger(PARAM_TO);
 
       if( null == toOffset ){
 
@@ -95,8 +105,8 @@ public class ReservePage extends BaseLayoutPage {
          try {
             ReservationsBookingResult bookResources =
             JawaBotApp.getJawaBot().getResourceManager().bookResources(
-                    params.getString("res"),
-                    params.getString("user"),
+                    params.getString(PARAM_RES),
+                    params.getString(PARAM_USER),
                     dayFrom, dayTo
             );
             // continue to original requested destination if exists, otherwise go to a default home page

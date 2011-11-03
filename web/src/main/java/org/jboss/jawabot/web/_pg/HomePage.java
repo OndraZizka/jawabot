@@ -28,6 +28,7 @@ import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.state.ent.User;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
+import org.jboss.jawabot.web._co.ReserveLinkPanel;
 import org.jboss.jawabot.web._co.ResourceLinkPanel;
 
 
@@ -52,7 +53,10 @@ public class HomePage extends BaseLayoutPage
      List<ResourceWithNearestFreePeriodDTO> resources = getResourceWithNearestFreePeriod( JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName() );
 
      add(new ListView<ResourceWithNearestFreePeriodDTO>("resources", new ListModel<ResourceWithNearestFreePeriodDTO>( resources ) ) {
-        @Override protected void populateItem(ListItem<ResourceWithNearestFreePeriodDTO> item) {
+        @Override protected void populateItem(ListItem<ResourceWithNearestFreePeriodDTO> item) 
+        {
+            ResourceWithNearestFreePeriodDTO obj = item.getModelObject();
+           
            item.add(
                new ResourceLinkPanel("reslink", item.getModelObject().getResource() ) 
            );
@@ -70,11 +74,12 @@ public class HomePage extends BaseLayoutPage
               );
            }
            item.add(
-               new BookmarkablePageLink("chooseTimeSpan", ReservePage.class){}
+               /*new BookmarkablePageLink("chooseTimeSpan", ReservePage.class){}
                .setParameter("fromDateOffset", 0)
                .setParameter("toDateOffset", 4)
-               .add( new Label("label", "choose span..." ))
-               .setEnabled( item.getModelObject().isFreeToday() )
+               .add( new Label("label", "choose span..." ))*/
+               new ReserveLinkPanel("chooseTimeSpan", new org.jboss.jawabot.state.ent.Reservation( obj.getResource(), 0, 4 ) )
+               .setEnabled( obj.isFreeToday() )
            );
         }
      });

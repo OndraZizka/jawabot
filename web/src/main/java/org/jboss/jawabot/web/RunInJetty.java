@@ -5,13 +5,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.logging.Level;
+import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.wicket.application.ReloadingClassLoader;
 import org.apache.wicket.protocol.http.ReloadingWicketServlet;
 import org.apache.wicket.protocol.http.WicketServlet;
 import org.mortbay.jetty.Server;
+import org.mortbay.jetty.plus.naming.Resource;
 import org.mortbay.jetty.servlet.*;
+import org.mortbay.jetty.webapp.WebAppContext;
 
 
 
@@ -39,7 +43,32 @@ public class RunInJetty
       Server server = new Server( 8080 );
       Context ctx = new Context( server, "/", Context.NO_SECURITY | Context.SESSIONS );
 
+
       
+      // Trying to integrate Weld. But found better - weld-wicket.
+      // http://docs.jboss.org/weld/reference/1.0.0/en-US/html/viewlayers.html#d0e5200
+      // org.jboss.weld.wicket.WeldApplication
+
+      
+      //new Resource("blah", new Object);
+      //server.addHandler( new org.mortbay.jetty.webapp.WebAppContext("src/main/webapp", "/my-context") );
+      //ctx.addHandler( new );
+
+
+      /*
+      WebAppContext webAppCtx = new org.mortbay.jetty.webapp.WebAppContext();
+      try {
+         //BeanManager
+         new org.mortbay.jetty.plus.naming.Resource( webAppCtx, "BeanManager", 
+            new javax.naming.Reference(
+               "javax.enterprise.inject.spi.BeanManager",
+               "org.jboss.weld.resources.ManagerObjectFactory", null )
+         );
+      } catch ( NamingException ex ) {
+         java.util.logging.Logger.getLogger( RunInJetty.class.getName() ).log( Level.SEVERE, null, ex );
+      }
+       */
+
       
       // Static content.
       

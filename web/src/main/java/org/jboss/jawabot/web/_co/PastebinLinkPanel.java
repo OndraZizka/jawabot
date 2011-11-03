@@ -7,37 +7,37 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.jboss.jawabot.JawaBotApp;
-import org.jboss.jawabot.groupmgr.Group;
-import org.jboss.jawabot.web._pg.GroupPage;
+import org.jboss.jawabot.Resource;
+import org.jboss.jawabot.web._pg.ResourcePage;
 
 /**
  *  
  *  @author ondra
  */
-public class GroupLinkPanel extends Panel {
+public class PastebinLinkPanel extends Panel {
    
    //Resource res;
 
-   /*public GroupLinkPanel( String id, final String name ) {
+   public PastebinLinkPanel( String id, final String name ) {
       super( id, new Model( JawaBotApp.getJawaBot().getResourceManager().getResource( name ) ) );
       //Resource res = JawaBotApp.getJawaBot().getResourceManager().getResource( name );
       //this.res = res;
-   }*/
+   }
 
-   public GroupLinkPanel( String id, final Group res ) {
-      super( id, new Model<Group>(res) );
+   public PastebinLinkPanel( String id, final Resource res ) {
+      super( id, new Model<Resource>(res) );
       //IBehavior a = new CssModifier( , null)
    }
 
    @Override
    protected void onInitialize() {
       super.onInitialize();
-      BookmarkablePageLink<Group> link = new BookmarkablePageLink<Group>( "link", GroupPage.class);
-      link.add( new Image( "icoType", "Group.gif" ) );
-      link.add( new Label("label", ((Group)getDefaultModelObject()).getName() ));
+      BookmarkablePageLink<Resource> link = new BookmarkablePageLink<Resource>( "link", ResourcePage.class);
+      link.add( new Image( "icoType", "ResourceMachine.gif" ) );
+      link.add( new Label("label", ((Resource)getDefaultModelObject()).getName() ));
       add(link);
    }
- 
+   
    
    
 }
