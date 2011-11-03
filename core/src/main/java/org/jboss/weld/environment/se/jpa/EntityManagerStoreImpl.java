@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.Stack;
+import javax.annotation.PostConstruct;
 
 /**
  * A store for entity managers. It is basically a ThreadLocal which stores the entity manager.
@@ -28,8 +29,8 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
 		
 		private ThreadLocal<Stack<EntityManager>> emStackThreadLocal = new ThreadLocal<Stack<EntityManager>>();
 
-		
-		public void init(@Observes ContainerInitialized containerInitialized) {
+		@PostConstruct
+		public void init(/*@Observes ContainerInitialized containerInitialized*/) {
 				emf = Persistence.createEntityManagerFactory("TestPU");
 		}
 		
