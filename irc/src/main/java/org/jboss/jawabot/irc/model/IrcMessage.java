@@ -15,7 +15,15 @@ public class IrcMessage implements Serializable {
    private String text;
    private Date when;
 
-   
+   public IrcMessage(String server, String user, String channel, String text, Date when) {
+      this.server = server;
+      this.user = user;
+      this.channel = channel;
+      this.text = text;
+      this.when = when;
+   }
+
+  
    //<editor-fold defaultstate="collapsed" desc="get/set">
    public String getChannel() {
       return channel;
@@ -58,7 +66,11 @@ public class IrcMessage implements Serializable {
    }
    //</editor-fold>
 
-   
+   @Override
+   public String toString() {
+      return "IrcMessage{ " + user + "@ #" + channel + ": " + text + " }";
+   }
+
    
    
 }// class

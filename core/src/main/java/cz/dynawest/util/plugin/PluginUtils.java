@@ -43,21 +43,23 @@ public class PluginUtils {
     * 
     *  COPIED from JawaBotApp, perhaps refactor to reuse the code somehow?
     */
-   public static void initAndStartModules( String[] moduleNames, Object initObj ) throws PluginEx {
+   public static <T extends IPluginLifeCycle> List<T> initAndStartModules( String[] moduleNames, Class<T> cls, Object initObj ) throws PluginEx {
 
-      IPluginLifeCycle[] moduleHooks = new IPluginLifeCycle[moduleNames.length];
+      //IPluginLifeCycle[] moduleHooks = new IPluginLifeCycle[moduleNames.length];
+      List<T> moduleHooks = new ArrayList(moduleNames.length);
 
       // For listing of init errors.
       List<Throwable> exs = new ArrayList<Throwable>();
-      List<String> errMods = new ArrayList<String>();
+      List<String> errModules = new ArrayList<String>();
       
       // Instantiate
       for (int i = 0; i < moduleNames.length; i++) {
          try {
-            moduleHooks[i] = PluginUtils.<IPluginLifeCycle>instantiateModule( moduleNames[i] );
+            //moduleHooks[i] = PluginUtils.<IPluginLifeCycle>instantiateModule( moduleNames[i] );
+            moduleHooks.add(i, PluginUtils.<T>instantiateModule( moduleNames[i] ) );
          } catch(  PluginLoadEx ex ) {
             exs.add( ex );
-            errMods.add( moduleNames[i] );
+            errModules.add( moduleNames[i] );
          }
       }
       
@@ -68,7 +70,7 @@ public class PluginUtils {
             hook.initModule( initObj );
          } catch( Throwable ex ) {
             exs.add( ex );
-            errMods.add( hook.getClass().getName() );
+            errModules.add( hook.getClass().getName() );
          }
       }
       
@@ -79,7 +81,7 @@ public class PluginUtils {
             hook.startModule();
          } catch( Throwable ex ) {
             exs.add( ex );
-            errMods.add( hook.getClass().getName() );
+            errModules.add( hook.getClass().getName() );
          }
       }
 
@@ -88,7 +90,7 @@ public class PluginUtils {
       
       if( exs.size() != 0 ){
          StringBuilder sb = new StringBuilder("Some plugins couldn't be initialized or started: ")
-           .append( StringUtils.join( errMods, ", ") )
+           .append( StringUtils.join( errModules, ", ") )
            .append("\n");
          for( Throwable ex : exs ) {
             if( ex instanceof PluginLoadEx ){
@@ -108,6 +110,9 @@ public class PluginUtils {
          }
          throw new PluginEx( sb.toString() );
       }
+      
+      //return (T[]) moduleHooks;
+      return moduleHooks;
       
    }// initAndStartModules()
    

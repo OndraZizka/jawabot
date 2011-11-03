@@ -2,15 +2,14 @@
 package org.jboss.jawabot.irc;
 
 import cz.dynawest.util.plugin.PluginEx;
-import cz.dynawest.util.plugin.PluginLoadEx;
 import cz.dynawest.util.plugin.PluginUtils;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
+import java.util.Map.Entry;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.state.beans.StateBean;
 import org.jibble.pircbot.PircBot;
@@ -24,6 +23,7 @@ import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.config.beans.ServerBean;
+import org.jboss.jawabot.irc.model.IrcMessage;
 import org.jibble.pircbot.NickAlreadyInUseException;
 
 
@@ -52,7 +52,7 @@ public class JawaIrcBot extends PircBot
    
    
    /** Plugins map */
-   private SortedMap<String, IIrcPluginHook> plugins = new TreeMap();
+   private SortedMap<String, IIrcPluginHook> pluginsByClass = new TreeMap();
    
    
    
@@ -95,17 +95,19 @@ public class JawaIrcBot extends PircBot
          log.warn("Already initialized.");
 
 
-      // Create a command handler.
+      // Create a command handler for core commands.
       this.commandHandler = new CommandHandlerImpl(this);
       
-      //this.initAndStartModules();
       try {
-         PluginUtils.initAndStartModules( new String[] {
-               "org.jboss.jawabot.irc.plugin.LoggerIrcPluginHook",
-               "org.jboss.jawabot.mod.web.WebModuleHook",
-            },
-            getJawaBot()
-         );
+         String[] pluginNames = new String[] {
+            "org.jboss.jawabot.irc.plugin.logger.LoggerIrcPluginHook",
+            //"org.jboss.jawabot.irc.plugin.resources.ResourcesIrcPluginHook", // Former JawaBot
+         };
+         List<IIrcPluginHook> plugins = PluginUtils.initAndStartModules( pluginNames, IIrcPluginHook.class,  getJawaBot() );
+         for( IIrcPluginHook plugin : plugins ) {
+            this.pluginsByClass.put( plugin.getClass().getName(), plugin );
+         }
+         
       }
       catch( PluginEx ex ){
          throw new JawaBotException("Failed loading IRC plugins: " + ex.getMessage(), ex);
@@ -203,7 +205,7 @@ public class JawaIrcBot extends PircBot
     * calling user's nick and the message.
 	 */
 	@Override
-	protected void onMessage(String channel, String sender, String login, String hostname, String message)
+	protected void onMessage(String channel, String sender, String login, String hostname, String msgText)
    {
       if( ! this.isInitialized() ){
          log.warn("Called onMessage(), but not initialized yet.");
@@ -214,11 +216,11 @@ public class JawaIrcBot extends PircBot
       // Either process a command or search for Jira IDs.
       boolean wasCommand = false;
 
-      String msgNorm = message.trim().toLowerCase();
+      String msgNorm = msgText.trim().toLowerCase();
 
       // Check for presence of bot nick prolog.
-      boolean startsWithUsualNick = isMsgForNick( msgNorm, USUAL_NICK );
-      boolean startsWithBotNick = isMsgForNick( msgNorm, this.getNick() );
+      boolean startsWithUsualNick = IrcUtils.isMsgForNick( msgNorm, USUAL_NICK );
+      boolean startsWithBotNick = IrcUtils.isMsgForNick( msgNorm, this.getNick() );
 
       // If the prolog is present,
       if( startsWithUsualNick || startsWithBotNick ){
@@ -245,9 +247,25 @@ public class JawaIrcBot extends PircBot
 
       // Not a command?
       if( !wasCommand ){
-      }
+         
+         IrcMessage msg = new IrcMessage("not.supported.yet", sender, channel, msgText, new Date());
+         
+         // Pass it to the IRC plugins.
+         for ( Entry<String, IIrcPluginHook> entry : this.pluginsByClass.entrySet() ) {
+            try {
+               entry.getValue().onMessage( msg );
+            }
+            catch (IrcPluginException ex) {
+               if( System.getProperty("bot.irc.plugins.printStackTraces") != null )
+                  log.error( "Plugin misbehaved: " + ex.getMessage(), ex );
+               else
+                  log.error( "Plugin misbehaved: " + ex.getMessage(), ex );
+            }
+         }// for
+         
+      }// if( !wasCommand )
 
-   }
+   }// onMessage()
 
 
 
@@ -647,115 +665,6 @@ public class JawaIrcBot extends PircBot
    }
 
 
-
-   /**
-    * Does not support multiple nicks.
-    * Returns false if the message consists only of the nick.
-    *
-    * @param msg   IRC message, like "ozizka: How are you?"
-    * @param nick  User nick, like "ozizka".
-    * @returns true if the message is intended for the given nick.
-    *
-    * TODO: Return the position of the end of the prolog (start of the actual message).
-    */
-   private static boolean isMsgForNick( String msg, String nick ) {
-      if( null == msg || msg.equals("") || null == nick || nick.equals("") )
-         return false;
-
-      return msg.startsWith( nick.toLowerCase() )
-          // At least one char besides the nick.
-          && msg.length() > nick.length() + 2
-          // Char after the usual nick is something that "terminates the nick".
-          && StringUtils.contains(" ,:", msg.charAt( nick.length() ) );
-   }
-
-   
-   
-   
-   
-   /**
-    *  Initialization of all modules.
-    *  Currently listed statically.
-    * 
-    *  COPIED from JawaBotApp, perhaps refactor to reuse the code somehow?
-    *  @deprecated - Moved to PluginUtils.
-    */
-   private void xinitAndStartModules() throws JawaBotException {
-
-      String[] moduleNames = new String[] {
-         "org.jboss.jawabot.irc.plugin.LoggerIrcPluginHook",
-         "org.jboss.jawabot.mod.web.WebModuleHook",
-      };
-      
-      IIrcPluginHook[] moduleHooks = new IIrcPluginHook[moduleNames.length];
-
-      // For listing of init errors.
-      List<Throwable> exs = new ArrayList<Throwable>();
-      List<String> errMods = new ArrayList<String>();
-      
-      // Instantiate
-      for (int i = 0; i < moduleNames.length; i++) {
-         try {
-            moduleHooks[i] = PluginUtils.<IIrcPluginHook>instantiateModule( moduleNames[i] );
-         } catch(  PluginLoadEx ex ) {
-            exs.add( ex );
-            errMods.add( moduleNames[i] );
-         }
-      }
-      
-      // Init
-      for( IIrcPluginHook hook : moduleHooks ) {
-         try {
-            if( null == hook ) continue;
-            hook.initModule( getJawaBot() );
-         } catch( Throwable ex ) {
-            exs.add( ex );
-            errMods.add( hook.getClass().getName() );
-         }
-      }
-      
-      // Start
-      for( IIrcPluginHook hook : moduleHooks ) {
-         try {
-            if( null == hook ) continue;
-            hook.startModule();
-         } catch( Throwable ex ) {
-            exs.add( ex );
-            errMods.add( hook.getClass().getName() );
-         }
-      }
-      
-      //if( exs.size() == 1 )
-      //   throw new JawaBotException( exs.get(0).getMessage(), exs.get(0) );
-      
-      if( exs.size() != 0 ){
-         StringBuilder sb = new StringBuilder("Some modules couldn't be initialized or started: ")
-           .append( StringUtils.join( errMods, ", ") )
-           .append("\n");
-         for( Throwable ex : exs ) {
-            if( ex instanceof PluginLoadEx ){
-               PluginLoadEx plex = (PluginLoadEx) ex;
-               sb.append("\n  ")
-                 .append( plex.getModuleClass() )
-                 .append( ": " )
-                 .append( ExceptionUtils.getRootCauseMessage(plex) );
-            }
-            else{
-               sb.append("\n")
-                 .append( ExceptionUtils.getRootCauseMessage(ex) )
-                 .append("\n")
-                 .append( StringUtils.join( ExceptionUtils.getRootCauseStackTrace(ex), "\n") );
-            }
-            sb.append("\n");
-         }
-         throw new JawaBotException( sb.toString(), null);
-      }
-      
-   }// initAndStartModules()
-   
-   
-
-		
 }// class
 
 

@@ -21,5 +21,27 @@ public class IrcUtils {
 
    }
 
+   
+   /**
+    * Does not support multiple nicks.
+    * Returns false if the message consists only of the nick.
+    *
+    * @param msg   IRC message, like "ozizka: How are you?"
+    * @param nick  User nick, like "ozizka".
+    * @returns true if the message is intended for the given nick.
+    *
+    * TODO: Return the position of the end of the prolog (start of the actual message).
+    */
+   public static boolean isMsgForNick( String msg, String nick ) {
+      if( null == msg || msg.equals("") || null == nick || nick.equals("") )
+         return false;
+
+      return msg.startsWith( nick.toLowerCase() )
+          // At least one char besides the nick.
+          && msg.length() > nick.length() + 2
+          // Char after the usual nick is something that "terminates the nick".
+          && StringUtils.contains(" ,:", msg.charAt( nick.length() ) );
+   }
+
 
 }// class
