@@ -44,7 +44,7 @@
 
     <!-- Configuration files of plugins, plus simple key-value settings. -->
     <plugins>
-        <plugin id="reservation" config="conf/JawaBotConfig-plugin-reservation.xml"/> <!-- TODO: Make it relative to this file, not CWD. -->
+        <plugin id="reservation" config="conf/JawaBotConfig-plugin-reservation.xml"></plugin>
         <plugin id="jira"></plugin>
         <plugin id="logger">
             <settings
