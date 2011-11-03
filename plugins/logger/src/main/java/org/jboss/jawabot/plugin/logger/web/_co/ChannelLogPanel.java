@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -49,7 +48,7 @@ public class ChannelLogPanel extends Panel implements Serializable {
    @Inject IrcEventCriteriaLDM model;
    
    // Criteria for this log panel - which messages should be listed.
-   IrcEventCriteria crit;
+   //private IrcEventCriteria crit;
 
    private static NickToColor nickToColor = new NickToColor();
 
@@ -64,7 +63,8 @@ public class ChannelLogPanel extends Panel implements Serializable {
    
    public ChannelLogPanel( String id, Channel ch ) {
       super( id );
-      this.crit = new IrcEventCriteria(ch.getName(), DateUtils.addDays(new Date(), -1), new Date());
+      String name = ChannelLogLinkSimplePanel.unescapeHashes( ch.getName() );
+      IrcEventCriteria crit = new IrcEventCriteria( name, DateUtils.addDays(new Date(), -2), new Date());
       this.model.setCrit( crit );
       super.setDefaultModel( this.model );
    }
@@ -187,5 +187,15 @@ public class ChannelLogPanel extends Panel implements Serializable {
         this.channelLogManager = null;
         super.onDetach();
     }*/
+
+   
+   
+    public IrcEventCriteria getCrit() {
+        return (IrcEventCriteria) this.getDefaultModelObject();
+    }
+
+    public void setCrit(IrcEventCriteria crit) {
+        this.setDefaultModelObject(crit);
+    }
 
 }

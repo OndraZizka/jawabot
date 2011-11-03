@@ -17,7 +17,7 @@ import org.jboss.jawabot.plugin.logger.web._pg.ChannelLogPage;
 public class ChannelLogLinkSimplePanel extends Panel {
    
    public ChannelLogLinkSimplePanel( String id, final String name ) {
-      this( id, new Model(name) );
+      this( id, new Model( escapeHashes(name) ) );
    }
 
    public ChannelLogLinkSimplePanel( String id, final IModel<String> nameModel ) {
@@ -29,6 +29,16 @@ public class ChannelLogLinkSimplePanel extends Panel {
       link.add( new Label("label", "" + name ));
       add(link.setVisible( null != name ));
       
+   }
+   
+   // https://bugzilla.mozilla.org/show_bug.cgi?id=677038
+   private static String escapeHashes( String name ){
+       return name.replaceAll("#", "=");
+   }
+
+   // https://bugzilla.mozilla.org/show_bug.cgi?id=677038
+   public static String unescapeHashes( String name ){
+       return name.replaceAll("=", "#");
    }
 
 }
