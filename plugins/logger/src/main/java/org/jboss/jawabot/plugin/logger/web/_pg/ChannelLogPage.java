@@ -13,12 +13,14 @@ import org.apache.wicket.datetime.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.jawabot.plugin.irc.Channel;
 import org.jboss.jawabot.plugin.irc.ChannelManager;
 import org.jboss.jawabot.plugin.logger.web._co.ChannelLogLinkSimplePanel;
 import org.jboss.jawabot.plugin.logger.web._co.ChannelLogPanel;
 import org.jboss.jawabot.plugin.logger.web._co.LoggedChannelsListPanel;
+import org.jboss.jawabot.plugin.logger.web._menu.LoggerMenuPanel;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,7 +144,13 @@ public class ChannelLogPage extends BaseLayoutPage implements Serializable {
     class ViewOptions {
         public boolean hideJoinsParts = false;
     }
+
     
+    @Override
+    public Panel getMenuPanel(String id) {
+        return new LoggerMenuPanel(id);
+    }
+
     
     //<editor-fold defaultstate="collapsed" desc="get/set">
     public boolean isHideJoinsParts() {

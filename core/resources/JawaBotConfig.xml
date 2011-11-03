@@ -34,7 +34,9 @@
          <autoJoinChannels>
             #some
             #jboss-qa-brno
+            <!--
             #jbosssoaqa
+            -->
          </autoJoinChannels>
       </server>
    </irc>

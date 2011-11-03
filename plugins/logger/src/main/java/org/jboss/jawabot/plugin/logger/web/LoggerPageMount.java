@@ -4,6 +4,7 @@ import cz.dynawest.wicket.NonVersionedMixedParamHybridUrlCodingStrategy;
 import org.jboss.jawabot.mod.web.IPageMount;
 import org.jboss.jawabot.mod.web.MountProxy;
 import org.jboss.jawabot.plugin.logger.web._pg.ChannelLogPage;
+import org.jboss.jawabot.plugin.logger.web._pg.LoggerChannelsListPage;
 
 /**
  *  Mounts Logger pages into Wicket.
@@ -16,9 +17,9 @@ public class LoggerPageMount implements IPageMount {
         wicketApp.mount( new NonVersionedMixedParamHybridUrlCodingStrategy(
                 "channelLog", ChannelLogPage.class, new String[]{"name"} // remaining are perhaps "since","until".
         ));
-        /*wicketApp.mount( new MixedParamHybridUrlCodingStrategy(
-                "cdiTest", CdiTestPage.class, new String[]{}
-        ));*/
+        wicketApp.mount( new NonVersionedMixedParamHybridUrlCodingStrategy(
+                "logs", LoggerChannelsListPage.class, new String[]{}
+        ));
     }
     
 }// class

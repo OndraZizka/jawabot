@@ -79,16 +79,16 @@ a:visited { color: #aa4400; }
 /* ---------------------------------------- */
 
 
-#obsah {
+#content {
    padding: 0 2em;
 }
 
-#obsah h1 {
+#content h1 {
    padding: 0;
 }
 
-#obsah table th { font-weight: normal; }
-#obsah table a { text-decoration: none; }
+#content table th { font-weight: normal; }
+#content table a { text-decoration: none; }
 
 
 

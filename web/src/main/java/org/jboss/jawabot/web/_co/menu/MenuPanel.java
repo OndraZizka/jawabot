@@ -5,6 +5,7 @@ package org.jboss.jawabot.web._co.menu;
 import cz.dynawest.wicket.WMC;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.jboss.jawabot.web.JawaBotSession;
+import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,11 +29,23 @@ public class MenuPanel extends Panel
    protected void onInitialize() {
       super.onInitialize();
       
-      // User box - MenuBox test.
+      // User account box - login etc.
       add( new MenuBoxPanel( "accountBox", "Account", new AccountBoxPanel("content") ) );
 
+      
+      // Current plugin's menu.
+      Panel menuPanel = null;
+      if( this.getPage() instanceof BaseLayoutPage ){
+         BaseLayoutPage page = (BaseLayoutPage) this.getPage();
+         menuPanel = page.getMenuPanel("currentPluginMenu");
+      }
+      if( menuPanel != null )  add( menuPanel );
+      else add( new WMC("currentPluginMenu").setVisibilityAllowed(false) );
 
-      // Plugins' menu contributions.
+      
+      
+
+      // Other plugins' menu contributions.
       add( new WMC("contributions") );
       
       

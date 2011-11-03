@@ -5,6 +5,7 @@ package org.jboss.jawabot.web._pg;
 import javax.inject.Inject;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.jboss.jawabot.plugin.irc.Channel;
 import org.jboss.jawabot.plugin.irc.ChannelManager;
 import org.jboss.jawabot.plugin.irc.web._co.ChannelDetailPanel;
@@ -15,8 +16,8 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- *
- * @author Ondrej Zizka
+ *  No idea what this page is for. Dump?
+ *  @author Ondrej Zizka
  */
 public class ChannelPage extends BaseLayoutPage
 {

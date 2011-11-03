@@ -30,22 +30,10 @@ public class JawaBotTabBarPanel extends Panel {
    protected void onInitialize() {
       super.onInitialize();
       
-      /*add( new RepeatingView("tabs"){
-         protected void onPopulate() 
-         {
-            // Add all plugins' tabs with a link to it's home page.
-            for( ITabBarContrib tabContrib : tabsInstances ) {
-               BookmarkablePageLink link = new BookmarkablePageLink("link", tabContrib.getLinkedPage());
-               link.add( tabContrib.getLabel("label") );
-               this.add( link );
-            }
-            this.add( new BookmarkablePageLink("link", HomePage.class).add(new Label("label", "HP")) );
-         }
-      });*/
-
       RepeatingView view = new RepeatingView("tabs");
       this.add( view );
       
+      // JawaBot's home page.
       view.add( new WMC( view.newChildId() )
               .add( new BookmarkablePageLink("link", HomePage.class)
                          .add(new Label("label", "Home")) 

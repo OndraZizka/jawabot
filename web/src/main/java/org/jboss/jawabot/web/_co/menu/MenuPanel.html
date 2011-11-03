@@ -3,11 +3,22 @@
 <head/>
 <body>
 
+   <wicket:head>
+      <style>
+         #menu.level0 li.level0 { margin-bottom: 1ex; }
+         #menu h3 { font-size: 10pt; }
+         #menu h4 { font-size: 9pt; font-weight: normal; }
+         #menu h4 { font-size: 8pt; font-weight: normal; }
+      </style>
+   </wicket:head>
+   
 <wicket:panel>
    <ul id="menu" class="flat level0">
       
       <!-- Account MenuBox -->
       <li wicket:id="accountBox" class="level0 collapsed" />
+      
+      <li wicket:id="currentPluginMenu" class="level0 collapsed" />
       
       <!-- Plugins' menu contributions. -->
       <wicket:container wicket:id="contributions">
