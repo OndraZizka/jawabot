@@ -16,7 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.state.beans.StateBean;
 import org.jibble.pircbot.PircBot;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.JawaBotUtils;
 import org.jboss.jawabot.MailData;
@@ -47,7 +47,7 @@ import org.jibble.pircbot.User;
 @Dependent
 public class JawaIrcBot extends PircBot
 {
-   private static final Logger log = Logger.getLogger( JawaIrcBot.class );
+   private static final Logger log = LoggerFactory.getLogger( JawaIrcBot.class );
 
    
    final String USUAL_NICK = "jawabot";
