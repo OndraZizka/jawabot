@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import org.jboss.jawabot.irc.model.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcMessage;
 import org.jboss.weld.environment.se.jpa.EntitiesPackagesProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

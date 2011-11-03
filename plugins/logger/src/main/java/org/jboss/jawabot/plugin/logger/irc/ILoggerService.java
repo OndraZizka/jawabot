@@ -5,7 +5,7 @@
 package org.jboss.jawabot.plugin.logger.irc;
 
 import java.util.List;
-import org.jboss.jawabot.irc.model.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcMessage;
 
 /**
  *
