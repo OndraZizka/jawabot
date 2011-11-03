@@ -1,7 +1,6 @@
 //package de.laliluna.transactions;
 package org.jboss.weld.environment.se.jpa;
 
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,12 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
 
 		@PostConstruct
       //@Inject  // TODO: Report RFE - Handle wrong param count of a method with @PostConstruct.
-		public void init(/*@Observes ContainerInitialized containerInitialized*/   /*CdiPluginEntitiesPackagesProvider entPackProv*/ ) {
+		public void init(/*@Observes ContainerInitialized containerInitialized*/   /*CdiPluginEntitiesPackagesProvider entPackProv*/ )
+      {
+            // Old simple way.
+				//emf = Persistence.createEntityManagerFactory("TestPU");
+
+         
             // Hibernate, not JPA
             // new AnnotationConfiguration().addPackage(...)
             
@@ -44,7 +48,9 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
                ejbConf.addRerousce( "mypath/MyOtherCLass.hbm.xml ) //add an hbm.xml file
                ejbConf.addRerousce( "mypath/orm.xml ) //add an EJB3 deployment descriptor
                ejbConf.configure("/mypath/hibernate.cfg.xml") //add a regular hibernate.cfg.xml*/
-            ejbConf.configure("TestPU", null);
+            
+            ejbConf.configure("TestPU", null); // TODO: Externalize or use first PU from  persistence.xml.
+            
             //ejbConf.addPackage("org.jboss.jawabot.irc.ent");
             //ejbConf.addPackage("org.jboss.jawabot.irc.model");
             for( String pack :  entPackProv.getEntityPackages() ){
@@ -52,9 +58,6 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
                ejbConf.addPackage( pack );
             }
             emf = ejbConf.buildEntityManagerFactory(); //Create the entity manager factory
-     
-
-				//emf = Persistence.createEntityManagerFactory("TestPU");
 		}
 		
 
