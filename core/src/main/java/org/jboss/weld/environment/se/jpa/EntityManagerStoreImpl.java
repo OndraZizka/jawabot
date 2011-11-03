@@ -1,7 +1,7 @@
 //package de.laliluna.transactions;
 package org.jboss.weld.environment.se.jpa;
 
-import java.util.logging.Level;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import java.util.Stack;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.persistence.Entity;
+import org.apache.commons.lang.ClassUtils;
 import org.hibernate.ejb.Ejb3Configuration;
 
 /**
@@ -21,9 +23,10 @@ import org.hibernate.ejb.Ejb3Configuration;
  * @author Sebastian Hennebrueder
  */
 @ApplicationScoped
-public class EntityManagerStoreImpl implements EntityManagerStore {
-
-		private final Logger log = LoggerFactory.getLogger(EntityManagerStoreImpl.class);
+public class EntityManagerStoreImpl implements EntityManagerStore
+{
+		private static final Logger log = LoggerFactory.getLogger(EntityManagerStoreImpl.class);
+      
 		
 		private EntityManagerFactory emf;
 		
@@ -40,25 +43,30 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
             // Old simple way.
 				//emf = Persistence.createEntityManagerFactory("TestPU");
 
-         
             // Hibernate, not JPA
             // new AnnotationConfiguration().addPackage(...)
-            
+         
+            // Will be deprecated in 4.0 in favor of EntityManagerFactoryBuilder - see HHH-6159
             Ejb3Configuration ejbConf = new Ejb3Configuration();
-            /* ejbConf.addProperties( properties ) //add some properties
-               ejbConf.addRerousce( "mypath/MyOtherCLass.hbm.xml ) //add an hbm.xml file
-               ejbConf.addRerousce( "mypath/orm.xml ) //add an EJB3 deployment descriptor
-               ejbConf.configure("/mypath/hibernate.cfg.xml") //add a regular hibernate.cfg.xml*/
-            
+           
             ejbConf.configure("TestPU", null); // TODO: Externalize or use first PU from  persistence.xml.
             
-            //ejbConf.addPackage("org.jboss.jawabot.irc.ent");
-            //ejbConf.addPackage("org.jboss.jawabot.irc.model");
+            // Scan packages.
+            // https://hibernate.onjira.com/browse/EJB-252 and HHH-6466
             for( String pack :  entPackProv.getEntityPackages() ){
-               log.debug("  Adding entity package to Ejb3Configuration: " + pack);
-               ejbConf.addPackage( pack );
+               log.debug("  Adding entities to Ejb3Configuration from package: " + pack);
+               try {
+                  for( Class cls : ClassUtils.getClassesFromPackage( pack ) ) {
+                     if( null == cls.getAnnotation( Entity.class ) ) continue;
+                     log.debug("    * " + cls.getName());
+                     ejbConf.addAnnotatedClass( cls );
+                  }
+               } catch( IOException ex ) {
+                  log.error( "  Package not found, will probably cause 'Unknown entity': " + pack );
+               }
             }
             
+            // Concrete classes. TODO.
             try {
                ejbConf.addAnnotatedClass( Class.forName("org.jboss.jawabot.irc.model.IrcMessage") );
             } catch( ClassNotFoundException ex ) {
@@ -130,5 +138,6 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
 				}
 				entityManagerStack.pop();
 		}
+      
 }// class
 
