@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+  
+   <groupId>org.jboss.jawabot</groupId>
+   <artifactId>JawaBot-assem-zip</artifactId>
+   <packaging>jar</packaging>
+
+   <name>JawaBot 2.0 assemble - zip</name>
+
+   <parent>
+      <groupId>org.jboss.jawabot</groupId>
+      <artifactId>JawaBot-root</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
+   </parent>
+
+
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <mainClass>org.jboss.jawabot.JawaBotApp</mainClass>
+   </properties>
+
+
+
+   <build>
+      <resources>
+         <resource>
+            <directory>src/assembly</directory>
+            <excludes><exclude>**/*</exclude></excludes>
+         </resource>
+         <resource>
+            <directory>bin</directory>
+            <excludes><exclude>**/*</exclude></excludes>
+         </resource>
+      </resources>
+      
+     
+      <plugins>
+          
+            <!-- Seems to be useless - addClasspath doesn't work. -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4-SNAPSHOT</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Workaround for MASSEMBLY-334 - anyway, doesn't work neither.
+                 http://maven-users.828.n2.nabble.com/Maven-3-0-jar-assembly-classpath-in-runnable-jar-manifest-is-missing-td5998750.html -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2-SNAPSHOT</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+         
+         <!-- Assembly plugin - one big .jar -->
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>2.2.1</version>
+            <executions>
+               <execution> <phase>package</phase> <goals> <goal>single</goal> </goals> </execution>
+            </executions>
+            <configuration>
+               <appendAssemblyId>false</appendAssemblyId>
+               <!-- Built-in "bin doesn't work - doesn't include anything.
+               <descriptorRefs>
+                   <descriptorRef>bin</descriptorRef>
+               </descriptorRefs>
+               -->
+               <descriptors>
+                  <descriptor>src/assembly/assembly.xml</descriptor>
+               </descriptors>
+               <archive>
+                  <!-- http://maven.apache.org/shared/maven-archiver/index.html -->
+                  <manifest>
+                     <addClasspath>true</addClasspath>
+                     <mainClass>${mainClass}</mainClass>
+                     <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                     <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                  </manifest>
+               </archive>
+            </configuration>
+         </plugin>
+
+         
+      </plugins>
+      
+   </build>
+   
+   <profiles>
+      <!-- Distribution of project. Performed on deploy phase. -->
+      <profile><id>dist</id>
+         <build>
+            <plugins>
+               
+               <!-- Google Code upload - http://maven.riedelcastro.org/gcupload-maven-plugin/index.html -->
+               <plugin>
+                  <groupId>org.riedelcastro</groupId>
+                  <artifactId>gcupload-maven-plugin</artifactId>
+                  <version>1.0</version>
+                  <executions>
+                     <execution> <phase>deploy</phase> <goals> <goal>gcupload</goal> </goals> </execution>
+                  </executions>
+                  <configuration>
+                     <projectName>jawabot</projectName>
+                     <allowSnapshots>true</allowSnapshots>
+                     <uploads>
+                        <upload>
+                           <extension>jar</extension>
+                           <labels>Featured</labels>
+                        </upload>
+                     </uploads>
+                  </configuration>
+               </plugin>
+               
+            </plugins>
+         </build>
+         <pluginRepositories>
+             <pluginRepository>
+                 <id>repository.riedelcastro.org</id>
+                 <url>http://repository.riedelcastro.org</url>
+             </pluginRepository>
+         </pluginRepositories>
+      </profile>
+   </profiles>
+
+
+
+   <!-- Dependencies -->
+   <dependencies>
+
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-core</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-irc</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-web</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+
+      <!-- Plugins -->
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-plugin-jira</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-plugin-logger</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-plugin-messenger</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-plugin-whereis</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+
+
+   </dependencies>
+   
+</project>

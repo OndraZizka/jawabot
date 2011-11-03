@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+
+    <!--
+        Creates .jar with core, irc and web .jars, plus all transitive dependencies.
+    -->
+    <id>all</id>
+    <formats>
+        <format>jar</format>
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <moduleSets>
+        <moduleSet>
+            <useAllReactorProjects>true</useAllReactorProjects>
+            <includeSubModules>true</includeSubModules>
+            <binaries>
+                <outputDirectory>lib</outputDirectory>
+            </binaries>
+        </moduleSet>
+    </moduleSets>
+    
+    <fileSets>
+        <fileSet>
+          <directory>${project.basedir}/bin</directory>
+          <outputDirectory>/bin</outputDirectory>
+          <includes>
+            <include>*.*</include>
+          </includes>
+        </fileSet>
+    </fileSets>
+    
+
+    <dependencySets>
+        <dependencySet>
+            <unpack>false</unpack>
+            <!--
+            <includes>
+                <include>org.jboss.jawabot:*</include>
+            </includes>
+            -->
+            <excludes>
+                <exclude>org.jboss.jawabot:*-assem*</exclude>
+            </excludes>
+        </dependencySet>
+    </dependencySets>
+
+</assembly>
