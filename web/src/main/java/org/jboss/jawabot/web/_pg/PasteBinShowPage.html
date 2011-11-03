@@ -7,14 +7,24 @@
 
    <h2>PasteBin entry</h2>
 
-   <div>By  <span wicket:id="author"/>
-        <span  wicket:id="hasFor">for <span  wicket:id="for"/></span>
-        at  <span  wicket:id="when"/>
-        <span  wicket:id="hasChannel">in  <span  wicket:id="channel"/></span>
+   <div wicket:id="entry404">
+      <h3>Sorry, can't find requested paste bin entry.</h3>
    </div>
-   <div><pre wicket:id="text">
 
-   </pre></div>
+   <div wicket:id="noInput">
+      <h3>No paste bin entry specified.</h3>
+   </div>
+
+   <div wicket:id="entry">
+      <div>By  <span wicket:id="author"/>
+           <span  wicket:id="hasFor">for <span  wicket:id="for"/></span>
+           at  <span  wicket:id="when"/>
+           <span  wicket:id="hasChannel">in  <span  wicket:id="channel"/></span>
+      </div>
+      <div><pre wicket:id="text">
+
+      </pre></div>
+   </div>
 
 </wicket:extend>
 

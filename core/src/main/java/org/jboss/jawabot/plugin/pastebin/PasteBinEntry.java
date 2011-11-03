@@ -19,6 +19,8 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="jb_pbin_entry")
 public class PasteBinEntry implements Serializable {
+   
+   public static final PasteBinEntry NON_EXISTENT = new PasteBinEntry();
 
    private Long id;
    private String author;

@@ -90,7 +90,8 @@ public class MenuPanel extends Panel
 
   
 
-  @Override public JawaBotSession getSession(){ return (JawaBotSession) super.getSession(); }
+  @Override public JawaBotSession getSession(){ return (JawaBotSession) super.getSession(); } // TODO: CDI.
+  
   private boolean isUserLogged(){ return null != getSession().getLoggedUser(); }
 
 }// class MenuPanel

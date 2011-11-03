@@ -59,4 +59,29 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
       return new Date(y-1900, m, d);
    }
 
+   
+   /**
+    *  Not much precise but who cares.
+    *  @returns  String with relative time representation like "2 days ago" or "yesterday".
+    */
+   public static String createRelativeTimeString( Date when ) {
+      Date now = new Date();
+      
+      long diffSec = (now.getTime() - when.getTime()) / 1000;
+      
+      if( diffSec < 10 ) return "now";
+      if( diffSec < 60 ) return "seconds ago";
+      if( diffSec < 120 ) return "a minute ago";
+      if( diffSec < 55 * 60 ) return diffSec/60 + " min ago";
+      if( diffSec < 2* 60 * 60 ) return "an hour ago";
+      if( diffSec < 23 * 60 * 60 ) return diffSec/3600 + " hours ago";
+      if( diffSec < 36 * 60 * 60 ) return " yesterday";
+      
+      long diffDays = diffSec / (24  * 60 * 60);
+      if( diffDays < 30 ) return diffDays + " days ago";
+      if( diffDays < 365  ) return diffDays/30 + " months ago";
+      return diffDays/365 + " years ago";
+      
+   }
+
 }// class
