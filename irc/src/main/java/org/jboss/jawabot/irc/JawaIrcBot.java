@@ -29,9 +29,12 @@ import org.jibble.pircbot.NickAlreadyInUseException;
 
 
 /**
- * JawaBot IRC module implementation.
+ *  JawaBot IRC module.
+ * 
+ *  TODO: Move resource reservation stuff to a plugin.
+ *        Clean up.
  *
- * @author Ondrej Zizka
+ *  @author Ondrej Zizka
  */
 @Dependent
 public class JawaIrcBot extends PircBot
@@ -39,24 +42,24 @@ public class JawaIrcBot extends PircBot
    private static final Logger log = Logger.getLogger( JawaIrcBot.class );
 
    
-	final String USUAL_NICK = "jawabot";
+   final String USUAL_NICK = "jawabot";
 
    
    private JawaBot jawaBot;
    public JawaBot getJawaBot() { return jawaBot; }
-   public void setJawaBot(JawaBot jawaBot) { this.jawaBot = jawaBot; }
+   void setJawaBot(JawaBot jawaBot) { this.jawaBot = jawaBot; }
    
    // Proxy provided to plugins to allow them to send messages etc.
    // Will likely be changed to our own API with objects like IrcMessage.
    private IrcBotProxy pircBotProxy;
       
-   private boolean initialized = false;
-   public boolean isInitialized() {      return initialized;   }
+   private volatile boolean initialized = false;
+   private boolean isInitialized() {      return initialized;   }
    
    // Because Pircbot won't let us know whether we called disconnect() or it came from server.
    // Since we can't even override connect (damn PircBot), we'll have to set and re-set it for every disconnect()/connect().
    private boolean intentionalDisconnect = false;
-   public boolean isIntentionalDisconnect() {      return intentionalDisconnect;   }
+   private boolean isIntentionalDisconnect() {      return intentionalDisconnect;   }
    
    
    // Plugin instances "placeholder".
