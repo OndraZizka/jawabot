@@ -27,11 +27,11 @@ The annotations @Interceptor and @Transactional tell Weld that every time it fin
  */
 @Interceptor
 @JpaTransactional
-public class TransactionInterceptor {
+public class JpaTransactionInterceptor {
+		private Logger logger = LoggerFactory.getLogger(JpaTransactionInterceptor.class);
 
 		@Inject
-		private EntityManagerStore entityManagerStore;
-		private Logger logger = LoggerFactory.getLogger(TransactionInterceptor.class);
+      private EntityManagerStore entityManagerStore;
 
 		@AroundInvoke
 		public Object runInTransaction(InvocationContext invocationContext) throws Exception {
