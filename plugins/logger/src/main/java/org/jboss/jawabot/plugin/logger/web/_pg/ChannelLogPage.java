@@ -88,19 +88,21 @@ public class ChannelLogPage extends BaseLayoutPage implements Serializable {
         this.navigForm.add(new AjaxCheckBox("hideJoinsParts", new PropertyModel<Boolean>(this, "hideJoinsParts")) {
             protected void onUpdate(AjaxRequestTarget target) {
                 //target.appendJavascript("document.getElementById('channelLogPanel').className = 'onlyMessages';");
-                target.appendJavascript("$('#channelLogPanel').toggleClass('hideJoinsParts');");
+                target.appendJavascript("$('#eventLog').toggleClass('hideJoinsParts');");
             }
         });
         
         // Buttons.
         this.navigForm.add( new AjaxFallbackButton("show", this.navigForm) {
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                target.addComponent( navigForm );
                 target.addComponent( logPanel );
             }
         });
 
         this.navigForm.add( new AjaxFallbackButton("prev", this.navigForm) {
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                target.addComponent( navigForm );
                 target.addComponent( logPanel );
                 logPanel.getCrit().adjustSinceByDays(-1);
                 logPanel.getCrit().adjustUntilByDays(-1);
@@ -109,6 +111,7 @@ public class ChannelLogPage extends BaseLayoutPage implements Serializable {
 
         this.navigForm.add( new AjaxFallbackButton("next", this.navigForm) {
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                target.addComponent( navigForm );
                 target.addComponent( logPanel );
                 logPanel.getCrit().adjustSinceByDays(+1);
                 logPanel.getCrit().adjustUntilByDays(+1);
