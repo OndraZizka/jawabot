@@ -19,14 +19,19 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Check;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.CheckGroup;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.GridView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
@@ -42,12 +47,11 @@ public class TakePage extends BaseLayoutPage
    private static final Logger log = LoggerFactory.getLogger( TakePage.class );
 
 
-   // -- Form backing --
+   // -- Form backing. --
 
    private ReservationWrap resv = new ReservationWrap("ozizka", new Date(), DateUtils.addDays( new Date(), 1 ), null);
 
-   //private List<CheckBoxWrap<Resource>> checks = new ArrayList();
-   private CheckBoxWrapList<Resource> checks = new CheckBoxWrapList();
+   private List<Resource> chosen = new ArrayList();
    
 
    // Note
@@ -57,6 +61,7 @@ public class TakePage extends BaseLayoutPage
    
    
 
+   
    // -- Const --
    public TakePage(PageParameters parameters) {
       super(parameters);
@@ -67,60 +72,50 @@ public class TakePage extends BaseLayoutPage
 
       
       // Free resources.
-      //List<Resource> resources = JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName();
-      CheckBoxWrapList<Resource> resources = new CheckBoxWrapList<Resource>( JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName() );
+      List<Resource> resources = JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName();
 
-      final CheckGroup chgrp = new CheckGroup("chgrp", checks);
-      chgrp.setRenderBodyOnly(false);
+      Form form = new Form("form");
+      add( form );
+      form.add( new FeedbackPanel("feedback") );
+      form.add( new TextField("user", new PropertyModel(resv, "forUser")).setEnabled(false) );
 
+      form.add( new DateTextField("from", new PropertyModel(resv, "from"), new StyleDateConverter("S-", true)).add(new DatePicker()) );
+      form.add( new DateTextField("to", new PropertyModel(resv, "to"), new StyleDateConverter("S-", true)).add(new DatePicker()) );
 
-
-      add( new Form("form")
-        .add( new FeedbackPanel("feedback") )
-        .add( new TextField("user", new PropertyModel(resv, "forUser")).setEnabled(false) )
-
-        //.add( tfFrom = new TextField("from", new PropertyModel(resv, "from"), Date.class) )
-          //.add(new DatePicker("fromPick", tfFrom))
-        //.add( tfTo   = new TextField("to", new PropertyModel(resv, "to"), Date.class) )
-          //.add(new DatePicker("toPick", tfTo))
-
-        .add( new DateTextField("from", new PropertyModel(resv, "from"), new StyleDateConverter("S-", true)).add(new DatePicker()) )
-        .add( new DateTextField("to", new PropertyModel(resv, "to"), new StyleDateConverter("S-", true)).add(new DatePicker()) )
-
-        .add( new TextField("note", new PropertyModel(this, "note")) )
+      form.add( new TextField("note", new PropertyModel(this, "note")) );
         
-        //.add( new CheckBoxMultipleChoice )
+      //.add( new CheckBoxMultipleChoice( "cbmc", new ListModel(this.chosen), resources) )
               
-        // Checkboxes
-        .add( chgrp
-           /*.add(new ListView<CheckBoxWrap<Resource>>("freeResources", new ListModel( resources ) ) 
-           {
-              @Override protected void populateItem(ListItem<CheckBoxWrap<Resource>> li)
-              {
-                 //String name = li.getModelObject().getItem().getName();
-                 li.add( new Check("check", new PropertyModel(li.getModelObject(), "checked"), chgrp) );
-                 li.add( new Label("label", new PropertyModel(li.getModelObject(), "item.name") ));
-              }
-           })*/
-            .add( new GridView<CheckBoxWrap<Resource>>( "freeResources", new ListColumnGridDataProvider(resources).setColumns(3) ) {
+      // Checkboxes
+      final CheckGroup chgrp = new CheckGroup("chgrp", chosen);
+      chgrp.setRenderBodyOnly(false);
+      form.add( chgrp
+            .add( new GridView<Resource>( "freeResources", new ListColumnGridDataProvider(resources).setColumns(3) ) {
 
-               @Override
-               protected void populateEmptyItem( Item<CheckBoxWrap<Resource>> li ) {
+               protected void populateEmptyItem( Item<Resource> li ) {
                   li.add( new WebMarkupContainer("check").setVisible(false) );
                   li.add( new WebMarkupContainer("label").setVisible(false) );
                }
 
-               @Override
-               protected void populateItem( Item<CheckBoxWrap<Resource>> li ) {
+               protected void populateItem( Item<Resource> li ) {
                  if( li.getModelObject() == null ){ populateEmptyItem( li ); return; }
-                 li.add( new Check("check", new PropertyModel(li.getModelObject(), "checked"), chgrp) );
-                 li.add( new Label("label", new PropertyModel(li.getModelObject(), "item.name") ));
+                 String name = li.getModelObject().getName();
+                 li.add( new Check("check", li.getModel(), chgrp) );
+                 li.add( new Label("label", name ));
                }
 
             }.setColumns(3) )
 
-        )
-     );
+        );
+             
+     //render selected items in a listview
+     form.add(new ListView<Resource>("chosen", chosen) {
+         protected void populateItem(ListItem<Resource> li) {
+             li.add(new Label("item", ""+li.getModelObject() ));
+         }
+     }); 
+
+
 
       
    }// const
@@ -129,58 +124,3 @@ public class TakePage extends BaseLayoutPage
 
 }// class TakePage
 
-
-
-
-/**
- *  Wrapper for items of lists with CheckBoxes.
- */
-class CheckBoxWrap<T extends Serializable> implements Serializable {
-
-   private boolean checked;
-   private T item;
-
-   public CheckBoxWrap( boolean checked, T item ) {
-      this.checked = checked;
-      this.item = item;
-   }
-
-   public boolean isChecked() { return checked; }
-   public void setChecked( boolean checked ) { this.checked = checked; }
-   public T getItem() { return item; }
-   public void setItem( T item ) { this.item = item; }
-
-   @Override public String toString() { return "("+this.getItem()+")"; }
-   
-   
-}
-
-
-/**
- *  Wrapper for lists with CheckBoxes.
- */
-class CheckBoxWrapList<T extends Serializable> extends ArrayList<CheckBoxWrap<T>> implements Serializable {
-
-   public CheckBoxWrapList() {
-   }
-   
-   public CheckBoxWrapList( List<T> items ) {
-      this.doImport( items );
-   }
-   
-   public void doImport( List<T> items ){
-      for ( T item : items ) {
-         this.add( new CheckBoxWrap<T>( true, item ) );
-      }      
-   }
-   
-   public List<T> doExport(){
-      ArrayList checkedItems = new ArrayList();
-      for ( CheckBoxWrap<T> wrap : this ) {
-         if( wrap.isChecked() )
-            checkedItems.add( wrap.getItem() );
-      }
-      return checkedItems;
-   }
-   
-}

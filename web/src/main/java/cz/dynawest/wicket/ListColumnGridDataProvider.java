@@ -75,7 +75,7 @@ public class ListColumnGridDataProvider<T extends Serializable> extends  ListDat
       int colHeight = list.size() / cols;
       // Last items may not fit whole row.
       colHeight += ( (list.size() % cols) == 0 ? 0 : 1 );
-      System.out.println( "SIZE: "+list.size()+"  HEI: "+colHeight );///
+      //System.out.println( "SIZE: "+list.size()+"  HEI: "+colHeight );///
       
       //List list2 = new ArrayList<T>( colHeight * cols );
       Object[] list2 = new Object[ colHeight * cols ];
@@ -83,7 +83,7 @@ public class ListColumnGridDataProvider<T extends Serializable> extends  ListDat
          int newIndex = (i % colHeight) * cols + (i / colHeight);
          //list2.set( newIndex, list.get(i) );
          list2[ newIndex ] = list.get(i);
-         System.out.println("  list2["+newIndex+"] <- list["+i+"]  = " + list.get(i) );///
+         //System.out.println("  list2["+newIndex+"] <- list["+i+"]  = " + list.get(i) );///
       }
       return ( List<T> ) Arrays.asList( list2 );
    }
@@ -133,8 +133,5 @@ public class ListColumnGridDataProvider<T extends Serializable> extends  ListDat
       colHeight += ( (listLen % this.columns) == 0 ? 0 : 1 );
       return colHeight * this.columns;
    }
-   
-   
-   
   
 }

@@ -26,6 +26,8 @@ public class Resource implements Serializable, Comparable<Resource> {
 	}
 	public Resource() {	} // for JPA
 
+   
+   
 	public String toString(){
 		StringBuilder sb = new StringBuilder(this.name);
 		if( ! StringUtils.isBlank( this.project ) ){
