@@ -11,6 +11,7 @@ import org.apache.wicket.application.ReloadingClassLoader;
 import org.apache.wicket.protocol.http.ReloadingWicketServlet;
 //import org.jboss.weld.wicket.BeanManagerLookup;
 import org.mortbay.jetty.Server;
+import org.mortbay.jetty.plus.naming.Resource;
 import org.mortbay.jetty.servlet.*;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.xml.XmlConfiguration;
@@ -140,18 +141,25 @@ public class RunInJetty
       /**/
       try {
          
+         //BeanManager
+
          // See Jetty examples - FromXmlConfiguration.java
          //String confXml = IOUtils.toString( RunInJetty.class.getResourceAsStream( "/WEB-INF/jetty-env.xml" ) );
-         //XmlConfiguration configuration = new XmlConfiguration( RunInJetty.class.getResourceAsStream( "/WEB-INF/jetty-env.xml" ) ); 
-         //configuration.configure(ctx);
+         XmlConfiguration configuration = new XmlConfiguration( RunInJetty.class.getResourceAsStream( "/WEB-INF/jetty-env.xml" ) ); 
+         configuration.configure(ctx);
          
-         //BeanManager
-         /*new org.mortbay.jetty.plus.naming.Resource( ctx,  BeanManagerLookup.getBeanManagerJndiName(), //"BeanManager"
-            new javax.naming.Reference(
-               "javax.enterprise.inject.spi.BeanManager",
-               "org.jboss.weld.resources.ManagerObjectFactory", null )
-         );*/
-      } catch ( Exception ex ) {
+         //BeanManagerLookup.getBeanManagerJndiName();
+         Resource resource = 
+            new org.mortbay.jetty.plus.naming.Resource( ctx, "BeanManager",
+               new javax.naming.Reference(
+               javax.enterprise.inject.spi.BeanManager.class.getName(),
+               //"org.jboss.weld.resources.ManagerObjectFactory",
+               //new org.jboss.seam.solder.beanManager.BeanManagerLocator().getBeanManager().,
+               
+               null )
+            );
+      }
+      catch ( Exception ex ) {
          log.error( "  Error putting BeanManager to JNDI: " + ex, ex );
       }
       /**/
