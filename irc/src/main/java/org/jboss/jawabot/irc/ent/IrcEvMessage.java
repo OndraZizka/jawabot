@@ -4,8 +4,10 @@ import java.util.Date;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+
 /**
- *  
+ *  A message, adds receiver property to IrcEvent.
+ * 
  *  @author Ondrej Zizka
  */
 @Entity
@@ -18,6 +20,20 @@ public class IrcEvMessage extends IrcEvent {
 
     public IrcEvMessage() {
     }
+    
+    
+    
+    protected String receiver = null;
+
+    //<editor-fold defaultstate="collapsed" desc="get/set">
+    public String getReceiver() {
+        return receiver;
+    }
+    
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+    //</editor-fold>
    
 }// class
 
