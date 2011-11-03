@@ -2,6 +2,7 @@
 package org.jboss.jawabot.state.ent;
 
 
+import cz.dynawest.util.DateUtils;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.*;
@@ -19,7 +20,9 @@ import javax.persistence.TemporalType;
 
 
 /**
- *
+ * Single resource reservation - a Hibernate entity.
+ * Not used now.
+ * 
  * @author Ondrej Zizka
  */
 @Entity(name="Grp") // Group is a reserved JPA QL name.
@@ -45,7 +48,7 @@ public class Reservation implements Serializable
 
    @Basic(optional = false)
    @Column(name = "res", nullable = false, length = 8)
-   private String res;
+   private Resource res;
 
    @Basic(optional = false)
    @Column(name = "since", nullable = false)
@@ -66,17 +69,32 @@ public class Reservation implements Serializable
       this.id = id;
    }
 
-   public Reservation(Integer id, String res, Date from, Date to) {
+   public Reservation(Integer id, Resource res, Date from, Date to) {
       this.id = id;
       this.res = res;
       this.since = from;
       this.until = to;
    }
+   
+   /** Transformation between different Resource classes... To be trashed after refactoring. */
+   public Reservation( org.jboss.jawabot.Resource res, int fromOffset, int toOffset ) {
+      this.res = new Resource( res.getName() );
+      Date today = DateUtils.truncate( new Date(), Calendar.DAY_OF_MONTH );
+      this.since = DateUtils.addDays( today, fromOffset);
+      this.since = DateUtils.addDays( today, toOffset);
+   }
+   
+   public Reservation( Resource res, int fromOffset, int toOffset ) {
+      this.res = res;
+      Date today = DateUtils.truncate( new Date(), Calendar.DAY_OF_MONTH );
+      this.since = DateUtils.addDays( today, fromOffset);
+      this.since = DateUtils.addDays( today, toOffset);
+   }
 
    public Integer getId() {      return id;   }
    public void setId(Integer id) {      this.id = id;   }
-   public String getRes() {      return res;   }
-   public void setRes(String res) {      this.res = res;   }
+   public Resource getRes() {      return res;   }
+   public void setRes(Resource res) {      this.res = res;   }
    public Date getFrom() {      return since;   }
    public void setFrom(Date from) {      this.since = from;   }
    public Date getTo() {      return until;   }

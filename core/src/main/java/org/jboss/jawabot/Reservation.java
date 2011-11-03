@@ -1,6 +1,5 @@
 package org.jboss.jawabot;
 
-import cz.dynawest.util.DateUtils;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
@@ -11,7 +10,8 @@ import javax.xml.bind.annotation.*;
 
 
 /**
- *
+ * User forUser, Date from, Date to.
+ * 
  * @author Ondrej Zizka
  */
 //@Entity
