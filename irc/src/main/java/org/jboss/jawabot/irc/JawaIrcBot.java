@@ -1,7 +1,6 @@
 
 package org.jboss.jawabot.irc;
 
-import cz.dynawest.util.plugin.PluginEx;
 import cz.dynawest.util.plugin.PluginUtils;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
@@ -15,7 +14,6 @@ import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.state.beans.StateBean;
 import org.jibble.pircbot.PircBot;
 import org.apache.log4j.Logger;
-import org.jboss.jawabot.IModuleHook;
 import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.JawaBotUtils;
 import org.jboss.jawabot.MailData;

@@ -141,6 +141,7 @@ public class JawaBotApp
    }// initAndStartModules()
 
    
+   
    /**
     *  Initialization of all modules.
     *  Currently listed statically - IRC and Web.
@@ -199,29 +200,6 @@ public class JawaBotApp
 
    
    
-     
-   
-   /*
-    *  Initialization of a single module, implemented by given class.
-    *  MOVED to PluginUtils.
-    */
-   /*
-   private static IModuleHook instantiateModule( String moduleClass ) throws JawaBotException {
-      
-      Class<?> cls;
-      try {
-         cls = Class.forName( moduleClass  );
-         IModuleHook hook = (IModuleHook) cls.newInstance();
-         return hook;
-      } catch( ClassNotFoundException ex ) {
-         throw new ModuleNotFoundEx( moduleClass, "Module's class not found.", ex );
-      } catch( IllegalAccessException ex ) {
-         throw new ModuleNotFoundEx( moduleClass, ex.getMessage() + " " + moduleClass, ex );
-      } catch( InstantiationException ex ) {
-         throw new ModuleNotFoundEx( moduleClass, ex.getMessage() + " " + moduleClass, ex );
-      }
-      
-   }*/
 
    
    
