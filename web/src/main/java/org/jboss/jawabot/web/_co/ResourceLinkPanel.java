@@ -1,6 +1,8 @@
 
 package org.jboss.jawabot.web._co;
 
+import cz.dynawest.wicket.PageParametersUtil;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -32,7 +34,9 @@ public class ResourceLinkPanel extends Panel {
    @Override
    protected void onInitialize() {
       super.onInitialize();
-      BookmarkablePageLink<Resource> link = new BookmarkablePageLink<Resource>( "link", ResourcePage.class);
+      BookmarkablePageLink<Resource> link = new BookmarkablePageLink<Resource>( "link", ResourcePage.class, 
+              PageParametersUtil.create( ResourcePage.PARAM_NAME, this.getDefaultModelObjectAsString())
+      );
       link.add( new Image( "icoType", "ResourceMachine.gif" ) );
       link.add( new Label("label", ((Resource)getDefaultModelObject()).getName() ));
       add(link);

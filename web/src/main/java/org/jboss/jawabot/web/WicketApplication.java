@@ -14,7 +14,6 @@ import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
 import org.apache.wicket.devutils.inspector.InspectorPage;
-import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.web._base.BaseLayoutPage_Vut;
@@ -56,7 +55,9 @@ public class WicketApplication extends SeamApplication // WebApplication
    @Override
    protected void init() {
       System.out.println("----  Wicket init() ----");
-      mountBookmarkablePage("res",   ResourcePage.class);
+      //mountBookmarkablePage("res",  ResourcesPage.class);
+      //mountBookmarkablePage("res/",  ResourcePage.class);
+      mount(new MixedParamHybridUrlCodingStrategy("res", ResourcePage.class, new String[]{"name"}));
       mountBookmarkablePage("group",   GroupPage.class);
       mountBookmarkablePage("take",  TakePage.class);
       mountBookmarkablePage("leave", LeavePage.class);

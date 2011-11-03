@@ -40,7 +40,7 @@ public class ReservePage extends BaseLayoutPage {
    private String owner = null;
    private String note = null;
 
-   //<editor-fold defaultstate="collapsed" desc="comment">
+   //<editor-fold defaultstate="collapsed" desc="get set">
    public Date getDateFrom() { return dateFrom; }
    public void setDateFrom( Date dateFrom ) { this.dateFrom = dateFrom; }
    public Date getDateTo() { return dateTo; }
