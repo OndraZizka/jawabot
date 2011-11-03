@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+   <!-- As per http://binkley.blogspot.com/2006/12/making-one-jar-with-maven.html  -->
+  
+    <groupId>org.jboss.jawabot</groupId>
+    <artifactId>JawaBot-assem-onejar</artifactId>
+    <packaging>jar</packaging>
+
+    <name>JawaBot 2.0 assemble - onejar</name>
+
+    <parent>
+        <groupId>org.jboss.jawabot</groupId>
+        <artifactId>JawaBot-root</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mainClass>org.jboss.jawabot.JawaBotApp</mainClass>
+    </properties>
+
+
+    <repositories>
+        <repository>
+            <id>project</id>
+            <name>Project Repository</name>
+            <url>file:///${basedir}/lib</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/assembly</directory>
+                <excludes>
+                    <exclude>**/*</exclude>
+                </excludes>
+            </resource>
+        </resources>
+      
+     
+        <plugins>
+         
+            <!-- Assembly plugin - one big .jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions><execution><phase>package</phase> <goals> <goal>single</goal> </goals> </execution></executions>
+                <configuration>
+                    <!--
+                    <appendAssemblyId>false</appendAssemblyId>
+                    -->
+                    <descriptors>
+                        <descriptor>src/assembly/oneJar.xml</descriptor>
+                    </descriptors>
+                    <archive>
+                        <!-- http://maven.apache.org/shared/maven-archiver/index.html -->
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.simontuffs.onejar.Boot</mainClass>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- . -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+         
+        </plugins>
+      
+    </build>
+
+
+
+    <!-- Dependencies -->
+    <dependencies>
+       
+        <!-- One-Jar stuff (classloading hack). -->
+        <dependency>
+            <groupId>com.simontuffs</groupId>
+            <artifactId>onejar-boot</artifactId>
+            <version>0.97</version>
+            <scope>compile</scope>
+        </dependency>
+       
+
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-irc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+      
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Plugins -->
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-jira</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-logger</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-messenger</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-whereis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+    </dependencies>
+   
+</project>
