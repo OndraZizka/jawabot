@@ -1,6 +1,7 @@
 package org.jboss.jawabot.irc;
 
 import java.util.Arrays;
+import java.util.List;
 import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.jibble.pircbot.PircBot;
 import org.jibble.pircbot.User;
@@ -116,16 +117,16 @@ public class IrcBotProxy {
      */
     public boolean isUserInChannel( String channel, String nick, boolean normalize ){
         assert (nick != null);
-        if( ! normalize )
-            return Arrays.asList( this.getUsers(channel) ).contains( nick );
-        else{
+        //if( ! normalize )
+            //return Arrays.asList( this.getUsers(channel) ).contains( nick ); // String != User, and User.equals(String) doesn't apply here.
+
+        if( normalize )
             nick = IrcUtils.normalizeUserNick(nick);
-            for( User user : this.getUsers(channel) ){
-                if( IrcUtils.normalizeUserNick( user.getNick() ).equals( nick ) )
-                    return true;
-            }
-            return false;
+        for( User user : this.getUsers(channel) ){
+            if( IrcUtils.normalizeUserNick( user.getNick() ).equals( nick ) )
+                return true;
         }
+        return false;
             
     }
 

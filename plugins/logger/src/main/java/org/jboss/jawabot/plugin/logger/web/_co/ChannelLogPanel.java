@@ -92,6 +92,8 @@ public class ChannelLogPanel extends Panel {
               String nickStyle = "color: #" + nickToColor.get( ev.getUser() );
               IBehavior nickColor = new AttributeAppender("style", new Model( nickStyle ), "; ");
               
+              boolean isMsg = ev instanceof IrcEvMessage;
+              
               // Value of <tr class="...">
               IBehavior classApp = NOOP_BEHAV;
               if( ev instanceof IrcEvMessage )    classApp = MSG_CLASS_APP;
@@ -105,7 +107,7 @@ public class ChannelLogPanel extends Panel {
                   // Time
                   .add(new DateLabel("when", new Model(ev.getWhen()), dcTime ))
                   // Nick
-                  .add(new Label("nick", ev.getUser() )
+                  .add(new Label("nick", ev.getUser() + (isMsg ? ": " : "") )
                       // For message, only colorize nick; or text too for other events.
                       .add( ev instanceof IrcEvMessage ? nickColor : NOOP_BEHAV )
                   )
@@ -125,9 +127,11 @@ public class ChannelLogPanel extends Panel {
     */
    private static String formatEventText( IrcEvent ev ){
        if( ev instanceof IrcEvJoin )
-           return ">>> joined (" + ev.getText() + ")";
+           return " has joined (" + ev.getText() + ")";
        if( ev instanceof IrcEvPart )
-           return ">>> left (" + ev.getText() + ")";
+           return " has left (" + ev.getText() + ")";
+       if( ev instanceof IrcEvNickChange )
+           return " has changed nick to (" + ((IrcEvNickChange)ev).getNewNick() + ")";
        return ev.getText();
    }
    
@@ -154,12 +158,21 @@ public class ChannelLogPanel extends Panel {
             int hashCode = o.hashCode();
             //long unsignedHashCode = ((long)hashCode) - Integer.MIN_VALUE;
             //float hue = 2 * (-Integer.MIN_VALUE) / unsignedHashCode;
-            float hue = ((float)o.hashCode()) / Integer.MIN_VALUE;
-            float bri = 0.3f + (0.0f + ( hashCode | 0xF )) / 16.0f ;
+            float hue = ((float)o.hashCode()) % 1024f / 1024f;
+            int bri1 = Math.abs(hashCode) % 16;
+            float bri2 = 0.0f + bri1;
+            float bri3 = bri2 / 16.0f;
+            float bri = 0.65f + bri3 * 0.3f;
             Color color = Color.getHSBColor( hue, 1.0f, bri );
-            return String.format("%x", color.getRGB() | 0xFFFFFF );
+            int rgb = color.getRGB();
+            int rgb2 =  rgb & 0xFFFFFF;
+            return String.format("%x", rgb2 );
        }
    }
 
+   // TODO: Move to a test.
+   public static void main( String args[] ){
+       NickToColor.getDarkishColorAsHex("JawaBot");
+   }
    
 }

@@ -11,6 +11,7 @@ import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.irc.ent.IrcEvNickChange;
 import org.jboss.jawabot.irc.ent.IrcEvPart;
 import org.jboss.weld.environment.se.jpa.JpaTransactional;
+import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,11 +87,27 @@ public class LoggerIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
             this.loggerService.storeEvent( event );
     }
 
+    /**
+     *   Nick change event does not carry channel info.
+     *   This method scans channels we're in for given nick.
+     *   If found, logs the event in that channel(s).
+     */
     @Override
-    @JpaTransactional
-    public void onNickChange(IrcEvNickChange ev, IrcBotProxy pircBotProxy) {
-        if( this.loggerService.isLoggingEnabledForChannel( ev.getChannel() ) )
+    //@JpaTransactional
+    public void onNickChange( IrcEvNickChange ev, IrcBotProxy bot ) {
+        for( String ch : bot.getChannels() ){
+            User[] users = bot.getUsers(ch); ///
+            // The new nick is already reflected.?
+            if( !( 
+                    bot.isUserInChannel( ch, ev.getNewNick() )
+                 || bot.isUserInChannel( ch, ev.getUser() ) 
+            ))  continue;
+            if( ! this.loggerService.isLoggingEnabledForChannel( ch ) ) continue;
+            ev.setChannel(ch);
+            log.info("Saving: " + ev);
             this.loggerService.storeEvent( ev );
+        }
+        ev.setChannel(null);
     }
 
    

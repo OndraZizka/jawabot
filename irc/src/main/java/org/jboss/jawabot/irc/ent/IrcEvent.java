@@ -37,9 +37,9 @@ public class IrcEvent implements Serializable
     private Long id;
 
     private String server;
-    private String channel;
-    private String user;
-    private String text;
+    protected String channel;
+    protected String user;
+    protected String text;
 
 
    @Temporal(javax.persistence.TemporalType.TIMESTAMP)

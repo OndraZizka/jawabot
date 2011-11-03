@@ -806,8 +806,9 @@ public class JawaIrcBot extends PircBot
         if( sender.equals( this.getNick() ) )
             this.onPartUs( channel );
         else {
+            Date now = new Date();
             for( final IIrcPluginHook plugin : this.plugins ) {
-                plugin.onPart( new IrcEvPart( null, channel, sender, login+"@"+hostname, new Date() ), this.pircBotProxy );
+                plugin.onPart( new IrcEvPart( null, channel, sender, login+"@"+hostname, now ), this.pircBotProxy );
             }
         }
     }
@@ -822,8 +823,9 @@ public class JawaIrcBot extends PircBot
 
     @Override
     protected void onNickChange(String oldNick, String login, String hostname, String newNick) {
+        Date now = new Date();
         for( final IIrcPluginHook plugin : this.plugins ) {
-            plugin.onNickChange( new IrcEvNickChange( null, oldNick, newNick, new Date() ), this.pircBotProxy );
+            plugin.onNickChange( new IrcEvNickChange( null, oldNick, newNick, login, hostname, now ), this.pircBotProxy );
         }
     }
 
