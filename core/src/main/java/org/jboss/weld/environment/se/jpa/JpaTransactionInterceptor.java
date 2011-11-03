@@ -18,7 +18,7 @@ In addition it will register an entity manager in the EntityManagerStore and unr
 The annotations @Interceptor and @Transactional tell Weld that every time it finds a @Transactional annotation it needs to call the interceptor.
 
  * 
- * A simple transaction interceptor which registers an entity mangager in a ThreadLocal and unregisters after the
+ * A simple transaction interceptor which registers an entity manager in a ThreadLocal and unregisters after the
  * method was called.
  * It does not support any kind of context propagation. If a transactional method calls another's bean transactional
  * method a new entity manager is created and added to the stack.
