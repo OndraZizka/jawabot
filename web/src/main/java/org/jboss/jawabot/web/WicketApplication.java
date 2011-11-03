@@ -19,14 +19,16 @@ import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.web._base.BaseLayoutPage_Vut;
 import org.jboss.jawabot.web._pg.GroupPage;
-import org.jboss.weld.wicket.WeldApplication;
+import org.jboss.seam.wicket.SeamApplication;
+//import org.jboss.weld.wicket.WeldApplication;
+
 
 /**
  * Application object for your web application. If you want to run this application without deploying, run the Start class.
  * 
  * @see cz.dw.test.Start#main(String[])
  */
-public class WicketApplication extends WeldApplication // WebApplication 
+public class WicketApplication extends SeamApplication // WebApplication 
 {
    private static final Logger log = Logger.getLogger( WicketApplication.class.getName() );
 

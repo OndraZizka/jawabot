@@ -1,14 +1,17 @@
-<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN"
-   "http://jetty.mortbay.org/configure.dtd">
-   
-   <!--
-     This file doesn't have any effect - Jetty is configured programatically.
-     
-     This only keeps the following CDI-related code sample, taken from here:
-     http://docs.jboss.org/weld/reference/latest/en-US/html/environments.html#d0e5286
-   -->
-   
 <Configure id="webAppCtx" class="org.mortbay.jetty.webapp.WebAppContext">
+
+    <!-- Taken from Arquillian's Jetty embedded. May not be necessary. -->
+    <New class="org.mortbay.jetty.plus.naming.EnvEntry">
+      <Arg><Ref id="webAppCtx"/></Arg>
+      <Arg>type</Arg>
+      <Arg type="java.lang.String">Embedded</Arg>
+      <Arg type="boolean">true</Arg>
+   </New>
+   <New class="org.mortbay.jetty.plus.naming.EnvEntry">
+      <Arg>version</Arg>
+      <Arg type="java.lang.Integer">6</Arg>
+      <Arg type="boolean">true</Arg>
+   </New>
    
    <New id="BeanManager" class="org.mortbay.jetty.plus.naming.Resource">
       <Arg>
@@ -25,3 +28,13 @@
    </New>
    
 </Configure>
+
+   <!--
+     <!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+          
+   
+     This file doesn't have any effect - Jetty is configured programatically.
+     
+     This only keeps the following CDI-related code sample, taken from here:
+     http://docs.jboss.org/weld/reference/latest/en-US/html/environments.html#d0e5286
+   -->

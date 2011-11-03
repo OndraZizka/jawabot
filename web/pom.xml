@@ -92,20 +92,20 @@
       </dependency>
       
       <!-- Weld-Wicket for CDI -->
+      <!-- TODO: Weld-Wicket was moved to Seam... 
       <dependency>
          <groupId>org.jboss.weld</groupId>
          <artifactId>weld-wicket</artifactId>
          <version>1.0.1-Final</version>
          <type>jar</type>
       </dependency>
-      <!-- TODO: Weld-Wicket was moved to Seam... 
+      -->
       <dependency>
          <groupId>org.jboss.seam.wicket</groupId>
          <artifactId>seam-wicket</artifactId>
          <version>3.0.0.Final</version>
          <type>jar</type>
       </dependency>
-      -->
 
 
       <!-- Optional
@@ -148,7 +148,7 @@
       </dependency>
       <dependency>
          <groupId>org.mortbay.jetty</groupId>
-         <artifactId>jetty-management</artifactId>
+         <artifactId>jetty-naming</artifactId>
          <version>${jetty.version}</version>
          <scope>compile</scope>
       </dependency>
