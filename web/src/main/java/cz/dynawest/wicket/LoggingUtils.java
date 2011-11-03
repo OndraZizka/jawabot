@@ -5,7 +5,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Level;
 import org.apache.log4j.Appender;
 import org.apache.log4j.EnhancedPatternLayout;
 import org.apache.log4j.LogManager;
@@ -14,7 +13,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.jboss.weld.util.collections.EnumerationList;
 
 /**
- *  Logging hack - to force layout to be single line.
+ *  Logging hack for log4j - to force layout to be single line.
  * 
  *  @author Ondrej Zizka
  */
