@@ -4,7 +4,6 @@ package org.jboss.jawabot.web._base;
 
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.jboss.jawabot.web.JawaBotSession;
@@ -23,8 +22,7 @@ public class BaseLayoutPage_Vut extends ConveniencePageBase
   public BaseLayoutPage_Vut( PageParameters parameters ) {
     super( parameters );
     
-    add(JavascriptPackageResource.getHeaderContribution( BaseLayoutPage_Vut.class, "files/js/jquery.js"));
-    add(JavascriptPackageResource.getHeaderContribution( BaseLayoutPage_Vut.class, "files/js/logout.js"));
+    add(JavascriptPackageResource.getHeaderContribution( BaseLayoutPage_Vut.class, "files/jquery.js"));
 
 
     //add( new Header( "content" )); // The rest is done in the inherited classes.

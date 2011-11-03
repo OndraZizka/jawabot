@@ -7,7 +7,8 @@ import cz.dynawest.util.DateUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory; 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.datetime.StyleDateConverter;
 import org.apache.wicket.datetime.markup.html.form.DateTextField;
@@ -21,6 +22,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.util.ListModel;
+import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
@@ -51,10 +53,7 @@ public class TakePage extends BaseLayoutPage
       super(parameters);
 
      // Free resources.
-     List<Resource> freeResources = new ArrayList(3);
-     freeResources.add( new Resource("jawa05", "eap") );
-     freeResources.add( new Resource("jawa06", "eap") );
-     freeResources.add( new Resource("jawa07", "soa") );
+     List<Resource> resources = JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName();
 
      final CheckGroup chgrp = new CheckGroup("chgrp", checks);
 
@@ -73,7 +72,7 @@ public class TakePage extends BaseLayoutPage
 
         .add( new TextField("note", new PropertyModel(this, "note")) )
         .add( chgrp
-           .add(new ListView<Resource>("freeResources", new ListModel( freeResources ) ) {
+           .add(new ListView<Resource>("freeResources", new ListModel( resources ) ) {
               @Override protected void populateItem(ListItem<Resource> item) {
                  String name = item.getModelObject().getName();
                  item.add( new Check("check", item.getModel(), chgrp) )
