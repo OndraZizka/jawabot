@@ -32,8 +32,9 @@ public class JawaBot
 
    
 
-   private ConfigBean config;
+   @Produces @FromJawaBot
    public ConfigBean getConfig() {      return config;   }
+   private ConfigBean config;
 
    private final MailUtils mailUtils = new MailUtils( this.config );
    @Produces /*@FromJawaBot*/ public MailUtils getMailUtils() { return this.mailUtils; }
