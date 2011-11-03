@@ -82,7 +82,7 @@ public class PluginUtils {
             errMods.add( hook.getClass().getName() );
          }
       }
-      
+
       //if( exs.size() == 1 )
       //   throw new JawaBotException( exs.get(0).getMessage(), exs.get(0) );
       
