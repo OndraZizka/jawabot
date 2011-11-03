@@ -792,7 +792,7 @@ public class JawaIrcBot extends PircBot
     
     // Someone joined a channel we're in.
     @Override
-    protected void onJoin(String channel, String sender, String login, String hostname) {
+    protected void onJoin( String channel, String sender, String login, String hostname ) {
         for( final IIrcPluginHook plugin : this.plugins ) {
             plugin.onJoin( new IrcEvJoin( null, channel, sender, login, hostname ), this.pircBotProxy );
         }
@@ -801,7 +801,7 @@ public class JawaIrcBot extends PircBot
 
     //  :JawaBot-debug!~PircBot@vpn1-6-95.ams2.redhat.com PART #frien
     @Override
-    protected void onPart(String channel, String sender, String login, String hostname) {
+    protected void onPart( String channel, String sender, String login, String hostname ) {
         if( sender.equals( this.getNick() ) )
             this.onPartUs( channel );
         else {
@@ -817,11 +817,11 @@ public class JawaIrcBot extends PircBot
     /**
      *  PircBot has common method for all parts, even our own. This fixes that.
      */
-    private void onPartUs(String channel) {
+    private void onPartUs( String channel ) {
     }
 
     @Override
-    protected void onNickChange(String oldNick, String login, String hostname, String newNick) {
+    protected void onNickChange( String oldNick, String login, String hostname, String newNick ) {
         Date now = new Date();
         for( final IIrcPluginHook plugin : this.plugins ) {
             plugin.onNickChange( new IrcEvNickChange( null, oldNick, newNick, login, hostname, now ), this.pircBotProxy );
@@ -829,18 +829,15 @@ public class JawaIrcBot extends PircBot
     }
 
     @Override
-    protected void onQuit(String sourceNick, String sourceLogin, String sourceHostname, String reason) {
+    protected void onQuit( String sourceNick, String sourceLogin, String sourceHostname, String reason ) {
         // TODO
     }
 
 
-    
-
-
     @Override
-    protected void onInvite(String targetNick, String sourceNick, String sourceLogin, String sourceHostname, String channel) {
+    protected void onInvite( String targetNick, String sourceNick, String sourceLogin, String sourceHostname, String channel ) {
         //if( this.getConfig().getSettingBool(SETID_ACCEPT_INVITATION))
-        this.joinChannel(channel);
+        this.joinChannel( channel );
     }
 
     
@@ -856,20 +853,20 @@ public class JawaIrcBot extends PircBot
 
     @Override
     protected void onDisconnect() {
-        log.info("onDisconnect().");
+        log.info( "onDisconnect()." );
 
-        for (final IIrcPluginHook plugin : this.plugins) {
-            plugin.onDisconnect(this.pircBotProxy);
+        for( final IIrcPluginHook plugin : this.plugins ) {
+            plugin.onDisconnect( this.pircBotProxy );
         }
 
         // TODO: Reconnect on unintentional disconnect - to get over network outages.
         //       See connectAndReconnectOnDisconnect().      
-        if (this.isIntentionalDisconnect()) {
-            log.info("  Intentional disconnect, disposing PircBot.");
+        if( this.isIntentionalDisconnect() ) {
+            log.info( "  Intentional disconnect, disposing PircBot." );
             this.dispose();
         }
-        synchronized (this) {
-            log.info("  notifyAll() on PircBot@" + this.hashCode());
+        synchronized( this ) {
+            log.info( "  notifyAll() on PircBot@" + this.hashCode() );
             this.notifyAll();
         }
     }
@@ -880,16 +877,16 @@ public class JawaIrcBot extends PircBot
      * Configures this bot according to the given config bean (possibly read from XML).
      * @param config
      */
-    public void applyConfig(ConfigBean config) {
+    public void applyConfig( ConfigBean config ) {
         //this.config = config;
 
         // Settings.
-        this.setVerbose(config.settings.verbose); // Enable debugging output.
-        this.setMessageDelay(config.settings.messageDelay);
+        this.setVerbose( config.settings.verbose ); // Enable debugging output.
+        this.setMessageDelay( config.settings.messageDelay );
 
     }
 
-   
+
 
     /**
      * Extracts configuration data into a ConfigBean to be persisted.
@@ -904,8 +901,8 @@ public class JawaIrcBot extends PircBot
 
 
     /** Updates the bot to according to the state stored in the bean. */
-    private void applyState(StateBean state) throws UnknownResourceException {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private void applyState( StateBean state ) throws UnknownResourceException {
+        throw new UnsupportedOperationException( "Not yet implemented" );
     }
 
 
@@ -922,8 +919,8 @@ public class JawaIrcBot extends PircBot
 
 
     /** Send a message to the debug channel. */
-    private void sendDebugMessage(String msg) {
-        this.sendMessage(this.getConfig().settings.debugChannel, msg);
+    private void sendDebugMessage( String msg ) {
+        this.sendMessage( this.getConfig().settings.debugChannel, msg );
     }
 
 
