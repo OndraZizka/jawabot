@@ -24,6 +24,18 @@
 
    <build>
 
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+
       <resources>
          <resource>
             <directory>src/main/java</directory>
@@ -77,35 +89,54 @@
 
       <!-- These are referenced in the code, but not used. -->
       
-      <!-- Spring - ->
+      <!-- Spring 
       <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring</artifactId>
           <version>2.5.6</version>
       </dependency>
+      -->
 
-      <!- - Hibernate - ->
+      <!-- Playing with CDI in a Standalone app. -->
       <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-annotations</artifactId>
-          <version>3.4.0.GA</version>
+         <groupId>org.jboss.weld.se</groupId>
+         <artifactId>weld-se</artifactId>
+         <version>1.1.1.Final</version>
+         <type>jar</type>
       </dependency>
-
-      <!- - MySQL - ->
-      <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <version>5.1.12</version>
-          <!- - <scope>runtime</scope>  potrebujeme exceptions - ->
-      </dependency>
-       -->
-
+        
       <!-- Persistence -->
       <dependency>
-        <groupId>javax.persistence</groupId>
-        <artifactId>persistence-api</artifactId>
-        <version>1.0</version>
+         <groupId>javax.persistence</groupId>
+         <artifactId>persistence-api</artifactId>
+         <version>1.0</version>
       </dependency>
+      
+      <!-- Hibernate -->
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-annotations</artifactId>
+         <version>3.5.6-Final</version>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-entitymanager</artifactId>
+         <version>3.5.6-Final</version>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-core</artifactId>
+         <version>3.5.6-Final</version>
+      </dependency>
+
+      <!-- MySQL -->
+      <dependency>
+         <groupId>mysql</groupId>
+         <artifactId>mysql-connector-java</artifactId>
+         <version>5.1.16</version>
+          <!-- <scope>runtime</scope>  we need exceptions -->
+      </dependency>
+
 
       <!-- Not needed?  Common Annotations for the JavaTM Platform like @Generated, @PostConstruct, @Resource, @Resources
       <dependency>
@@ -117,13 +148,6 @@
       -->
       
       
-      <!-- Playing with CDI in a Standalone app. -->
-      <dependency>
-         <groupId>org.jboss.weld.se</groupId>
-         <artifactId>weld-se</artifactId>
-         <version>1.1.1.Final</version>
-         <type>jar</type>
-      </dependency>
    </dependencies>
    
    <repositories>
