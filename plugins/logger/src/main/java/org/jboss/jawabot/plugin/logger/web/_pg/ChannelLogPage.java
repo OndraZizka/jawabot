@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Ondrej Zizka
  */
-public class ChannelLogPage extends BaseLayoutPage /*implements Serializable*/ {
+public class ChannelLogPage extends BaseLayoutPage implements Serializable {
 
     private static final Logger log = LoggerFactory.getLogger(ChannelLogPage.class);
     
