@@ -28,16 +28,6 @@
     <build>
         <resources>
             <resource>
-                <directory>src/assembly</directory>
-                <excludes>
-                    <exclude>**/*</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>bin</directory>
-                <excludes><exclude>**/*</exclude></excludes>
-            </resource>
-            <resource>
                 <directory>conf</directory>
                 <excludes><exclude>**/*</exclude></excludes>
             </resource>
