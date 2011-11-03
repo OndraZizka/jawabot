@@ -32,9 +32,6 @@ public class ChessGridTestPage extends BaseLayoutPage
       super( parameters );
       
       
-      ArrayList<String> chosen = new ArrayList();
-
-
       List SITES = Arrays.asList( new String[]{ "Aaaa 1", "Aaaa 2", "Aaaa 3", "Aaaa 4", "Aaaa 5" } );
 
 

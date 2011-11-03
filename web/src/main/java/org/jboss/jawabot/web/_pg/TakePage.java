@@ -2,10 +2,12 @@
 package org.jboss.jawabot.web._pg;
 
 import cz.dynawest.util.DateUtils;
+import cz.dynawest.wicket.ListColumnGridDataProvider;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
@@ -13,17 +15,18 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.datetime.StyleDateConverter;
 import org.apache.wicket.datetime.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Check;
-import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.CheckGroup;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.GridView;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
@@ -90,7 +93,7 @@ public class TakePage extends BaseLayoutPage
               
         // Checkboxes
         .add( chgrp
-           .add(new ListView<CheckBoxWrap<Resource>>("freeResources", new ListModel( resources ) ) 
+           /*.add(new ListView<CheckBoxWrap<Resource>>("freeResources", new ListModel( resources ) ) 
            {
               @Override protected void populateItem(ListItem<CheckBoxWrap<Resource>> li)
               {
@@ -98,7 +101,23 @@ public class TakePage extends BaseLayoutPage
                  li.add( new Check("check", new PropertyModel(li.getModelObject(), "checked"), chgrp) );
                  li.add( new Label("label", new PropertyModel(li.getModelObject(), "item.name") ));
               }
-           })
+           })*/
+            .add( new GridView<CheckBoxWrap<Resource>>( "freeResources", new ListColumnGridDataProvider(resources).setColumns(3) ) {
+
+               @Override
+               protected void populateEmptyItem( Item<CheckBoxWrap<Resource>> li ) {
+                  li.add( new WebMarkupContainer("check").setVisible(false) );
+                  li.add( new WebMarkupContainer("label").setVisible(false) );
+               }
+
+               @Override
+               protected void populateItem( Item<CheckBoxWrap<Resource>> li ) {
+                 li.add( new Check("check", new PropertyModel(li.getModelObject(), "checked"), chgrp) );
+                 li.add( new Label("label", new PropertyModel(li.getModelObject(), "item.name") ));
+               }
+
+            }.setColumns(3) )
+
         )
      );
 

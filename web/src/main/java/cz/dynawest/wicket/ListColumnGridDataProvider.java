@@ -74,13 +74,13 @@ public class ListColumnGridDataProvider<T extends Serializable> extends  ListDat
       int colHeight = list.size() / cols;
       // Last items may not fit whole row.
       colHeight += ( (list.size() % cols) == 0 ? 0 : 1 );
-      //System.out.println( "HEI: "+colHeight );///
+      System.out.println( "SIZE: "+list.size()+"  HEI: "+colHeight );///
       
-      List list2 = new ArrayList<T>( list );
+      List list2 = new ArrayList<T>( colHeight * cols );
       for ( int i = 0; i < list.size(); i++ ) {
          int newIndex = (i % colHeight) * cols + (i / colHeight);
          list2.set( newIndex, list.get(i) );
-         //System.out.println("  list2["+newIndex+"] <- list["+i+"] ");///
+         System.out.println("  list2["+newIndex+"] <- list["+i+"] ");///
       }
       return list2;
    }
