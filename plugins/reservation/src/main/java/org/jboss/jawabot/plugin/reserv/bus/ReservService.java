@@ -8,6 +8,7 @@ import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.mail.EmailException;
@@ -27,6 +28,7 @@ import org.jboss.jawabot.plugin.reserv.state.beans.ReservationBean;
  *  
  *  @author Ondrej Zizka
  */
+@ApplicationScoped
 public class ReservService {
     private static final Logger log = LoggerFactory.getLogger( ReservService.class );
 

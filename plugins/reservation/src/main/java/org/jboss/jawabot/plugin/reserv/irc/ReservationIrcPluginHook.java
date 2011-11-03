@@ -1,6 +1,7 @@
 package org.jboss.jawabot.plugin.reserv.irc;
 
 import java.util.logging.Level;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
@@ -11,6 +12,7 @@ import org.jboss.jawabot.irc.IrcUtils;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,7 @@ import org.jboss.jawabot.plugin.reserv.bus.ResourceManager.ReservationsBookingRe
  * 
  *  @author Ondrej Zizka
  */
+@ApplicationScoped
 public class ReservationIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHook<Object> {
     private static final Logger log = LoggerFactory.getLogger( ReservationIrcPluginHook.class );
 
@@ -52,9 +55,16 @@ public class ReservationIrcPluginHook extends IrcPluginHookBase implements IIrcP
 
     @Override
     public void initModule( Object initObject ) throws JawaBotException {
-        super.initModule( initObject );
-        this.appConfig = (ConfigBean) initObject;
-        this.config = new ReservPluginConfigBean(); // TODO!!
+        if( ! ( initObject instanceof JawaBot ) )
+            throw new JawaBotException("Expected JawaBot as initObject, got: " + initObject.getClass() );
+        JawaBot jawaBot = (JawaBot) initObject;
+        this.appConfig = jawaBot.getConfig();
+        //this.config = this.loadConfig( appConfig.plugins.get("reserv") );
+        this.config = this.loadConfig( "..." ); // TODO!
+    }
+    
+    private ReservPluginConfigBean loadConfig( String path ){
+        return new ReservPluginConfigBean(); // TODO!!
     }
     
    

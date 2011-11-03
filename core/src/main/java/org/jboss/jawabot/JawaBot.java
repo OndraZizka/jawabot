@@ -7,6 +7,7 @@ import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
@@ -36,7 +37,7 @@ public class JawaBot
    public ConfigBean getConfig() {      return config;   }
 
    private final MailUtils mailUtils = new MailUtils( this.config );
-   public MailUtils getMailUtils() { return this.mailUtils; }
+   @Produces @FromJawaBot public MailUtils getMailUtils() { return this.mailUtils; }
 
    private boolean initialized = false;
    public boolean isInitialized() {      return initialized;   }
