@@ -761,8 +761,8 @@ public class JawaIrcBot extends PircBot
         // Before joining a new channel, try to PART the hanged ones.
         ChannelToPart channelToPart;
         while( null != (channelToPart = partChannels.poll()) ){
-            log.debug( "   Parting temp channel from a part queue: " + channel );
-            this.partChannel(channel, "I'm still here?");
+            log.debug( "   Parting temp channel from a part queue: " + channelToPart.getName() );
+            this.partChannel(channelToPart.getName(), "I'm still here?");
         }
         
         log.debug("  Temporarily joining channel: " + channel);
@@ -778,21 +778,33 @@ public class JawaIrcBot extends PircBot
     */
     @Override
     protected void onUserList( String channel, User[] users ) {
-        UserListHandler handler = this.currentOnUserListHandlers.get(channel);
-        if( null != handler )
-            handler.onUserList( channel, users );
-        else
+        UserListHandler handler = this.currentOnUserListHandlers.remove(channel);
+        if( null == handler ){
             log.debug("  No onUserList() handler for channel: " + channel);
-            
+            return;
+        }
+        
+        handler.onUserList( channel, users );
         if( handler.isDisconnectFlag() ){
             log.debug("  Parting temporarily joined channel: " + channel);
             this.partChannel(channel);
         }
     }
 
+    //  :JawaBot-debug!~PircBot@vpn1-6-95.ams2.redhat.com PART #frien
+    @Override
+    protected void onPart(String channel, String sender, String login, String hostname) {
+        if( sender.equals( this.getNick() ) )
+            this.onPartUs( channel );
+    }
+    
 
+    /**
+     *  PircBot has common method for all parts, even our own. This fixes that.
+     */
+    private void onPartUs(String channel) {
+    }
 
-   
 
 
 
@@ -897,6 +909,8 @@ public class JawaIrcBot extends PircBot
 /**
  *  Info about channel we should part.
  *  This is needed because PART is not always really done, and the bot stays connected.
+ * 
+ *  TODO: Maybe better would be to take a snapshot of joined channels at the beginning and compare against it.
  */
 class ChannelToPart implements Delayed {
     

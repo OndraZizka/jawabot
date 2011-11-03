@@ -2,9 +2,11 @@ package org.jboss.jawabot.plugin.whereis.irc;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
@@ -55,13 +57,27 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
             return;
         
         String pattern = StringUtils.removeStart( msg.getText(), "whereis").trim();
+        
+        // No wildcards -> search exact nick.
         if( !pattern.contains("*") ){
-            List<SeenInfo> occurences = this.whereIsService.whereIsUser( pattern );
-            if( occurences.size() == 0 ){
+            List<SeenInfo> occurrences = this.whereIsService.whereIsUser( pattern );
+            if( occurrences.size() == 0 ){
                 bot.sendMessage( msg.getUser(), msg.getChannel(), "Sorry, no traces of "+pattern+".");
             }
             else{
-                bot.sendMessage( msg.getUser(), msg.getChannel(), this.informAbout( pattern, occurences ) );
+                bot.sendMessage( msg.getUser(), msg.getChannel(), this.informAbout( pattern, occurrences ) );
+            }
+        }
+        // Wildcards, list all matching nicks.
+        else{
+            Map<String, Set<SeenInfo>> users = this.whereIsService.searchUser( pattern );
+            if( users.size() == 0 ){
+                bot.sendMessage( msg.getUser(), msg.getChannel(), "Sorry, no traces of "+pattern+".");
+            }
+            else{
+                for( Map.Entry<String, Set<SeenInfo>> entry : users.entrySet() ) {
+                    bot.sendMessage( msg.getUser(), msg.getChannel(), this.informAbout( entry.getKey(), new ArrayList(entry.getValue()) ) );
+                }
             }
         }
     }
@@ -69,7 +85,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
 
     @Override
     public void onPrivateMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException {
-        
+        this.onMessage( message, bot );
     }
     
     
@@ -126,7 +142,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
 
         // Wait until the channels are downloaded and start scanning them.
         final int expectedChannelDownloadDurationMs = 3000;
-        final int delayBetweenChannels = 2000;
+        final int delayBetweenChannels = 5000;
         executor.scheduleWithFixedDelay( scanJob, expectedChannelDownloadDurationMs, delayBetweenChannels, TimeUnit.MILLISECONDS);
     }
     
