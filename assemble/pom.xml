@@ -20,6 +20,7 @@
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <mainClass>org.jboss.jawabot.JawaBotApp</mainClass>
    </properties>
 
 
@@ -34,6 +35,8 @@
       
      
       <plugins>
+         
+         <!-- Assembly plugin - one big .jar -->
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
@@ -49,16 +52,24 @@
                -->
                <descriptors>
                   <descriptor>src/assembly/assembly.xml</descriptor>
+                  <!-- Built-in.
+                  <descriptorId>jar-with-dependencies</descriptorId>
+                  -->
                </descriptors>
                <archive>
                   <manifest>
+                     <mainClass>${mainClass}</mainClass>
                      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                   </manifest>
                </archive>
+   
             </configuration>
          </plugin>
+         
       </plugins>
+      
+      <!-- Set versions. -->
       <pluginManagement>
          <plugins>
             <plugin>
@@ -68,6 +79,7 @@
             </plugin>
          </plugins>
       </pluginManagement>
+      
    </build>
 
 
