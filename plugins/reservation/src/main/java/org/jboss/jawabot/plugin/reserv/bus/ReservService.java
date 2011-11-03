@@ -36,7 +36,7 @@ public class ReservService {
 
     //@Inject private JaxbReservPluginConfigPersister configPersister;
     //@Inject @FromJawaBot private ConfigBean jawabotConfig;
-		@Inject private JawaBot jawaBot;
+	@Inject private JawaBot jawaBot;
 
 
     // ResourceManager

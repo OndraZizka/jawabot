@@ -9,6 +9,8 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.jboss.jawabot.web._pg.HomePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -16,6 +18,7 @@ import org.jboss.jawabot.web._pg.HomePage;
  *  @author Ondrej Zizka
  */
 public class JawaBotTabBarPanel extends Panel {
+   private static final Logger log = LoggerFactory.getLogger( JawaBotTabBarPanel.class );
    
    
    @Inject Instance<ITabBarContrib> tabsInstances;
@@ -41,7 +44,8 @@ public class JawaBotTabBarPanel extends Panel {
       );
       
       // Add all plugins' tabs with a link to it's home page.
-      for( ITabBarContrib tabContrib : tabsInstances ) {
+      for( ITabBarContrib tabContrib : this.tabsInstances ) {
+         log.debug(" TabContrib: " + tabContrib + " - " + tabContrib.getLinkedPage().getSimpleName() );
          view.add( new WMC( view.newChildId() )
                  .add( new BookmarkablePageLink("link", tabContrib.getLinkedPage() )
                      .add( tabContrib.getLabel("label"))

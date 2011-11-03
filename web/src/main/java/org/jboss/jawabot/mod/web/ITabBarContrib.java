@@ -13,7 +13,7 @@ public interface ITabBarContrib {
    
    public Label getLabel( String id );
    public Class<? extends WebPage> getLinkedPage();
-   
+
    
 }// class
 
