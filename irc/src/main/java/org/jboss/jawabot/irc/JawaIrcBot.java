@@ -182,14 +182,17 @@ public class JawaIrcBot extends PircBot
       ServerBean server = cnf.irc.servers.get(0);
       String nickToTry = cnf.irc.defaultNick;
       
-      final int DELAY_SEC_ADD_IN_NEXT_ATTEMPT = 12;
+      final int DELAY_SEC_ADD_IN_NEXT_ATTEMPT = 14;
+      final int NICK_IN_USE_DELAY_SEC = 15;
+      final int INITIAL_DELAY_SEC = 1;
+      final int MAX_NICK_TRIES = 5;
 
       // Connect to the server
       nickTry: try{
          this.setVerbose(true);
-         int delaySec = 1;
-         for( int i = 1; i <= 5; i++ ){  // 5 - max Nick tries.
-            log.info("Trying nick '"+nickToTry+"'...");
+         int delaySec = INITIAL_DELAY_SEC;
+         for( int i = 1; i <= MAX_NICK_TRIES; i++ ){
+            log.info("Trying nick '" + nickToTry + "'...");
             try {
                this.setName( nickToTry  );
                this.intentionalDisconnect = false;
@@ -198,13 +201,14 @@ public class JawaIrcBot extends PircBot
                log.info("Waiting " + (delaySec += DELAY_SEC_ADD_IN_NEXT_ATTEMPT) + " seconds for potential \"ERROR :Trying to reconnect too fast.\"");
                Thread.sleep( delaySec * 1000 );
                
+               // On nick clash or when reconnecting too quickly, IRC server disconnects us.
                if( this.isConnected() ){
                   log.info("Connected to " + server.host);
                   break nickTry;
                }
             }catch( NickAlreadyInUseException ex ){
                log.warn("Nick already in use. Waiting few seconds. ");
-               Thread.sleep(5000);
+               Thread.sleep( NICK_IN_USE_DELAY_SEC * 1000 );
                nickToTry = cnf.irc.defaultNick + "-" + i;
                //log.info("Changing nick to '"+nickToTry+"'...");
                //this.changeNick(nickToTry);
