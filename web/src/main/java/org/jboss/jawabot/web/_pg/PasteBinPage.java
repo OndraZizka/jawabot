@@ -34,7 +34,7 @@ import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.state.ent.User;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
-import org.jboss.jawabot.web._co.ChannelLinkPanel;
+import org.jboss.jawabot.plugin.irc.web._co.ChannelLinkPanel;
 import org.jboss.jawabot.web._co.UserLinkPanel;
 
 
