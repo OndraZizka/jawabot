@@ -10,15 +10,10 @@ import org.apache.wicket.markup.repeater.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Check;
-import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.SubmitLink;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.data.GridView;
-import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 
@@ -47,11 +42,13 @@ public class ChessGridTestPage extends BaseLayoutPage
 
          @Override
          protected void populateEmptyItem( Item<String> item ) {
+            item.add( new WebMarkupContainer("check").setVisible(false) );
             item.add( new Label("label", "-empty-" ) );
          }
 
          @Override
          protected void populateItem( Item<String> item ) {
+            item.add( new CheckBox("check", new Model( new Random().nextBoolean() ) ) );
             item.add( new Label("label", item.getModel() ) );
          }
          

@@ -40,7 +40,7 @@ public class AccountBoxPanel extends Panel
       add( new WebMarkupContainer("userLogged"){
             @Override public boolean isVisible() { return isUserLogged(); }
          }
-         .add( new Label("loggedUser", new PropertyModel(getSession(), "loggedUser")){
+         .add( new Label("loggedUser", new PropertyModel(AccountBoxPanel.this, "session.loggedUser")){
             @Override public boolean isVisible() { return isUserLogged(); }
          })
       );

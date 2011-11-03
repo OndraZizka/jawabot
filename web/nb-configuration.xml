@@ -38,7 +38,7 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinIfParens>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinIfParens>
         <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinForParens>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinForParens>
         <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinBraces>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.spaceWithinBraces>
-        <org-netbeans-modules-html-editor-lib.default-xhtml-public-id>-//W3C//DTD XHTML 1.1//EN</org-netbeans-modules-html-editor-lib.default-xhtml-public-id>
+        <org-netbeans-modules-html-editor-lib.default-xhtml-public-id>XHTML5</org-netbeans-modules-html-editor-lib.default-xhtml-public-id>
         <netbeans.hint.jdkPlatform>JDK_1.7</netbeans.hint.jdkPlatform>
     </properties>
 </project-shared-configuration>
