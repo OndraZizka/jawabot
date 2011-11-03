@@ -89,7 +89,7 @@ public class JawaBotApp
     *  Init.
     */
    private void init( String configFilePathString ) throws JawaBotException {
-      ConfigBean cb = new JaxbConfigPersister(configFilePath).load();
+      ConfigBean cb = new JaxbConfigPersister(configFilePathString).load();
       JawaBotApp.jawaBot = JawaBot.create( cb );
    }
 

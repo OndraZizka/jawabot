@@ -24,6 +24,7 @@ public class LoggerIrcPluginHook implements IIrcPluginHook<Object> {
    public void onMessage(IrcMessage message) throws IrcPluginException {
       log.info(" IRC message: " + message);
       em.persist( message );
+      log.info(" IRC message: " + message);
    }
 
    @Override
