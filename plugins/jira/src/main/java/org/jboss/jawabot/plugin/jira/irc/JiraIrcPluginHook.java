@@ -32,26 +32,26 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 
 		
 		
-   //final String JIRA_KEY_REGEX = "([A-Z]{2,}\\-[0-9]+)";
-   private static final String JIRA_KEY_REGEX = "((?<![-_.A-Z])[A-Z]{$minChars,}-[0-9]++)(?!(-|\\.[0-9A-Za-z]))";
-   private static final int MIN_ISSUE_PREFIX_LEN = 2;
-   private static Pattern JIRA_KEY_PATTERN = Pattern.compile( JIRA_KEY_REGEX.replace("$minChars",  "" + MIN_ISSUE_PREFIX_LEN) );
-   //private static Pattern JIRA_KEY_PATTERN = Pattern.compile("([A-Z]{3,}\\-[0-9]+(?!\\.))"); // Not followed by "." -> Bug: "ABC-123." treated as "ABC-12".
+    //final String JIRA_KEY_REGEX = "([A-Z]{2,}\\-[0-9]+)";
+    private static final String JIRA_KEY_REGEX = "((?<![-_.A-Z])[A-Z]{$minChars,}-[0-9]++)(?!(-|\\.[0-9A-Za-z]))";
+    private static final int MIN_ISSUE_PREFIX_LEN = 2;
+    private static Pattern JIRA_KEY_PATTERN = Pattern.compile( JIRA_KEY_REGEX.replace("$minChars",  "" + MIN_ISSUE_PREFIX_LEN) );
+    //private static Pattern JIRA_KEY_PATTERN = Pattern.compile("([A-Z]{3,}\\-[0-9]+(?!\\.))"); // Not followed by "." -> Bug: "ABC-123." treated as "ABC-12".
 
-   //private static final int MAX_JIRA_IDS_PER_REQUEST = 3;       // TODO: Move to the configuration.
-   //private static final int DEFAULT_REPEAT_DELAY_SECONDS = 300;         // TODO: Move to the configuration.
-   private static final int DEFAULT_CACHED_ISSUES_TIMEOUT_MINUTES = 60; // TODO: Move to the configuration.
+    //private static final int MAX_JIRA_IDS_PER_REQUEST = 3;       // TODO: Move to the configuration.
+    //private static final int DEFAULT_REPEAT_DELAY_SECONDS = 300;         // TODO: Move to the configuration.
+    private static final int DEFAULT_CACHED_ISSUES_TIMEOUT_MINUTES = 60; // TODO: Move to the configuration.
 
 
-   private ConfigBean config = null;
+    private ConfigBean config = null;
 		
 		
 	 
-   private final RepositoriesManager repoManager = new RepositoriesManager();
+    private final RepositoriesManager repoManager = new RepositoriesManager();
 
-   private final ChannelsStatusStore channelStatusStore = new ChannelsStatusStore();
+    private final ChannelsStatusStore channelStatusStore = new ChannelsStatusStore();
 
-   private final TimeoutCache<IssueInfo> issueCache = new TimeoutCache( DEFAULT_CACHED_ISSUES_TIMEOUT_MINUTES * 60 * 1000 /**/ );
+    private final TimeoutCache<IssueInfo> issueCache = new TimeoutCache( DEFAULT_CACHED_ISSUES_TIMEOUT_MINUTES * 60 * 1000 /**/ );
 	 
 		
 		
@@ -92,13 +92,7 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
         if( !wasCommand ) {
             this.handleJiraRequest( ev.getChannel(), ev.getText().trim(), bot );
         }
-
-        // TODO: Perhaps create some class for request info, carrying information like
-        //       isPrivateMsg, from, isCommand, commandName, command details, list of jiras found, etc.
-        //       parse the message into it's object, and then pass such object to the handlers.
-        //       (We don't need such sophisticated approach now :)
-
-    }
+    }// onMessage()
 
 
 
@@ -143,6 +137,7 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
       }
 
       boolean isChannel = from.startsWith("#");
+      
       // TODO: Make this configurable.
       boolean skipCache = msgText.contains("refresh") 
                        || msgText.contains("nocache")
@@ -151,6 +146,7 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
                        || msgText.contains("fixed") 
                        || msgText.contains("reopened") 
                        || msgText.contains("assigned");
+      
       boolean noURL     = msgText.contains("nourl");
 
       // For each JIRA ID found...
@@ -205,17 +201,20 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
         log.debug("  Cached issue info: " + issue);
 
         if( issue == null ){
-            RepositoryBean repo = this.repoManager.getRepoForIssue(issueID);
+            RepositoryBean repo = this.repoManager.getRepoForIssue( issueID );
             log.debug("Repo for this issue: " + repo);
             if( null == repo ) return;
 
             try {
-               issue = repo.scrapeIssueInfo( issueID );
-               // No issue info and no exception - should not happen.
-               if( issue == null ){
-                  log.warn("Issue scraper of "+repo.getName()+" should not return null! Issue: "+issueID);
-                  return;
-               }
+                
+                // === Get the JIRA info from Scraper. ===
+                issue = repo.scrapeIssueInfo( issueID );
+               
+                // No issue info and no exception - should not happen.
+                if( issue == null ){
+                   log.warn("Issue scraper of "+repo.getName()+" should not return null! Issue: "+issueID);
+                   return;
+                }
             }
             catch( ScrapingException ex ){
                log.warn( ex.toString() );
