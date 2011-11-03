@@ -1,6 +1,7 @@
 //package de.laliluna.transactions;
 package org.jboss.weld.environment.se.jpa;
 
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,9 +51,6 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
                ejbConf.configure("/mypath/hibernate.cfg.xml") //add a regular hibernate.cfg.xml*/
             
             ejbConf.configure("TestPU", null); // TODO: Externalize or use first PU from  persistence.xml.
-            //ejbConf.setProperty( "hibernate.connection.username", "jawabot" );
-            //ejbConf.setProperty( "connection.username", "jawabot" );
-            //ejbConf.setProperty( "username", "jawabot" );
             
             //ejbConf.addPackage("org.jboss.jawabot.irc.ent");
             //ejbConf.addPackage("org.jboss.jawabot.irc.model");
@@ -60,6 +58,14 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
                log.debug("  Adding entity package to Ejb3Configuration: " + pack);
                ejbConf.addPackage( pack );
             }
+            
+            try {
+               ejbConf.addAnnotatedClass( Class.forName("org.jboss.jawabot.irc.model.IrcMessage") );
+            } catch( ClassNotFoundException ex ) {
+               log.error("Failed loading IrcMessage entity. " + ex, ex);
+            }
+            
+            
             emf = ejbConf.buildEntityManagerFactory(); //Create the entity manager factory
 		}
 		
