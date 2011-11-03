@@ -78,7 +78,7 @@ public class JawaBotApp
          CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, JawaBotApp.getJawaBot(), JawaBotException.class);
          JawaBotApp.getJawaBot().waitForShutdown();
       } catch ( JawaBotException ex ) {
-         ex.printStackTrace();
+         log.error( "Error during JawaBot initialization", ex );
       }
 
       log.debug( JawaBotApp.class.getSimpleName() + "#main() end.");

@@ -3,6 +3,7 @@ package org.jboss.jawabot.web;
 import java.util.Iterator;
 import java.util.Set;
 import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
 import org.jboss.jawabot.web._pg.LoginPage;
 import org.jboss.jawabot.web._pg.PasteBinShowPage;
 import org.jboss.jawabot.web._pg.LeavePage;
@@ -11,6 +12,8 @@ import org.jboss.jawabot.web._pg.HomePage;
 import org.jboss.jawabot.web._pg.PasteBinPage;
 import org.jboss.jawabot.web._pg.TakePage;
 import cz.dynawest.wicket.NonVersionedHybridUrlCodingStrategy;
+import java.util.LinkedList;
+import java.util.List;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.apache.wicket.Request;
@@ -85,14 +88,11 @@ public class WicketApplication extends InjectingSeamApplication
       mountBookmarkablePage("debug", InspectorPage.class);
       mountBookmarkablePage("cssTest",  BaseLayoutPage.class);
       mountBookmarkablePage("vutTest",  BaseLayoutPage_Vut.class);
-      
-      
-      Set<Bean<?>> pageMounts = new JawaBotAppBeanManagerProvider().getBeanManager().getBeans( IPageMount.class );
+
       
       // Mount plugin pages.
-      //for( IPageMount pm : this.pageMounts ){
-      for( Bean<?> bean : pageMounts ){
-         IPageMount pm = ( IPageMount ) bean;
+      List<IPageMount>  pageMounts = getPageMounts();
+      for( IPageMount pm : pageMounts ){
          log.info("  Mounting pages for " + pm.getClass().getName() );
          try{
             pm.mount( new MountProxy(this) );
@@ -101,15 +101,14 @@ public class WicketApplication extends InjectingSeamApplication
          }
       }
       
-      
       getMarkupSettings().setStripWicketTags(true);
    }
 
 
-  // Shutdown
-  @Override protected void onDestroy() {
-    System.out.println( "---- onDestroy() ----" );
-  }
+   // Shutdown
+   @Override protected void onDestroy() {
+      System.out.println( "---- onDestroy() ----" );
+   }
 
 
    @Override
@@ -117,4 +116,26 @@ public class WicketApplication extends InjectingSeamApplication
       return new JawaBotSession(request);
    }
 
-}
+   
+   
+   /**
+    *  Gets page mounts from a BeanManager which gets in a dirty way - 
+    *  through JawaBotAppBeanManagerProvider which is actually for Seam-Wicket.
+    * 
+    *  TODO: Come up with something better.
+    */
+   private List<IPageMount> getPageMounts() {
+      List<IPageMount> ret = new LinkedList();
+      
+      BeanManager beanManager = new JawaBotAppBeanManagerProvider().getBeanManager();
+      Set<Bean<?>> pageMounts = beanManager.getBeans( IPageMount.class );
+      
+      for( Bean<?> bean : pageMounts ){
+         Bean<IPageMount> tmp = (Bean<IPageMount>) bean;
+         IPageMount pm = tmp.create( beanManager.createCreationalContext(tmp) );
+         ret.add( pm );
+      }
+      return ret;
+   }// getPageMounts()
+
+}// class

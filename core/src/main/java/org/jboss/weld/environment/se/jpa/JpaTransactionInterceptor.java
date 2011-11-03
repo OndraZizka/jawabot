@@ -46,7 +46,7 @@ public class JpaTransactionInterceptor {
       @PostConstruct
 		public Object runInTransaction( InvocationContext invocationContext ) throws Exception {
 
-            log.debug(" --- In "+JpaTransactionInterceptor.class.getSimpleName() 
+            log.info(" --- In "+JpaTransactionInterceptor.class.getSimpleName() 
                     +" - @AroundInvoke for " 
                     + invocationContext.getMethod().getName()  + " "
                     + invocationContext.getTarget().getClass().getSimpleName()

@@ -35,15 +35,15 @@ public class ChannelLogPage extends BaseLayoutPage
      log.debug(" Page params: " + params );
 
      String name = params.getString(PARAM_NAME);
-     Channel chan = channelManager.byName( name );
+     Channel chan = name == null ? null : channelManager.byName( name );
  
-     if( chan != null ){
-        add( new Label("heading", "Channel "+chan.getName()+" - details"));
-        add( new ChannelLogPanel( "channelPanel", chan ) );
+     if( chan == null ){
+        add( new Label("heading", "Logged Channels"));
+        add( new ChannelListPanel("channelLogPanel") );
      }
      else{
-        add( new Label("heading", "Log"));
-        add( new ChannelListPanel("channelPanel") );
+        add( new Label("heading", "Channel "+chan.getName()+" - details"));
+        add( new ChannelLogPanel( "channelLogPanel", chan ) );
      }
   }
 
