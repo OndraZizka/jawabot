@@ -2,11 +2,13 @@ package org.jboss.jawabot.irc.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Entity;
 
 /**
  *  
  *  @author Ondrej Zizka
  */
+@Entity
 public class IrcMessage implements Serializable {
    
    private String server;
