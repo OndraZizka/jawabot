@@ -9,7 +9,9 @@ import java.util.EventListener;
 import java.util.Hashtable;
 import javax.naming.InitialContext;
 import javax.naming.Name;
+import javax.naming.NameClassPair;
 import javax.naming.NameParser;
+import javax.naming.NamingEnumeration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +27,7 @@ import org.mortbay.jetty.servlet.*;
 import org.mortbay.jetty.webapp.Configuration;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.jetty.webapp.WebXmlConfiguration;
+import org.mortbay.naming.InitialContextFactory;
 import org.mortbay.naming.NamingUtil;
 import org.mortbay.xml.XmlConfiguration;
 
@@ -174,16 +177,20 @@ public class RunInJetty
          EnvEntry envEntry = new org.mortbay.jetty.plus.naming.EnvEntry( ctx, "BeanManager", ref, true );
          
 
-         /*
          Hashtable<String, String> hashtable = new Hashtable();
          hashtable.put( "java.naming.factory.initial",  "org.mortbay.naming.InitialContextFactory" );
          hashtable.put( "java.naming.factory.url.pkgs", "org.mortbay.naming" );
-         new org.mortbay.naming.InitialContextFactory().getInitialContext(hashtable).bind("BeanManager", ref);
-         //new org.mortbay.naming.InitialContextFactory().getInitialContext(hashtable).bind("java:comp/BeanManager", ref);
-         //new org.mortbay.naming.InitialContextFactory().getInitialContext(hashtable).bind("env/BeanManager", ref);
+         javax.naming.Context ic = new org.mortbay.naming.InitialContextFactory().getInitialContext(hashtable);
+         
+         
+         
+         /*
+         ic.bind("BeanManager", ref);
+         //ic.bind("java:comp/BeanManager", ref);
+         //ic.bind("env/BeanManager", ref);
           */
 
-         InitialContext ic = new InitialContext();
+         //InitialContext ic = new InitialContext();
          NameParser parser = ic.getNameParser("");
          //Name prefix = NamingEntryUtil.getNameForScope(scope);
          Name prefix = parser.parse("").add("_");
@@ -206,7 +213,12 @@ public class RunInJetty
          NamingUtil.bind(ic, "_/BeanManager", ref);
          NamingUtil.bind(ic, "_/env/BeanManager", ref);
          
+         NamingEnumeration<NameClassPair> list = ic.list("/");
+         while( list.hasMore() ){
+            System.out.println("  @@@@@@@  " + list.next().toString() );
+         }
 
+         
          // Trying web.xml, but getting NPE at org.mortbay.jetty.webapp.WebXmlConfiguration.initialize(WebXmlConfiguration.java:251)
          /*
          WebXmlConfiguration confWebXml = new WebXmlConfiguration(); 
