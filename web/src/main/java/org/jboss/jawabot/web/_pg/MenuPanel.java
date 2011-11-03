@@ -64,17 +64,17 @@ public class MenuPanel extends Panel
       // Groups
       List<Group> groups = ((ConveniencePageBase)getPage()).getJawaBot().getGroupManager().getAllGroups_OrderByName();
       
-      add(new ListView<Group>("groupList", new ListModel( resources ) ) {
+      add(new ListView<Group>("groupList", new ListModel( groups ) ) {
         @Override protected void populateItem(ListItem<Group> item) {
            item.add( new GroupLinkPanel("link", item.getModelObject()));
         }
       });
       
       
-      // Groups
+      // PasteBin
       List<PasteBinEntry> pastebins = ((ConveniencePageBase)getPage()).getJawaBot().getPasteBinManager().getPastes_OrderByWhenDesc(10);
       
-      add(new ListView<PasteBinEntry>("pastebinList", new ListModel( resources ) ) {
+      add(new ListView<PasteBinEntry>("pastebinList", new ListModel( pastebins ) ) {
         @Override protected void populateItem(ListItem<PasteBinEntry> item) {
            item.add( new PastebinLinkPanel("link", item.getModelObject()));
         }
