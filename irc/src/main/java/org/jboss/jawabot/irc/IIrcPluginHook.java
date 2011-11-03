@@ -14,5 +14,9 @@ public interface IIrcPluginHook <TInitObject extends Object> extends IPluginLife
    
    public void onPrivateMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException;
    
+   public void onJoin( String channel, String user, IrcBotProxy bot );
+   
+   public void onPart( String channel, String user, IrcBotProxy bot );
+   
 }// class
 
