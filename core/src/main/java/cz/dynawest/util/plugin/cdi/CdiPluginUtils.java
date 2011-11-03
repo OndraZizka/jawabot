@@ -27,7 +27,7 @@ public class CdiPluginUtils {
       
       //IModuleHook[] moduleHooks = new IModuleHook[moduleHookInstances];
       List<TPlugin> pluginHooks = new ArrayList();
-      for( TPlugin hook : pluginHookInstances ) {
+      for( TPlugin hook : pluginHookInstances.select() ) {
          pluginHooks.add(hook);
       }
       
