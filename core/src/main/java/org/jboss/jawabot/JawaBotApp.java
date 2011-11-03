@@ -30,7 +30,7 @@ public class JawaBotApp
    //@Inject private BeanManager beanManager;
    
    @Inject private Instance<IModuleHook> moduleHookInstances;
-   @Inject EntityManagerStore emf; // To have it created at the very start.
+   @Inject private EntityManagerStore emf; // To have it created at the very start.
    
 
    
