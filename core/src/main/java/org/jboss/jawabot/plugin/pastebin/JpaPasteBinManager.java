@@ -9,7 +9,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import org.jboss.weld.environment.se.jpa.EntitiesPackagesProvider;
+import org.jboss.weld.environment.se.jpa.IEntitiesPackagesProvider;
 import org.jboss.weld.environment.se.jpa.JpaTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  *  @author Ondrej Zizka
  */
 @ApplicationScoped
-public class JpaPasteBinManager implements IPasteBinManager, EntitiesPackagesProvider
+public class JpaPasteBinManager implements IPasteBinManager, IEntitiesPackagesProvider
 {
    private static final Logger log = LoggerFactory.getLogger(JpaPasteBinManager.class);
    

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
+import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,11 @@ import org.slf4j.LoggerFactory;
 public class DummyLoggerService implements ILoggerService {
    private static final Logger log = LoggerFactory.getLogger( DummyLoggerService.class );
    
+   
+   @Override
+   public void storeEvent(IrcEvent ev) {
+      log.info("Event saved: " + ev);
+   }
    
    @Override
    public void storeMessage( IrcEvMessage msg ){
@@ -30,6 +36,6 @@ public class DummyLoggerService implements ILoggerService {
       list.add( new IrcEvMessage("serverC", "userB", "channelA", "text3", new Date() ) );
       return list;
    }
-   
+
 }// class
 

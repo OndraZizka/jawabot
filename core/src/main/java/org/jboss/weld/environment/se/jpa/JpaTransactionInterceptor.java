@@ -1,6 +1,7 @@
 //package de.laliluna.transactions;
 package org.jboss.weld.environment.se.jpa;
 
+import javax.annotation.PostConstruct;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ public class JpaTransactionInterceptor {
       private EntityManagerStore entityManagerStore;
 
 		@AroundInvoke
+      @PostConstruct
 		public Object runInTransaction( InvocationContext invocationContext ) throws Exception {
 
             log.debug(" In "+JpaTransactionInterceptor.class.getSimpleName() 
@@ -47,8 +49,11 @@ public class JpaTransactionInterceptor {
 
 				Object result = null;
 				try {
+                  log.debug("  Starting transaction...");
 						em.getTransaction().begin();
+                  log.debug("  Invoking the intercepted method...");
 						result = invocationContext.proceed();
+                  log.debug("  Committing transaction...");
 						em.getTransaction().commit();
 				}
 				catch (Exception e) {

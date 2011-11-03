@@ -7,7 +7,7 @@ import java.util.Collection;
  * 
  *  @author Ondrej Zizka
  */
-public interface EntitiesPackagesProvider {
+public interface IEntitiesPackagesProvider {
 
    /**
     *  @returns  A list of packages to search for entities.

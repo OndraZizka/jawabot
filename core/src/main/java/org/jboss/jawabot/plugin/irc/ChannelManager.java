@@ -8,7 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import org.jboss.weld.environment.se.jpa.EntitiesPackagesProvider;
+import org.jboss.weld.environment.se.jpa.IEntitiesPackagesProvider;
 import org.jboss.weld.environment.se.jpa.JpaTransactional;
 
 /**
@@ -18,7 +18,7 @@ import org.jboss.weld.environment.se.jpa.JpaTransactional;
  *  @author Ondrej Zizka
  */
 @ApplicationScoped
-public class ChannelManager implements EntitiesPackagesProvider {
+public class ChannelManager implements IEntitiesPackagesProvider {
    
    @Inject private EntityManager em;
    

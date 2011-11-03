@@ -25,8 +25,28 @@ public class LoggerIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
    
    @Override
    @JpaTransactional
-   public void onMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
-      loggerService.storeMessage( message );
+   public void onMessage( IrcEvMessage msg, IrcBotProxy bot ) throws IrcPluginException {
+      
+      String txt = msg.getText();
+      
+      // Commands
+      if( txt.startsWith("log ") ){
+         if( txt.startsWith("log on") ){
+            this.loggerService.setLoggingEnabledForChannel(msg.getChannel(), true);
+            bot.sendReplyTo(msg, "Logging for this channel enabled.");
+            return;
+         }
+         if( txt.startsWith("log off") ){
+            this.loggerService.setLoggingEnabledForChannel(msg.getChannel(), false);
+            bot.sendReplyTo(msg, "Logging for this channel disabled.");
+            return;
+         }
+      }
+      
+      // Was not a command, log the message.
+      if( ! this.loggerService.isLoggingEnabledForChannel( msg.getChannel() ) )
+         return;
+      this.loggerService.storeMessage( msg );
    }
 
    @Override

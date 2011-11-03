@@ -11,15 +11,15 @@ import javax.inject.Inject;
  * 
  *  @author Ondrej Zizka
  */
-public class CdiPluginEntitiesPackagesProvider implements EntitiesPackagesProvider {
+public class CdiPluginEntitiesPackagesProvider implements IEntitiesPackagesProvider {
    
-   @Inject Instance<EntitiesPackagesProvider> epps;
+   @Inject Instance<IEntitiesPackagesProvider> epps;
 
    @Override
    public Collection<String> getEntityPackages() 
    {
       Set<String> packages = new HashSet<String>();
-      for( EntitiesPackagesProvider epp : epps ){
+      for( IEntitiesPackagesProvider epp : epps ){
          // Prevent recursion or circularity.
          if( epp == this || epp instanceof CdiPluginEntitiesPackagesProvider )
             continue;
@@ -32,7 +32,7 @@ public class CdiPluginEntitiesPackagesProvider implements EntitiesPackagesProvid
    public Collection<Class> getEntityClasses() 
    {
       Set<Class> classes = new HashSet<Class>();
-      for( EntitiesPackagesProvider epp : epps ){
+      for( IEntitiesPackagesProvider epp : epps ){
          // Prevent recursion or circularity.
          if( epp == this || epp instanceof CdiPluginEntitiesPackagesProvider )
             continue;
