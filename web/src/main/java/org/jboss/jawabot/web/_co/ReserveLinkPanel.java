@@ -40,8 +40,8 @@ public class ReserveLinkPanel extends Panel {
       BookmarkablePageLink<Reservation> link = new BookmarkablePageLink<Reservation>( "link", ReservePage.class);
       // Is this correct? Can't it be mapped from an object?
       link.setParameter( ReservePage.PARAM_RES, resv.getRes().getName() );
-      link.setParameter( ReservePage.PARAM_FROM, resv.getRes().getName() );
-      link.setParameter( ReservePage.PARAM_TO, resv.getRes().getName() );
+      link.setParameter( ReservePage.PARAM_FROM_OFFSET, resv.getRes().getName() );
+      link.setParameter( ReservePage.PARAM_TO_OFFSET, resv.getRes().getName() );
       link.add( new Image( "icoType", new ResourceReference(this.getClass(), "Calendar.gif") ) );
       link.add( new Label("label", ((Reservation)getDefaultModelObject()).getRes().getName() ));
       add(link);

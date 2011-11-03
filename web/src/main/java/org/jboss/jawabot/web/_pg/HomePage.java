@@ -15,10 +15,12 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.util.string.Strings;
 import org.jboss.jawabot.JawaBotApp;
@@ -48,14 +50,21 @@ public class HomePage extends BaseLayoutPage
 
   public HomePage( PageParameters parameters ) {
      super(parameters);
+     
+     final boolean logged = getSession().isUserLogged();
+     
+     // Not logged warning
+     add( new Label("notLoggedWarn", new ResourceModel("notLoggedWarn")).setVisibilityAllowed( !logged ) );
 
-     // Resources.
+     // -- Resources table with "reserve" links. --
+     // We are keeping it here as non-component since it's only at home page.
+     
      List<ResourceWithNearestFreePeriodDTO> resources = getResourceWithNearestFreePeriod( JawaBotApp.getJawaBot().getResourceManager().getResources_SortByName() );
 
      add(new ListView<ResourceWithNearestFreePeriodDTO>("resources", new ListModel<ResourceWithNearestFreePeriodDTO>( resources ) ) {
         @Override protected void populateItem(ListItem<ResourceWithNearestFreePeriodDTO> item) 
         {
-            ResourceWithNearestFreePeriodDTO obj = item.getModelObject();
+           ResourceWithNearestFreePeriodDTO obj = item.getModelObject();
            
            item.add(
                new ResourceLinkPanel("reslink", item.getModelObject().getResource() ) 
@@ -64,22 +73,18 @@ public class HomePage extends BaseLayoutPage
            String[] labels = new String[]{"today", "tomorrow", "+2", "+3"};
            for( int i = 0; i < ids.length; i++ ) {
               item.add(
-                  new BookmarkablePageLink( ids[i], ReservePage.class ){
-                     
-                  }
-                  .setParameter("fromDateOffset", 0)
-                  .setParameter("toDateOffset", i)
+                  new BookmarkablePageLink( ids[i], ReservePage.class )
+                  .setParameter( ReservePage.PARAM_FROM_OFFSET, 0)
+                  .setParameter( ReservePage.PARAM_TO_OFFSET, i)
+                  .setParameter( ReservePage.PARAM_RES, obj.getResource().getName() )
+                  .setParameter( ReservePage.PARAM_USER, HomePage.this.getSession().getLoggedUser() )
                   .add( new Label("label", labels[i] ))
-                  .setEnabled( item.getModelObject().isFreeTodayPlusX( i ) )
+                  .setEnabled( logged && item.getModelObject().isFreeTodayPlusX( i ) )
               );
            }
            item.add(
-               /*new BookmarkablePageLink("chooseTimeSpan", ReservePage.class){}
-               .setParameter("fromDateOffset", 0)
-               .setParameter("toDateOffset", 4)
-               .add( new Label("label", "choose span..." ))*/
                new ReserveLinkPanel("chooseTimeSpan", new org.jboss.jawabot.state.ent.Reservation( obj.getResource(), 0, 4 ) )
-               .setEnabled( obj.isFreeToday() )
+               .setEnabled( logged && obj.isFreeToday() )
            );
         }
      });

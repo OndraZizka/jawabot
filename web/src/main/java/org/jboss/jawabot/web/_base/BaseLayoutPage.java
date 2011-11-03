@@ -16,4 +16,8 @@ public class BaseLayoutPage extends BaseLayoutPage_Vut
     super( parameters );
   }
 
+  public BaseLayoutPage() {
+    super( PageParameters.NULL );
+  }
+
 }// class BaseLayoutPage

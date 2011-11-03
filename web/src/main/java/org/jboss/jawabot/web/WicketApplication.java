@@ -67,19 +67,21 @@ public class WicketApplication extends SeamApplication
       //mountBookmarkablePage("res",  ResourcesPage.class);
       //mountBookmarkablePage("res/",  ResourcePage.class);
       mount(new MixedParamHybridUrlCodingStrategy("res", ResourcePage.class, new String[]{"name"}));
-      mountBookmarkablePage("group",   GroupPage.class);
+      mountBookmarkablePage("group", GroupPage.class);
       mountBookmarkablePage("take",  TakePage.class);
       mountBookmarkablePage("leave", LeavePage.class);
-      mountBookmarkablePage("debug", InspectorPage.class);
       mountBookmarkablePage("pastebin/new", PasteBinPage.class);
-      mountBookmarkablePage("cssTest", BaseLayoutPage.class);
-      mountBookmarkablePage("vut", BaseLayoutPage_Vut.class);
       mount(new NonVersionedHybridUrlCodingStrategy("pastebin", PasteBinShowPage.class));
-      //mountBookmarkablePage("group", GroupPage.class);
+      
       //mountBookmarkablePage("login", LoginPage.class);
       //mount(new NonVersionedHybridUrlCodingStrategy("login", LoginPage.class));
       //mount(new MixedParamHybridUrlCodingStrategy("login", LoginPage.class, new String[]{"logout"}));
       mount(new QueryStringUrlCodingStrategy("login", LoginPage.class));
+      
+      
+      mountBookmarkablePage("debug", InspectorPage.class);
+      mountBookmarkablePage("cssTest",  BaseLayoutPage.class);
+      mountBookmarkablePage("vutTest",  BaseLayoutPage_Vut.class);
    }
 
 

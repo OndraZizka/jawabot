@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.datetime.PatternDateConverter;
+import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -14,6 +15,7 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.jawabot.JawaBotApp;
+import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.ex.UnknownResourceException;
@@ -28,8 +30,8 @@ public class ReservePage extends BaseLayoutPage {
 
    // Page params.
    public final static String PARAM_RES = "res";
-   public final static String PARAM_FROM = "fromDateOffset";
-   public final static String PARAM_TO = "toDateOffset";
+   public final static String PARAM_FROM_OFFSET = "fromDateOffset";
+   public final static String PARAM_TO_OFFSET = "toDateOffset";
    public final static String PARAM_USER = "user"; // optional
    
 
@@ -54,6 +56,15 @@ public class ReservePage extends BaseLayoutPage {
    //</editor-fold>
 
 
+   public ReservePage( ReservationWrap resv, String note, String ownerName ) {
+      this.dateFrom = resv.getFrom();
+      this.dateTo = resv.getTo();
+      this.owner = resv.getForUser();
+      this.selectedResource = JawaBotApp.getJawaBot().getResourceManager().getResource( resv.getResourceName() );
+      this.note = note;
+   }
+   
+   
    public ReservePage( PageParameters params ) {
 
       super( params );
@@ -80,8 +91,8 @@ public class ReservePage extends BaseLayoutPage {
       PatternDateConverter pdc = WicketApplication.getPatternDateConverterTL().get();
       //form.add( new DateTextField("dateFrom", new PropertyModel<Date>( this, "dateFrom" ), pdc ) );
       //form.add( new DateTextField("dateTo",   new PropertyModel<Date>( this, "dateTo" ), pdc ) );
-      form.add( new org.apache.wicket.extensions.markup.html.form.DateTextField( "dateFrom", new PropertyModel<Date>( this, "dateFrom" ), "yyyy-MM-dd"));
-      form.add( new org.apache.wicket.extensions.markup.html.form.DateTextField( "dateTo", new PropertyModel<Date>( this, "dateFrom" ), "yyyy-MM-dd"));
+      form.add( new DateTextField( "dateFrom", new PropertyModel<Date>( this, "dateFrom" ), "yyyy-MM-dd"));
+      form.add( new DateTextField( "dateTo", new PropertyModel<Date>( this, "dateFrom" ), "yyyy-MM-dd"));
 
       // Note
       form.add( new TextField( "note", new PropertyModel( this, "note" )) );
@@ -93,8 +104,8 @@ public class ReservePage extends BaseLayoutPage {
       
 
       // Action handling.
-      Integer fromOffset = params.getInt(PARAM_FROM, 0);
-      Integer toOffset   = params.getAsInteger(PARAM_TO);
+      Integer fromOffset = params.getInt(PARAM_FROM_OFFSET, 0);
+      Integer toOffset   = params.getAsInteger(PARAM_TO_OFFSET);
 
       if( null == toOffset ){
 

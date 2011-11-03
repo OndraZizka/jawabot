@@ -16,9 +16,11 @@ public class JawaBotSession extends WebSession
    private static final Logger log = LoggerFactory.getLogger( JawaBotSession.class );
 
 
-   private String loggedUser;
+   /** Logged user's name or null. */
    public String getLoggedUser() {      return loggedUser;   }
    public void setLoggedUser(String loggedUser) {      this.loggedUser = loggedUser;   }
+   private String loggedUser;
+   
    
    public void logout(){
       this.setLoggedUser(null);
