@@ -23,15 +23,15 @@ public class IrcEvMessage extends IrcEvent {
     
     
     
-    protected String receiver = null;
+    protected String recipient = null;
 
     //<editor-fold defaultstate="collapsed" desc="get/set">
-    public String getReceiver() {
-        return receiver;
+    public String getRecipient() {
+        return recipient;
     }
     
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
     //</editor-fold>
    

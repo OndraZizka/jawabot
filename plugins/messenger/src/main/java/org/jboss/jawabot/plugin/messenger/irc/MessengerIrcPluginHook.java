@@ -1,33 +1,21 @@
-package org.jboss.jawabot.plugin.whereis.irc;
+package org.jboss.jawabot.plugin.messenger.irc;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.jboss.jawabot.irc.ChannelInfoHandler;
 import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
-import org.jboss.jawabot.irc.UserListHandler;
-import org.jboss.jawabot.irc.UserListHandlerBase;
+import org.jboss.jawabot.irc.IrcUtils;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  *  Scans all channels for users, and on request, tells where given user is or was.
@@ -40,7 +28,10 @@ public class MessengerIrcPluginHook extends IrcPluginHookBase implements IIrcPlu
     private static final Logger log = LoggerFactory.getLogger( MessengerIrcPluginHook.class );
     private static final Logger logScan = LoggerFactory.getLogger( MessengerIrcPluginHook.class.getName()+".channelScanQueueProcessor" );
     
-    @Inject MemoryMessengerService whereIsService;
+    @Inject protected MemoryMessengerService messengerService;
+		
+		// Here we store messages before intent to deliver is confirmed.
+		Map<String, LeftMessage> leftMessagesCache = new HashMap();
 		
 		
 		private static final int MIN_USER_COUNT_TO_SCAN_CHANNEL = 10;
@@ -56,185 +47,96 @@ public class MessengerIrcPluginHook extends IrcPluginHookBase implements IIrcPlu
 
     @Override
     public void onMessage( IrcEvMessage msg, IrcBotProxy bot ) throws IrcPluginException {
-        if( ! msg.getText().startsWith("whereis") )
-            return;
-        
-        String pattern = StringUtils.removeStart( msg.getText(), "whereis").trim();
-        
-        // No wildcards -> search exact nick.
-        if( !pattern.contains("*") ){
-            List<SeenInfo> occurrences = this.whereIsService.whereIsUser( pattern );
-            if( occurrences.size() == 0 ){
-                bot.sendMessage( msg.getUser(), msg.getChannel(), "Sorry, no traces of "+pattern+".");
-            }
-            else{
-                bot.sendMessage( msg.getUser(), msg.getChannel(), this.informAbout( pattern, occurrences ) );
-            }
-        }
-        // Wildcards, list all matching nicks.
-        else{
-            Map<String, Set<SeenInfo>> users = this.whereIsService.searchUser( pattern );
-            if( users.size() == 0 ){
-                bot.sendMessage( msg.getUser(), msg.getChannel(), "Sorry, no traces of "+pattern+".");
-            }
-            else{
-                for( Map.Entry<String, Set<SeenInfo>> entry : users.entrySet() ) {
-                    bot.sendMessage( msg.getUser(), msg.getChannel(), this.informAbout( entry.getKey(), new ArrayList(entry.getValue()) ) );
-                }
-            }
-        }
+				// Answer for our question, see the else branch.
+				if( msg.getText().startsWith("yes") ){
+						LeftMessage post = this.leftMessagesCache.get( msg.getUser() );
+						if( post == null )
+								bot.sendReplyTo(msg, "Huh? Sorry I forgot what I asked.");
+						else
+								this.messengerService.leaveMessage( post );
+								bot.sendReplyTo(msg, "Ok, stored.");
+				}
+				// Check whether the message is for some user.
+				// If so, check if he's in this channel.
+				// TODO: If not, check if he's in some channel where we joined. Perhaps in cooperation with WhereIs plugin.
+				// If not, ask if we should deliver. The answer will be handled above.
+				else{
+						List<String> recipients = IrcUtils.whoIsThisMsgFor( msg.getText() );
+						if( recipients.isEmpty() )
+								return;
+
+						if( bot.isUserInChannel( msg.getChannel(), recipients.get(0), true ) )
+								return;
+						
+						bot.sendMessage( msg.getChannel(), msg.getUser(), recipients+" is not here. Do you want to leave him a message? (reply \"yes\")");
+				}
     }
 
 
+		/**
+		 *  TODO: 
+		 *  If a message starts with "post" or "send", stores a message for other user.
+		 */
     @Override
-    public void onPrivateMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
-        this.onMessage( message, bot );
+    public void onPrivateMessage( IrcEvMessage msg, IrcBotProxy bot ) throws IrcPluginException {
+				if( ! msg.getText().startsWith("post ") && ! msg.getText().startsWith("send ") )
+						return;
+				
+				String command = msg.getText().substring(5);
+				List<String> recp = IrcUtils.whoIsThisMsgFor(command);
+				if( recp.size() != 1 ){
+						bot.sendMessage(msg.getUser(), msg.getChannel(), "Correct format: send <nick>: <your message>");
+						return;
+				}
+				
+				msg.setRecipient( recp.get(0) );
+				this.messengerService.leaveMessage(msg);
+				bot.sendMessage(msg.getUser(), msg.getChannel(), "Message stored.");
     }
     
     
    
-    
+    /**
+		 *  On join, check that user's messages, and eventually delivers them.
+		 *  Private messages are sent privately, msgs from channel publicly, on the channel where user joined.
+		 */
     @Override
     public void onJoin( String channel, String nick, IrcBotProxy bot  ) {
-        this.whereIsService.updateUserInfo( nick, channel, new Date() );
+				this.notifyMessagesForNick( channel, nick, bot  );
+		}
+				
+		
+		private void notifyMessagesForNick( String channel, String nick, IrcBotProxy bot  ) {
+				nick = IrcUtils.normalizeUserNick( nick );
+				
+				List<LeftMessage> msgs = this.messengerService.getMessagesForUser( nick, true );
+				for( LeftMessage msg : msgs ) {
+						if( null != msg.getChannel() ){
+								String notice = msg.getUser() + " sent you "+msg.getWhen()+" in "+msg.getChannel()+": " + msg.getText();
+								bot.sendMessage( nick, channel, notice);
+						}
+						else {
+								String notice = msg.getUser() + " sent you "+msg.getWhen()+" privately: " + msg.getText();
+								bot.sendMessage( nick, null, notice );
+						}
+				}
     }
 
 
+		/**
+		 *  When the bot joins a channel, it scans nicks and check their messages.
+		 *  Sends them if 
+		 * @param channel
+		 * @param bot 
+		 */
     @Override
     public void onBotJoinChannel( String channel, IrcBotProxy bot ) {
         log.debug("  onBotJoinChannel(): " + channel);
-        this.scanChannel( channel, bot );
-    }
-
-
-    /**
-     *  Scan all channels of the server on connect.
-     */
-    @Override
-    public void onConnect( final IrcBotProxy bot )
-    {
-        log.info(" onConnect();  Will now scan all channels.");
-        
-        // Create a queue for channels, sorted by user count.
-        final Queue<ChannelInfo> scanQueue = new PriorityQueue<ChannelInfo>(800, ChannelInfo.USER_COUNT_COMPARATOR );
-        
-        ChannelInfoHandler handler = new ChannelInfoHandler() {
-            public void onChannelInfo( String channel, int userCount, String topic ) {
-                //scanChannel( channel, bot );
-								if( userCount >= MIN_USER_COUNT_TO_SCAN_CHANNEL )
-										scanQueue.add( new ChannelInfo(channel, userCount, topic) );
-            }
-        };
-        bot.listChannels( handler );
-        
-        // Schedule channel scanning in other thread.
-        final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        Runnable scanJob =
-            new Runnable() {
-                public void run() {
-                    ChannelInfo chi = scanQueue.poll();
-                    if( null == chi ){
-                        logScan.debug("  No more channels in scan queue. ");
-                        executor.shutdown();
-                    }
-                    else {
-                        logScan.debug("  Scanning " + chi.toString() );
-                        scanChannel(chi.name, bot);
-                    }
-                }
-            };
-
-        // Wait until the channels are downloaded and start scanning them.
-        final int expectedChannelDownloadDurationMs = 3000;
-        final int delayBetweenChannels = 5000;
-        executor.scheduleWithFixedDelay( scanJob, expectedChannelDownloadDurationMs, delayBetweenChannels, TimeUnit.MILLISECONDS);
-    }
-    
-    
-    /**
-     *  Gets a list of users on given channel and updates info about their occurrences.
-     */
-    private void scanChannel( String channel, final IrcBotProxy bot ) {
-        synchronized (this.channelsBeingScanned) {
-            if( this.channelsBeingScanned.contains(channel) ){
-                log.warn("  Already scanning channel: " + channel);
-            }
-            log.debug("  Scanning channel: " + channel);
-            this.channelsBeingScanned.add(channel);
-        }
-        
-        final Date now = new Date();
-        UserListHandler handler = 
-        new UserListHandlerBase() {
-            public void onUserList( String channel, User[] users ) {
-                for( User user : users ) {
-                    whereIsService.updateUserInfo( user, channel, now );
-                }
-                //bot.partChannel(channel);
-            }
-        };
-        bot.listUsersInChannel(channel, handler);
-    }
-
-
-    
-    private static final DateFormat DF_TIME = new SimpleDateFormat("HH:mm");
-    private static final DateFormat DF_DATE = new SimpleDateFormat("yyyy-MM-dd");
-    
-    /**
-     *  Creates a string about where given user is.
-     *  TODO: Relative time. I have it already in PasteBin plugin.
-     */
-    private String informAbout( String nick, List<SeenInfo> occurences ) {
-        Date now = new Date();
-        Date hours24Ago = DateUtils.addDays(now, -1);
-        
-        StringBuilder sb = new StringBuilder(" User " + nick + " was in ");
-        for (SeenInfo seenInfo : occurences) {
-            sb.append( seenInfo.userOrChannel );
-            sb.append( "(" );
-            
-            DateFormat df = (hours24Ago.before( seenInfo.when ) ? DF_TIME : DF_DATE);
-            synchronized( df ){
-                sb.append( df.format(seenInfo.when) );
-            }
-            sb.append( ") " );
-        }
-        return sb.toString();
+        for( User user : bot.getUsers( channel ) ){
+						this.notifyMessagesForNick( channel, user.getNick(), bot  );
+				}
     }
 
     
    
 }// class
-
-
-
-/**
- *  Data class.
- */
-class ChannelInfo {
-    String name;
-    int userCount;
-    String topic;
-
-    public ChannelInfo( String name, int userCount, String topic ) {
-        this.name = name;
-        this.userCount = userCount;
-        this.topic = topic;
-    }
-
-
-    @Override
-    public String toString() {
-        return "#" + name + "("+userCount+")";
-    }
-
-    
-    public static final 
-        Comparator<ChannelInfo> USER_COUNT_COMPARATOR = new Comparator<ChannelInfo>() {
-            public int compare( ChannelInfo o1, ChannelInfo o2 ) {
-                return o2.userCount - o1.userCount; // Bigger channels first.
-            }
-        };
-    
-}

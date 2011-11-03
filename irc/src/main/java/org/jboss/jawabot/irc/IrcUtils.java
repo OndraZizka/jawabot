@@ -1,6 +1,12 @@
 
 package org.jboss.jawabot.irc;
 
+import com.google.common.collect.Collections2;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -42,6 +48,26 @@ public class IrcUtils {
           // Char after the usual nick is something that "terminates the nick".
           && StringUtils.contains(" ,:", msg.charAt( nick.length() ) );
    }
+
+   /**
+    * Does not support multiple nicks (yet).
+    * 
+    * @returns  A list of nicks given message is for.
+    */
+   public static List<String> whoIsThisMsgFor( String msg ) {
+        assert( msg != null );
+        if( msg.equals("") )
+            return Collections.EMPTY_LIST;
+        
+        Matcher mat = MESSAGE_AFTER_NICK_PATTERN.matcher(msg);
+        if( !mat.matches() )
+            return Collections.EMPTY_LIST;
+        
+        String nick = mat.group(1);
+        return Collections.singletonList(nick);
+   }
+   
+   private static final Pattern MESSAGE_AFTER_NICK_PATTERN = Pattern.compile("([a-zA-Z][-_|=~+a-zA-Z0-9]*)[:,].*");
 
 
 }// class

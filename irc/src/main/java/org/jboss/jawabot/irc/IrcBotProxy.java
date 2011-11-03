@@ -1,5 +1,7 @@
 package org.jboss.jawabot.irc;
 
+import java.util.Arrays;
+import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.jibble.pircbot.PircBot;
 import org.jibble.pircbot.User;
 
@@ -40,6 +42,10 @@ public class IrcBotProxy {
             String whoFor = (user == null) ? "" : (user + ": ");
             this.jawaIrcBot.sendMessage(channel, whoFor + message);
         }
+    }
+    
+    public void sendReplyTo( IrcEvent evt, String text ){
+        this.sendMessage( evt.getUser(), evt.getChannel(), text );
     }
 
     public final void sendNotice(String target, String notice) {
@@ -98,6 +104,29 @@ public class IrcBotProxy {
     
     public final User[] getUsers(String channel) {
         return jawaIrcBot.getUsers(channel);
+    }
+    
+    public boolean isUserInChannel( String channel, String user ){
+        return this.isUserInChannel(channel, user, false);
+    }
+
+    /**
+     * @param normalize  Whether ozizka-pto matches with ozizka_lunch. Normalization basically removes any suffix after _, -, ~, | etc.
+     * @see   IrcUtils.normalizeUserNick()
+     */
+    public boolean isUserInChannel( String channel, String nick, boolean normalize ){
+        assert (nick != null);
+        if( ! normalize )
+            return Arrays.asList( this.getUsers(channel) ).contains( nick );
+        else{
+            nick = IrcUtils.normalizeUserNick(nick);
+            for( User user : this.getUsers(channel) ){
+                if( IrcUtils.normalizeUserNick( user.getNick() ).equals( nick ) )
+                    return true;
+            }
+            return false;
+        }
+            
     }
 
     public final void setTopic(String channel, String topic) {
@@ -172,6 +201,6 @@ public class IrcBotProxy {
     public final String getLogin() {
         return jawaIrcBot.getLogin();
     }
-    
+
 }// class
 
