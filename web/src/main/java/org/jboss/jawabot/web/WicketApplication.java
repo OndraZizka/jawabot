@@ -21,7 +21,7 @@ import org.jboss.jawabot.web._base.BaseLayoutPage_Vut;
 import org.jboss.jawabot.web._pg.test.CheckBoxMultipleChoiceTestPage;
 import org.jboss.jawabot.web._pg.GroupPage;
 import org.jboss.jawabot.web._pg.test.ChessGridTestPage;
-import org.jboss.seam.wicket.SeamApplication;
+import org.jboss.seam.wicket.InjectingSeamApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @see cz.dw.test.Start#main(String[])
  */
-public class WicketApplication extends SeamApplication
+public class WicketApplication extends InjectingSeamApplication
 {
    static { LoggingUtils.setFormatOfAllAppenders(); }
    private static final Logger log = LoggerFactory.getLogger( WicketApplication.class );

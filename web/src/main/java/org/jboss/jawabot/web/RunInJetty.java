@@ -93,7 +93,7 @@ public class RunInJetty
 
 
       // Add WELD listener by hand (not web.xml).
-      ctx.addEventListener( new org.jboss.weld.environment.servlet.Listener() );
+      //ctx.addEventListener( new org.jboss.weld.environment.servlet.Listener() );
 
 
       try {

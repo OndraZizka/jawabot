@@ -1,1 +1,9 @@
-org.jboss.seam.wicket.ServletContextBeanManagerProvider
+# Weld-wicket workaround
+#org.jboss.seam.wicket.ServletContextBeanManagerProvider
+
+# My provider which takes BeanManager from JawaBotApp static field.
+org.jboss.jawabot.web.JawaBotAppBeanManagerProvider
+
+# seam-solder (dependency of weld-servlet-core):
+#org.jboss.seam.solder.beanManager.DefaultJndiBeanManagerProvider
+#org.jboss.seam.solder.beanManager.ServletContainerJndiBeanManagerProvider
