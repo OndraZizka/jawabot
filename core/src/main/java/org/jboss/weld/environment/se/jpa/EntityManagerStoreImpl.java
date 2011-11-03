@@ -93,16 +93,16 @@ public class EntityManagerStoreImpl implements EntityManagerStore
             
             // Concrete classes. TODO.
             for( Class cls : entPackProv.getEntityClasses() ){
-               log.debug("  Adding entity class to Ejb3Configuration: " + "");
+               log.debug("  Adding entity class to Ejb3Configuration: " + cls.getName() );
                try {
                   ejbConf.addAnnotatedClass( cls );
                } catch( Throwable ex ) {
-                  log.error("Failed loading IrcMessage entity. " + ex, ex);
+                  log.error("Failed loading entity class: " + ex, ex);
                }
             }
             
             
-            emf = ejbConf.buildEntityManagerFactory(); //Create the entity manager factory
+            this.emf = ejbConf.buildEntityManagerFactory(); //Create the entity manager factory
             
             log.info("================================================================================");
             log.info("==   Persistence initialization  end  ==========================================");
@@ -119,21 +119,22 @@ public class EntityManagerStoreImpl implements EntityManagerStore
          return ! ( entityManagerStack == null || entityManagerStack.isEmpty() );
       }
 
+      /**
+       *   This method is called from the EntityManagerDelegate.
+       */
 		@Override
 		public EntityManager get() {
-				Stack<EntityManager> emStack = emStackThreadLocal.get();
-				log.debug("Getting the current EntityManager. Stack: " + emStack.size());
-				
-				if (emStack == null || emStack.isEmpty())
+				Stack<EntityManager> emStack = this.emStackThreadLocal.get();
+				if( emStack == null || emStack.isEmpty() )
 				{
 						// If nothing is found, we return null to cause a NullPointer exception in the business code.
 						// This leads to a nicer stack trace starting with client code. */
 						log.warn("No entity manager was found. "
                           + "Did you forget to mark your method as @"+JpaTransactional.class.getSimpleName()+"? "
                           + "Was the bean loaded through CDI?");
-
 						return null;
 				} else {
+      				log.debug("  Getting the current EntityManager. Stack: " + emStack.size());
 						return emStack.peek();
 				}
 		}
@@ -144,25 +145,16 @@ public class EntityManagerStoreImpl implements EntityManagerStore
 		 *
 		 * @return the created entity manager
 		 */
-		@Override
-		public EntityManager createAndRegister() {
-            Stack<EntityManager> emStack = this.getStack();
-				log.debug("Creating and registering a new EntityManager.");
-				EntityManager em = this.emf.createEntityManager();
-				emStack.push(em);
-				return em;
-		}
-      
       @Override
       public EntityManager getOrCreateAndRegister( boolean requiresNew ) {
-            Stack<EntityManager> emStack = this.getStack();
+            Stack<EntityManager> emStack = this.getThreadLocalStack();
             EntityManager em;
             if( requiresNew || emStack.isEmpty() ){
-               log.debug("Creating and registering a new EntityManager.");
+               log.debug("  +++ Creating and registering a new EntityManager.");
                em = this.emf.createEntityManager();
 	         }
             else {
-               log.debug("Re-using current EntityManager." );
+               log.debug("  === Re-using current EntityManager." );
                em = emStack.peek();
             }
             emStack.push(em); // Add it once more - we will not care in unregister().
@@ -180,12 +172,12 @@ public class EntityManagerStoreImpl implements EntityManagerStore
 		@Override
 		public void unregister( EntityManager em )
       {
-				log.debug("Unregistering an entity manager");
 				final Stack<EntityManager> emStack = this.emStackThreadLocal.get();
 				if( emStack == null || emStack.isEmpty()) {
 						throw new IllegalStateException("Removing of entity manager failed - no EntityManager was on stack.");
 				}
 
+				log.debug("  --- Unregistering an entity manager; stack before: " + emStack.size() );
 				if( emStack.peek() != em ) {
 						throw new IllegalStateException("Removing of entity manager failed - other EntityManager was on top of stack.");
 				}
@@ -200,7 +192,7 @@ public class EntityManagerStoreImpl implements EntityManagerStore
        *  @param pack
        *  @return 
        */
-      private List<Class<? extends Object>> getEntityClassesFromPackage(String pack) throws ClassNotFoundException 
+      private static List<Class<? extends Object>> getEntityClassesFromPackage(String pack) throws ClassNotFoundException 
       {
             Class seed = Class.forName( pack + ".package-info" );
             
@@ -217,9 +209,12 @@ public class EntityManagerStoreImpl implements EntityManagerStore
 
       
       
-      private Stack<EntityManager> getStack() {
+      /**
+       * @returns  Stack of this thread; never null.
+       */
+      private Stack<EntityManager> getThreadLocalStack() {
 				Stack<EntityManager> emStack = this.emStackThreadLocal.get();
-				if (emStack == null) {
+				if( emStack == null ) {
 						emStack = new Stack<EntityManager>();
 						this.emStackThreadLocal.set(emStack);
 				}

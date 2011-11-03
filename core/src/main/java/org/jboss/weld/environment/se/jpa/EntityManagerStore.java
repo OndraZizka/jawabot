@@ -24,7 +24,6 @@ public interface EntityManagerStore {
 	 *
 	 * @return the created entity manager
 	 */
-	EntityManager createAndRegister();
    EntityManager getOrCreateAndRegister( boolean requiresNew );
 
 	/**

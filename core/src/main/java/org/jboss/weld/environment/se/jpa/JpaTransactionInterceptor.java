@@ -1,8 +1,6 @@
 //package de.laliluna.transactions;
 package org.jboss.weld.environment.se.jpa;
 
-import javax.annotation.PostConstruct;
-import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,14 +41,12 @@ public class JpaTransactionInterceptor {
       private EntityManagerStore entityManagerStore;
 
 		@AroundInvoke
-      @PostConstruct
 		public Object runInTransaction( InvocationContext invocationContext ) throws Exception {
 
-            log.info(" --- In "+JpaTransactionInterceptor.class.getSimpleName() 
-                    +" - @AroundInvoke for " 
-                    + invocationContext.getMethod().getName()  + " "
-                    + invocationContext.getTarget().getClass().getSimpleName()
-                    );
+            String method = invocationContext.getMethod().getName()  + "()"; // Debug
+            log.debug(" ::: In " + JpaTransactionInterceptor.class.getSimpleName() 
+                    +" - @AroundInvoke for " + method + " " + invocationContext.getTarget().getClass().getSimpleName()
+            );
             
             // Transaction type - REQUIRED or REQUIRES_NEW ?
             boolean wantsNew = invocationContext.getMethod().getAnnotation(JpaTransactional.class).value() == JpaTransactional.Type.REQUIRES_NEW;
@@ -67,11 +63,12 @@ public class JpaTransactionInterceptor {
                      em.getTransaction().begin();
                   }
                   
-                  log.debug("  Invoking the intercepted method...");
+                  log.debug("     >>> Invoking the intercepted method "  + method + "...");
 						result = invocationContext.proceed();
+                  log.debug("     <<< Back from invocation of " + method);
                   
                   if( needsNew ){
-                     log.debug("  Committing transaction...");
+                     log.debug("     Committing transaction...");
                      em.getTransaction().commit();
                   }
 				}
