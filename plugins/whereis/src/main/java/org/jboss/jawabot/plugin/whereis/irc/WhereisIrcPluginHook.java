@@ -24,7 +24,7 @@ import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.UserListHandler;
 import org.jboss.jawabot.irc.UserListHandlerBase;
-import org.jboss.jawabot.irc.ent.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +55,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
 
 
     @Override
-    public void onMessage( IrcMessage msg, IrcBotProxy bot ) throws IrcPluginException {
+    public void onMessage( IrcEvMessage msg, IrcBotProxy bot ) throws IrcPluginException {
         if( ! msg.getText().startsWith("whereis") )
             return;
         
@@ -87,7 +87,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
 
 
     @Override
-    public void onPrivateMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException {
+    public void onPrivateMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
         this.onMessage( message, bot );
     }
     

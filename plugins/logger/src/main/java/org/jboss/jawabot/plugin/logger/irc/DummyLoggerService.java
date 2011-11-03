@@ -3,7 +3,7 @@ package org.jboss.jawabot.plugin.logger.irc;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.jboss.jawabot.irc.ent.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,17 +17,17 @@ public class DummyLoggerService implements ILoggerService {
    
    
    @Override
-   public void storeMessage( IrcMessage msg ){
+   public void storeMessage( IrcEvMessage msg ){
       log.info("Message saved: " + msg);
    }
    
    
    @Override
-   public List<IrcMessage> getMessages( MessagesCriteria msgCriteria ){
-      List<IrcMessage> list = new ArrayList();
-      list.add( new IrcMessage("serverA", "userA", "channelA", "text1", new Date() ) );
-      list.add( new IrcMessage("serverB", "userB", "channelB", "text2", new Date() ) );
-      list.add( new IrcMessage("serverC", "userB", "channelA", "text3", new Date() ) );
+   public List<IrcEvMessage> getMessages( MessagesCriteria msgCriteria ){
+      List<IrcEvMessage> list = new ArrayList();
+      list.add( new IrcEvMessage("serverA", "userA", "channelA", "text1", new Date() ) );
+      list.add( new IrcEvMessage("serverB", "userB", "channelB", "text2", new Date() ) );
+      list.add( new IrcEvMessage("serverC", "userB", "channelA", "text3", new Date() ) );
       return list;
    }
    

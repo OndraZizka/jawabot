@@ -5,7 +5,7 @@ import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
-import org.jboss.jawabot.irc.ent.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.weld.environment.se.jpa.JpaTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +25,12 @@ public class LoggerIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
    
    @Override
    @JpaTransactional
-   public void onMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException {
+   public void onMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
       loggerService.storeMessage( message );
    }
 
    @Override
-   public void onPrivateMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException {
+   public void onPrivateMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
    }
 
    

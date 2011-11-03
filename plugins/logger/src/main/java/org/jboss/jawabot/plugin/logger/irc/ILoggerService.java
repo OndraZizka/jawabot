@@ -5,7 +5,7 @@
 package org.jboss.jawabot.plugin.logger.irc;
 
 import java.util.List;
-import org.jboss.jawabot.irc.ent.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcEvMessage;
 
 /**
  *
@@ -13,9 +13,9 @@ import org.jboss.jawabot.irc.ent.IrcMessage;
  */
 public interface ILoggerService {
 
-   List<IrcMessage> getMessages(MessagesCriteria msgCriteria);
+   List<IrcEvMessage> getMessages(MessagesCriteria msgCriteria);
 
-   void storeMessage(IrcMessage msg);
+   void storeMessage(IrcEvMessage msg);
    
 }// interface
 

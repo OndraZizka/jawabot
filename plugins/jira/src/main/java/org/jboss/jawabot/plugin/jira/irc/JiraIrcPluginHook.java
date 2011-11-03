@@ -4,8 +4,7 @@ import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
-import org.jboss.jawabot.irc.model.IrcMessage;
-import org.jibble.pircbot.User;
+import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,13 +22,10 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 
 
     @Override
-    public void onMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException {
+    public void onMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
         // TODO
     }
 
-   
-   
-   
    
 
    

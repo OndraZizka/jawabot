@@ -1,7 +1,7 @@
 package org.jboss.jawabot.irc;
 
 import org.jboss.jawabot.ex.JawaBotException;
-import org.jboss.jawabot.irc.ent.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcEvMessage;
 
 /**
  *  Base abstract class to relieve people from writing every method of the interface.
@@ -14,11 +14,11 @@ public abstract class IrcPluginHookBase implements IIrcPluginHook<Object> {
    // IRC stuff.
    
    @Override
-   public void onMessage(IrcMessage message, IrcBotProxy bot) throws IrcPluginException {
+   public void onMessage(IrcEvMessage message, IrcBotProxy bot) throws IrcPluginException {
    }
 
    @Override
-   public void onPrivateMessage(IrcMessage message, IrcBotProxy bot) throws IrcPluginException {
+   public void onPrivateMessage(IrcEvMessage message, IrcBotProxy bot) throws IrcPluginException {
    }
 
    @Override

@@ -13,7 +13,7 @@ import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
-import org.jboss.jawabot.irc.ent.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
 import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
 import org.slf4j.Logger;
@@ -45,7 +45,7 @@ public class PasteBinIrcPluginHook extends IrcPluginHookBase implements IIrcPlug
     * Reacts on a message in a form "ozizka: paste it"
     */
    @Override
-   public void onMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException
+   public void onMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException
    {
       Pattern pat = Pattern.compile("([-_a-zA-Z0-9]+)[:,] ?paste it.*");
       Matcher mat = pat.matcher( message.getText() );
@@ -65,7 +65,7 @@ public class PasteBinIrcPluginHook extends IrcPluginHookBase implements IIrcPlug
  
    
    @Override
-   public void onPrivateMessage( IrcMessage message, IrcBotProxy bot ) throws IrcPluginException {
+   public void onPrivateMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
       String paster = message.getUser();
       PasteBinEnterSession sess = this.userToSession.get( paster );
       if( null == sess )  return;

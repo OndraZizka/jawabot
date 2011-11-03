@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
+import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.jboss.jawabot.plugin.irc.Channel;
 import org.jboss.jawabot.plugin.irc.ChannelManager;
 
@@ -34,10 +35,10 @@ public class ChannelLogPanel extends Panel {
    protected void onInitialize() {
       super.onInitialize();
 
-        add(new ListView<IrcLogEntry>("messages", (ListModel) this.getDefaultModel() ) {
-           @Override protected void populateItem(ListItem<IrcLogEntry> item) {
-              item.add(new Label("nick", item.getModelObject() ));
-              item.add(new Label("msg", item.getModelObject() ));
+        add(new ListView<IrcEvent>("messages", (ListModel) this.getDefaultModel() ) {
+           @Override protected void populateItem(ListItem<IrcEvent> item) {
+              item.add(new Label("nick", item.getModelObject().getUser() ));
+              item.add(new Label("msg", item.getModelObject().getText() ));
            }
         });
         

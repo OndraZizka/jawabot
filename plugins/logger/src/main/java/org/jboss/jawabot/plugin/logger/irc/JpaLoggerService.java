@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import org.jboss.jawabot.irc.ent.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.weld.environment.se.jpa.EntitiesPackagesProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class JpaLoggerService implements ILoggerService, EntitiesPackagesProvide
    @Inject EntityManager em;
    
    @Override
-   public void storeMessage( IrcMessage msg ){
+   public void storeMessage( IrcEvMessage msg ){
       log.info(" IRC message: " + msg);
       log.info(" em: " + em);
       em.persist( msg );
@@ -32,8 +32,8 @@ public class JpaLoggerService implements ILoggerService, EntitiesPackagesProvide
    
    
    @Override
-   public List<IrcMessage> getMessages( MessagesCriteria msgCriteria ){
-      return em.createQuery("FROM IrcMessage m ORDER BY id DESC", IrcMessage.class).getResultList();
+   public List<IrcEvMessage> getMessages( MessagesCriteria msgCriteria ){
+      return em.createQuery("FROM IrcMessage m ORDER BY id DESC", IrcEvMessage.class).getResultList();
    }
 
    @Override

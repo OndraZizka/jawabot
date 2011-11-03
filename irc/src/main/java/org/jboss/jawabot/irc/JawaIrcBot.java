@@ -26,7 +26,7 @@ import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.config.beans.ServerBean;
-import org.jboss.jawabot.irc.ent.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jibble.pircbot.NickAlreadyInUseException;
 import org.jibble.pircbot.User;
 
@@ -314,7 +314,7 @@ public class JawaIrcBot extends PircBot
       // Not a command?
       if( !wasCommand ){
          
-         IrcMessage msg = new IrcMessage("not.supported.yet", sender, channel, msgText, new Date());
+         IrcEvMessage msg = new IrcEvMessage("not.supported.yet", sender, channel, msgText, new Date());
          
          // Pass it to the IRC plugins.
          //for ( Entry<String, IIrcPluginHook> entry : this.pluginsByClass.entrySet() ) {
@@ -337,7 +337,7 @@ public class JawaIrcBot extends PircBot
             }
             */
             new ExceptionHandlerDecorator() {
-               public void doIt( IrcMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
+               public void doIt( IrcEvMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
                   plugin.onMessage( msg, pircBotProxy );
                }
             }.handle( msg, this.pircBotProxy );
@@ -363,11 +363,11 @@ public class JawaIrcBot extends PircBot
       
       // Was not a command -> handle with plugins.
       
-      IrcMessage msg = new IrcMessage("not.supported.yet", sender, null, msgText, new Date());
+      IrcEvMessage msg = new IrcEvMessage("not.supported.yet", sender, null, msgText, new Date());
 
       for( final IIrcPluginHook plugin : this.plugins ) {
          new ExceptionHandlerDecorator() {
-            public void doIt( IrcMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
+            public void doIt( IrcEvMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
                plugin.onPrivateMessage( msg, pircBotProxy );
             }
          }.handle( msg, pircBotProxy );
@@ -380,7 +380,7 @@ public class JawaIrcBot extends PircBot
     *  Decorator to save me handling exceptions everywhere.
     */
    private static abstract class ExceptionHandlerDecorator {
-      public void handle( /*IIrcPluginHook plugin,*/ IrcMessage msg, IrcBotProxy pircBotProxy ){
+      public void handle( /*IIrcPluginHook plugin,*/ IrcEvMessage msg, IrcBotProxy pircBotProxy ){
          try {
             this.doIt( msg, pircBotProxy );
          }
@@ -399,7 +399,7 @@ public class JawaIrcBot extends PircBot
             }
          }
       }
-      public abstract void doIt( IrcMessage msg, IrcBotProxy pircBotProxy ) throws Throwable;
+      public abstract void doIt( IrcEvMessage msg, IrcBotProxy pircBotProxy ) throws Throwable;
    }
 
 
