@@ -1,5 +1,5 @@
 
-package org.jboss.jawabot.web._pg;
+package org.jboss.jawabot.web._base;
 
 
 import java.util.logging.*;
@@ -7,20 +7,21 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.jboss.jawabot.web.JawaBotSession;
 import org.jboss.jawabot.web.WicketApplication;
+import org.jboss.jawabot.web._pg.MenuPanel;
 
 
 /**
  *
  * @author Ondrej Zizka
  */
-public class BaseLayoutPage extends ConveniencePageBase
+public class BaseLayoutPage_Vut extends ConveniencePageBase
 {
   private static final Logger log = Logger.getLogger( BaseLayoutPage.class.getName() );
 
-  public BaseLayoutPage() {
+  public BaseLayoutPage_Vut() {
   }
 
-  public BaseLayoutPage( PageParameters parameters ) {
+  public BaseLayoutPage_Vut( PageParameters parameters ) {
     super( parameters );
 
     //add( new Header( "content" )); // The rest is done in the inherited classes.

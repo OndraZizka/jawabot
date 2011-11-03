@@ -1,5 +1,5 @@
 
-package org.jboss.jawabot.web._pg;
+package org.jboss.jawabot.web._base;
 
 import org.apache.wicket.IPageMap;
 import org.apache.wicket.PageParameters;

@@ -2,6 +2,7 @@
 package org.jboss.jawabot.web._pg;
 
 
+import org.jboss.jawabot.web._base.BaseLayoutPage;
 import cz.dynawest.util.DateUtils;
 import java.util.ArrayList;
 import java.util.Collections;

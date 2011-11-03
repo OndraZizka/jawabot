@@ -37,7 +37,7 @@ public class GroupLinkPanel extends Panel {
       link.add( new Label("label", ((Resource)getDefaultModelObject()).getName() ));
       add(link);
    }
-   
+ 
    
    
 }

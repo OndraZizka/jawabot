@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="cz" lang="cz">
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="Author" content="Ondra Žižka, ozizka at redhat.com"/>
+	<meta name="Description" content="JawaBot web UI"/>
+   <wicket:link>
+	<link rel="stylesheet" type="text/css" href="dw_styles.css"/>
+	<link rel="stylesheet" type="text/css" href="common.css"/>
+	<link rel="stylesheet" type="text/css" href="layout-vut.css"/>
+   <link rel="shortcut icon" href="../files/favicon.ico" type="image/x-icon">
+   <script type="text/javascript" charset="utf-8" src="../files/js/jquery.js"></script>
+   <script type="text/javascript" charset="utf-8" src="../files/js/logout.js"></script>
+   </wicket:link>
+   <style>
+      #header h1 a { text-decoration: none; color: white; }
+   </style>
+   <title>JawaBot - resource reservation tool</title>
+</head>
+<body>
+<div id="wrap">
+
+
+  <div wicket:id="debug"/>
+
+  <div xwicket:id="header" id="header">
+     <h1><a href="#">JawaBot</a></h1>
+  </div>
+
+
+  <div id="main">
+  <!-- MAIN TABLE -->
+
+     <table align="center" border="0" width="1000" cellspacing="0" cellpadding="0" style="margin: auto;"><tr>
+           
+     <!-- Menu -->
+     <td valign="top">
+       <div id="menu_container">
+
+             <!-- Menu -->
+             <div class="menu" wicket:id="menu">Menu menu menu</div>
+
+         <hr class="cistic" />
+       </div>
+     </td><!-- Menu KONEC -->
+
+
+
+     <!-- MAIN CELL -->
+     <td valign="top" width="890">
+
+             <!-- Obsah -->
+             <div class="obsah" id="obsah">
+               <wicket:child>
+               </wicket:child>
+             </div>
+     
+     </td>
+     <!-- MAIN CELL KONEC -->
+
+     </tr>
+     </table>
+
+   <!-- MAIN TABLE KONEC -->
+   <!-- <hr class="cistic" size="0"/> -->
+   </div>
+
+</div><!-- #wrap -->
+</body>
+</html>

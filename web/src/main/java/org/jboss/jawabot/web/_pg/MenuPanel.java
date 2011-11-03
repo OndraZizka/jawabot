@@ -2,6 +2,7 @@
 package org.jboss.jawabot.web._pg;
 
 
+import org.jboss.jawabot.web._base.ConveniencePageBase;
 import java.util.List;
 import java.util.logging.*;
 import org.apache.wicket.markup.html.WebMarkupContainer;

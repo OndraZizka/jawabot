@@ -2,6 +2,7 @@
 package org.jboss.jawabot.web._pg;
 
 
+import org.jboss.jawabot.web._base.BaseLayoutPage;
 import java.io.Serializable;
 import java.util.logging.*;
 import org.apache.wicket.PageParameters;
