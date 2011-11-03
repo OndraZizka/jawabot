@@ -1,8 +1,11 @@
 
 package org.jboss.jawabot.plugin.logger.web._co;
 
+import com.google.common.collect.AbstractIterator;
 import java.awt.Color;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.inject.Inject;
@@ -13,11 +16,14 @@ import org.apache.wicket.behavior.IBehavior;
 import org.apache.wicket.datetime.DateConverter;
 import org.apache.wicket.datetime.PatternDateConverter;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
+import org.apache.wicket.extensions.markup.html.repeater.data.sort.ISortState;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.jboss.jawabot.irc.ent.IrcEvAction;
 import org.jboss.jawabot.irc.ent.IrcEvJoin;
@@ -31,8 +37,6 @@ import org.jboss.jawabot.plugin.logger.bus.ChannelLogManager;
 import org.jboss.jawabot.plugin.logger.irc.IrcEventCriteria;
 import org.jboss.jawabot.plugin.logger.web.IrcEventCriteriaLDM;
 
-
-
 /**
  *  Panel with a table showing logs.
  *  @author Ondrej Zizka
@@ -40,7 +44,7 @@ import org.jboss.jawabot.plugin.logger.web.IrcEventCriteriaLDM;
  *  TODO: The way I instantiate LDM smells. Perhaps I should avoid 
  *        making it a CDI bean and set it's EntityManager manually?
  */
-public class ChannelLogPanel extends Panel {
+public class ChannelLogPanel_try extends Panel {
    
    @Inject private ChannelLogManager channelLogManager;
    
@@ -60,7 +64,7 @@ public class ChannelLogPanel extends Panel {
    private static final AbstractBehavior NOOP_BEHAV = new AbstractBehavior() {}; //AttributeModifier("non-existent", new Model());
    
    
-   public ChannelLogPanel( String id, Channel ch ) {
+   public ChannelLogPanel_try( String id, Channel ch ) {
       super( id );
       this.crit = new IrcEventCriteria(ch.getName(), DateUtils.addDays(new Date(), -1), new Date());
       this.model.setCrit( crit );
@@ -79,6 +83,17 @@ public class ChannelLogPanel extends Panel {
         final DateConverter dcDate = new PatternDateConverter("yyyy-MM-dd", false);
         final DateConverter dcTime = new PatternDateConverter("hh:mm:ss", false);
         
+        // Ajax table try.
+        /*IColumn[] columns = new IColumn[1];
+        columns[0] = new AbstractColumn(this.model) {
+            public void populateItem( Item cellItem, String componentId, IModel rowModel ) {
+            }
+        };
+        ISortableDataProvider<IrcEvent> dataProvider = new IrcEventsDataProvider( this.channelLogManager, this.crit );
+        int totalCount = this.channelLogManager.getEventsCountByCriteria(crit);
+        add( new AjaxFallbackDefaultDataTable("events", columns, dataProvider, totalCount) );
+        /**/
+
                 
         // Plain table
         add( new ListView<IrcEvent>("events", ldm ) {
@@ -120,7 +135,7 @@ public class ChannelLogPanel extends Panel {
                       .add( ev instanceof IrcEvMessage ? nickColor : NOOP_BEHAV )
                   )
                   // Text
-                  .add(new Label("text", ChannelLogPanel.formatEventText(ev) ))
+                  .add(new Label("text", ChannelLogPanel_try.formatEventText(ev) ))
                   .add( classApp )
               );
               lastDay = ev.getWhen().getDate();
@@ -178,4 +193,70 @@ public class ChannelLogPanel extends Panel {
        }
    }
 
+   // TODO: Move to a test.
+   public static void main( String args[] ){
+       NickToColor.getDarkishColorAsHex("JawaBot");
+   }
+   
+}
+
+
+
+/**
+ *   Trying to implement Facebook-like "More" content-appending behavior.
+ *   For ajax table try.
+ *   @author ondra
+ *   @deprecated  Try failed.
+ */
+class IrcEventsDataProvider implements ISortableDataProvider<IrcEvent> {
+    
+    ChannelLogManager manager;
+    IrcEventCriteria crit;
+
+    public IrcEventsDataProvider( ChannelLogManager manager, IrcEventCriteria crit ) {
+        this.manager = manager;
+        this.crit = crit;
+    }
+    
+
+    /**
+     *  @returns an iterator over given range of events conforming criteria of this DataProvider.
+     */
+    @Override
+    public Iterator<? extends IrcEvent> iterator( final int first, final int count ) {
+        //crit.setFirst(first);
+        //crit.setCount(count);
+        return new AbstractIterator<IrcEvent>() {
+            List<IrcEvent> events = manager.getEventsByCriteria( crit, first, count, false );
+            Iterator<IrcEvent> it = events.listIterator();
+            protected IrcEvent computeNext() {
+                if( ! it.hasNext() )  return this.endOfData();
+                return it.next();
+            }
+        };
+    }
+
+    @Override
+    public int size() {
+        return manager.getEventsCountByCriteria( crit );
+    }
+
+    @Override
+    public IModel<IrcEvent> model( IrcEvent ev ) {
+        return new Model(ev);
+    }
+
+    @Override
+    public void detach() {
+    }
+
+    /** We don't care about sorting. */
+    @Override
+    public ISortState getSortState() {
+        return new ISortState() {
+            public void setPropertySortOrder(String property, int state) {}
+            public int getPropertySortOrder(String property) { return 0; }
+        };
+    }
+    public void setSortState(ISortState state) {  }
 }
