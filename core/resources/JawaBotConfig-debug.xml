@@ -36,9 +36,9 @@
       <server host="porky.stuttgart.redhat.com">
          <autoJoinChannels>
             #some
+            <!--
             #devstudio-qa
             #devstudio-doc
-            <!--
             #devstudio-f2f
             #devstudio
             #jboss-on
