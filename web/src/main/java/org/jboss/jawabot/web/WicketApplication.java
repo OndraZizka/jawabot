@@ -1,6 +1,8 @@
 package org.jboss.jawabot.web;
 
 import java.util.Iterator;
+import java.util.Set;
+import javax.enterprise.inject.spi.Bean;
 import org.jboss.jawabot.web._pg.LoginPage;
 import org.jboss.jawabot.web._pg.PasteBinShowPage;
 import org.jboss.jawabot.web._pg.LeavePage;
@@ -85,8 +87,12 @@ public class WicketApplication extends InjectingSeamApplication
       mountBookmarkablePage("vutTest",  BaseLayoutPage_Vut.class);
       
       
+      Set<Bean<?>> pageMounts = new JawaBotAppBeanManagerProvider().getBeanManager().getBeans( IPageMount.class );
+      
       // Mount plugin pages.
-      for( IPageMount pm : this.pageMounts ){
+      //for( IPageMount pm : this.pageMounts ){
+      for( Bean<?> bean : pageMounts ){
+         IPageMount pm = ( IPageMount ) bean;
          log.info("  Mounting pages for " + pm.getClass().getName() );
          try{
             pm.mount( new MountProxy(this) );
