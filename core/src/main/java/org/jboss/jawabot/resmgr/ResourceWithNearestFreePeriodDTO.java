@@ -6,7 +6,7 @@ import org.jboss.jawabot.Resource;
 
 /**
  * DTO for displaying a resource reservation links - Today, Tomorrow, +2, ...
- * @author ondra
+ * @author Ondrej Zizka
  */
 public class ResourceWithNearestFreePeriodDTO implements Serializable {
 

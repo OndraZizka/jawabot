@@ -13,7 +13,7 @@ import org.jboss.jawabot.web._pg.ResourcePage;
 
 /**
  *  
- *  @author ondra
+ *  @author Ondrej Zizka
  */
 public class PastebinLinkPanel extends Panel {
    

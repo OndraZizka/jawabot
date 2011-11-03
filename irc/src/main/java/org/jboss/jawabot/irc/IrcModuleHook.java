@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author ondra
+ * @author Ondrej Zizka
  */
 public class IrcModuleHook implements IModuleHook 
 {

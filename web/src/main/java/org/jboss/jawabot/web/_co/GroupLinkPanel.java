@@ -11,7 +11,7 @@ import org.jboss.jawabot.web._pg.GroupPage;
 
 /**
  *  
- *  @author ondra
+ *  @author Ondrej Zizka
  */
 public class GroupLinkPanel extends Panel {
    

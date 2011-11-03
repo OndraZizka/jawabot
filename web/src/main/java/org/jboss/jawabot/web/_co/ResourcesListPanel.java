@@ -12,7 +12,7 @@ import org.jboss.jawabot.Resource;
 
 /**
  *  
- *  @author ondra
+ *  @author Ondrej Zizka
  */
 public class ResourcesListPanel extends Panel {
    

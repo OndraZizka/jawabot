@@ -11,7 +11,7 @@ import org.jboss.jawabot.state.ent.Group;
 
 /**
  *
- * @author ondra
+ * @author Ondrej Zizka
  */
 public class GroupManager {
    

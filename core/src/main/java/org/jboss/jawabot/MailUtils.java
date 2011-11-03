@@ -12,7 +12,7 @@ import org.jboss.jawabot.config.beans.ConfigBean;
 
 /**
  *
- * @author ondra
+ * @author Ondrej Zizka
  */
 public class MailUtils {
    private static final Logger log = Logger.getLogger( MailUtils.class );

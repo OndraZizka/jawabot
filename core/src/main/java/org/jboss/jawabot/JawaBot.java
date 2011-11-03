@@ -30,7 +30,7 @@ import org.jboss.jawabot.state.beans.ReservationBean;
  * Created by splitting JavaIrcBot.java - separating IRC "front-end" stuff and backend stuff.
  * 
  * 
- * @author ondra
+ * @author Ondrej Zizka
  */
 public class JawaBot
 {

@@ -6,7 +6,7 @@ import org.jboss.jawabot.ex.JawaBotException;
 
 /**
  *
- * @author ondra
+ * @author Ondrej Zizka
  */
 public interface IModuleHook {
    

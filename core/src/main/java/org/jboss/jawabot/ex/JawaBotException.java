@@ -7,7 +7,7 @@ package org.jboss.jawabot.ex;
 
 /**
  *
- * @author ondra
+ * @author Ondrej Zizka
  */
 public class JawaBotException extends Exception {
 

@@ -13,7 +13,7 @@ import org.jboss.jawabot.web._pg.ReservePage;
 
 /**
  *  
- *  @author ondra
+ *  @author Ondrej Zizka
  */
 public class ReserveLinkPanel extends Panel {
    

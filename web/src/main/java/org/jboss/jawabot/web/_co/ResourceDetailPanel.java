@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *  
- *  @author ondra
+ *  @author Ondrej Zizka
  */
 public class ResourceDetailPanel extends Panel {
    private static final Logger log = LoggerFactory.getLogger( ResourceDetailPanel.class );

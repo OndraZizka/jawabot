@@ -20,7 +20,7 @@ import org.apache.commons.lang.time.DateUtils;
  *
  * TODO: Day names?
  * 
- * @author ondra
+ * @author Ondrej Zizka
  */
 public class DateParser {
 

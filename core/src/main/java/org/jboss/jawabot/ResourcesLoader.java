@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author ondra
+ * @author Ondrej Zizka
  */
 public interface ResourcesLoader {
 

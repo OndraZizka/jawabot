@@ -24,7 +24,7 @@ import org.jboss.jawabot.web._base.BaseLayoutPage;
 
 /**
  * Reservation creation form.
- * @author ondra
+ * @author Ondrej Zizka
  */
 public class ReservePage extends BaseLayoutPage {
 

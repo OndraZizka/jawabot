@@ -9,7 +9,7 @@ import org.jboss.jawabot.web.RunInJetty;
 
 /**
  *
- * @author ondra
+ * @author Ondrej Zizka
  */
 public class WebModuleHook implements IModuleHook {
 
