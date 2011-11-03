@@ -4,6 +4,7 @@
  */
 package org.jboss.jawabot.plugin.pastebin;
 
+import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
 import java.util.List;
 
 /**

@@ -1,6 +1,7 @@
 
 package org.jboss.jawabot.plugin.pastebin;
 
+import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

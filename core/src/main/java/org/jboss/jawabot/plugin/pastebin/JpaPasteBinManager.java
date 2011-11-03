@@ -1,6 +1,7 @@
 
 package org.jboss.jawabot.plugin.pastebin;
 
+import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,7 +22,7 @@ import org.slf4j.LoggerFactory;
  *  @author Ondrej Zizka
  */
 @ApplicationScoped
-public class JpaPasteBinManager implements IPasteBinManager, IEntitiesPackagesProvider
+public class JpaPasteBinManager implements IPasteBinManager
 {
    private static final Logger log = LoggerFactory.getLogger(JpaPasteBinManager.class);
    
@@ -54,17 +55,4 @@ public class JpaPasteBinManager implements IPasteBinManager, IEntitiesPackagesPr
    }
 
    
-   @Override
-   public Collection<String> getEntityPackages() {
-      return Arrays.asList( new String[]{
-         PasteBinEntry.class.getPackage().getName(),
-      });
-   }
-
-   @Override
-   public Collection<Class> getEntityClasses() {
-      return Collections.EMPTY_LIST;
-   }
-
-
 }// class

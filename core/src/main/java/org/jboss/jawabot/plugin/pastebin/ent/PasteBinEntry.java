@@ -1,5 +1,5 @@
 
-package org.jboss.jawabot.plugin.pastebin;
+package org.jboss.jawabot.plugin.pastebin.ent;
 
 import cz.dynawest.util.DateUtils;
 import java.io.Serializable;
