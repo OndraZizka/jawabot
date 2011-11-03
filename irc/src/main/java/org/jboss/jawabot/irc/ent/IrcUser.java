@@ -2,12 +2,14 @@ package org.jboss.jawabot.irc.ent;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *  
  *  @author Ondrej Zizka
  */
 @Entity
+@Table(name="jw_ircuser")
 public class IrcUser {
    
    @Id private long id;

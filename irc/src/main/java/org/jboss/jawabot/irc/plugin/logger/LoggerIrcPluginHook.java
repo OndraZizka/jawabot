@@ -17,16 +17,15 @@ import org.slf4j.LoggerFactory;
 public class LoggerIrcPluginHook implements IIrcPluginHook<Object> {
    private static final Logger log = LoggerFactory.getLogger( LoggerIrcPluginHook.class );
 
-   @Inject EntityManager em;
+   @Inject EntityManager em; /// To be replaced with a service.
+   
+   @Inject JpaLoggerService loggerService;
    
    
    @Override
    @JpaTransactional
    public void onMessage(IrcMessage message) throws IrcPluginException {
-      log.info(" IRC message: " + message);
-      log.info(" em: " + em);
-      em.persist( message );
-      log.info(" IRC message: " + message);
+      loggerService.storeMessage(message);
    }
 
    @Override

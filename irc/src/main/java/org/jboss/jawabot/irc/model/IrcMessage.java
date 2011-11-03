@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
@@ -13,6 +14,7 @@ import javax.persistence.Temporal;
  *  @author Ondrej Zizka
  */
 @Entity
+@Table(name="jw_ircmsg")
 public class IrcMessage implements Serializable {
    
    @Id @GeneratedValue
