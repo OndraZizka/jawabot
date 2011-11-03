@@ -5,7 +5,6 @@
              version="2.0">
   <persistence-unit name="TestPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>org.jboss.jawabot.irc.model.IrcMessage</class>
     <properties>
       <property name="hibernate.connection.username" value="root"/>
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
@@ -13,7 +12,7 @@
       <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/jawabot"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
     </properties>
   </persistence-unit>
 </persistence>
