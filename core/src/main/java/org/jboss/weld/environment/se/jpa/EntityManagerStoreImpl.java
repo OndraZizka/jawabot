@@ -50,6 +50,9 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
                ejbConf.configure("/mypath/hibernate.cfg.xml") //add a regular hibernate.cfg.xml*/
             
             ejbConf.configure("TestPU", null); // TODO: Externalize or use first PU from  persistence.xml.
+            //ejbConf.setProperty( "hibernate.connection.username", "jawabot" );
+            //ejbConf.setProperty( "connection.username", "jawabot" );
+            //ejbConf.setProperty( "username", "jawabot" );
             
             //ejbConf.addPackage("org.jboss.jawabot.irc.ent");
             //ejbConf.addPackage("org.jboss.jawabot.irc.model");
