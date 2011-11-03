@@ -1,7 +1,6 @@
 package org.jboss.jawabot.irc;
 
 import cz.dynawest.util.plugin.IPluginLifeCycle;
-import cz.dynawest.util.plugin.PluginEx;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.jboss.jawabot.irc.model.IrcMessage;
 
