@@ -19,6 +19,7 @@
       <!-- Keep this down. -->
       <module>web</module>
       <!--<module>web3</module>-->
+      <module>plugins</module>
       <module>assemble</module>
    </modules>
 
