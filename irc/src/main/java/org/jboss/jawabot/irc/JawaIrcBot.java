@@ -180,8 +180,9 @@ public class JawaIrcBot extends PircBot
          throw new JawaBotException("No IRC servers configured.");
 
       ServerBean server = cnf.irc.servers.get(0);
-
       String nickToTry = cnf.irc.defaultNick;
+      
+      final int DELAY_SEC_ADD_IN_NEXT_ATTEMPT = 12;
 
       // Connect to the server
       nickTry: try{
@@ -194,7 +195,7 @@ public class JawaIrcBot extends PircBot
                this.intentionalDisconnect = false;
                this.connect( server.host );
                // Wait for potential "ERROR :Trying to reconnect too fast."
-               log.info("Waiting " + (delaySec += 4) + " seconds for potential \"ERROR :Trying to reconnect too fast.\"");
+               log.info("Waiting " + (delaySec += DELAY_SEC_ADD_IN_NEXT_ATTEMPT) + " seconds for potential \"ERROR :Trying to reconnect too fast.\"");
                Thread.sleep( delaySec * 1000 );
                
                if( this.isConnected() ){
