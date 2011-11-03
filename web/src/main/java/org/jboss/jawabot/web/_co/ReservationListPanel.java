@@ -29,18 +29,13 @@ import org.jboss.jawabot.ReservationWrap;
 public class ReservationListPanel extends Panel
 {
    //private static final Logger log = LoggerFactory.getLogger( ReservationListPanel.class );
+   @Inject private static Logger log;
 
-   //@Inject
-   String user;
-   
-   //@Inject Logger log;
+   @Inject String user;
    
    @Inject int randomNumber;
 
    
-   @Produces @SessionScoped @Named("user") public String getUser() {
-      return "CDI test";
-   }
    
 
    public ReservationListPanel( String id, List<ReservationWrap> resvs ) {

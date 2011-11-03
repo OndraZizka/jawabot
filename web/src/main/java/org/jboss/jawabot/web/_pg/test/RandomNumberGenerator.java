@@ -2,6 +2,7 @@ package org.jboss.jawabot.web._pg.test;
 
 import java.util.Random;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 
@@ -18,6 +19,11 @@ public class RandomNumberGenerator {
       return random.nextInt(100);
 
    }
+   
+   @Produces @Named("user") public String getUser() {
+      return "CDI test";
+   }
+
 
 }// class
 
