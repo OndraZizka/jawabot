@@ -1,5 +1,7 @@
 package org.jboss.jawabot;
 
+import cz.dynawest.util.plugin.PluginLoadEx;
+import cz.dynawest.util.plugin.PluginUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -92,8 +94,8 @@ public class JawaBotApp
       // Instantiate
       for (int i = 0; i < moduleNames.length; i++) {
          try {
-            moduleHooks[i] = instantiateModule( moduleNames[i] );
-         } catch( JawaBotException ex ) {
+            moduleHooks[i] = PluginUtils.<IModuleHook>instantiateModule( moduleNames[i] );
+         } catch(  PluginLoadEx ex ) {
             exs.add( ex );
             errMods.add( moduleNames[i] );
          }
@@ -151,9 +153,11 @@ public class JawaBotApp
 
    
    
-   /**
+   /*
     *  Initialization of a single module, implemented by given class.
+    *  MOVED to PluginUtils.
     */
+   /*
    private static IModuleHook instantiateModule( String moduleClass ) throws JawaBotException {
       
       Class<?> cls;
@@ -169,7 +173,7 @@ public class JawaBotApp
          throw new ModuleNotFoundEx( moduleClass, ex.getMessage() + " " + moduleClass, ex );
       }
       
-   }
+   }*/
 
    
    
