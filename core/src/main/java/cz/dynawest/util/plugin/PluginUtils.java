@@ -150,7 +150,7 @@ public class PluginUtils {
 
 
       try {
-         cls.getConstructor( String.class ).newInstance( sb.toString() );
+         throw cls.getConstructor( String.class ).newInstance( sb.toString() );
       } catch (InstantiationException ex) {
          throw new RuntimeException("Failed creating "+ cls.getSimpleName()+" due to: "+ex+"\n   It should have contained: ", new Exception(sb.toString()) );
       } catch (IllegalAccessException ex) {
