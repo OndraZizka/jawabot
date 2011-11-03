@@ -18,7 +18,7 @@
       <module>logger</module>
       <!-- Keep this down. -->
       <module>web</module>
-      <module>web3</module>
+      <!--<module>web3</module>-->
       <module>assemble</module>
    </modules>
 
