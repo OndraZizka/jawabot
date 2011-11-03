@@ -3,6 +3,7 @@ package org.jboss.jawabot.plugin.autoop.irc;
 import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
+import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +22,10 @@ public class AutoOpIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
 
 
     @Override
-    public void onJoin( String channel, String user, IrcBotProxy bot  ) {
-        if( ! this.isCanHaveOperator( channel, user ) )
+    public void onJoin( IrcEvJoin event, IrcBotProxy bot  ) {
+        if( ! this.isCanHaveOperator( event.getChannel(), event.getUser() ) )
             return;
-        bot.op( channel, user );
+        bot.op( event.getChannel(), event.getUser() );
     }
 
 

@@ -1,6 +1,7 @@
 package org.jboss.jawabot.irc;
 
 import org.jboss.jawabot.ex.JawaBotException;
+import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 
 /**
@@ -22,7 +23,7 @@ public abstract class IrcPluginHookBase implements IIrcPluginHook<Object> {
    }
 
    @Override
-   public void onJoin(String channel, String user, IrcBotProxy bot ) {
+   public void onJoin( IrcEvJoin event, IrcBotProxy bot ) {
    }
 
    @Override

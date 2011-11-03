@@ -24,6 +24,7 @@ import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.UserListHandler;
 import org.jboss.jawabot.irc.UserListHandlerBase;
+import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
@@ -95,8 +96,8 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
    
     
     @Override
-    public void onJoin( String channel, String nick, IrcBotProxy bot  ) {
-        this.whereIsService.updateUserInfo( nick, channel, new Date() );
+    public void onJoin( IrcEvJoin event, IrcBotProxy bot  ) {
+        this.whereIsService.updateUserInfo( event.getChannel(), event.getUser(), new Date() );
     }
 
 
@@ -168,7 +169,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         new UserListHandlerBase() {
             public void onUserList( String channel, User[] users ) {
                 for( User user : users ) {
-                    whereIsService.updateUserInfo( user, channel, now );
+                    whereIsService.updateUserInfo( channel, user, now );
                 }
                 //bot.partChannel(channel);
             }

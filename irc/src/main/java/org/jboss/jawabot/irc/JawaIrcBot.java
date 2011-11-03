@@ -26,6 +26,7 @@ import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.config.beans.ServerBean;
+import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jibble.pircbot.NickAlreadyInUseException;
 import org.jibble.pircbot.User;
@@ -314,28 +315,11 @@ public class JawaIrcBot extends PircBot
       // Not a command?
       if( !wasCommand ){
          
-         IrcEvMessage msg = new IrcEvMessage("not.supported.yet", sender, channel, msgText, new Date());
+         IrcEvMessage msg = new IrcEvMessage( null, channel, sender, msgText, new Date() );
          
          // Pass it to the IRC plugins.
          //for ( Entry<String, IIrcPluginHook> entry : this.pluginsByClass.entrySet() ) {
          for( final IIrcPluginHook plugin : this.plugins ) {
-            /*
-            try {
-               plugin.onMessage( msg, this.pircBotProxy );
-            }
-            catch( NullPointerException ex ) {
-               log.error( "Plugin misbehaved: " + ex, ex );
-            }
-            catch( Throwable ex ) {
-               if( System.getProperty("bot.irc.plugins.noStackTraces") == null )
-                  log.error( "Plugin misbehaved: " + ex.getMessage(), ex );
-               else {
-                  log.error( "Plugin misbehaved: " + ex );
-                  if( ex.getCause() != null )
-                     log.error( "  Cause: " + ex.getCause() );
-               }
-            }
-            */
             new ExceptionHandlerDecorator() {
                public void doIt( IrcEvMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
                   plugin.onMessage( msg, pircBotProxy );
@@ -791,6 +775,17 @@ public class JawaIrcBot extends PircBot
         }
     }
 
+
+    
+    // Someone joined a channel we're in.
+    @Override
+    protected void onJoin(String channel, String sender, String login, String hostname) {
+        for( final IIrcPluginHook plugin : this.plugins ) {
+            plugin.onJoin( new IrcEvJoin( null, channel, sender, login, hostname ), this.pircBotProxy );
+        }
+    }
+
+    
     //  :JawaBot-debug!~PircBot@vpn1-6-95.ams2.redhat.com PART #frien
     @Override
     protected void onPart(String channel, String sender, String login, String hostname) {
@@ -815,7 +810,7 @@ public class JawaIrcBot extends PircBot
 	}
     
     
-
+    
     @Override
     protected void onConnect() {
         for( final IIrcPluginHook plugin : this.plugins ) {

@@ -1,16 +1,17 @@
 package org.jboss.jawabot.plugin.messenger.irc;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
 import javax.inject.Inject;
 import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.IrcUtils;
+import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
@@ -30,17 +31,11 @@ public class MessengerIrcPluginHook extends IrcPluginHookBase implements IIrcPlu
     
     @Inject protected MemoryMessengerService messengerService;
 		
-		// Here we store messages before intent to deliver is confirmed.
+		// Here we store messages before intent to store for later delivery is confirmed.
 		Map<String, LeftMessage> leftMessagesCache = new HashMap();
 		
-		
-		private static final int MIN_USER_COUNT_TO_SCAN_CHANNEL = 10;
     
 
-    // TODO: Prevent multiple scanning over this.
-    Set<String> channelsBeingScanned = new ConcurrentSkipListSet();
-    
-    
     
     // IRC stuff.
 
@@ -50,25 +45,29 @@ public class MessengerIrcPluginHook extends IrcPluginHookBase implements IIrcPlu
 				// Answer for our question, see the else branch.
 				if( msg.getText().startsWith("yes") ){
 						LeftMessage post = this.leftMessagesCache.get( msg.getUser() );
-						if( post == null )
-								bot.sendReplyTo(msg, "Huh? Sorry I forgot what I asked.");
-						else
+						if( post == null ){
+								if(  msg.getChannel() == null )
+									  bot.sendReplyTo(msg, "Huh? Sorry I forgot what I asked.");
+						}
+						else {
 								this.messengerService.leaveMessage( post );
 								bot.sendReplyTo(msg, "Ok, stored.");
+						}
 				}
 				// Check whether the message is for some user.
 				// If so, check if he's in this channel.
 				// TODO: If not, check if he's in some channel where we joined. Perhaps in cooperation with WhereIs plugin.
 				// If not, ask if we should deliver. The answer will be handled above.
 				else{
-						List<String> recipients = IrcUtils.whoIsThisMsgFor( msg.getText() );
+						List<String> recipients = IrcUtils.whoIsThisMsgFor( msg.getText(), true );
 						if( recipients.isEmpty() )
 								return;
 
 						if( bot.isUserInChannel( msg.getChannel(), recipients.get(0), true ) )
 								return;
 						
-						bot.sendMessage( msg.getChannel(), msg.getUser(), recipients+" is not here. Do you want to leave him a message? (reply \"yes\")");
+						bot.sendReplyTo( msg,  recipients.get(0)+" is not here. Do you want to leave him a message? (reply \"yes\")");
+						this.leftMessagesCache.put( msg.getUser(), new LeftMessage(msg) );
 				}
     }
 
@@ -85,13 +84,13 @@ public class MessengerIrcPluginHook extends IrcPluginHookBase implements IIrcPlu
 				String command = msg.getText().substring(5);
 				List<String> recp = IrcUtils.whoIsThisMsgFor(command);
 				if( recp.size() != 1 ){
-						bot.sendMessage(msg.getUser(), msg.getChannel(), "Correct format: send <nick>: <your message>");
+						bot.sendMessage( msg.getUser(), msg.getChannel(), "Correct format: send <nick>: <your message>");
 						return;
 				}
 				
 				msg.setRecipient( recp.get(0) );
 				this.messengerService.leaveMessage(msg);
-				bot.sendMessage(msg.getUser(), msg.getChannel(), "Message stored.");
+				bot.sendMessage( msg.getUser(), msg.getChannel(), "Message stored.");
     }
     
     
@@ -101,24 +100,23 @@ public class MessengerIrcPluginHook extends IrcPluginHookBase implements IIrcPlu
 		 *  Private messages are sent privately, msgs from channel publicly, on the channel where user joined.
 		 */
     @Override
-    public void onJoin( String channel, String nick, IrcBotProxy bot  ) {
-				this.notifyMessagesForNick( channel, nick, bot  );
+    public void onJoin( IrcEvJoin event, IrcBotProxy bot  ) {
+				this.notifyMessagesForNick( event.getChannel(), event.getUser(), bot );
 		}
-				
+		
+		private static final DateFormat DF = new SimpleDateFormat("yyyy-MM-DD H:m:s");
 		
 		private void notifyMessagesForNick( String channel, String nick, IrcBotProxy bot  ) {
 				nick = IrcUtils.normalizeUserNick( nick );
 				
 				List<LeftMessage> msgs = this.messengerService.getMessagesForUser( nick, true );
 				for( LeftMessage msg : msgs ) {
-						if( null != msg.getChannel() ){
-								String notice = msg.getUser() + " sent you "+msg.getWhen()+" in "+msg.getChannel()+": " + msg.getText();
-								bot.sendMessage( nick, channel, notice);
-						}
-						else {
-								String notice = msg.getUser() + " sent you "+msg.getWhen()+" privately: " + msg.getText();
-								bot.sendMessage( nick, null, notice );
-						}
+						String when = DF.format( msg.getWhen() );
+						// ozizka: rhusar sent you 20
+						String notice = msg.getUser() + " sent you " + when +
+										( msg.getChannel() == null ? (" in "+msg.getChannel()+": ")  :  " privately: " )
+										+ msg.getText();
+						bot.sendMessage( nick, ( msg.getChannel() == null ? null : channel ), notice);
 				}
     }
 

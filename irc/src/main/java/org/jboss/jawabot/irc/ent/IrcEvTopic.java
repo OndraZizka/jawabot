@@ -12,8 +12,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue("T")
 public class IrcEvTopic extends IrcEvent {
 
-    public IrcEvTopic(String server, String user, String channel, String text, Date when) {
-        super(server, user, channel, text, when);
+    public IrcEvTopic( String server, String channel, String user, String text, Date when ) {
+        super( server, channel, user, text, when );
     }
 
     public IrcEvTopic() {

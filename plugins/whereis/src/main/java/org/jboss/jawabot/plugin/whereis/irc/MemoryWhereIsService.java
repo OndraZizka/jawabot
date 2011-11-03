@@ -28,11 +28,11 @@ public class MemoryWhereIsService
     private final Map<String, Set<SeenInfo>> channelsToUsers = new HashMap();
 
     
-    public synchronized void updateUserInfo( User user, String channel, Date now ) {
-        this.updateUserInfo( user.getNick(), channel, now);
+    public synchronized void updateUserInfo( String channel, User user, Date now ) {
+        this.updateUserInfo( channel, user.getNick(), now );
     }
     
-    public synchronized void updateUserInfo( String nick, String channel, Date now ) {
+    public synchronized void updateUserInfo( String channel, String nick, Date now ) {
         log.debug("   Updating info about user: " + nick );
         
         // User -> channels/when mapping.

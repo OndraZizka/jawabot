@@ -49,17 +49,26 @@ public class IrcUtils {
           && StringUtils.contains(" ,:", msg.charAt( nick.length() ) );
    }
 
+
+   
+   /**
+    *  @returns  whoIsThisMsgFor(msg, false);
+    */
+   public static List<String> whoIsThisMsgFor( String msg ) {
+       return whoIsThisMsgFor(msg, false);
+   }
+   
    /**
     * Does not support multiple nicks (yet).
     * 
-    * @returns  A list of nicks given message is for.
+    *  @returns  A list of nicks given message is for.
     */
-   public static List<String> whoIsThisMsgFor( String msg ) {
+   public static List<String> whoIsThisMsgFor( String msg, boolean onlyColon ) {
         assert( msg != null );
         if( msg.equals("") )
             return Collections.EMPTY_LIST;
         
-        Matcher mat = MESSAGE_AFTER_NICK_PATTERN.matcher(msg);
+        Matcher mat = ( onlyColon ? MESSAGE_AFTER_NICK_COLON_PATTERN : MESSAGE_AFTER_NICK_PATTERN ).matcher(msg);
         if( !mat.matches() )
             return Collections.EMPTY_LIST;
         
@@ -68,6 +77,7 @@ public class IrcUtils {
    }
    
    private static final Pattern MESSAGE_AFTER_NICK_PATTERN = Pattern.compile("([a-zA-Z][-_|=~+a-zA-Z0-9]*)[:,].*");
+   private static final Pattern MESSAGE_AFTER_NICK_COLON_PATTERN = Pattern.compile("([a-zA-Z][-_|=~+a-zA-Z0-9]*):.*");
 
 
 }// class

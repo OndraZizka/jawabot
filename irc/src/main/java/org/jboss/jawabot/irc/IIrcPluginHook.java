@@ -2,6 +2,7 @@ package org.jboss.jawabot.irc;
 
 import cz.dynawest.util.plugin.IPluginLifeCycle;
 import org.jboss.jawabot.ex.JawaBotException;
+import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 
 /**
@@ -14,7 +15,7 @@ public interface IIrcPluginHook <TInitObject extends Object> extends IPluginLife
    
    public void onPrivateMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException;
    
-   public void onJoin( String channel, String user, IrcBotProxy bot );
+   public void onJoin( IrcEvJoin event, IrcBotProxy bot );
    
    public void onPart( String channel, String user, IrcBotProxy bot );
    

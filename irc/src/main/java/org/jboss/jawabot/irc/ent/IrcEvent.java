@@ -35,8 +35,8 @@ public class IrcEvent implements Serializable
     private Long id;
 
     private String server;
-    private String user;
     private String channel;
+    private String user;
     private String text;
 
 
@@ -45,10 +45,10 @@ public class IrcEvent implements Serializable
    private Date when;
    
    public IrcEvent(){}
-   public IrcEvent(String server, String user, String channel, String text, Date when) {
+   public IrcEvent(String server, String channel, String user, String text, Date when) {
       this.server = server;
-      this.user = user;
       this.channel = channel;
+      this.user = user;
       this.text = text;
       this.when = when;
    }

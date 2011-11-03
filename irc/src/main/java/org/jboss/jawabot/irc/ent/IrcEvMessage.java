@@ -1,8 +1,10 @@
 package org.jboss.jawabot.irc.ent;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import org.jboss.jawabot.irc.IrcUtils;
 
 
 /**
@@ -14,16 +16,25 @@ import javax.persistence.Entity;
 @DiscriminatorValue("M")
 public class IrcEvMessage extends IrcEvent {
 
-    public IrcEvMessage(String server, String user, String channel, String text, Date when) {
-        super(server, user, channel, text, when);
+    public IrcEvMessage( String server, String channel, String user, String text, Date when ) {
+        super( server, channel, user, text, when );
+        this.initRecipient();
     }
 
     public IrcEvMessage() {
     }
     
     
-    
     protected String recipient = null;
+
+    
+    private void initRecipient() {
+        List<String> recp = IrcUtils.whoIsThisMsgFor( this.getText() );
+        if( ! recp.isEmpty() )
+            this.setRecipient( recp.get(0) );
+    }
+   
+    
 
     //<editor-fold defaultstate="collapsed" desc="get/set">
     public String getRecipient() {
@@ -34,6 +45,6 @@ public class IrcEvMessage extends IrcEvent {
         this.recipient = recipient;
     }
     //</editor-fold>
-   
+
 }// class
 
