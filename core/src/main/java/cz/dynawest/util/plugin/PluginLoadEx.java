@@ -16,14 +16,17 @@ public class PluginLoadEx extends PluginEx {
    }
 
    public PluginLoadEx(String moduleClass, String message) {
+      super(message);
       this.moduleClass = moduleClass;
    }
 
    public PluginLoadEx(String moduleClass, String message, Throwable cause) {
+      super(message, cause);
       this.moduleClass = moduleClass;
    }
 
    public PluginLoadEx(String moduleClass, Throwable cause) {
+      super(cause);
       this.moduleClass = moduleClass;
    }
     

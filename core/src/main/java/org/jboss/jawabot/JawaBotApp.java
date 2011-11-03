@@ -89,7 +89,7 @@ public class JawaBotApp
 
       // For listing of init errors.
       List<Throwable> exs = new ArrayList<Throwable>();
-      List<String> errMods = new ArrayList<String>();
+      List<String> errModules = new ArrayList<String>();
       
       // Instantiate
       for (int i = 0; i < moduleNames.length; i++) {
@@ -97,7 +97,7 @@ public class JawaBotApp
             moduleHooks[i] = PluginUtils.<IModuleHook>instantiateModule( moduleNames[i] );
          } catch(  PluginLoadEx ex ) {
             exs.add( ex );
-            errMods.add( moduleNames[i] );
+            errModules.add( moduleNames[i] );
          }
       }
       
@@ -108,7 +108,7 @@ public class JawaBotApp
             hook.initModule( getJawaBot(), getJawaBot().getConfig() );
          } catch( Throwable ex ) {
             exs.add( ex );
-            errMods.add( hook.getClass().getName() );
+            errModules.add( hook.getClass().getName() );
          }
       }
       
@@ -119,7 +119,7 @@ public class JawaBotApp
             hook.startModule();
          } catch( Throwable ex ) {
             exs.add( ex );
-            errMods.add( hook.getClass().getName() );
+            errModules.add( hook.getClass().getName() );
          }
       }
       
@@ -128,15 +128,15 @@ public class JawaBotApp
       
       if( exs.size() != 0 ){
          StringBuilder sb = new StringBuilder("Some modules couldn't be initialized or started: ")
-           .append( StringUtils.join( errMods, ", ") )
+           .append( StringUtils.join( errModules, ", ") )
            .append("\n");
          for( Throwable ex : exs ) {
-            if( ex instanceof ModuleNotFoundEx ){
-               ModuleNotFoundEx mex = (ModuleNotFoundEx) ex;
+            if( ex instanceof PluginLoadEx ){
+               PluginLoadEx plex = (PluginLoadEx) ex;
                sb.append("\n  ")
-                 .append( mex.getModuleClass() )
+                 .append( plex.getModuleClass() )
                  .append( ": " )
-                 .append( ExceptionUtils.getRootCauseMessage(mex) );
+                 .append( ExceptionUtils.getRootCauseMessage(plex) );
             }
             else{
                sb.append("\n")
