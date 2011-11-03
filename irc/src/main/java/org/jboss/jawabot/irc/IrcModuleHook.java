@@ -19,7 +19,8 @@ public class IrcModuleHook implements IModuleHook
 {
    private static final Logger log = LoggerFactory.getLogger(IrcModuleHook.class);
     
-    
+   
+   
    private static JawaIrcBot bot;
 
    public static JawaIrcBot getBot() { return bot; }

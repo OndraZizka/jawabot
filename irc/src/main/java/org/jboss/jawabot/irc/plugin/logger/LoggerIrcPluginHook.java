@@ -19,7 +19,6 @@ public class LoggerIrcPluginHook implements IIrcPluginHook<Object> {
    private static final Logger log = LoggerFactory.getLogger( LoggerIrcPluginHook.class );
 
    @Inject EntityManager em;
-   @Inject private Instance<IIrcPluginHook> pluginHookInstances;
    
    
    @Override

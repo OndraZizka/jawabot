@@ -88,7 +88,7 @@ public class JawaBotApp
    
    
    /**
-    *  Init.
+    *  Init module instances acquired through CDI.
     */
    private void init( String configFilePathString ) throws JawaBotException {
       ConfigBean cb = new JaxbConfigPersister(configFilePathString).load();
@@ -113,16 +113,6 @@ public class JawaBotApp
          moduleHooks.add(iModuleHook);
       }
       
-      // Instantiate
-      /*for( Bean<?>  moduleHookBean : moduleHookBeans ){
-         try {
-            //moduleHooks[i] = moduleHookBean.;
-         } catch(  Exception ex ) {
-            exs.add( ex );
-            //errModules.add(  );
-         }
-      }*/
-      
       // Init
       for( IModuleHook hook : moduleHooks ) {
          try {
@@ -145,34 +135,11 @@ public class JawaBotApp
          }
       }
       
-      //if( exs.size() == 1 )
-      //   throw new JawaBotException( exs.get(0).getMessage(), exs.get(0) );
-      
-      if( exs.size() != 0 ){
-         StringBuilder sb = new StringBuilder("Some modules couldn't be initialized or started: ")
-           .append( StringUtils.join( errModules, ", ") )
-           .append("\n");
-         for( Throwable ex : exs ) {
-            if( ex instanceof PluginLoadEx ){
-               PluginLoadEx plex = (PluginLoadEx) ex;
-               sb.append("\n  ")
-                 .append( plex.getModuleClass() )
-                 .append( ": " )
-                 .append( ExceptionUtils.getRootCauseMessage(plex) );
-            }
-            else{
-               sb.append("\n")
-                 .append( ExceptionUtils.getRootCauseMessage(ex) )
-                 .append("\n")
-                 .append( StringUtils.join( ExceptionUtils.getRootCauseStackTrace(ex), "\n") );
-            }
-            sb.append("\n");
-         }
-         throw new JawaBotException( sb.toString(), null);
-      }
+      throwFormattedExceptionIfNeeded( exs, errModules );
       
    }// initAndStartModules()
 
+   
    /**
     *  Initialization of all modules.
     *  Currently listed statically - IRC and Web.
@@ -224,9 +191,21 @@ public class JawaBotApp
          }
       }
       
-      //if( exs.size() == 1 )
-      //   throw new JawaBotException( exs.get(0).getMessage(), exs.get(0) );
+      throwFormattedExceptionIfNeeded( exs, errModules );
       
+   }// initAndStartModules_Old()
+
+   
+   
+   
+   /**
+    *  Formats a list of exceptions into a readable block.
+    *  @param exs
+    *  @param errModules
+    *  @throws JawaBotException 
+    */
+   public static void throwFormattedExceptionIfNeeded( List<Throwable> exs, List<String> errModules ) throws JawaBotException 
+   {
       if( exs.size() != 0 ){
          StringBuilder sb = new StringBuilder("Some modules couldn't be initialized or started: ")
            .append( StringUtils.join( errModules, ", ") )
@@ -249,8 +228,8 @@ public class JawaBotApp
          }
          throw new JawaBotException( sb.toString(), null);
       }
-      
-   }// initAndStartModules_Old()
+   }
+
 
    
    

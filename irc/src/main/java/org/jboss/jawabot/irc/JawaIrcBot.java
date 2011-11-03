@@ -8,11 +8,14 @@ import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
 import java.util.Map.Entry;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.state.beans.StateBean;
 import org.jibble.pircbot.PircBot;
 import org.apache.log4j.Logger;
+import org.jboss.jawabot.IModuleHook;
 import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.JawaBotUtils;
 import org.jboss.jawabot.MailData;
@@ -28,13 +31,9 @@ import org.jibble.pircbot.NickAlreadyInUseException;
 
 
 /**
- * JawaBot implementation.
+ * JawaBot IRC module implementation.
  *
- * TODO: Move actions from handleCommand() to some CommandHandlerImpl?
- * 
- * Parts copied to Main.java
- *
- * @author ondra
+ * @author Ondrej Zizka
  */
 public class JawaIrcBot extends PircBot
 {
@@ -46,6 +45,11 @@ public class JawaIrcBot extends PircBot
    
    private JawaBot jawaBot;
    public JawaBot getJawaBot() { return jawaBot; }
+   
+
+   // Plugin instances "placeholder".
+   @Inject private Instance<IIrcPluginHook> pluginHookInstances;
+
 
    
    
@@ -96,6 +100,17 @@ public class JawaIrcBot extends PircBot
       // Create a command handler for core commands.
       this.commandHandler = new CommandHandlerImpl(this);
       
+      this.initAndStartPlugins();
+      
+      this.initialized = true;
+	}
+
+   
+   /**
+    *  Iterate available plugins, and initialize them.
+    */
+   private void initPlugins() {
+      /*
       try {
          String[] pluginNames = new String[] {
             "org.jboss.jawabot.irc.plugin.logger.LoggerIrcPluginHook",
@@ -105,15 +120,58 @@ public class JawaIrcBot extends PircBot
          for( IIrcPluginHook plugin : plugins ) {
             this.pluginsByClass.put( plugin.getClass().getName(), plugin );
          }
-         
       }
       catch( PluginEx ex ){
          throw new JawaBotException("Failed loading IRC plugins: " + ex.getMessage(), ex);
       }
-      
-      this.initialized = true;
-	}
+       */
+   }
+   
+   /**
+    *  Initialization of all plugins.
+    *  Copied from JawaBotApp. TODO: Generalize? Or should I rely on CDI?
+    */
+   private void initAndStartPlugins() throws JawaBotException {
 
+      
+      // For listing of init errors.
+      List<Throwable> exs = new ArrayList<Throwable>();
+      List<String> errModules = new ArrayList<String>();
+      
+      //IModuleHook[] moduleHooks = new IModuleHook[moduleHookInstances];
+      List<IIrcPluginHook> pluginHooks = new ArrayList();
+      for( IIrcPluginHook hook : this.pluginHookInstances ) {
+         pluginHooks.add(hook);
+      }
+      
+      // Init
+      for( IIrcPluginHook hook : pluginHooks ) {
+         try {
+            if( null == hook ) continue;
+            hook.initModule( getJawaBot() );
+         } catch( Throwable ex ) {
+            exs.add( ex );
+            errModules.add( hook.getClass().getName() );
+         }
+      }
+      
+      // Start
+      for( IIrcPluginHook hook : pluginHooks ) {
+         try {
+            if( null == hook ) continue;
+            hook.startModule();
+         } catch( Throwable ex ) {
+            exs.add( ex );
+            errModules.add( hook.getClass().getName() );
+         }
+      }
+      
+      JawaBotApp.throwFormattedExceptionIfNeeded( exs, errModules );
+      
+   }// initAndStartPlugins()
+   
+
+   
 
 
    /**
