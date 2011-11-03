@@ -3,6 +3,7 @@ package org.jboss.jawabot.plugin.logger.irc;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import org.apache.commons.lang.time.DateUtils;
 import org.jboss.jawabot.irc.ent.IrcEvAction;
 import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
@@ -129,6 +130,17 @@ public class IrcEventCriteria {
    public String toString() {
       return "IrcEventCriteria{" + "#" + channel + ", user=" + user + ", from=" + since + ", to=" + until + ", num=" + num + '}';
    }
+
+    public void adjustSinceByDays(int days) {
+        if( this.since == null )
+            this.since = new Date();
+        this.since = DateUtils.addDays( this.since, days);
+    }
+    public void adjustUntilByDays(int days) {
+        if( this.until == null )
+            this.until = new Date();
+        this.until = DateUtils.addDays( this.until, days);
+    }
    
 }// class
 

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.wicket.behavior.AbstractBehavior;
@@ -45,8 +46,6 @@ public class ChannelLogPanel extends Panel implements Serializable {
    
    @Inject private ChannelLogManager channelLogManager;
    
-   @Inject IrcEventCriteriaLDM model;
-   
    // Criteria for this log panel - which messages should be listed.
    //private IrcEventCriteria crit;
 
@@ -61,10 +60,20 @@ public class ChannelLogPanel extends Panel implements Serializable {
    private static final AbstractBehavior NOOP_BEHAV = new AbstractBehavior() {}; //AttributeModifier("non-existent", new Model());
    
    
+   // Only used once to setDefaultModel()! I don't know how to get rid of it.
+   @Deprecated
+   @Inject IrcEventCriteriaLDM model;
+   
    public ChannelLogPanel( String id, Channel ch ) {
       super( id );
       String name = ChannelLogLinkSimplePanel.unescapeHashes( ch.getName() );
       IrcEventCriteria crit = new IrcEventCriteria( name, DateUtils.addDays(new Date(), -2), new Date());
+      this.model.setCrit( crit );
+      super.setDefaultModel( this.model );
+   }
+
+   public ChannelLogPanel( String id, IrcEventCriteria crit ) {
+      super( id );
       this.model.setCrit( crit );
       super.setDefaultModel( this.model );
    }
@@ -191,11 +200,11 @@ public class ChannelLogPanel extends Panel implements Serializable {
    
    
     public IrcEventCriteria getCrit() {
-        return (IrcEventCriteria) this.getDefaultModelObject();
+        return ((IrcEventCriteriaLDM) this.getDefaultModel()).getCrit();
     }
 
     public void setCrit(IrcEventCriteria crit) {
-        this.setDefaultModelObject(crit);
+        ((IrcEventCriteriaLDM) this.getDefaultModel()).setCrit(crit);
     }
 
 }

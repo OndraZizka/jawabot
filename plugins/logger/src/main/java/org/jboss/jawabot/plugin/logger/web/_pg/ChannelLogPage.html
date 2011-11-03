@@ -6,7 +6,34 @@
 <wicket:extend>
 
    <h2 wicket:id="heading">Channel log</h2>
-   <input type="checkbox" wicket:id="onlyMessages" />
+   
+   <form wicket:id="navig">
+       <table>
+           <tr>
+               <td>Since:</td>
+               <td><input wicket:id="since" type="text"/></td>
+               <td>User: <input wicket:id="user" type="text"/></td>
+           </tr>
+           <tr>
+               <td>Until: </td>
+               <td><input wicket:id="until" type="text"/></td>
+               <td><input type="checkbox" wicket:id="hideJoinsParts" /> Hide joins and leaves</td>
+               <td><input type="button" wicket:id="show" value="Show"/></td>
+           </tr>
+       </table>
+       
+       <div>
+           <input type="button" wicket:id="prev" value="<< Prev day" />
+           <input type="button" wicket:id="next" value="Next day &gt;&gt;" />
+           <input type="button" wicket:id="otherChannel" value="Other channel..." />
+       </div>
+       
+   </form>
+   
+   
+   
+   <hr size="1" color="#AA0000">
+   
    <div wicket:id="channelLogPanel" id="channelLogPanel" />
    
 </wicket:extend>

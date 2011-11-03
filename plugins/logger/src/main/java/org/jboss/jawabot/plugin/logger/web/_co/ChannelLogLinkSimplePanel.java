@@ -33,11 +33,13 @@ public class ChannelLogLinkSimplePanel extends Panel {
    
    // https://bugzilla.mozilla.org/show_bug.cgi?id=677038
    private static String escapeHashes( String name ){
+       if( name == null ) return null;
        return name.replaceAll("#", "=");
    }
 
    // https://bugzilla.mozilla.org/show_bug.cgi?id=677038
    public static String unescapeHashes( String name ){
+       if( name == null ) return null;
        return name.replaceAll("=", "#");
    }
 
