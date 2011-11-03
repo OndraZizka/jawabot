@@ -1,0 +1,282 @@
+08:55:12.287 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+08:55:12.289 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+08:55:12.510 INFO  [main] org.jboss.jawabot.JawaBot  
+08:55:12.510 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 639  ***
+08:55:12.511 INFO  [main] org.jboss.jawabot.JawaBot  
+08:55:12.511 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+08:55:12.512 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+08:55:12.529 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+08:55:12.530 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+08:55:12.534 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+08:55:12.536 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+08:55:12.536 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+08:55:12.536 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+08:55:12.536 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+08:55:12.536 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+08:55:12.536 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+08:55:12.537 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+08:55:12.537 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+08:55:12.537 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+08:55:12.638 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+08:55:12.638 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+08:55:12.761 INFO  [main] org.jboss.weld.Version  WELD-000900 1.1.1 (Final)
+08:55:13.199 INFO  [main] org.jboss.weld.Bootstrap  WELD-000101 Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
+08:55:13.339 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000103 Enabled alternatives for Manager
+Enabled alternatives: [] []
+Registered contexts: [interface javax.enterprise.context.ApplicationScoped, interface javax.inject.Singleton, interface javax.enterprise.context.ConversationScoped, interface javax.enterprise.context.SessionScoped, interface javax.enterprise.context.RequestScoped, interface javax.enterprise.context.Dependent]
+Registered beans: 0
+Specialized beans: 0
+: [] []
+08:55:13.340 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000104 Enabled decorator types for Manager
+Enabled alternatives: [] []
+Registered contexts: [interface javax.enterprise.context.ApplicationScoped, interface javax.inject.Singleton, interface javax.enterprise.context.ConversationScoped, interface javax.enterprise.context.SessionScoped, interface javax.enterprise.context.RequestScoped, interface javax.enterprise.context.Dependent]
+Registered beans: 0
+Specialized beans: 0
+: []
+08:55:13.340 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000105 Enabled interceptor types for Manager
+Enabled alternatives: [] []
+Registered contexts: [interface javax.enterprise.context.ApplicationScoped, interface javax.inject.Singleton, interface javax.enterprise.context.ConversationScoped, interface javax.enterprise.context.SessionScoped, interface javax.enterprise.context.RequestScoped, interface javax.enterprise.context.Dependent]
+Registered beans: 0
+Specialized beans: 0
+: []
+08:55:13.490 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+08:55:13.495 INFO  [main] org.jboss.weld.environment.jetty.Jetty6Container  Jetty detected, JSR-299 injection will be available in Servlets and Filters. Injection into Listeners is not supported.
+08:55:14.010 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Implicit Bean [javax.enterprise.inject.spi.InjectionPoint] with qualifiers [@Default]
+08:55:14.015 WARN  [main] org.jboss.interceptor.util.InterceptionTypeRegistry  Class 'javax.ejb.PostActivate' not found, interception based on it is not enabled
+08:55:14.015 WARN  [main] org.jboss.interceptor.util.InterceptionTypeRegistry  Class 'javax.ejb.PrePassivate' not found, interception based on it is not enabled
+08:55:14.042 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.mod.web.WebModuleHook] with qualifiers [@Any @Default]
+08:55:14.043 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.DependentContext
+08:55:14.046 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web.RunInJetty] with qualifiers [@Any @Default]
+08:55:14.049 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._pg.test.CdiTest] with qualifiers [@Any @Default]
+08:55:14.050 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.http.HttpRequestContext
+08:55:14.051 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web.MyReloadingWicketServlet] with qualifiers [@Any @Default]
+08:55:14.055 DEBUG [main] org.jboss.weld.Reflection  WELD-000601 interface javax.inject.Named is missing @Target. Weld will use this annotation, however this may make the application unportable.
+08:55:14.061 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Producer Method [int] with qualifiers [@Any @Default @Named] declared as [[method] @Produces @Named org.jboss.jawabot.web._pg.test.RandomNumberGenerator.getRandomNumber()]
+08:55:14.064 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._base.ConveniencePageBase] with qualifiers [@Any @Default]
+08:55:14.065 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.http.HttpSessionContext
+08:55:14.067 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._pg.test.CheckBoxWrapList] with qualifiers [@Any @Default]
+08:55:14.069 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._co.menu.AccountBoxPanel] with qualifiers [@Any @Default]
+08:55:14.071 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web.WicketApplication] with qualifiers [@Any @Default]
+08:55:14.072 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._pg.test.RandomNumberGenerator] with qualifiers [@Any @Default]
+08:55:14.074 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Producer Method [Logger] with qualifiers [@Any @Default] declared as [[method] @Produces org.jboss.jawabot.web._pg.test.CdiTest.getLogger(InjectionPoint)]
+08:55:14.076 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.bound.BoundConversationContext
+08:55:14.077 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.ApplicationContext
+08:55:14.078 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.bound.BoundRequestContext
+08:55:14.079 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.SingletonContext
+08:55:14.082 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Implicit Bean [javax.enterprise.inject.Instance] with qualifiers [@Default]
+08:55:14.085 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._base.BaseLayoutPage] with qualifiers [@Any @Default]
+08:55:14.086 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.http.HttpConversationContext
+08:55:14.087 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.RequestContext
+08:55:14.088 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._pg.UserLoginInfo] with qualifiers [@Any @Default]
+08:55:14.090 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Producer Method [String] with qualifiers [@Any @Default @Named] declared as [[method] @Produces @Named public org.jboss.jawabot.web._pg.test.RandomNumberGenerator.getUser()]
+08:55:14.093 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._base.BaseLayoutPage_orig] with qualifiers [@Any @Default]
+08:55:14.095 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-javax.enterprise.context.Conversation
+08:55:14.098 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Implicit Bean [javax.enterprise.event.Event] with qualifiers [@Default]
+08:55:14.099 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.bound.BoundSessionContext
+08:55:14.102 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000100 Weld initialized. Validating beans
+08:55:14.289 INFO  [main] org.apache.wicket.Application  [WicketApplication] init: Wicket extensions initializer
+08:55:14.296 INFO  [main] org.apache.wicket.Application  [WicketApplication] init: DevUtils DebugBar Initializer
+08:55:14.300 INFO  [main] org.apache.wicket.Application  [WicketApplication] init: Wicket core library initializer
+08:55:14.301 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IBehaviorListener, method=public abstract void org.apache.wicket.behavior.IBehaviorListener.onRequest()]
+08:55:14.301 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IBehaviorListener, method=public abstract void org.apache.wicket.behavior.IBehaviorListener.onRequest()]
+08:55:14.301 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IFormSubmitListener, method=public abstract void org.apache.wicket.markup.html.form.IFormSubmitListener.onFormSubmitted()]
+08:55:14.301 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IFormSubmitListener, method=public abstract void org.apache.wicket.markup.html.form.IFormSubmitListener.onFormSubmitted()]
+08:55:14.302 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=ILinkListener, method=public abstract void org.apache.wicket.markup.html.link.ILinkListener.onLinkClicked()]
+08:55:14.302 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=ILinkListener, method=public abstract void org.apache.wicket.markup.html.link.ILinkListener.onLinkClicked()]
+08:55:14.302 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IOnChangeListener, method=public abstract void org.apache.wicket.markup.html.form.IOnChangeListener.onSelectionChanged()]
+08:55:14.302 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IOnChangeListener, method=public abstract void org.apache.wicket.markup.html.form.IOnChangeListener.onSelectionChanged()]
+08:55:14.302 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IRedirectListener, method=public abstract void org.apache.wicket.IRedirectListener.onRedirect()]
+08:55:14.302 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IRedirectListener, method=public abstract void org.apache.wicket.IRedirectListener.onRedirect()]
+08:55:14.302 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IResourceListener, method=public abstract void org.apache.wicket.IResourceListener.onResourceRequested()]
+08:55:14.302 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IResourceListener, method=public abstract void org.apache.wicket.IResourceListener.onResourceRequested()]
+08:55:14.303 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IActivePageBehaviorListener, method=public abstract void org.apache.wicket.behavior.IBehaviorListener.onRequest()]
+08:55:14.304 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IActivePageBehaviorListener, method=public abstract void org.apache.wicket.behavior.IBehaviorListener.onRequest()]
+08:55:14.304 INFO  [main] org.apache.wicket.protocol.http.WebApplication  [WicketApplication] Started Wicket version 1.4.17 in development mode
+08:55:14.330 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+08:55:24.600 INFO  [1365232814@qtp-375189003-0] org.jboss.jawabot.web.JawaBotSession  JawaBotSession being instantiated.
+08:56:41.700 INFO  [516517658@qtp-375189003-2] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=INewBrowserWindowListener, method=public abstract void org.apache.wicket.markup.html.INewBrowserWindowListener.onNewBrowserWindow()]
+08:56:41.730 ERROR [516517658@qtp-375189003-2] org.apache.wicket.RequestCycle  Method onFormSubmitted of interface org.apache.wicket.markup.html.form.IFormSubmitListener targeted at component [MarkupContainer [Component id = form]] threw an exception
+org.apache.wicket.WicketRuntimeException: Method onFormSubmitted of interface org.apache.wicket.markup.html.form.IFormSubmitListener targeted at component [MarkupContainer [Component id = form]] threw an exception
+	at org.apache.wicket.RequestListenerInterface.invoke(RequestListenerInterface.java:193)
+	at org.apache.wicket.request.target.component.listener.ListenerInterfaceRequestTarget.processEvents(ListenerInterfaceRequestTarget.java:73)
+	at org.apache.wicket.request.AbstractRequestCycleProcessor.processEvents(AbstractRequestCycleProcessor.java:92)
+	at org.apache.wicket.RequestCycle.processEventsAndRespond(RequestCycle.java:1250)
+	at org.apache.wicket.RequestCycle.step(RequestCycle.java:1329)
+	at org.apache.wicket.RequestCycle.steps(RequestCycle.java:1436)
+	at org.apache.wicket.RequestCycle.request(RequestCycle.java:545)
+	at org.apache.wicket.protocol.http.WicketFilter.doGet(WicketFilter.java:486)
+	at org.apache.wicket.protocol.http.WicketServlet.doPost(WicketServlet.java:160)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:727)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:820)
+	at org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:511)
+	at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:401)
+	at org.mortbay.jetty.servlet.SessionHandler.handle(SessionHandler.java:182)
+	at org.mortbay.jetty.handler.ContextHandler.handle(ContextHandler.java:766)
+	at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
+	at org.mortbay.jetty.Server.handle(Server.java:326)
+	at org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:542)
+	at org.mortbay.jetty.HttpConnection$RequestHandler.content(HttpConnection.java:945)
+	at org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:756)
+	at org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:218)
+	at org.mortbay.jetty.HttpConnection.handle(HttpConnection.java:404)
+	at org.mortbay.jetty.bio.SocketConnector$Connection.run(SocketConnector.java:228)
+	at org.mortbay.thread.QueuedThreadPool$PoolThread.run(QueuedThreadPool.java:582)
+Caused by: java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.apache.wicket.RequestListenerInterface.invoke(RequestListenerInterface.java:182)
+	... 23 more
+Caused by: java.lang.IndexOutOfBoundsException: Index: 3, Size: 3
+	at java.util.ArrayList.rangeCheck(ArrayList.java:604)
+	at java.util.ArrayList.get(ArrayList.java:382)
+	at org.jboss.jawabot.ResourceManager.bookResources(ResourceManager.java:119)
+	at org.jboss.jawabot.web._pg.TakePage$1.onSubmit(TakePage.java:76)
+	at org.apache.wicket.markup.html.form.Form.delegateSubmit(Form.java:1572)
+	at org.apache.wicket.markup.html.form.Form.process(Form.java:960)
+	at org.apache.wicket.markup.html.form.Form.onFormSubmitted(Form.java:921)
+	... 28 more
+09:00:02.096 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+09:00:02.099 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+09:00:02.235 INFO  [main] org.jboss.jawabot.JawaBot  
+09:00:02.236 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 14  ***
+09:00:02.236 INFO  [main] org.jboss.jawabot.JawaBot  
+09:00:02.236 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+09:00:02.237 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+09:00:02.253 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+09:00:02.254 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+09:00:02.256 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+09:00:02.258 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+09:00:02.258 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+09:00:02.258 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+09:00:02.258 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+09:00:02.259 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+09:00:02.259 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+09:00:02.259 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+09:00:02.259 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+09:00:02.259 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+09:00:02.349 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+09:00:02.350 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+09:00:02.454 INFO  [main] org.jboss.weld.Version  WELD-000900 1.1.1 (Final)
+09:00:02.729 INFO  [main] org.jboss.weld.Bootstrap  WELD-000101 Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
+09:00:02.877 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000103 Enabled alternatives for Manager
+Enabled alternatives: [] []
+Registered contexts: [interface javax.enterprise.context.RequestScoped, interface javax.enterprise.context.ConversationScoped, interface javax.inject.Singleton, interface javax.enterprise.context.SessionScoped, interface javax.enterprise.context.ApplicationScoped, interface javax.enterprise.context.Dependent]
+Registered beans: 0
+Specialized beans: 0
+: [] []
+09:00:02.878 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000104 Enabled decorator types for Manager
+Enabled alternatives: [] []
+Registered contexts: [interface javax.enterprise.context.RequestScoped, interface javax.enterprise.context.ConversationScoped, interface javax.inject.Singleton, interface javax.enterprise.context.SessionScoped, interface javax.enterprise.context.ApplicationScoped, interface javax.enterprise.context.Dependent]
+Registered beans: 0
+Specialized beans: 0
+: []
+09:00:02.879 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000105 Enabled interceptor types for Manager
+Enabled alternatives: [] []
+Registered contexts: [interface javax.enterprise.context.RequestScoped, interface javax.enterprise.context.ConversationScoped, interface javax.inject.Singleton, interface javax.enterprise.context.SessionScoped, interface javax.enterprise.context.ApplicationScoped, interface javax.enterprise.context.Dependent]
+Registered beans: 0
+Specialized beans: 0
+: []
+09:00:03.020 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+09:00:03.025 INFO  [main] org.jboss.weld.environment.jetty.Jetty6Container  Jetty detected, JSR-299 injection will be available in Servlets and Filters. Injection into Listeners is not supported.
+09:00:03.478 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Implicit Bean [javax.enterprise.inject.spi.InjectionPoint] with qualifiers [@Default]
+09:00:03.483 WARN  [main] org.jboss.interceptor.util.InterceptionTypeRegistry  Class 'javax.ejb.PostActivate' not found, interception based on it is not enabled
+09:00:03.483 WARN  [main] org.jboss.interceptor.util.InterceptionTypeRegistry  Class 'javax.ejb.PrePassivate' not found, interception based on it is not enabled
+09:00:03.515 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.mod.web.WebModuleHook] with qualifiers [@Any @Default]
+09:00:03.516 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.DependentContext
+09:00:03.517 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web.RunInJetty] with qualifiers [@Any @Default]
+09:00:03.520 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._pg.test.CdiTest] with qualifiers [@Any @Default]
+09:00:03.521 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.http.HttpRequestContext
+09:00:03.522 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web.MyReloadingWicketServlet] with qualifiers [@Any @Default]
+09:00:03.525 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._base.ConveniencePageBase] with qualifiers [@Any @Default]
+09:00:03.528 DEBUG [main] org.jboss.weld.Reflection  WELD-000601 interface javax.inject.Named is missing @Target. Weld will use this annotation, however this may make the application unportable.
+09:00:03.534 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Producer Method [int] with qualifiers [@Any @Default @Named] declared as [[method] @Produces @Named org.jboss.jawabot.web._pg.test.RandomNumberGenerator.getRandomNumber()]
+09:00:03.535 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.http.HttpSessionContext
+09:00:03.536 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._pg.test.CheckBoxWrapList] with qualifiers [@Any @Default]
+09:00:03.538 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web.WicketApplication] with qualifiers [@Any @Default]
+09:00:03.541 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._co.menu.AccountBoxPanel] with qualifiers [@Any @Default]
+09:00:03.542 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._pg.test.RandomNumberGenerator] with qualifiers [@Any @Default]
+09:00:03.543 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Producer Method [Logger] with qualifiers [@Any @Default] declared as [[method] @Produces org.jboss.jawabot.web._pg.test.CdiTest.getLogger(InjectionPoint)]
+09:00:03.545 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.bound.BoundConversationContext
+09:00:03.546 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.ApplicationContext
+09:00:03.547 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.bound.BoundRequestContext
+09:00:03.550 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._base.BaseLayoutPage] with qualifiers [@Any @Default]
+09:00:03.551 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.SingletonContext
+09:00:03.554 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Implicit Bean [javax.enterprise.inject.Instance] with qualifiers [@Default]
+09:00:03.555 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.http.HttpConversationContext
+09:00:03.556 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.RequestContext
+09:00:03.557 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._pg.UserLoginInfo] with qualifiers [@Any @Default]
+09:00:03.558 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Producer Method [String] with qualifiers [@Any @Default @Named] declared as [[method] @Produces @Named public org.jboss.jawabot.web._pg.test.RandomNumberGenerator.getUser()]
+09:00:03.561 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Managed Bean [class org.jboss.jawabot.web._base.BaseLayoutPage_orig] with qualifiers [@Any @Default]
+09:00:03.564 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-javax.enterprise.context.Conversation
+09:00:03.567 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: Implicit Bean [javax.enterprise.event.Event] with qualifiers [@Default]
+09:00:03.568 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000106 Bean: org.jboss.weld.bean-flat-Built-in-org.jboss.weld.context.bound.BoundSessionContext
+09:00:03.572 DEBUG [main] org.jboss.weld.Bootstrap  WELD-000100 Weld initialized. Validating beans
+09:00:03.729 INFO  [main] org.apache.wicket.Application  [WicketApplication] init: Wicket extensions initializer
+09:00:03.735 INFO  [main] org.apache.wicket.Application  [WicketApplication] init: DevUtils DebugBar Initializer
+09:00:03.738 INFO  [main] org.apache.wicket.Application  [WicketApplication] init: Wicket core library initializer
+09:00:03.739 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IBehaviorListener, method=public abstract void org.apache.wicket.behavior.IBehaviorListener.onRequest()]
+09:00:03.740 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IBehaviorListener, method=public abstract void org.apache.wicket.behavior.IBehaviorListener.onRequest()]
+09:00:03.740 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IFormSubmitListener, method=public abstract void org.apache.wicket.markup.html.form.IFormSubmitListener.onFormSubmitted()]
+09:00:03.740 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IFormSubmitListener, method=public abstract void org.apache.wicket.markup.html.form.IFormSubmitListener.onFormSubmitted()]
+09:00:03.740 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=ILinkListener, method=public abstract void org.apache.wicket.markup.html.link.ILinkListener.onLinkClicked()]
+09:00:03.740 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=ILinkListener, method=public abstract void org.apache.wicket.markup.html.link.ILinkListener.onLinkClicked()]
+09:00:03.740 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IOnChangeListener, method=public abstract void org.apache.wicket.markup.html.form.IOnChangeListener.onSelectionChanged()]
+09:00:03.740 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IOnChangeListener, method=public abstract void org.apache.wicket.markup.html.form.IOnChangeListener.onSelectionChanged()]
+09:00:03.740 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IRedirectListener, method=public abstract void org.apache.wicket.IRedirectListener.onRedirect()]
+09:00:03.740 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IRedirectListener, method=public abstract void org.apache.wicket.IRedirectListener.onRedirect()]
+09:00:03.741 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IResourceListener, method=public abstract void org.apache.wicket.IResourceListener.onResourceRequested()]
+09:00:03.741 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IResourceListener, method=public abstract void org.apache.wicket.IResourceListener.onResourceRequested()]
+09:00:03.741 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IActivePageBehaviorListener, method=public abstract void org.apache.wicket.behavior.IBehaviorListener.onRequest()]
+09:00:03.742 INFO  [main] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=IActivePageBehaviorListener, method=public abstract void org.apache.wicket.behavior.IBehaviorListener.onRequest()]
+09:00:03.742 INFO  [main] org.apache.wicket.protocol.http.WebApplication  [WicketApplication] Started Wicket version 1.4.17 in development mode
+09:00:03.766 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+09:00:14.533 INFO  [1064826090@qtp-1167103806-0] org.jboss.jawabot.web.JawaBotSession  JawaBotSession being instantiated.
+09:00:16.622 INFO  [2146610588@qtp-1167103806-2] org.apache.wicket.RequestListenerInterface  registered listener interface [RequestListenerInterface name=INewBrowserWindowListener, method=public abstract void org.apache.wicket.markup.html.INewBrowserWindowListener.onNewBrowserWindow()]
+09:00:16.649 ERROR [2146610588@qtp-1167103806-2] org.apache.wicket.RequestCycle  Method onFormSubmitted of interface org.apache.wicket.markup.html.form.IFormSubmitListener targeted at component [MarkupContainer [Component id = form]] threw an exception
+org.apache.wicket.WicketRuntimeException: Method onFormSubmitted of interface org.apache.wicket.markup.html.form.IFormSubmitListener targeted at component [MarkupContainer [Component id = form]] threw an exception
+	at org.apache.wicket.RequestListenerInterface.invoke(RequestListenerInterface.java:193)
+	at org.apache.wicket.request.target.component.listener.ListenerInterfaceRequestTarget.processEvents(ListenerInterfaceRequestTarget.java:73)
+	at org.apache.wicket.request.AbstractRequestCycleProcessor.processEvents(AbstractRequestCycleProcessor.java:92)
+	at org.apache.wicket.RequestCycle.processEventsAndRespond(RequestCycle.java:1250)
+	at org.apache.wicket.RequestCycle.step(RequestCycle.java:1329)
+	at org.apache.wicket.RequestCycle.steps(RequestCycle.java:1436)
+	at org.apache.wicket.RequestCycle.request(RequestCycle.java:545)
+	at org.apache.wicket.protocol.http.WicketFilter.doGet(WicketFilter.java:486)
+	at org.apache.wicket.protocol.http.WicketServlet.doPost(WicketServlet.java:160)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:727)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:820)
+	at org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:511)
+	at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:401)
+	at org.mortbay.jetty.servlet.SessionHandler.handle(SessionHandler.java:182)
+	at org.mortbay.jetty.handler.ContextHandler.handle(ContextHandler.java:766)
+	at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
+	at org.mortbay.jetty.Server.handle(Server.java:326)
+	at org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:542)
+	at org.mortbay.jetty.HttpConnection$RequestHandler.content(HttpConnection.java:945)
+	at org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:756)
+	at org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:218)
+	at org.mortbay.jetty.HttpConnection.handle(HttpConnection.java:404)
+	at org.mortbay.jetty.bio.SocketConnector$Connection.run(SocketConnector.java:228)
+	at org.mortbay.thread.QueuedThreadPool$PoolThread.run(QueuedThreadPool.java:582)
+Caused by: java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.apache.wicket.RequestListenerInterface.invoke(RequestListenerInterface.java:182)
+	... 23 more
+Caused by: java.lang.IndexOutOfBoundsException: Index: 3, Size: 3
+	at java.util.ArrayList.rangeCheck(ArrayList.java:604)
+	at java.util.ArrayList.get(ArrayList.java:382)
+	at org.jboss.jawabot.ResourceManager.bookResources(ResourceManager.java:119)
+	at org.jboss.jawabot.web._pg.TakePage$1.onSubmit(TakePage.java:76)
+	at org.apache.wicket.markup.html.form.Form.delegateSubmit(Form.java:1572)
+	at org.apache.wicket.markup.html.form.Form.process(Form.java:960)
+	at org.apache.wicket.markup.html.form.Form.onFormSubmitted(Form.java:921)
+	... 28 more

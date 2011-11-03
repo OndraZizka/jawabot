@@ -1,0 +1,2 @@
+#org.jboss.seam.wicket.ServletContextBeanManagerProvider
+org.jboss.jawabot.web.JawaBotAppBeanManagerProvider

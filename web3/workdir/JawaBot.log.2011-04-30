@@ -1,0 +1,276 @@
+12:14:37.951 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+12:14:37.972 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+12:14:39.205 INFO  [main] org.jboss.jawabot.JawaBot  
+12:14:39.205 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 86  ***
+12:14:39.205 INFO  [main] org.jboss.jawabot.JawaBot  
+12:14:39.206 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+12:14:39.206 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+12:14:39.224 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+12:14:39.226 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+12:14:39.229 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+12:14:39.231 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+12:14:39.231 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+12:14:39.232 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+12:14:39.232 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+12:14:39.233 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+12:14:39.233 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+12:14:39.233 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+12:14:39.234 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+12:14:39.234 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+12:14:39.501 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+12:14:39.501 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+12:14:40.255 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+12:14:40.674 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.core.VersionLoggerUtil from being installed as bean due to @Veto annotation
+12:14:40.915 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.resourceLoader.ResourceProvider from being installed as bean due to @Veto annotation
+12:14:41.329 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.VariableMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+12:14:41.331 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class java.lang.Object, class javax.el.FunctionMapper] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+12:14:41.695 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+21:27:16.800 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+21:27:16.802 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+21:27:17.201 INFO  [main] org.jboss.jawabot.JawaBot  
+21:27:17.202 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 563  ***
+21:27:17.202 INFO  [main] org.jboss.jawabot.JawaBot  
+21:27:17.202 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+21:27:17.203 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+21:27:17.220 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+21:27:17.222 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+21:27:17.225 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+21:27:17.232 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+21:27:17.232 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+21:27:17.233 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+21:27:17.233 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+21:27:17.233 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+21:27:17.233 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+21:27:17.234 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+21:27:17.234 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+21:27:17.234 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+21:27:17.382 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+21:27:17.383 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+21:27:18.051 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+21:27:18.443 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.core.VersionLoggerUtil from being installed as bean due to @Veto annotation
+21:27:18.731 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.resourceLoader.ResourceProvider from being installed as bean due to @Veto annotation
+21:27:19.139 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.VariableMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+21:27:19.141 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.FunctionMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+21:27:19.495 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+21:27:27.381 DEBUG [525855306@qtp-973617947-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+21:27:37.111 DEBUG [525855306@qtp-973617947-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+21:27:51.803 DEBUG [525855306@qtp-973617947-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+21:27:56.942 DEBUG [525855306@qtp-973617947-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+21:31:48.004 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+21:31:48.007 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+21:31:48.308 INFO  [main] org.jboss.jawabot.JawaBot  
+21:31:48.308 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 774  ***
+21:31:48.308 INFO  [main] org.jboss.jawabot.JawaBot  
+21:31:48.308 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+21:31:48.309 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+21:31:48.327 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+21:31:48.328 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+21:31:48.331 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+21:31:48.332 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+21:31:48.332 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+21:31:48.332 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+21:31:48.333 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+21:31:48.333 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+21:31:48.333 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+21:31:48.333 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+21:31:48.333 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+21:31:48.333 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+21:31:48.427 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+21:31:48.427 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+21:31:48.972 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+21:31:49.373 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.core.VersionLoggerUtil from being installed as bean due to @Veto annotation
+21:31:49.606 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.resourceLoader.ResourceProvider from being installed as bean due to @Veto annotation
+21:31:49.997 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.VariableMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+21:31:49.998 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class java.lang.Object, class javax.el.FunctionMapper] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+21:31:50.248 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+21:31:57.513 DEBUG [1792263773@qtp-525855306-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+21:32:05.958 DEBUG [1792263773@qtp-525855306-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+21:32:08.000 DEBUG [1792263773@qtp-525855306-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+21:33:11.172 DEBUG [1792263773@qtp-525855306-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+21:33:46.094 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+21:33:46.097 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+21:33:46.374 INFO  [main] org.jboss.jawabot.JawaBot  
+21:33:46.374 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 603  ***
+21:33:46.374 INFO  [main] org.jboss.jawabot.JawaBot  
+21:33:46.374 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+21:33:46.375 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+21:33:46.392 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+21:33:46.393 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+21:33:46.396 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+21:33:46.397 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+21:33:46.397 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+21:33:46.398 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+21:33:46.398 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+21:33:46.398 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+21:33:46.398 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+21:33:46.398 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+21:33:46.398 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+21:33:46.398 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+21:33:46.486 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+21:33:46.487 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+21:33:47.001 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+21:33:47.407 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.core.VersionLoggerUtil from being installed as bean due to @Veto annotation
+21:33:47.637 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.resourceLoader.ResourceProvider from being installed as bean due to @Veto annotation
+21:33:47.976 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.VariableMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+21:33:47.978 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.FunctionMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+21:33:48.202 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+21:35:07.105 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+21:35:07.109 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+21:35:07.390 INFO  [main] org.jboss.jawabot.JawaBot  
+21:35:07.390 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 101  ***
+21:35:07.390 INFO  [main] org.jboss.jawabot.JawaBot  
+21:35:07.390 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+21:35:07.391 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+21:35:07.409 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+21:35:07.410 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+21:35:07.413 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+21:35:07.415 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+21:35:07.415 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+21:35:07.415 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+21:35:07.415 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+21:35:07.416 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+21:35:07.416 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+21:35:07.416 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+21:35:07.416 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+21:35:07.416 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+21:35:07.499 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+21:35:07.500 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+21:35:08.042 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+21:35:08.463 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.core.VersionLoggerUtil from being installed as bean due to @Veto annotation
+21:35:08.710 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.resourceLoader.ResourceProvider from being installed as bean due to @Veto annotation
+21:35:09.019 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class java.lang.Object, class javax.el.VariableMapper] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+21:35:09.021 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.FunctionMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+21:35:09.265 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+22:12:14.614 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+22:12:14.616 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+22:12:14.924 INFO  [main] org.jboss.jawabot.JawaBot  
+22:12:14.925 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 367  ***
+22:12:14.925 INFO  [main] org.jboss.jawabot.JawaBot  
+22:12:14.925 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+22:12:14.926 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+22:12:14.972 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+22:12:14.974 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+22:12:14.977 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+22:12:14.990 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+22:12:14.991 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+22:12:14.991 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+22:12:14.992 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+22:12:14.992 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+22:12:14.992 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+22:12:14.992 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+22:12:14.993 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+22:12:14.993 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+22:12:15.179 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+22:12:15.180 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+22:12:15.736 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+22:12:16.144 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.core.VersionLoggerUtil from being installed as bean due to @Veto annotation
+22:12:16.362 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.resourceLoader.ResourceProvider from being installed as bean due to @Veto annotation
+22:12:16.798 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class java.lang.Object, class javax.el.VariableMapper] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+22:12:16.799 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class java.lang.Object, class javax.el.FunctionMapper] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+22:12:17.157 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+22:18:19.713 DEBUG [1918928736@qtp-956951190-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+22:39:57.989 DEBUG [1918928736@qtp-956951190-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+22:42:42.920 DEBUG [1261659405@qtp-956951190-5] org.jboss.jawabot.web._pg.HomePage   Page params: 
+22:42:52.920 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+22:42:52.926 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+22:42:53.210 INFO  [main] org.jboss.jawabot.JawaBot  
+22:42:53.211 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 885  ***
+22:42:53.211 INFO  [main] org.jboss.jawabot.JawaBot  
+22:42:53.211 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+22:42:53.212 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+22:42:53.229 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+22:42:53.230 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+22:42:53.232 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+22:42:53.235 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+22:42:53.235 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+22:42:53.235 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+22:42:53.236 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+22:42:53.236 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+22:42:53.236 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+22:42:53.236 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+22:42:53.237 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+22:42:53.237 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+22:42:53.330 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+22:42:53.331 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+22:42:53.858 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+22:42:54.255 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.core.VersionLoggerUtil from being installed as bean due to @Veto annotation
+22:42:54.484 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.resourceLoader.ResourceProvider from being installed as bean due to @Veto annotation
+22:42:54.870 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.VariableMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+22:42:54.871 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.FunctionMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+22:42:55.131 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+22:43:02.252 DEBUG [525855306@qtp-973617947-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+22:47:23.007 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+22:47:23.011 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+22:47:23.299 INFO  [main] org.jboss.jawabot.JawaBot  
+22:47:23.300 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 173  ***
+22:47:23.300 INFO  [main] org.jboss.jawabot.JawaBot  
+22:47:23.300 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+22:47:23.301 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+22:47:23.317 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+22:47:23.318 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+22:47:23.321 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+22:47:23.323 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+22:47:23.324 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+22:47:23.324 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+22:47:23.324 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+22:47:23.324 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+22:47:23.324 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+22:47:23.325 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+22:47:23.325 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+22:47:23.325 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+22:47:23.407 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+22:47:23.408 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+22:47:23.952 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+22:47:24.335 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.core.VersionLoggerUtil from being installed as bean due to @Veto annotation
+22:47:24.574 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.resourceLoader.ResourceProvider from being installed as bean due to @Veto annotation
+22:47:24.957 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.VariableMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+22:47:24.958 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class java.lang.Object, class javax.el.FunctionMapper] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+22:47:25.262 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+22:50:33.560 DEBUG [1792263773@qtp-525855306-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+22:51:56.019 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() start.
+22:51:56.023 INFO  [main] org.jboss.jawabot.config.JaxbConfigPersister  Loading config from: JawaBotConfig-debug.xml
+22:51:56.319 INFO  [main] org.jboss.jawabot.JawaBot  
+22:51:56.320 INFO  [main] org.jboss.jawabot.JawaBot                          ***  QUIT PASSWORD: 292  ***
+22:51:56.320 INFO  [main] org.jboss.jawabot.JawaBot  
+22:51:56.320 INFO  [main] org.jboss.jawabot.JawaBot  Initializing...
+22:51:56.321 INFO  [main] org.jboss.jawabot.state.JaxbStatePersister    Reading state from: ../src/test/resources/JawaBotState-sample.xml
+22:51:56.339 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+22:51:56.340 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+22:51:56.343 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+22:51:56.344 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+22:51:56.344 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+22:51:56.345 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: ozizka 2009-12-01 2009-12-31
+22:51:56.345 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa17...
+22:51:56.345 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa17... anyMarged: false
+22:51:56.346 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+22:51:56.346 DEBUG [main] org.jboss.jawabot.ResourceManager  Checking jawa18...
+22:51:56.346 DEBUG [main] org.jboss.jawabot.ResourceManager  Booking jawa18... anyMarged: false
+22:51:56.346 DEBUG [main] org.jboss.jawabot.ReservationCalendar  Booking reservation: pslavice 2010-01-05 2010-01-08
+22:51:56.440 DEBUG [main] org.jboss.jawabot.web.RunInJetty    Using env var jawabot.web.staticFiles .
+22:51:56.440 INFO  [main] org.jboss.jawabot.web.RunInJetty    Static files are in: 
+        /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/workdir/../src/main/java/org/jboss/jawabot/web/files
+   ==   /mnt/ssd1/_projekty/GoogleCode-ondrazizka/svn-whole/trunk/bots/JawaBot/branches/2.0/web/src/main/java/org/jboss/jawabot/web/files
+22:51:56.994 INFO  [main] org.jboss.seam.solder.Version  Seam Solder 3.0.0.Final (build id: 3.0.0.Final)
+22:51:57.416 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.core.VersionLoggerUtil from being installed as bean due to @Veto annotation
+22:51:57.699 INFO  [main] org.jboss.seam.solder.core.CoreExtension  Preventing class org.jboss.seam.solder.resourceLoader.ResourceProvider from being installed as bean due to @Veto annotation
+22:51:58.045 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class java.lang.Object, class javax.el.VariableMapper] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+22:51:58.046 DEBUG [main] org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension  Installing default managed bean Default Bean with types [class javax.el.FunctionMapper, class java.lang.Object] and qualifiers [@org.jboss.seam.solder.el.Mapper()]
+22:51:58.333 DEBUG [main] org.jboss.jawabot.JawaBotApp  JawaBotApp#main() end.
+22:52:02.079 DEBUG [525855306@qtp-973617947-0] org.jboss.jawabot.web._pg.HomePage   Page params: 
+23:00:42.954 DEBUG [525855306@qtp-973617947-0] org.jboss.jawabot.web._pg.HomePage   Page params: 

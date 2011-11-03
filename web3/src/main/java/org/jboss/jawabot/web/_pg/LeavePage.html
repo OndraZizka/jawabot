@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="cz" lang="cz">
+<head/>
+<body>
+
+<wicket:extend>
+
+   <h2>Leave resource</h2>
+
+   <form wicket:id="form">
+      
+      <table class="common" wicket:id="chgrp">
+         <thead> <tr>
+            <th>Resource</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Note</th>
+         </tr> </thead>
+         <tfoot><tr><td colspan="4"><input type="checkbox" wicket:id="groupSelector">Check / uncheck all</input></td></tr></tfoot>
+         <tbody>
+            <tr wicket:id="ownedResources">
+               <td><input type="checkbox" wicket:id="check"/> <label wicket:id="res">jawa01</label> </td>
+               <td><span wicket:id="from" /> </td>
+               <td><span wicket:id="to" />   </td>
+               <td><span wicket:id="note" /> </td>
+            </tr>
+         </tbody>
+      </table>
+
+      <input type="submit" value="Take!" />
+   </form>
+
+</wicket:extend>
+
+</body>
+</html>

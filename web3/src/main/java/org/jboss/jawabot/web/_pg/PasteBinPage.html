@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="cz" lang="cz">
+<head/>
+<body>
+
+<wicket:extend>
+
+   <h2>PasteBin</h2>
+
+   <form action="#"  wicket:id="form">
+   <table border="0" class="common ">
+      <tbody>
+         <tr>
+            <td>By: <input type="text" wicket:id="author"/></td>
+            <td>For: <input type="text" wicket:id="to"/></td>
+         </tr>
+         <tr>
+             <td colspan="2"><textarea wicket:id="text" rows="20" style="width: 100%; height: 100%;"></textarea></td>
+         </tr>
+         <tr>
+            <td colspan="2"><input type="submit" wicket:id="submit" value="Submit" style="width: 100%"/></td>
+         </tr>
+         <tr>
+            <td colspan="2">Note: Entries are not persistent. Will vanish on next JawaBot restart.</td>
+         </tr>
+      </tbody>
+   </table>
+   </form>
+
+
+   <h2>Recent pastes</h2>
+
+   <table border="0" class="common ">
+      <thead>
+         <tr>
+            <th>by</th>
+            <th>for</th>
+            <th>channel</th>
+            <th>time</th>
+            <th></th>
+         </tr>
+      </thead>
+      <tbody wicket:id="entries">
+         <tr wicket:id="entry">
+            <td><a href="#" wicket:id="author"><span wicket:id="label">ozizka</span></a></td>
+            <td><a href="#" wicket:id="for"><span wicket:id="label">rhusar</span></a></td>
+            <td><a href="#" wicket:id="channel"><span wicket:id="label">#jbossqa</span></a></td>
+            <td><a href="#" wicket:id="time"><span wicket:id="time">ozizka</span></a></td>
+            <td><a href="#" wicket:id="by"><span wicket:id="label">Show</span></a></td>
+         </tr>
+      </tbody>
+   </table>
+
+</wicket:extend>
+
+</body>
+</html>
