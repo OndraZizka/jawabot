@@ -32,6 +32,8 @@
       <module>autoop</module>
       <module>whereis</module>
       <module>messenger</module>
+      <module>reservation</module>
+      <module>social</module>
    </modules>
 
 
