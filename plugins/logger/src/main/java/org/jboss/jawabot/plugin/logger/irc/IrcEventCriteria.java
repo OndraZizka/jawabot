@@ -1,6 +1,5 @@
 package org.jboss.jawabot.plugin.logger.irc;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,6 +28,12 @@ public class IrcEventCriteria {
       this.channel = channel;
    }
 
+    public IrcEventCriteria(String channel, Date since, Date until) {
+        this.channel = channel;
+        this.fromDate = since;
+        this.toDate = until;
+    }
+   
    
    //<editor-fold defaultstate="collapsed" desc="get/set">
    public String getChannel() {
@@ -106,7 +111,7 @@ public class IrcEventCriteria {
 
    @Override
    public String toString() {
-      return "MessagesCriteria{" + "#" + channel + ", user=" + user + ", from=" + fromDate + ", to=" + toDate + ", num=" + num + '}';
+      return "IrcEventCriteria{" + "#" + channel + ", user=" + user + ", from=" + fromDate + ", to=" + toDate + ", num=" + num + '}';
    }
    
 }// class

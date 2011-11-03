@@ -1,8 +1,11 @@
 
 package org.jboss.jawabot.plugin.logger.web._co;
 
+import com.google.common.collect.AbstractIterator;
 import java.awt.Color;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.inject.Inject;
@@ -13,11 +16,14 @@ import org.apache.wicket.behavior.IBehavior;
 import org.apache.wicket.datetime.DateConverter;
 import org.apache.wicket.datetime.PatternDateConverter;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
+import org.apache.wicket.extensions.markup.html.repeater.data.sort.ISortState;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.jboss.jawabot.irc.ent.IrcEvAction;
 import org.jboss.jawabot.irc.ent.IrcEvJoin;
@@ -27,7 +33,8 @@ import org.jboss.jawabot.irc.ent.IrcEvPart;
 import org.jboss.jawabot.irc.ent.IrcEvTopic;
 import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.jboss.jawabot.plugin.irc.Channel;
-import org.jboss.jawabot.plugin.logger.ent.IrcEventsCriteria;
+import org.jboss.jawabot.plugin.logger.bus.ChannelLogManager;
+import org.jboss.jawabot.plugin.logger.irc.IrcEventCriteria;
 import org.jboss.jawabot.plugin.logger.web.IrcEventCriteriaLDM;
 
 /**
@@ -39,9 +46,12 @@ import org.jboss.jawabot.plugin.logger.web.IrcEventCriteriaLDM;
  */
 public class ChannelLogPanel extends Panel {
    
-   //@Inject private ChannelLogManager channelLogManager;
+   @Inject private ChannelLogManager channelLogManager;
    
    @Inject IrcEventCriteriaLDM model;
+   
+   // Criteria for this log panel - which messages should be listed.
+   IrcEventCriteria crit;
 
    private static NickToColor nickToColor = new NickToColor();
 
@@ -56,7 +66,7 @@ public class ChannelLogPanel extends Panel {
    
    public ChannelLogPanel( String id, Channel ch ) {
       super( id );
-      IrcEventsCriteria crit = new IrcEventsCriteria(ch.getName(), DateUtils.addDays(new Date(), -1), new Date());
+      this.crit = new IrcEventCriteria(ch.getName(), DateUtils.addDays(new Date(), -1), new Date());
       this.model.setCrit( crit );
       super.setDefaultModel( this.model );
    }
@@ -72,7 +82,20 @@ public class ChannelLogPanel extends Panel {
         
         final DateConverter dcDate = new PatternDateConverter("yyyy-MM-dd", false);
         final DateConverter dcTime = new PatternDateConverter("hh:mm:ss", false);
+        
+        // Ajax table try.
+        /*IColumn[] columns = new IColumn[1];
+        columns[0] = new AbstractColumn(this.model) {
+            public void populateItem( Item cellItem, String componentId, IModel rowModel ) {
+            }
+        };
+        ISortableDataProvider<IrcEvent> dataProvider = new IrcEventsDataProvider( this.channelLogManager, this.crit );
+        int totalCount = this.channelLogManager.getEventsCountByCriteria(crit);
+        add( new AjaxFallbackDefaultDataTable("events", columns, dataProvider, totalCount) );
+        /**/
 
+                
+        // Plain table
         add( new ListView<IrcEvent>("events", ldm ) {
            int lastDay = -1;
            @Override protected void populateItem( ListItem<IrcEvent> item ) {
@@ -175,4 +198,64 @@ public class ChannelLogPanel extends Panel {
        NickToColor.getDarkishColorAsHex("JawaBot");
    }
    
+}
+
+
+
+/**
+ *   Trying to implement Facebook-like "More" content-appending behavior.
+ *   For ajax table try.
+ *   @author ondra
+ */
+class IrcEventsDataProvider implements ISortableDataProvider<IrcEvent> {
+    
+    ChannelLogManager manager;
+    IrcEventCriteria crit;
+
+    public IrcEventsDataProvider( ChannelLogManager manager, IrcEventCriteria crit ) {
+        this.manager = manager;
+        this.crit = crit;
+    }
+    
+
+    /**
+     *  @returns an iterator over given range of events conforming criteria of this DataProvider.
+     */
+    @Override
+    public Iterator<? extends IrcEvent> iterator( final int first, final int count ) {
+        //crit.setFirst(first);
+        //crit.setCount(count);
+        return new AbstractIterator<IrcEvent>() {
+            List<IrcEvent> events = manager.getEventsByCriteria( crit, first, count, false );
+            Iterator<IrcEvent> it = events.listIterator();
+            protected IrcEvent computeNext() {
+                if( ! it.hasNext() )  return this.endOfData();
+                return it.next();
+            }
+        };
+    }
+
+    @Override
+    public int size() {
+        return manager.getEventsCountByCriteria( crit );
+    }
+
+    @Override
+    public IModel<IrcEvent> model( IrcEvent ev ) {
+        return new Model(ev);
+    }
+
+    @Override
+    public void detach() {
+    }
+
+    /** We don't care about sorting. */
+    @Override
+    public ISortState getSortState() {
+        return new ISortState() {
+            public void setPropertySortOrder(String property, int state) {}
+            public int getPropertySortOrder(String property) { return 0; }
+        };
+    }
+    public void setSortState(ISortState state) {  }
 }

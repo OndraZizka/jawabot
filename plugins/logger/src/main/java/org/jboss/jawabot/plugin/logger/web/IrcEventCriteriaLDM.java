@@ -6,7 +6,9 @@ import javax.inject.Inject;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.jboss.jawabot.plugin.logger.bus.ChannelLogManager;
-import org.jboss.jawabot.plugin.logger.ent.IrcEventsCriteria;
+import org.jboss.jawabot.plugin.logger.irc.IrcEventCriteria;
+
+
 
 /**
  *  LoadableDetachableModel which loads IrcEvents based on given criteria.
@@ -20,14 +22,14 @@ public class IrcEventCriteriaLDM extends LoadableDetachableModel<List<IrcEvent>>
     @Inject ChannelLogManager chanMan;
     
     
-    private IrcEventsCriteria crit;
+    private IrcEventCriteria crit;
 
     
     
     public IrcEventCriteriaLDM() {
     }
 
-    private IrcEventCriteriaLDM( IrcEventsCriteria crit ) {
+    private IrcEventCriteriaLDM( IrcEventCriteria crit ) {
         this.crit = crit;
     }
     
@@ -40,11 +42,11 @@ public class IrcEventCriteriaLDM extends LoadableDetachableModel<List<IrcEvent>>
     
 
     //<editor-fold defaultstate="collapsed" desc="get/set">
-    public IrcEventsCriteria getCrit() {
+    public IrcEventCriteria getCrit() {
         return crit;
     }
     
-    public void setCrit(IrcEventsCriteria crit) {
+    public void setCrit( IrcEventCriteria crit ) {
         this.crit = crit;
     }
     //</editor-fold>

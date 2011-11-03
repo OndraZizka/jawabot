@@ -7,6 +7,8 @@ import javax.persistence.Id;
 /**
  *  Not an entity - not needed yet.
  *  @author Ondrej Zizka
+ *  @deprecated  In favor of IrcEventsCriteria.
+ *  TODO: Remove.
  */
 public class IrcEventsCriteria {
     
@@ -16,7 +18,7 @@ public class IrcEventsCriteria {
     private String channel;
     private Date since;
     private Date until;
-
+    
     
     public IrcEventsCriteria() {
     }
@@ -61,8 +63,11 @@ public class IrcEventsCriteria {
     public void setUntil(Date until) {
         this.until = until;
     }
-    //</editor-fold>
+
+    // DataProvider Iterator-related stuff.
     
+    //</editor-fold>
+
     
 
 }// class
