@@ -7,16 +7,17 @@ import java.util.List;
 import java.util.logging.*;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.Resource;
-import org.jboss.jawabot.groupmgr.Group;
+import org.jboss.jawabot.pastebin.PasteBinEntry;
+import org.jboss.jawabot.state.ent.Group;
 import org.jboss.jawabot.web.JawaBotSession;
 import org.jboss.jawabot.web._co.GroupLinkPanel;
+import org.jboss.jawabot.web._co.PastebinLinkPanel;
 import org.jboss.jawabot.web._co.ResourceLinkPanel;
 
 
@@ -59,17 +60,26 @@ public class MenuPanel extends Panel
         }
       });
 
+      
+      // Groups
+      List<Group> groups = ((ConveniencePageBase)getPage()).getJawaBot().getGroupManager().getAllGroups_OrderByName();
+      
       add(new ListView<Group>("groupList", new ListModel( resources ) ) {
         @Override protected void populateItem(ListItem<Group> item) {
            item.add( new GroupLinkPanel("link", item.getModelObject()));
         }
       });
-
-      add(new ListView<Resource>("pastebinList", new ListModel( resources ) ) {
-        @Override protected void populateItem(ListItem<Resource> item) {
-           item.add( new ResourceLinkPanel("link", item.getModelObject()));
+      
+      
+      // Groups
+      List<PasteBinEntry> pastebins = ((ConveniencePageBase)getPage()).getJawaBot().getPasteBinManager().getPastes_OrderByWhenDesc(10);
+      
+      add(new ListView<PasteBinEntry>("pastebinList", new ListModel( resources ) ) {
+        @Override protected void populateItem(ListItem<PasteBinEntry> item) {
+           item.add( new PastebinLinkPanel("link", item.getModelObject()));
         }
       });
+
 
    }// onInitialize()
 

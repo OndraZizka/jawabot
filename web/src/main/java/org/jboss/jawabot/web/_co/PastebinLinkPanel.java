@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.Resource;
+import org.jboss.jawabot.pastebin.PasteBinEntry;
 import org.jboss.jawabot.web._pg.ResourcePage;
 
 /**
@@ -18,15 +19,12 @@ public class PastebinLinkPanel extends Panel {
    
    //Resource res;
 
-   public PastebinLinkPanel( String id, final String name ) {
-      super( id, new Model( JawaBotApp.getJawaBot().getResourceManager().getResource( name ) ) );
-      //Resource res = JawaBotApp.getJawaBot().getResourceManager().getResource( name );
-      //this.res = res;
+   public PastebinLinkPanel( String id, final int pasteId ) {
+      super( id, new Model( JawaBotApp.getJawaBot().getPasteBinManager().getPaste( pasteId ) ) );
    }
 
-   public PastebinLinkPanel( String id, final Resource res ) {
-      super( id, new Model<Resource>(res) );
-      //IBehavior a = new CssModifier( , null)
+   public PastebinLinkPanel( String id, final PasteBinEntry pbe ) {
+      super( id, new Model<PasteBinEntry>(pbe) );
    }
 
    @Override

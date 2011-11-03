@@ -5,11 +5,15 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.EventListener;
 import java.util.Hashtable;
+import javax.naming.InitialContext;
 import javax.naming.Name;
 import javax.naming.NameClassPair;
 import javax.naming.NameParser;
 import javax.naming.NamingEnumeration;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.wicket.application.ReloadingClassLoader;
@@ -20,6 +24,10 @@ import org.mortbay.jetty.plus.naming.EnvEntry;
 import org.mortbay.jetty.plus.naming.NamingEntryUtil;
 import org.mortbay.jetty.plus.naming.Resource;
 import org.mortbay.jetty.servlet.*;
+import org.mortbay.jetty.webapp.Configuration;
+import org.mortbay.jetty.webapp.WebAppContext;
+import org.mortbay.jetty.webapp.WebXmlConfiguration;
+import org.mortbay.naming.InitialContextFactory;
 import org.mortbay.naming.NamingUtil;
 import org.mortbay.xml.XmlConfiguration;
 
@@ -34,9 +42,9 @@ import org.mortbay.xml.XmlConfiguration;
  * 
  * @author Ondrej Zizka
  */
-public class RunInJetty
+public class RunInJetty_tries
 {
-   private static final Logger log = Logger.getLogger(RunInJetty.class);
+   private static final Logger log = Logger.getLogger(RunInJetty_tries.class);
 
    
    public static void main( String[] args ){
@@ -48,8 +56,16 @@ public class RunInJetty
 
       Server server = new Server( 8080 );
       Context ctx = new Context( server, "/", Context.NO_SECURITY | Context.SESSIONS );
+      /// new approach
+      /*/WebAppContext ctx = new WebAppContext();
+      ctx.setServer( server );
+      ctx.setContextPath("/");
+      //ctx.setConfigurationClasses(  );
+      /**/
+      
 
 
+      
       // Static content.
       
       /* I think the piece of the puzzle you are missing is that your
@@ -66,7 +82,7 @@ public class RunInJetty
       }
       else {
          // Use classes path as default
-         URL staticDirURL = RunInJetty.class.getResource("/org/jboss/jawabot/web/RunInJetty.class");
+         URL staticDirURL = RunInJetty_tries.class.getResource("/org/jboss/jawabot/web/RunInJetty.class");
          try {
             staticDir = new File( staticDirURL.toURI() );
          } catch( URISyntaxException ex ) {
@@ -94,6 +110,21 @@ public class RunInJetty
 
       
       
+      // Another approach for static files.
+      /* Does not work, because ResourceHandler can't chain the previous handlers - not a HandlerContainer.
+      ResourceHandler resourceHandler = new ResourceHandler();
+      resourceHandler.setResourceBase("./src/main/java/org/jboss/jawabot/web/files");
+      //HandlerWrapper handlerWrapper = new HandlerWrapper();
+      //handlerWrapper.setHandler( resourceHandler );
+      //ctx.addHandler( handlerWrapper );
+      ctx.addHandler( resourceHandler );
+      ctx.addHandler(new ServletHandler(){{ addServlet(wicketSH); }});
+      /**/
+
+      
+      
+      
+      
       // Wicket.
       final ServletHolder wicketSH = new ServletHolder( new MyReloadingWicketServlet() );
       wicketSH.setInitParameter( "applicationClassName", WicketApplication.class.getName() );
@@ -101,13 +132,35 @@ public class RunInJetty
       //ctx.setAttribute( JawaBotApp.ID.JAWABOT, JawaBotApp.getJawaBot() );
 
 
+      /*/
+      FilterHolder filterHolder = new FilterHolder( new WicketFilter() );
+      filterHolder.setInitParameter("applicationClassName", cz.dw.test.WicketApplication.class.getName() );
+      root.addFilter( filterHolder, "/*" , Handler.ALL );
+      /**/
+
+
+      
+      
+      
+      
+      // Trying to integrate Weld. But found better - weld-wicket.
+      // http://docs.jboss.org/weld/reference/1.0.0/en-US/html/viewlayers.html#d0e5200
+      // org.jboss.weld.wicket.WeldApplication
+
+      
+      //new Resource("blah", new Object);
+      //server.addHandler( new org.mortbay.jetty.webapp.WebAppContext("src/main/webapp", "/my-context") );
+      //ctx.addHandler( new );
+
+
+      /**/
       try {
          
          //BeanManager
 
          // See Jetty examples - FromXmlConfiguration.java
          //String confXml = IOUtils.toString( RunInJetty.class.getResourceAsStream( "/WEB-INF/jetty-env.xml" ) );
-         XmlConfiguration confJettyEnv = new XmlConfiguration( RunInJetty.class.getResourceAsStream("/WEB-INF/jetty-env.xml") ); 
+         XmlConfiguration confJettyEnv = new XmlConfiguration( RunInJetty_tries.class.getResourceAsStream("/WEB-INF/jetty-env.xml") ); 
          confJettyEnv.configure(ctx);
          
          
@@ -131,6 +184,12 @@ public class RunInJetty
          
          
          
+         /*
+         ic.bind("BeanManager", ref);
+         //ic.bind("java:comp/BeanManager", ref);
+         //ic.bind("env/BeanManager", ref);
+          */
+
          //InitialContext ic = new InitialContext();
          NameParser parser = ic.getNameParser("");
          //Name prefix = NamingEntryUtil.getNameForScope(scope);
@@ -160,6 +219,16 @@ public class RunInJetty
          }
 
          
+         // Trying web.xml, but getting NPE at org.mortbay.jetty.webapp.WebXmlConfiguration.initialize(WebXmlConfiguration.java:251)
+         /*
+         WebXmlConfiguration confWebXml = new WebXmlConfiguration(); 
+         String webXmlStr = IOUtils.toString( RunInJetty.class.getResourceAsStream("/WEB-INF/web.xml") );
+         File webXmlTmpFile = new File( FileUtils.getTempDirectory(), "tmpJawaBot-web.xml" );
+         FileUtils.write( webXmlTmpFile, webXmlStr );
+         confWebXml.configure( webXmlTmpFile.getPath() );
+         FileUtils.deleteQuietly( webXmlTmpFile );
+          */
+         
          // Add WELD listener by hand.
          ctx.addEventListener( new org.jboss.weld.environment.servlet.Listener() );
          
@@ -186,11 +255,3 @@ public class RunInJetty
 }// class
 
 
-
-class MyReloadingWicketServlet extends ReloadingWicketServlet 
-{
-    static {
-        ReloadingClassLoader.excludePattern( "org.apache.wicket.*" );
-        ReloadingClassLoader.includePattern( "org.jboss.jawabot.*" );
-    }
-}

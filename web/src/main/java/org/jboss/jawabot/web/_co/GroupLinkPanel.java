@@ -6,8 +6,7 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
-import org.jboss.jawabot.JawaBotApp;
-import org.jboss.jawabot.groupmgr.Group;
+import org.jboss.jawabot.state.ent.Group;
 import org.jboss.jawabot.web._pg.GroupPage;
 
 /**
