@@ -11,6 +11,7 @@ import org.apache.wicket.protocol.http.ReloadingWicketServlet;
 //import org.jboss.weld.wicket.BeanManagerLookup;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.*;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +62,12 @@ public class RunInJetty
          try {
             staticDir = new File( staticDirURL.toURI() );
          } catch( URISyntaxException ex ) {
-            log.error("  Can't read a file from URI: " + staticDirURL );
+            log.error("  Can't read a file from URI: " + staticDirURL + " >> " + ex );
+            log.debug("  ", ex );
+            staticDir = new File("");
+         } catch( IllegalArgumentException ex ) {
+            log.error("  Can't read a file from URI: " + staticDirURL + " >> " + ex );
+            log.debug("  ", ex );
             staticDir = new File("");
          }
       }
