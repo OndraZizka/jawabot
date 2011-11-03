@@ -123,5 +123,18 @@ public class ListColumnGridDataProvider<T extends Serializable> extends  ListDat
 		}
 		return list.subList(first, toIndex).listIterator();
 	}
+
+   @Override
+   public int size() {
+      int listLen = getData().size();
+      // Column height.
+      int colHeight = listLen / this.columns;
+      // Last items may not fit whole row.
+      colHeight += ( (listLen % this.columns) == 0 ? 0 : 1 );
+      return colHeight * this.columns;
+   }
+   
+   
+   
   
 }

@@ -149,6 +149,10 @@ class CheckBoxWrap<T extends Serializable> implements Serializable {
    public void setChecked( boolean checked ) { this.checked = checked; }
    public T getItem() { return item; }
    public void setItem( T item ) { this.item = item; }
+
+   @Override public String toString() { return "("+this.getItem()+")"; }
+   
+   
 }
 
 
