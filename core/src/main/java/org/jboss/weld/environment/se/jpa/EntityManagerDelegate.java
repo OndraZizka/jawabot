@@ -3,18 +3,11 @@ package org.jboss.weld.environment.se.jpa;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-//import javax.persistence.*;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.metamodel.Metamodel;
 import java.util.Map;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.FlushModeType;
-import javax.persistence.LockModeType;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 /**
    The fake entity manager is not the real instance of the entity manager but it is a delegate. It will fetch the current entity manager from the EntityManagerStore and will delegate to this entity manager.
@@ -23,7 +16,7 @@ import javax.persistence.TypedQuery;
  * @author Sebastian Hennebrueder
  */
 @ApplicationScoped
-public class EntityManagerDelegate implements EntityManager{
+public class EntityManagerDelegate implements EntityManager {
 
 	@Inject
 	private EntityManagerStore entityManagerStore;
@@ -44,187 +37,149 @@ public class EntityManagerDelegate implements EntityManager{
 		return entityManagerStore.get().find(entityClass, primaryKey);
 	}
 
-   @Override
-   public void clear() {
-      entityManagerStore.get().clear();
-   }
+	public <T> T find(Class<T> entityClass, Object primaryKey, Map<String, Object> properties) {
+		return entityManagerStore.get().find(entityClass, primaryKey, properties);
+	}
 
-   @Override
-   public void close() {
-      entityManagerStore.get().close();
-   }
+	public <T> T find(Class<T> entityClass, Object primaryKey, LockModeType lockMode) {
+		return entityManagerStore.get().find(entityClass, primaryKey, lockMode);
+	}
 
-   @Override
-   public boolean contains(Object entity) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public <T> T find(Class<T> entityClass, Object primaryKey, LockModeType lockMode, Map<String, Object> properties) {
+		return entityManagerStore.get().find(entityClass, primaryKey, lockMode, properties);
+	}
 
-   @Override
-   public Query createNamedQuery(String name) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public <T> T getReference(Class<T> entityClass, Object primaryKey) {
+		return entityManagerStore.get().getReference(entityClass, primaryKey);
+	}
 
-   @Override
-   public <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void flush() {
+		entityManagerStore.get().flush();
+	}
 
-   @Override
-   public Query createNativeQuery(String sqlString) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void setFlushMode(FlushModeType flushMode) {
+		entityManagerStore.get().setFlushMode(flushMode);
+	}
 
-   @Override
-   public Query createNativeQuery(String sqlString, Class resultClass) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public FlushModeType getFlushMode() {
+		return entityManagerStore.get().getFlushMode();
+	}
 
-   @Override
-   public Query createNativeQuery(String sqlString, String resultSetMapping) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void lock(Object entity, LockModeType lockMode) {
+		entityManagerStore.get().lock(entity, lockMode);
+	}
 
-   @Override
-   public Query createQuery(String qlString) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void lock(Object entity, LockModeType lockMode, Map<String, Object> properties) {
+		entityManagerStore.get().lock(entity, lockMode, properties);
+	}
 
-   @Override
-   public <T> TypedQuery<T> createQuery(CriteriaQuery<T> criteriaQuery) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void refresh(Object entity) {
+		entityManagerStore.get().refresh(entity);
+	}
 
-   @Override
-   public <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void refresh(Object entity, Map<String, Object> properties) {
+		entityManagerStore.get().refresh(entity, properties);
+	}
 
-   @Override
-   public void detach(Object entity) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void refresh(Object entity, LockModeType lockMode) {
+		entityManagerStore.get().refresh(entity, lockMode);
+	}
 
-   @Override
-   public <T> T find(Class<T> entityClass, Object primaryKey, Map<String, Object> properties) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void refresh(Object entity, LockModeType lockMode, Map<String, Object> properties) {
+		entityManagerStore.get().refresh(entity, lockMode, properties);
+	}
 
-   @Override
-   public <T> T find(Class<T> entityClass, Object primaryKey, LockModeType lockMode) {
-      return this.entityManagerStore.get().find(entityClass, primaryKey, lockMode);
-   }
+	public void clear() {
+		entityManagerStore.get().clear();
+	}
 
-   @Override
-   public <T> T find(Class<T> entityClass, Object primaryKey, LockModeType lockMode, Map<String, Object> properties) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void detach(Object entity) {
+		entityManagerStore.get().detach(entity);
+	}
 
-   @Override
-   public void flush() {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public boolean contains(Object entity) {
+		return entityManagerStore.get().contains(entity);
+	}
 
-   @Override
-   public CriteriaBuilder getCriteriaBuilder() {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public LockModeType getLockMode(Object entity) {
+		return entityManagerStore.get().getLockMode(entity);
+	}
 
-   @Override
-   public Object getDelegate() {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void setProperty(String propertyName, Object value) {
+		entityManagerStore.get().setProperty(propertyName, value);
+	}
 
-   @Override
-   public EntityManagerFactory getEntityManagerFactory() {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public Map<String, Object> getProperties() {
+		return entityManagerStore.get().getProperties();
+	}
 
-   @Override
-   public FlushModeType getFlushMode() {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public Query createQuery(String qlString) {
+		return entityManagerStore.get().createQuery(qlString);
+	}
 
-   @Override
-   public LockModeType getLockMode(Object entity) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public <T> TypedQuery<T> createQuery(CriteriaQuery<T> criteriaQuery) {
+		return entityManagerStore.get().createQuery(criteriaQuery);
+	}
 
-   @Override
-   public Metamodel getMetamodel() {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass) {
+		return entityManagerStore.get().createQuery(qlString, resultClass);
+	}
 
-   @Override
-   public Map<String, Object> getProperties() {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public Query createNamedQuery(String name) {
+		return entityManagerStore.get().createNamedQuery(name);
+	}
 
-   @Override
-   public <T> T getReference(Class<T> entityClass, Object primaryKey) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass) {
+		return entityManagerStore.get().createNamedQuery(name, resultClass);
+	}
 
-   @Override
-   public EntityTransaction getTransaction() {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public Query createNativeQuery(String sqlString) {
+		return entityManagerStore.get().createNativeQuery(sqlString);
+	}
 
-   @Override
-   public boolean isOpen() {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public Query createNativeQuery(String sqlString, Class resultClass) {
+		return entityManagerStore.get().createNativeQuery(sqlString, resultClass);
+	}
 
-   @Override
-   public void joinTransaction() {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public Query createNativeQuery(String sqlString, String resultSetMapping) {
+		return entityManagerStore.get().createNativeQuery(sqlString, resultSetMapping);
+	}
 
-   @Override
-   public void lock(Object entity, LockModeType lockMode) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void joinTransaction() {
+		entityManagerStore.get().joinTransaction();
+	}
 
-   @Override
-   public void lock(Object entity, LockModeType lockMode, Map<String, Object> properties) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public <T> T unwrap(Class<T> cls) {
+		return entityManagerStore.get().unwrap(cls);
+	}
 
-   @Override
-   public void refresh(Object entity) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public Object getDelegate() {
+		return entityManagerStore.get().getDelegate();
+	}
 
-   @Override
-   public void refresh(Object entity, Map<String, Object> properties) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public void close() {
+		entityManagerStore.get().close();
+	}
 
-   @Override
-   public void refresh(Object entity, LockModeType lockMode) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public boolean isOpen() {
+		return entityManagerStore.get().isOpen();
+	}
 
-   @Override
-   public void refresh(Object entity, LockModeType lockMode, Map<String, Object> properties) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public EntityTransaction getTransaction() {
+		return entityManagerStore.get().getTransaction();
+	}
 
-   @Override
-   public void setFlushMode(FlushModeType flushMode) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public EntityManagerFactory getEntityManagerFactory() {
+		return entityManagerStore.get().getEntityManagerFactory();
+	}
 
-   @Override
-   public void setProperty(String propertyName, Object value) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
+	public CriteriaBuilder getCriteriaBuilder() {
+		return entityManagerStore.get().getCriteriaBuilder();
+	}
 
-   @Override
-   public <T> T unwrap(Class<T> cls) {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
-
-   
-
+	public Metamodel getMetamodel() {
+		return entityManagerStore.get().getMetamodel();
+	}
+		
 }// class
 

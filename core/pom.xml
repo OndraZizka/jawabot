@@ -105,13 +105,6 @@
          <type>jar</type>
       </dependency>
         
-      <!-- Persistence -->
-      <dependency>
-         <groupId>javax.persistence</groupId>
-         <artifactId>persistence-api</artifactId>
-         <version>1.0</version>
-      </dependency>
-      
       <!-- Hibernate -->
       <dependency>
          <groupId>org.hibernate</groupId>
@@ -137,6 +130,14 @@
           <!-- <scope>runtime</scope>  we need exceptions -->
       </dependency>
 
+      <!-- JPA API - Hibernate has its own.
+      <dependency>
+         <groupId>javax.persistence</groupId>
+         <artifactId>persistence-api</artifactId>
+         <version>2.0</version>
+      </dependency>
+      -->
+      
 
       <!-- Not needed?  Common Annotations for the JavaTM Platform like @Generated, @PostConstruct, @Resource, @Resources
       <dependency>
