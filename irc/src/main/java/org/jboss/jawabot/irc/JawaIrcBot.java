@@ -2,10 +2,13 @@
 package org.jboss.jawabot.irc;
 
 import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
+import java.util.concurrent.TimeUnit;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.Delayed;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -727,27 +730,46 @@ public class JawaIrcBot extends PircBot
     }
 
 
-
+    
+    /**
+     *  Queue of channels to part.
+     */
+    private final Queue<ChannelToPart> partChannels = new DelayQueue();
+    
+    
     /**
      *  Gets users in a channel. PircBot does it asynchronously, so must we.
      */
-    protected void listUsersInChannel( String channel, UserListHandler handler ){
+    protected void listUsersInChannel( String channel, UserListHandler handler )
+    {
         User[] users = this.getUsers(channel);
         if( users.length != 0 ){
+            log.debug("  Already in channel: " + channel);
+            handler.setDisconnectFlag( false );
             handler.onUserList(channel, users);
             return;
         }
         
         UserListHandler oldHandler = this.setCurrentUserListHandler( channel, handler );
         if( null != oldHandler ){
-            // The same handler.
-            if( oldHandler.equals( handler ) )  return;
-            // Warning is the most we can do.
-            log.warn("Overwriting current ChannelInfoHandler." + "\n    Old: " + oldHandler + "\n    New: " + handler);
+            if( ! oldHandler.equals( handler ) ){
+                // Warning is the most we can do.
+                log.warn("  Overwriting current ChannelInfoHandler." + "\n    Old: " + oldHandler + "\n    New: " + handler);
+            }
         }
         
+        // Before joining a new channel, try to PART the hanged ones.
+        ChannelToPart channelToPart;
+        while( null != (channelToPart = partChannels.poll()) ){
+            log.debug( "   Parting temp channel from a part queue: " + channel );
+            this.partChannel(channel, "I'm still here?");
+        }
+        
+        log.debug("  Temporarily joining channel: " + channel);
+        handler.setDisconnectFlag( true );
         this.joinChannel(channel);
-        // PircBot will call onUserList() and we will redirect these calls to the handler.
+        // PircBot will (hopefully) call onUserList() and we will redirect these calls to the handler.
+        partChannels.add( new ChannelToPart(channel, 10*1000) );
     }
    
     /**
@@ -755,10 +777,17 @@ public class JawaIrcBot extends PircBot
     *  Send it to the appropriate handler - likely given by plugin.
     */
     @Override
-    protected void onUserList(String channel, User[] users) {
+    protected void onUserList( String channel, User[] users ) {
         UserListHandler handler = this.currentOnUserListHandlers.get(channel);
         if( null != handler )
             handler.onUserList( channel, users );
+        else
+            log.debug("  No onUserList() handler for channel: " + channel);
+            
+        if( handler.isDisconnectFlag() ){
+            log.debug("  Parting temporarily joined channel: " + channel);
+            this.partChannel(channel);
+        }
     }
 
 
@@ -862,3 +891,43 @@ public class JawaIrcBot extends PircBot
 }// class
 
 
+
+
+
+/**
+ *  Info about channel we should part.
+ *  This is needed because PART is not always really done, and the bot stays connected.
+ */
+class ChannelToPart implements Delayed {
+    
+    private String name;
+    public String getName() { return name; }
+    
+    private long expireAt;
+    public long getExpireAt() { return expireAt; }
+    
+    public ChannelToPart( String name, long delay ) {
+        this.name = name;
+        this.expireAt = new Date().getTime() + delay;
+    }
+
+    private long getRemaining(){
+        return this.expireAt - new Date().getTime();
+    }
+
+        
+    
+    public long getDelay( TimeUnit unit ) {
+        switch( unit ){
+            case MILLISECONDS: return getRemaining();
+            case MICROSECONDS: return getRemaining() * 1000L;
+            default: return 0;
+        }
+    }
+
+    @Override
+    public int compareTo(Delayed o) {
+        return (int) (this.getExpireAt() - ((ChannelToPart)o).getExpireAt());
+    }
+
+}

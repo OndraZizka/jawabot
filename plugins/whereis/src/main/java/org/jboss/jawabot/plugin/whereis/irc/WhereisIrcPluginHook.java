@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +21,7 @@ import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.UserListHandler;
+import org.jboss.jawabot.irc.UserListHandlerBase;
 import org.jboss.jawabot.irc.model.IrcMessage;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
@@ -38,6 +41,10 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     @Inject MemoryWhereIsService whereIsService;
     
 
+    // TODO: Prevent multiple scanning over this.
+    Set<String> channelsBeingScanned = new ConcurrentSkipListSet();
+    
+    
     
     // IRC stuff.
 
@@ -76,6 +83,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
 
     @Override
     public void onBotJoinChannel( String channel, IrcBotProxy bot ) {
+        log.debug("  onBotJoinChannel(): " + channel);
         this.scanChannel( channel, bot );
     }
 
@@ -111,14 +119,14 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
                     }
                     else {
                         logScan.debug("  Scanning " + chi.toString() );
-                        scanChannel(null, bot);
+                        scanChannel(chi.name, bot);
                     }
                 }
             };
 
         // Wait until the channels are downloaded and start scanning them.
         final int expectedChannelDownloadDurationMs = 3000;
-        final int delayBetweenChannels = 1000;
+        final int delayBetweenChannels = 2000;
         executor.scheduleWithFixedDelay( scanJob, expectedChannelDownloadDurationMs, delayBetweenChannels, TimeUnit.MILLISECONDS);
     }
     
@@ -126,24 +134,37 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     /**
      *  Gets a list of users on given channel and updates info about their occurrences.
      */
-    private void scanChannel( String channel, IrcBotProxy bot ) {
-        log.debug("  Scanning channel; " + channel);
+    private void scanChannel( String channel, final IrcBotProxy bot ) {
+        synchronized (this.channelsBeingScanned) {
+            if( this.channelsBeingScanned.contains(channel) ){
+                log.warn("  Already scanning channel: " + channel);
+            }
+            log.debug("  Scanning channel: " + channel);
+            this.channelsBeingScanned.add(channel);
+        }
+        
         final Date now = new Date();
         UserListHandler handler = 
-        new UserListHandler() {
+        new UserListHandlerBase() {
             public void onUserList( String channel, User[] users ) {
                 for( User user : users ) {
                     whereIsService.updateUserInfo( user, channel, now );
                 }
+                //bot.partChannel(channel);
             }
         };
         bot.listUsersInChannel(channel, handler);
     }
 
 
-    private static final DateFormat DF_TIME = new SimpleDateFormat("HH:mm:ss");
+    
+    private static final DateFormat DF_TIME = new SimpleDateFormat("HH:mm");
     private static final DateFormat DF_DATE = new SimpleDateFormat("yyyy-MM-dd");
     
+    /**
+     *  Creates a string about where given user is.
+     *  TODO: Relative time. I have it already in PasteBin plugin.
+     */
     private String informAbout( String nick, List<SeenInfo> occurences ) {
         Date now = new Date();
         Date hours24Ago = DateUtils.addDays(now, -1);
@@ -157,7 +178,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
             synchronized( df ){
                 sb.append( df.format(seenInfo.when) );
             }
-            sb.append( ")" );
+            sb.append( ") " );
         }
         return sb.toString();
     }

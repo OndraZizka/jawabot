@@ -10,5 +10,9 @@ public interface UserListHandler {
     
     public void onUserList(String channel, User[] users);
     
+    public boolean isDisconnectFlag();
+    public void setDisconnectFlag( boolean b );
+    
+    
 }// class
 
