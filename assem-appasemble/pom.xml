@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+  
+    <groupId>org.jboss.jawabot</groupId>
+    <artifactId>JawaBot-assem-appassembly</artifactId>
+    <packaging>jar</packaging>
+
+    <name>JawaBot 2.0 appassembly</name>
+
+    <parent>
+        <groupId>org.jboss.jawabot</groupId>
+        <artifactId>JawaBot-root</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mainClass>org.jboss.jawabot.JawaBotApp</mainClass>
+    </properties>
+
+
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/assembly</directory>
+                <excludes>
+                    <exclude>**/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>bin</directory>
+                <excludes><exclude>**/*</exclude></excludes>
+            </resource>
+            <resource>
+                <directory>conf</directory>
+                <excludes><exclude>**/*</exclude></excludes>
+            </resource>
+        </resources>
+      
+     
+        <plugins>
+         
+            <!-- Appassembly plugin - makes it ready for .zip
+                 http://mojo.codehaus.org/appassembler/appassembler-maven-plugin/assemble-mojo.html
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <executions><execution><id>appassemble</id><goals><goal>assemble</goal></goals><phase>package</phase></execution></executions>
+                <configuration>
+                    <!-- Config files of the app. -->
+                    <configurationSourceDirectory>conf</configurationSourceDirectory>
+                    <configurationDirectory>conf</configurationDirectory>
+                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                    
+                    <!-- Where to put .jar's. -->
+                    <assembleDirectory>${project.build.directory}/dist</assembleDirectory>
+                    <repositoryLayout>flat</repositoryLayout>
+                    <repositoryName>lib</repositoryName>
+                    <programs>
+                        <program>
+                            <mainClass>${mainClass}</mainClass>
+                            <name>run</name>
+                        </program>
+                    </programs>
+                </configuration>
+            </plugin>
+
+         
+        </plugins>
+      
+    </build>
+
+
+
+   <!-- Dependencies -->
+    <dependencies>
+
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-irc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+      
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+      <!-- Plugins -->
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-jira</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-logger</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-messenger</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-whereis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+    </dependencies>
+   
+</project>
