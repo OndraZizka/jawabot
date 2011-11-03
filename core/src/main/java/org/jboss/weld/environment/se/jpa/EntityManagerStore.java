@@ -15,6 +15,8 @@ public interface EntityManagerStore {
 	 * @return the currently used entity manager or {@code null} if none was found
 	 */
 	EntityManager get();
+   
+   boolean has();
 
 	/**
 	 * Creates an entity manager and stores it in a stack. The use of a stack allows to implement
@@ -23,6 +25,7 @@ public interface EntityManagerStore {
 	 * @return the created entity manager
 	 */
 	EntityManager createAndRegister();
+   EntityManager getOrCreateAndRegister( boolean requiresNew );
 
 	/**
 	 * Removes an entity manager from the thread local stack. It needs to be created using the
@@ -31,6 +34,6 @@ public interface EntityManagerStore {
 	 * @param entityManager - the entity manager to remove
 	 * @throws IllegalStateException in case the entity manager was not found on the stack
 	 */
-	void unregister(EntityManager entityManager);
+	void unregister( EntityManager entityManager );
 	
 }// class

@@ -12,7 +12,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.jawabot.plugin.irc.web._co.ChannelLinkSimplePanel;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
-import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
+import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.web._co.UserLinkSimplePanel;
 

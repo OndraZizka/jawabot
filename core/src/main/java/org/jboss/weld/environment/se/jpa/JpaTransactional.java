@@ -19,6 +19,13 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JpaTransactional {
+   
+   public static enum Type {
+      REQUIRED,
+      REQUIRES_NEW
+   }
+   
+   Type value() default Type.REQUIRED;
 
 }// class
 

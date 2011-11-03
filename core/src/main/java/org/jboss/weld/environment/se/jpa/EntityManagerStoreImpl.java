@@ -3,10 +3,8 @@ package org.jboss.weld.environment.se.jpa;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,14 +109,22 @@ public class EntityManagerStoreImpl implements EntityManagerStore
             log.info("================================================================================");
 		}
 		
+      
+      /**
+       *   Returns true if this thread already has some EM on stack.
+       *   Server the purpose of @JpaTransactional(REQUIRED) vs. REQUIRES_NEW
+       */
+      public boolean has(){
+         Stack<EntityManager> entityManagerStack = this.emStackThreadLocal.get();
+         return ! ( entityManagerStack == null || entityManagerStack.isEmpty() );
+      }
 
 		@Override
 		public EntityManager get() {
-				log.debug("Getting the current entity manager");
+				Stack<EntityManager> emStack = emStackThreadLocal.get();
+				log.debug("Getting the current EntityManager. Stack: " + emStack.size());
 				
-				final Stack<EntityManager> entityManagerStack = emStackThreadLocal.get();
-				
-				if (entityManagerStack == null || entityManagerStack.isEmpty())
+				if (emStack == null || emStack.isEmpty())
 				{
 						// If nothing is found, we return null to cause a NullPointer exception in the business code.
 						// This leads to a nicer stack trace starting with client code. */
@@ -128,7 +134,7 @@ public class EntityManagerStoreImpl implements EntityManagerStore
 
 						return null;
 				} else {
-						return entityManagerStack.peek();
+						return emStack.peek();
 				}
 		}
 
@@ -140,37 +146,50 @@ public class EntityManagerStoreImpl implements EntityManagerStore
 		 */
 		@Override
 		public EntityManager createAndRegister() {
-				log.debug("Creating and registering an entity manager");
-				Stack<EntityManager> entityManagerStack = emStackThreadLocal.get();
-				if (entityManagerStack == null) {
-						entityManagerStack = new Stack<EntityManager>();
-						emStackThreadLocal.set(entityManagerStack);
-				}
-
-				final EntityManager entityManager = emf.createEntityManager();
-				entityManagerStack.push(entityManager);
-				return entityManager;
+            Stack<EntityManager> emStack = this.getStack();
+				log.debug("Creating and registering a new EntityManager.");
+				EntityManager em = this.emf.createEntityManager();
+				emStack.push(em);
+				return em;
 		}
+      
+      @Override
+      public EntityManager getOrCreateAndRegister( boolean requiresNew ) {
+            Stack<EntityManager> emStack = this.getStack();
+            EntityManager em;
+            if( requiresNew || emStack.isEmpty() ){
+               log.debug("Creating and registering a new EntityManager.");
+               em = this.emf.createEntityManager();
+	         }
+            else {
+               log.debug("Re-using current EntityManager." );
+               em = emStack.peek();
+            }
+            emStack.push(em); // Add it once more - we will not care in unregister().
+            return em;
+      }
+      
 
 		/**
 		 * Removes an entity manager from the thread local stack. It needs to be created using the
-		 * {@link #createAndRegister()} method.
+		 * {@link #createAndRegister()} or {@link #getOrCreateAndRegister(boolean)} method.
 		 *
-		 * @param entityManager - the entity manager to remove
-		 * @throws IllegalStateException in case the entity manager was not found on the stack
+		 * @param em - the entity manager to remove
+		 * @throws IllegalStateException in case the entity manager was not found on the stack.
 		 */
 		@Override
-		public void unregister(EntityManager entityManager) {
+		public void unregister( EntityManager em )
+      {
 				log.debug("Unregistering an entity manager");
-				final Stack<EntityManager> entityManagerStack = emStackThreadLocal.get();
-				if (entityManagerStack == null || entityManagerStack.isEmpty()) {
-						throw new IllegalStateException("Removing of entity manager failed. Your entity manager was not found.");
+				final Stack<EntityManager> emStack = this.emStackThreadLocal.get();
+				if( emStack == null || emStack.isEmpty()) {
+						throw new IllegalStateException("Removing of entity manager failed - no EntityManager was on stack.");
 				}
 
-				if (entityManagerStack.peek() != entityManager) {
-						throw new IllegalStateException("Removing of entity manager failed. Your entity manager was not found.");
+				if( emStack.peek() != em ) {
+						throw new IllegalStateException("Removing of entity manager failed - other EntityManager was on top of stack.");
 				}
-				entityManagerStack.pop();
+				emStack.pop();
 		}
 
       
@@ -195,7 +214,18 @@ public class EntityManagerStoreImpl implements EntityManagerStore
             }
             return classes;
       }
+
       
+      
+      private Stack<EntityManager> getStack() {
+				Stack<EntityManager> emStack = this.emStackThreadLocal.get();
+				if (emStack == null) {
+						emStack = new Stack<EntityManager>();
+						this.emStackThreadLocal.set(emStack);
+				}
+            return emStack;
+      }
+
       
       
 }// class

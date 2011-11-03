@@ -14,7 +14,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
-import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
+import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
 import org.jboss.jawabot.state.ent.Group;
 import org.jboss.jawabot.web.JawaBotSession;
 import org.jboss.jawabot.web._co.GroupLinkPanel;

@@ -15,7 +15,7 @@ import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
-import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
+import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

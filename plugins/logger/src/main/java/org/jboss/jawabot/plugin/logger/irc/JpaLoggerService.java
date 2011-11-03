@@ -1,8 +1,5 @@
 package org.jboss.jawabot.plugin.logger.irc;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +11,6 @@ import javax.persistence.NoResultException;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.jboss.jawabot.plugin.logger.ent.ChannelSettings;
-import org.jboss.weld.environment.se.jpa.IEntitiesPackagesProvider;
 import org.jboss.weld.environment.se.jpa.JpaTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +51,7 @@ public class JpaLoggerService implements ILoggerService {
    public void setLoggingEnabledForChannel( String ch, boolean enabled ){
       this.channelsEnabled.put( ch, enabled );
       try {
-         ChannelSettings chs = em.createQuery("SELECT chs FROM ChannelSettings chs WHERE name = ?", ChannelSettings.class).setParameter(1, ch).getSingleResult();
+         ChannelSettings chs = em.createQuery("SELECT chs FROM ChannelSettings chs WHERE channel = ?", ChannelSettings.class).setParameter(1, ch).getSingleResult();
          chs.setLoggingEnabled( enabled );
          em.merge( chs );
       }catch( NoResultException ex ){

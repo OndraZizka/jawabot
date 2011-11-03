@@ -11,6 +11,7 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 
 /**
  * Now, we can create a transaction interceptor. It will start a transaction before a transactional method is called and commit it after the method was executed.
@@ -24,6 +25,11 @@ import javax.persistence.EntityManager;
  * method was called.
  * It does not support any kind of context propagation. If a transactional method calls another's bean transactional
  * method a new entity manager is created and added to the stack.
+ * 
+ * 
+ * TODO:  Design note:  Either EntityManagerStore's stuff should probably be right in this interceptor,
+ *                      or the transaction should also be managed there.
+ *                      How it's done now spends too much code on querying the store.
  *
  * @author Sebastian Hennebrueder
  */
@@ -39,39 +45,53 @@ public class JpaTransactionInterceptor {
       @PostConstruct
 		public Object runInTransaction( InvocationContext invocationContext ) throws Exception {
 
-            log.debug(" In "+JpaTransactionInterceptor.class.getSimpleName() 
+            log.debug(" --- In "+JpaTransactionInterceptor.class.getSimpleName() 
                     +" - @AroundInvoke for " 
+                    + invocationContext.getMethod().getName()  + " "
                     + invocationContext.getTarget().getClass().getSimpleName()
-                    + invocationContext.getMethod().getName() );
-
+                    );
+            
+            // Transaction type - REQUIRED or REQUIRES_NEW ?
+            boolean wantsNew = invocationContext.getMethod().getAnnotation(JpaTransactional.class).value() == JpaTransactional.Type.REQUIRES_NEW;
+            boolean needsNew = wantsNew || ! this.entityManagerStore.has();
+            
 				// Create / get EM.
-				EntityManager em = entityManagerStore.createAndRegister();
+				//EntityManager em = this.entityManagerStore.createAndRegister();
+            EntityManager em = this.entityManagerStore.getOrCreateAndRegister( needsNew );
 
 				Object result = null;
 				try {
-                  log.debug("  Starting transaction...");
-						em.getTransaction().begin();
+                  if( needsNew || ! em.getTransaction().isActive() ){
+                     log.debug("  Starting transaction...");
+                     em.getTransaction().begin();
+                  }
+                  
                   log.debug("  Invoking the intercepted method...");
 						result = invocationContext.proceed();
-                  log.debug("  Committing transaction...");
-						em.getTransaction().commit();
+                  
+                  if( needsNew ){
+                     log.debug("  Committing transaction...");
+                     em.getTransaction().commit();
+                  }
 				}
-				catch (Exception e) {
+				catch( Exception ex ) {
 						try {
-								if (em.getTransaction().isActive()) {
+								if( em.getTransaction().isActive() ) {
+										log.info("Rolled back transaction because of: " + ex);
 										em.getTransaction().rollback();
-										log.debug("Rolled back transaction");
 								}
 						}
-						catch (HibernateException e1) {
-								log.warn("Rollback of transaction failed: " + e1);
+						catch( PersistenceException ex2 ) {
+								log.warn("Rollback of transaction failed: " + ex2);
 						}
-						throw e;
+						throw ex;
 				}
 				finally {
-						if (em != null) {
-								entityManagerStore.unregister(em);
-								em.close();
+						if( em != null ) {
+                        log.debug("Unregistering and closing EntityManager " + em);
+                        this.entityManagerStore.unregister(em);
+                        if( needsNew )
+                           em.close();
 						}
 				}
 

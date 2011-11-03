@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
-import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
+import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
 import org.jboss.jawabot.web._pg.PasteBinShowPage;
 
 /**

@@ -44,8 +44,10 @@ public class LoggerIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
       }
       
       // Was not a command, log the message.
-      if( ! this.loggerService.isLoggingEnabledForChannel( msg.getChannel() ) )
+      if( ! this.loggerService.isLoggingEnabledForChannel( msg.getChannel() ) ){
+         log.debug("Logging not enabled for this channel: " + msg.getChannel() );
          return;
+      }
       this.loggerService.storeMessage( msg );
    }
 
