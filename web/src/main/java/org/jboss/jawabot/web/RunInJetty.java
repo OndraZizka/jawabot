@@ -39,13 +39,13 @@ public class RunInJetty
    {
 
       Server server = new Server( 8080 );
-      //Context ctx = new Context( server, "/", Context.NO_SECURITY | Context.SESSIONS );
+      Context ctx = new Context( server, "/", Context.NO_SECURITY | Context.SESSIONS );
       /// new approach
-      //WebAppContext ctx = new WebAppContext( server, "foo", "/");
-      WebAppContext ctx = new WebAppContext();
+      /*/WebAppContext ctx = new WebAppContext();
       ctx.setServer( server );
       ctx.setContextPath("/");
       //ctx.setConfigurationClasses(  );
+      /**/
       
 
 
