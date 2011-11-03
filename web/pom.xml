@@ -19,7 +19,7 @@
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <wicket.version>1.4.16</wicket.version>
+      <wicket.version>1.4.17</wicket.version>
       <jetty.version>6.1.26</jetty.version>
    </properties>
    
@@ -63,10 +63,20 @@
             <executions>
                <execution> <id>generate-rebel-xml</id> <phase>process-resources</phase> <goals> <goal>generate</goal> </goals> </execution>
             </executions>
+            <!--
+            <configuration>
+               <relativePath>../</relativePath>
+               <!- - Set the property in JRebel configuration or as -Dmyproject.root=c:/projects/ - ->
+               <rootPath>$${jawabot.root}</rootPath>
+            </configuration>
+            -->
          </plugin>
       </plugins>
 
    </build>
+
+
+
 
 
 

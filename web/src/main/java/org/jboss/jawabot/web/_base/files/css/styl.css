@@ -54,6 +54,12 @@ a:visited { color: #aa4400; }
 }
 #menu a { text-decoration: none; }
 
+
+#menu .level0 .header {
+   background-color: #DD0000;
+   color: white;
+}
+
 #menu .level0 > span {
    display: block;
    padding: 1px 0;
@@ -66,6 +72,11 @@ a:visited { color: #aa4400; }
 #menu ul.level1 {
    padding: 2px 0px 6px;
 }
+
+
+
+
+/* ---------------------------------------- */
 
 
 #obsah {
