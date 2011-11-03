@@ -2,17 +2,16 @@
 package org.jboss.jawabot.web._co.menu;
 
 
-import cz.dynawest.wicket.LabelLink;
 import org.jboss.jawabot.web._base.ConveniencePageBase;
 import java.util.List;
 import javax.inject.Inject;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
+import org.jboss.jawabot.FromJawaBot;
 import org.jboss.jawabot.Resource;
+import org.jboss.jawabot.ResourceManager;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
 import org.jboss.jawabot.plugin.pastebin.ent.PasteBinEntry;
 import org.jboss.jawabot.state.ent.Group;
@@ -20,7 +19,6 @@ import org.jboss.jawabot.web.JawaBotSession;
 import org.jboss.jawabot.web._co.GroupLinkPanel;
 import org.jboss.jawabot.web._co.PastebinLinkPanel;
 import org.jboss.jawabot.web._co.ResourceLinkPanel;
-import org.jboss.jawabot.web._pg.PasteBinPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +31,10 @@ public class MenuPanel extends Panel
 {
    private static final Logger log = LoggerFactory.getLogger( MenuPanel.class );
    
+   
    @Inject private JpaPasteBinManager pbManager;
+   
+   @Inject @FromJawaBot private ResourceManager resourceManager;
 
    
    public MenuPanel( String id ) {
@@ -50,7 +51,9 @@ public class MenuPanel extends Panel
 
 
       // Resources.
-      List<Resource> resources = ((ConveniencePageBase)getPage()).getJawaBot().getResourceManager().getResourcesWithNoReservations();
+      
+      //List<Resource> resources = ((ConveniencePageBase)getPage()).getJawaBot().getResourceManager().getResourcesWithNoReservations();
+      List<Resource> resources = this.resourceManager.getResourcesWithNoReservations();
 
       add(new ListView<Resource>("resourceList", new ListModel( resources ) ) {
         @Override protected void populateItem(ListItem<Resource> item) {
@@ -59,14 +62,16 @@ public class MenuPanel extends Panel
       });
 
       
-      // Groups
-      List<Group> groups = ((ConveniencePageBase)getPage()).getJawaBot().getGroupManager().getAllGroups_OrderByName();
+      // Groups.
       
-      add(new ListView<Group>("groupList", new ListModel( groups ) ) {
+      //List<Group> groups = ((ConveniencePageBase)getPage()).getJawaBot().getGroupManager().getAllGroups_OrderByName();
+      //List<Group> groups = this.groupManager.getAllGroups_OrderByName();
+      
+      /*add(new ListView<Group>("groupList", new ListModel( groups ) ) {
         @Override protected void populateItem(ListItem<Group> item) {
            item.add( new GroupLinkPanel("link", item.getModelObject()));
         }
-      });
+      });/**/
       
       
       // PasteBin
@@ -93,5 +98,13 @@ public class MenuPanel extends Panel
   @Override public JawaBotSession getSession(){ return (JawaBotSession) super.getSession(); } // TODO: CDI.
   
   private boolean isUserLogged(){ return null != getSession().getLoggedUser(); }
+
+   @Override
+   protected void onDetach() {
+      this.resourceManager = null;
+      super.onDetach();
+   }
+  
+  
 
 }// class MenuPanel

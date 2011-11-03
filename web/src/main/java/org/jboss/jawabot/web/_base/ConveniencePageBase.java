@@ -12,6 +12,7 @@ import org.jboss.jawabot.ResourceManager;
 /**
  * This abstracts access to this app's managers and makes it easier.
  * @author Ondrej Zizka
+ * @deprecated in favor of CDI
  */
 public class ConveniencePageBase extends WebPage {
 
