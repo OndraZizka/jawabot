@@ -2,6 +2,7 @@
 package org.jboss.jawabot.irc;
 
 import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
+import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
@@ -239,12 +240,14 @@ public class JawaIrcBot extends PircBot
                nickToTry = cnf.irc.defaultNick + "-" + i;
                //log.info("Changing nick to '"+nickToTry+"'...");
                //this.changeNick(nickToTry);
+            }catch( UnknownHostException ex ){
+                throw new JawaBotException("Unknown host: " + server.host );
             }
          }
          throw new JawaBotException("Could not find unique nick after " + 5 + " attempts, giving up.");
       }
       catch( Exception ex ){
-         String msg = "Exception when connecting to the server "+server.host+": "+ex;
+         String msg = "Exception when connecting to server "+server.host+": "+ex;
          throw new JawaBotException(msg, ex);
       }
 
