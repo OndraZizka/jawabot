@@ -15,7 +15,7 @@ import java.util.Map;
 
  * @author Sebastian Hennebrueder
  */
-@ApplicationScoped
+//@ApplicationScoped
 public class EntityManagerDelegate implements EntityManager {
 
 	@Inject

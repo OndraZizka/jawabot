@@ -8,11 +8,9 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.jboss.seam.solder.beanManager.BeanManagerProvider;
 
 /**
-* A {@link BeanManagerProvider} that looks it up from servletContext. ServletContext is previously resolved from Wicket
-* application.
+* A {@link BeanManagerProvider} that looks it up from servletContext. ServletContext is previously resolved from Wicket application.
 *
 * @author Marek Smigielski
-*
 */
 public class ServletContextBeanManagerProvider implements BeanManagerProvider {
 
@@ -32,4 +30,3 @@ public class ServletContextBeanManagerProvider implements BeanManagerProvider {
     }
 
 }
-
