@@ -12,6 +12,7 @@ import org.jboss.jawabot.ex.JawaBotException;
 import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
+import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.model.IrcMessage;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
 import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
@@ -30,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * 
  *  @author Ondrej Zizka
  */
-public class PasteBinIrcPluginHook implements IIrcPluginHook<Object> 
+public class PasteBinIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHook<Object> 
 {
    private static final Logger log = LoggerFactory.getLogger(PasteBinIrcPluginHook.class);
    
@@ -88,22 +89,7 @@ public class PasteBinIrcPluginHook implements IIrcPluginHook<Object>
    }
    
 
-   @Override
-   public void initModule(Object initObject) throws JawaBotException {
-   }
-
-   @Override
-   public void startModule() throws JawaBotException {
-   }
-
-   @Override
-   public void stopModule() throws JawaBotException {
-   }
-
-   @Override
-   public void destroyModule() throws JawaBotException {
-   }
-
+   
    private PasteBinEnterSession startPasteBinEnterSession( String paster, String challenger, String channel ) {
       PasteBinEnterSession sess = new PasteBinEnterSession(paster, challenger, channel);
       this.userToSession.put( paster, sess );
