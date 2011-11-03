@@ -37,7 +37,7 @@ public class JawaBot
    public ConfigBean getConfig() {      return config;   }
 
    private final MailUtils mailUtils = new MailUtils( this.config );
-   @Produces @FromJawaBot public MailUtils getMailUtils() { return this.mailUtils; }
+   @Produces /*@FromJawaBot*/ public MailUtils getMailUtils() { return this.mailUtils; }
 
    private boolean initialized = false;
    public boolean isInitialized() {      return initialized;   }
@@ -72,10 +72,6 @@ public class JawaBot
 
 	/** Const */
 	public JawaBot() {
-      // Log the quit password.
-      log.info("");
-      log.info("                        ***  QUIT PASSWORD: "+this.quitPassword+"  ***");
-      log.info("");
 	}
 
 
@@ -88,6 +84,10 @@ public class JawaBot
       if( this.initialized )
          log.warn("Already initialized.");
 
+      // Log the quit password.
+      log.info("");
+      log.info("                        ***  QUIT PASSWORD: "+this.quitPassword+"  ***");
+      log.info("");
      
       // Store the quit password.
       try {
