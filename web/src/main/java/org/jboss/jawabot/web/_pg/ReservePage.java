@@ -1,7 +1,6 @@
 
 package org.jboss.jawabot.web._pg;
 
-import org.jboss.jawabot.web._base.BaseLayoutPage;
 import cz.dynawest.util.DateUtils;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +18,7 @@ import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.web.WicketApplication;
+import org.jboss.jawabot.web._base.BaseLayoutPage;
 
 /**
  * Reservation creation form.

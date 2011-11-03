@@ -2,7 +2,6 @@
 package org.jboss.jawabot.web._pg;
 
 
-import org.jboss.jawabot.web._base.BaseLayoutPage;
 import cz.dynawest.util.DateUtils;
 import cz.dynawest.wicket.BookmarkablePageLink;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -29,6 +27,7 @@ import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.state.ent.User;
+import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.web._co.ResourceLinkPanel;
 
 

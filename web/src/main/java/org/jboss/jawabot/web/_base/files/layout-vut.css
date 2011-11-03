@@ -1,10 +1,7 @@
-/* these styles are in the head of this page because this is a unique page */
+/* Main layout CSS. */
 
 /* THE BIG GUYS */
-* {
-	margin: 0;
-	padding: 0;
-}
+* { margin: 0; padding: 0; }
 
 body {
 	text-align: center;
@@ -16,10 +13,7 @@ body {
 	font: 83%/1.5 arial,tahoma,verdana,sans-serif;
 }
 
-img {
-	border: none;
-	display: block;
-}
+img { border: none; }
 
 hr {
 	margin: 1em 0;
@@ -123,6 +117,11 @@ dt {
 	padding: 0 20px;
 }
 
+
+
+#menu_container { width: 230px; }
+
+
 /* TYPOGRAPHY */
 p, ul, ol {
 	margin: 0 0 1.5em;
@@ -142,27 +141,11 @@ h1 {
 	margin-top: 0;
 	border: none;
 }
-
-h2 {
-	font-size: 136%;
-}
-
-h3 {
-	font-size: 126%;
-}
-
-h4 {
-	font-size: 116%;
-	font-weight: bold;
-}
-
-h5 {
-	font-size: 106%;
-}
-
-h6 {
-	font-size: 96%;
-}
+h2 { font-size: 136%; }
+h3 { font-size: 126%; }
+h4 { font-size: 116%; font-weight: bold; }
+h5 { font-size: 106%; }
+h6 { font-size: 96%; }
 
 h1 a {
 	text-decoration: none;

@@ -16,7 +16,8 @@ import org.apache.wicket.Session;
 import org.apache.wicket.devutils.inspector.InspectorPage;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
-import org.jboss.jawabot.web._base.BaseLayoutPage_1;
+import org.jboss.jawabot.web._base.BaseLayoutPage;
+import org.jboss.jawabot.web._base.BaseLayoutPage_Vut;
 
 /**
  * Application object for your web application. If you want to run this application without deploying, run the Start class.
@@ -56,7 +57,8 @@ public class WicketApplication extends WebApplication
       mountBookmarkablePage("leave", LeavePage.class);
       mountBookmarkablePage("debug", InspectorPage.class);
       mountBookmarkablePage("pastebin/new", PasteBinPage.class);
-      mountBookmarkablePage("cssTest", BaseLayoutPage_1.class);
+      mountBookmarkablePage("cssTest", BaseLayoutPage.class);
+      mountBookmarkablePage("vut", BaseLayoutPage_Vut.class);
       mount(new NonVersionedHybridUrlCodingStrategy("pastebin", PasteBinShowPage.class));
       //mountBookmarkablePage("group", GroupPage.class);
       //mountBookmarkablePage("login", LoginPage.class);

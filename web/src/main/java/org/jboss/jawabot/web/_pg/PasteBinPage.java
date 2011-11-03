@@ -2,7 +2,6 @@
 package org.jboss.jawabot.web._pg;
 
 
-import org.jboss.jawabot.web._base.BaseLayoutPage;
 import cz.dynawest.util.DateUtils;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,11 +26,11 @@ import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.util.string.Strings;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.Reservation;
-import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.pastebin.PasteBinEntry;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.state.ent.User;
+import org.jboss.jawabot.web._base.BaseLayoutPage;
 
 
 

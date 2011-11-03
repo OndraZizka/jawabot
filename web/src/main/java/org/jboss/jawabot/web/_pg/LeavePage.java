@@ -3,7 +3,7 @@ package org.jboss.jawabot.web._pg;
 
 
 
-import org.jboss.jawabot.web._base.BaseLayoutPage;
+import org.jboss.jawabot.web._base.BaseLayoutPage_orig;
 import cz.dynawest.util.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.Reservation;
 import org.jboss.jawabot.ReservationWrap;
+import org.jboss.jawabot.web._base.BaseLayoutPage;
 
 
 /**

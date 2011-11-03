@@ -1,12 +1,13 @@
 
 package org.jboss.jawabot.web._pg;
 
-import org.jboss.jawabot.web._base.BaseLayoutPage;
 import cz.dynawest.util.DateUtils;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.jawabot.pastebin.PasteBinEntry;
+import org.jboss.jawabot.web._base.BaseLayoutPage;
 
 
 /** 
@@ -16,7 +17,7 @@ import org.jboss.jawabot.pastebin.PasteBinEntry;
 public class PasteBinShowPage extends BaseLayoutPage {
 
    public PasteBinShowPage( PasteBinEntry entry ) {
-      super();
+      super( PageParameters.NULL );
 
       add( new Label( "by", new PropertyModel( entry, "by" ) ) );
       add( new Label( "for", new PropertyModel( entry, "for" ) ) );

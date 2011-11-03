@@ -16,10 +16,7 @@ import org.jboss.jawabot.web._pg.MenuPanel;
  */
 public class BaseLayoutPage_Vut extends ConveniencePageBase
 {
-  private static final Logger log = Logger.getLogger( BaseLayoutPage.class.getName() );
-
-  public BaseLayoutPage_Vut() {
-  }
+  private static final Logger log = Logger.getLogger( BaseLayoutPage_orig.class.getName() );
 
   public BaseLayoutPage_Vut( PageParameters parameters ) {
     super( parameters );

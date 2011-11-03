@@ -3,9 +3,7 @@ package org.jboss.jawabot.web._pg;
 
 
 
-import org.jboss.jawabot.web._base.BaseLayoutPage;
 import cz.dynawest.util.DateUtils;
-import cz.dynawest.wicket.BookmarkablePageLink;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,11 +19,11 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
+import org.jboss.jawabot.web._base.BaseLayoutPage;
 
 
 /**

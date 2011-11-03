@@ -2,7 +2,6 @@
 package org.jboss.jawabot.web._pg;
 
 
-import org.jboss.jawabot.web._base.BaseLayoutPage;
 import java.io.Serializable;
 import java.util.logging.*;
 import org.apache.wicket.PageParameters;
@@ -13,6 +12,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
+import org.jboss.jawabot.web._base.BaseLayoutPage;
 
 
 /**
