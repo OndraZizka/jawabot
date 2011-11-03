@@ -85,7 +85,11 @@ public class JawaIrcBot extends PircBot
     private CommandHandler commandHandler;
     
     
-    /**  Current handler of onChannelInfo().   PircBot callbacks are called synchronously, so we don't need synchronization. */
+    
+    
+    /**  Current handler of PircBot's onChannelInfo(). 
+     *   PircBot callbacks are called synchronously, so we don't need synchronization.
+     */
     private ChannelInfoHandler currentOnChannelInfoHandler = null;
     
     private void setCurrentChannelInfoHandler(ChannelInfoHandler handler) {
@@ -93,7 +97,7 @@ public class JawaIrcBot extends PircBot
     }
 
     
-    /**  Current handler of onUserList().  */
+    /**  Current handler of PircBot's onUserList().  */
     private Map<String, UserListHandler> currentOnUserListHandlers = new HashMap();
 
     private UserListHandler setCurrentUserListHandler(String channnel, UserListHandler handler) {
@@ -345,7 +349,7 @@ public class JawaIrcBot extends PircBot
      * Private IRC message - no channel, only from user.
      */
     @Override
-    protected void onPrivateMessage(String sender, String login, String hostname, String msgText) {
+    protected void onPrivateMessage( String sender, String login, String hostname, String msgText ) {
 
         // If it's a core command, don't pass it to  plugins.
         if (handleJawaBotCommand(null, sender, msgText.trim())) {
@@ -371,14 +375,14 @@ public class JawaIrcBot extends PircBot
    
     /**
      *  Decorator to save me handling exceptions everywhere.
+     *  TODO: Filter repeated exceptions.
      */
     private static abstract class ExceptionHandlerDecorator {
 
-        public void handle( /*IIrcPluginHook plugin,*/IrcEvMessage msg, IrcBotProxy pircBotProxy ) {
+        public void handle( /*IIrcPluginHook plugin,*/ IrcEvMessage msg, IrcBotProxy pircBotProxy ) {
             try {
                 this.doIt( msg, pircBotProxy );
-            } // TODO: Filter repeated exceptions.
-                
+            }
             //catch( IrcPluginException ex ) {
             catch( NullPointerException ex ) {
                 log.error( "Plugin misbehaved: " + ex, ex );

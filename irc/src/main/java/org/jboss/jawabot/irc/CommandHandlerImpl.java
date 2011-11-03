@@ -348,7 +348,7 @@ public class CommandHandlerImpl implements CommandHandler
          }
 
          // Join.
-         reply.addReply( "Joining "+channelToJoin );
+         reply.addReply( "Joining channel: "+channelToJoin );
          this.getIrcBot().joinChannel( channelToJoin );
       }
       while( false );
@@ -379,22 +379,14 @@ public class CommandHandlerImpl implements CommandHandler
       CommandReply reply = new CommandReply();
       reply.wasSuccessful = true;
 
-      reply.addReply(
-                  "Hi, I'm a bot which makes reservations of resources, mainly Brno lab machines. Version: "+JawaBotApp.VERSION);
-      reply.addReply(
-                  "If you want me in your channel, type 'join #my-channel', or type '/invite " + this.getIrcBot().getNick() + "' in that channel.");
-      reply.addReply(
-                  "If you don't like me, kick me off. Or say '"+this.getIrcBot().getNick()+" please leave'.");
-      reply.addReply(
-                  "Basic usage: list [<resource>] ");
-      reply.addReply(
-                  "             find [<from-date> [<to-date>]] ");
-      reply.addReply(
-                  "             ( take | keep ) <resource[,resource]> [<from> [<to-date>]] # <comment to mail>");
-      reply.addReply(
-                  "             leave ( <resource[,resource]> | all )");
-      reply.addReply(
-                  "For more info, see " + JawaBotApp.PROJECT_DOC_URL);
+      reply.addReply("Hi, I'm a bot which makes reservations of resources, mainly Brno lab machines. Version: "+JawaBotApp.VERSION);
+      reply.addReply("If you want me in your channel, type 'join #my-channel', or type '/invite " + this.getIrcBot().getNick() + "' in that channel.");
+      reply.addReply("If you don't like me, kick me off. Or say '"+this.getIrcBot().getNick()+" please leave'.");
+      //reply.addReply("Basic usage: list [<resource>] ");
+      //reply.addReply("             find [<from-date> [<to-date>]] ");
+      //reply.addReply("             ( take | keep ) <resource[,resource]> [<from> [<to-date>]] # <comment to mail>");
+      //reply.addReply("             leave ( <resource[,resource]> | all )");
+      reply.addReply("For more info, see " + JawaBotApp.PROJECT_DOC_URL);
 
       return reply;
    }
