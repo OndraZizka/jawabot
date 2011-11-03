@@ -1,6 +1,6 @@
 package org.jboss.jawabot.web;
 
-import cz.dynawest.wicket.LoggingUtils;
+import java.util.Iterator;
 import org.jboss.jawabot.web._pg.LoginPage;
 import org.jboss.jawabot.web._pg.PasteBinShowPage;
 import org.jboss.jawabot.web._pg.LeavePage;
@@ -9,13 +9,16 @@ import org.jboss.jawabot.web._pg.HomePage;
 import org.jboss.jawabot.web._pg.PasteBinPage;
 import org.jboss.jawabot.web._pg.TakePage;
 import cz.dynawest.wicket.NonVersionedHybridUrlCodingStrategy;
-import cz.dynawest.wicket.PatternDateConverterThreadLocal;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
 import org.apache.wicket.devutils.inspector.InspectorPage;
 import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
+import org.jboss.jawabot.mod.web.IPageMount;
+import org.jboss.jawabot.mod.web.MountProxy;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.web._base.BaseLayoutPage_Vut;
 import org.jboss.jawabot.web._pg.test.CheckBoxMultipleChoiceTestPage;
@@ -30,17 +33,13 @@ import org.slf4j.LoggerFactory;
  * Application object for your web application. If you want to run this application without deploying, run the Start class.
  * 
  * Extends SeamApplication instead of WebApplication - I am about to try CDI with Seam-Wicket.
- * 
- * @see cz.dw.test.Start#main(String[])
  */
 public class WicketApplication extends InjectingSeamApplication
 {
-   static { LoggingUtils.setFormatOfAllAppenders(); }
    private static final Logger log = LoggerFactory.getLogger( WicketApplication.class );
-   static { LoggingUtils.setFormatOfAllAppenders(); }
 
-   private static PatternDateConverterThreadLocal patternDateConverterTL = new PatternDateConverterThreadLocal("yyyy-MM-dd", true);
-   public static PatternDateConverterThreadLocal getPatternDateConverterTL() { return patternDateConverterTL; }
+   
+   @Inject private Instance<IPageMount> pageMounts;
 
 
 
@@ -84,6 +83,12 @@ public class WicketApplication extends InjectingSeamApplication
       mountBookmarkablePage("debug", InspectorPage.class);
       mountBookmarkablePage("cssTest",  BaseLayoutPage.class);
       mountBookmarkablePage("vutTest",  BaseLayoutPage_Vut.class);
+      
+      
+      // Mount plugin pages.
+      for( IPageMount pm : this.pageMounts ){
+         pm.mount( new MountProxy(this) );
+      }
       
       
       getMarkupSettings().setStripWicketTags(true);

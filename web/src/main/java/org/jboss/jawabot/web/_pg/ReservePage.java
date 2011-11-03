@@ -2,6 +2,7 @@
 package org.jboss.jawabot.web._pg;
 
 import cz.dynawest.util.DateUtils;
+import cz.dynawest.wicket.PatternDateConverterThreadLocal;
 import java.util.Date;
 import java.util.List;
 import org.apache.wicket.PageParameters;
@@ -41,6 +42,11 @@ public class ReservePage extends BaseLayoutPage {
    private Date dateTo = null;
    private String owner = null;
    private String note = null;
+   
+   
+   private static PatternDateConverterThreadLocal patternDateConverterTL = new PatternDateConverterThreadLocal("yyyy-MM-dd", true);
+   public static PatternDateConverter getPatternDateConverter() { return patternDateConverterTL.get(); }
+   
 
    //<editor-fold defaultstate="collapsed" desc="get set">
    public Date getDateFrom() { return dateFrom; }
@@ -88,7 +94,7 @@ public class ReservePage extends BaseLayoutPage {
       // User.
       form.add( new TextField( "owner", new PropertyModel( this, "owner" )) );
       // Date pickers
-      PatternDateConverter pdc = WicketApplication.getPatternDateConverterTL().get();
+      PatternDateConverter pdc = this.patternDateConverterTL.get();
       //form.add( new DateTextField("dateFrom", new PropertyModel<Date>( this, "dateFrom" ), pdc ) );
       //form.add( new DateTextField("dateTo",   new PropertyModel<Date>( this, "dateTo" ), pdc ) );
       form.add( new DateTextField( "dateFrom", new PropertyModel<Date>( this, "dateFrom" ), "yyyy-MM-dd"));

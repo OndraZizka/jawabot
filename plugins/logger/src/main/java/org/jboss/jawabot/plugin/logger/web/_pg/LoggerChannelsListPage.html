@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="cz" lang="cz">
+<head/>
+<body>
+
+<wicket:extend>
+
+   <h2>Logged Channels</h2>
+
+   <table border="0" class="common ">
+      <thead>
+         <tr>
+            <th>channel</th>
+            <th>logged since</th>
+            <th>last message</th>
+         </tr>
+      </thead>
+      <tbody wicket:id="channels">
+         <tr wicket:id="channel">
+            <td><a href="#" wicket:id="name"><span xwicket:id="label">#jbossqa</span></a></td>
+            <td><span wicket:id="since">2011-03-17</span></td>
+            <td><span wicket:id="until">2011-07-20</span></td>
+         </tr>
+      </tbody>
+   </table>
+
+</wicket:extend>
+
+</body>
+</html>
