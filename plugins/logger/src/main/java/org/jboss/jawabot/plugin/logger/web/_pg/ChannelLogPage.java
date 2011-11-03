@@ -3,6 +3,7 @@ package org.jboss.jawabot.plugin.logger.web._pg;
 import java.io.Serializable;
 import java.util.Date;
 import javax.inject.Inject;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
@@ -19,7 +20,6 @@ import org.jboss.jawabot.plugin.irc.Channel;
 import org.jboss.jawabot.plugin.irc.ChannelManager;
 import org.jboss.jawabot.plugin.logger.web._co.ChannelLogLinkSimplePanel;
 import org.jboss.jawabot.plugin.logger.web._co.ChannelLogPanel;
-import org.jboss.jawabot.plugin.logger.web._co.LoggedChannelsListPanel;
 import org.jboss.jawabot.plugin.logger.web._menu.LoggerMenuPanel;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.slf4j.Logger;
@@ -41,6 +41,7 @@ public class ChannelLogPage extends BaseLayoutPage implements Serializable {
     
     // Page state.
     private boolean hideJoinsParts = false;
+    private boolean hideNickChanges = false;
     
     // Components.
     private Form navigForm;
@@ -94,6 +95,15 @@ public class ChannelLogPage extends BaseLayoutPage implements Serializable {
             }
         });
         
+        // Checkbox - nick changes.
+        this.navigForm.add(new AjaxCheckBox("hideNickChanges", new PropertyModel<Boolean>(this, "hideNickChanges")) {
+            protected void onUpdate(AjaxRequestTarget target) {
+                //target.appendJavascript("document.getElementById('channelLogPanel').className = 'onlyMessages';");
+                //String on = hideNickChanges ? "true" : "false";
+                target.appendJavascript("$('#eventLog').toggleClass('hideNickChanges', "+hideNickChanges+");");
+            }
+        });
+        
         // Buttons.
         this.navigForm.add( new AjaxFallbackButton("show", this.navigForm) {
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -117,6 +127,16 @@ public class ChannelLogPage extends BaseLayoutPage implements Serializable {
                 target.addComponent( logPanel );
                 logPanel.getCrit().adjustSinceByDays(+1);
                 logPanel.getCrit().adjustUntilByDays(+1);
+            }
+        });
+
+        this.navigForm.add( new AjaxFallbackButton("last2days", this.navigForm) {
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                target.addComponent( navigForm );
+                target.addComponent( logPanel );
+                Date now = new Date();
+                logPanel.getCrit().setSince( DateUtils.addDays( now, -2 ) );
+                logPanel.getCrit().setUntil( now );
             }
         });
 
