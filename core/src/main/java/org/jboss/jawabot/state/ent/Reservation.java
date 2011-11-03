@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
  * 
  * @author Ondrej Zizka
  */
-@Entity(name="Grp") // Group is a reserved JPA QL name.
+@Entity(name="Reservation") // Group is a reserved JPA QL name.
 @Table(name = "jw_reserv")
 @NamedQueries({
    @NamedQuery(name = "Reservation.findAll", query = "SELECT r FROM Reservation r"),
