@@ -19,7 +19,7 @@ import org.jboss.jawabot.config.beans.*;
  *
  * @author Ondrej Zizka
  */
-public class JaxbConfigPersister implements ConfigPersister
+public class JaxbConfigPersister
 {
    private static final Logger log = LoggerFactory.getLogger(JaxbConfigPersister.class);
 
@@ -42,12 +42,10 @@ public class JaxbConfigPersister implements ConfigPersister
    /**
     * Loads the configuration from the file (set by setFilePath).
     * @returns new JawaBot configured according to the loaded configuration.
-    * TODO: Move to the JawaBot class.
     */
-   @Override
    public ConfigBean load() throws JawaBotIOException
    {
-        log.info( "Loading config from: " + this.filePath );
+       log.info( "Loading config from: " + this.filePath );
 
        try {
            // Try filesystem, then classpath.
@@ -92,21 +90,21 @@ public class JaxbConfigPersister implements ConfigPersister
 	public void save( ConfigBean configBean ) throws JawaBotIOException {
 
 
-      // Store it to a XML.
-		try {
-         Writer writer = this.writer;
-         if( null == writer )
-            writer = new FileWriter( this.filePath );
+        // Store it to a XML.
+        try {
+            Writer writer = this.writer;
+            if( null == writer )
+                writer = new FileWriter( this.filePath );
 
-         JAXBContext jc = JAXBContext.newInstance( ConfigBean.class );
-         Marshaller mc = jc.createMarshaller();
-         mc.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			mc.marshal( configBean, writer );
-		}
-		catch (/*JAXB*/Exception ex) {
-			throw new JawaBotIOException( ex );
-		}
-      
+            JAXBContext jc = JAXBContext.newInstance( ConfigBean.class );
+            Marshaller mc = jc.createMarshaller();
+            mc.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
+            mc.marshal( configBean, writer );
+        }
+        catch(/*JAXB*/ Exception ex ) {
+            throw new JawaBotIOException( ex );
+        }
+
 	}
 
 
