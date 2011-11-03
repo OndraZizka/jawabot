@@ -4,6 +4,7 @@ import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.jboss.jawabot.config.beans.ConfigBean;
@@ -11,8 +12,10 @@ import org.jboss.jawabot.ex.JawaBotException;
 import org.apache.log4j.Logger;
 import org.jboss.jawabot.config.JaxbConfigPersister;
 import org.jboss.jawabot.usermgr.UserManager;
+import org.jboss.weld.environment.se.StartMain;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
+import org.jboss.weld.environment.se.events.ContainerInitialized;
 import org.jboss.weld.environment.se.jpa.EntityManagerStore;
 
 
@@ -20,12 +23,7 @@ import org.jboss.weld.environment.se.jpa.EntityManagerStore;
 public class JawaBotApp
 {
    private static final Logger log = Logger.getLogger(JawaBotApp.class);
-   /*static{
-      org.apache.log4j.BasicConfigurator.configure();
-   }*/
-   
-   //@Inject private BeanManager beanManager;
-   
+
    @Inject private Instance<IModuleHook> moduleHookInstances;
    @Inject private EntityManagerStore emf; // To have it created at the very start.
    
@@ -59,7 +57,8 @@ public class JawaBotApp
 
       WeldContainer weld = new Weld().initialize();
       JawaBotApp jawaBotApp = weld.instance().select(JawaBotApp.class).get();
-      weld.getBeanManager().getContext(ApplicationScoped.class);
+      JawaBotApp.beanManager = weld.getBeanManager();
+      weld.event().select( ContainerInitialized.class ).fire( new ContainerInitialized() );
       
       jawaBotApp.run(args);
    }
@@ -94,8 +93,14 @@ public class JawaBotApp
       JawaBotApp.jawaBot = JawaBot.create( cb );
    }
 
+
+   /**
+    *  This is here for JawaBotAppBeanManagerProvider.
+    */
+   public static BeanManager getBeanManager() { return beanManager; }
+   private static BeanManager beanManager;
    
-   
+      
    /**
     *  Id's for object lookups.
     */
