@@ -18,44 +18,6 @@ public class ReservationIrcPluginHook extends IrcPluginHookBase implements IIrcP
    private static final Logger log = LoggerFactory.getLogger( ReservationIrcPluginHook.class );
 
    
-   // IRC stuff.
-
-
-    @Override
-    public void onJoin( IrcEvJoin event, IrcBotProxy bot ) {
-        if( ! this.isCanHaveOperator( event.getChannel(), event.getUser() ) )
-            return;
-        bot.op( event.getChannel(), event.getUser() );
-    }
-
-
-    @Override
-    public void onBotJoinChannel( String channel, IrcBotProxy bot ) {
-        
-        User[] users = bot.getUsers( channel );
-        for( User user : users ) {
-            if( user.isOp() )
-                continue;
-            if( ! this.isCanHaveOperator( channel, user.getNick() ) )
-                continue;
-            bot.op( channel, user.getNick() );
-        }
-        
-    }
-    
-    
-
-
-    /**
-     *  TODO: Perhaps get this info from database?
-     */
-    private boolean isCanHaveOperator( String channel, String user ) {
-        return true;
-    }
-   
-   
-   
-   
    
    
 
