@@ -10,7 +10,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.state.beans.StateBean;
 
@@ -20,7 +20,7 @@ import org.jboss.jawabot.state.beans.StateBean;
  */
 public class JaxbStatePersister implements StatePersister
 {
-   private static final Logger log = Logger.getLogger(JaxbStatePersister.class);
+   private static final Logger log = LoggerFactory.getLogger(JaxbStatePersister.class);
 
    public static final String DEFAULT_STATE_FILE_PATH = "JawaBotState.xml";
 
