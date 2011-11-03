@@ -12,7 +12,7 @@ import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.apache.log4j.Logger;
 import org.jboss.jawabot.config.JaxbConfigPersister;
-import org.jboss.jawabot.pastebin.PasteBinManager;
+import org.jboss.jawabot.plugin.pastebin.PasteBinManager;
 import org.jboss.jawabot.usermgr.UserManager;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;

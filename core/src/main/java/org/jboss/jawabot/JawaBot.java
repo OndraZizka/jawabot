@@ -16,7 +16,7 @@ import org.jboss.jawabot.state.beans.StateBean;
 import org.apache.log4j.Logger;
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.groupmgr.GroupManager;
-import org.jboss.jawabot.pastebin.PasteBinManager;
+import org.jboss.jawabot.plugin.pastebin.PasteBinManager;
 import org.jboss.jawabot.state.JaxbStatePersister;
 import org.jboss.jawabot.state.beans.ReservationBean;
 
