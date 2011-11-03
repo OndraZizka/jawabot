@@ -6,13 +6,17 @@
 	<meta name="Author" content="Ondra Žižka, ozizka at redhat.com"/>
 	<meta name="Description" content="JawaBot web UI"/>
    <wicket:link>
-	<link rel="stylesheet" type="text/css" href="files/dw_styles.css"/>
-	<link rel="stylesheet" type="text/css" href="files/common.css"/>
-	<link rel="stylesheet" type="text/css" href="files/layout-vut.css"/>
-   <link rel="shortcut icon" href="../files/favicon.ico" type="image/x-icon">
-   <script type="text/javascript" charset="utf-8" src="files/js/jquery.js"></script>
-   <script type="text/javascript" charset="utf-8" src="files/js/logout.js"></script>
+      <link rel="stylesheet" type="text/css" href="files/dw_styles.css"/>
+      <link rel="stylesheet" type="text/css" href="files/common.css"/>
+      <link rel="stylesheet" type="text/css" href="files/layout-vut.css"/>
+      <link rel="shortcut icon" href="files/favicon.ico" type="image/x-icon">
    </wicket:link>
+   <!--
+   <wicket:head>
+      <script type="text/javascript" charset="utf-8" src="files/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="files/js/logout.js"></script>
+   </wicket:head>
+   -->
    <style>
       #header h1 a { text-decoration: none; color: white; }
    </style>
@@ -34,7 +38,7 @@
      <table border="0" cellspacing="0" cellpadding="0" style="width:100%"><tr>
            
      <!-- Menu -->
-     <td valign="top">
+     <td valign="top" width="100">
        <div id="menu_container">
 
              <!-- Menu -->
@@ -47,7 +51,7 @@
 
 
      <!-- MAIN CELL -->
-     <td valign="top">
+     <td valign="top" width="94%">
 
              <!-- Obsah -->
              <div class="obsah" id="obsah">
