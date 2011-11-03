@@ -60,6 +60,10 @@ public class ChannelLogPanel extends Panel implements Serializable {
    private static final AbstractBehavior NOOP_BEHAV = new AbstractBehavior() {}; //AttributeModifier("non-existent", new Model());
    
    
+   // Controls show/hide date delimiter. Should be reset before rendering.
+   int lastDay = -1;
+   
+   
    // Only used once to setDefaultModel()! I don't know how to get rid of it.
    @Deprecated
    @Inject IrcEventCriteriaLDM model;
@@ -93,7 +97,7 @@ public class ChannelLogPanel extends Panel implements Serializable {
                 
         // Plain table
         add( new ListView<IrcEvent>("events", ldm ) {
-           int lastDay = -1;
+           
            @Override protected void populateItem( ListItem<IrcEvent> item ) {
               IrcEvent ev = item.getModelObject();
               
@@ -138,7 +142,17 @@ public class ChannelLogPanel extends Panel implements Serializable {
            }
         });
 
-   }
+   }// onInitialize()
+
+   
+    /** This ensures that a delimiter will be at the top. */
+    @Override
+    protected void onBeforeRender() {
+        super.onBeforeRender();
+        this.lastDay = -1;
+    }
+   
+   
    
    
    /**
@@ -156,7 +170,7 @@ public class ChannelLogPanel extends Panel implements Serializable {
    
    
    /**
-    *  Keeps a mappng of nick -> color.
+    *  Keeps a mapping of nick -> color.
     *  These colors are derived from the string, i.e. not random.
     */
    static class NickToColor {
