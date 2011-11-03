@@ -26,8 +26,11 @@ import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.config.beans.ServerBean;
+import org.jboss.jawabot.irc.ent.IrcEvAction;
 import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
+import org.jboss.jawabot.irc.ent.IrcEvNickChange;
+import org.jboss.jawabot.irc.ent.IrcEvPart;
 import org.jibble.pircbot.NickAlreadyInUseException;
 import org.jibble.pircbot.User;
 
@@ -399,6 +402,8 @@ public class JawaIrcBot extends PircBot
 	 *                 "jawabot" etc at the beginning of the messagge.
 	 *
 	 * @returns  true if the request was valid JiraBot command.
+     * 
+     *  TODO:  Move reservation stuff to a plugin.
 	 */
 	private boolean handleJawaBotCommand( String fromChannel, String fromUser, final String commandOrig )
    {
@@ -777,6 +782,15 @@ public class JawaIrcBot extends PircBot
 
 
     
+    // Action
+    @Override
+    protected void onAction( String sender, String login, String hostname, String target, String action ) {
+        for( final IIrcPluginHook plugin : this.plugins ) {
+            plugin.onAction( new IrcEvAction( null, target, sender, action,  new Date() ), this.pircBotProxy );
+        }
+    }
+    
+    
     // Someone joined a channel we're in.
     @Override
     protected void onJoin(String channel, String sender, String login, String hostname) {
@@ -785,13 +799,19 @@ public class JawaIrcBot extends PircBot
         }
     }
 
-    
+
     //  :JawaBot-debug!~PircBot@vpn1-6-95.ams2.redhat.com PART #frien
     @Override
     protected void onPart(String channel, String sender, String login, String hostname) {
         if( sender.equals( this.getNick() ) )
             this.onPartUs( channel );
+        else {
+            for( final IIrcPluginHook plugin : this.plugins ) {
+                plugin.onPart( new IrcEvPart( null, channel, sender, login+"@"+hostname, new Date() ), this.pircBotProxy );
+            }
+        }
     }
+    
     
 
     /**
@@ -800,7 +820,20 @@ public class JawaIrcBot extends PircBot
     private void onPartUs(String channel) {
     }
 
+    @Override
+    protected void onNickChange(String oldNick, String login, String hostname, String newNick) {
+        for( final IIrcPluginHook plugin : this.plugins ) {
+            plugin.onNickChange( new IrcEvNickChange( null, oldNick, newNick, new Date() ), this.pircBotProxy );
+        }
+    }
 
+    @Override
+    protected void onQuit(String sourceNick, String sourceLogin, String sourceHostname, String reason) {
+        // TODO
+    }
+
+
+    
 
 
 	@Override

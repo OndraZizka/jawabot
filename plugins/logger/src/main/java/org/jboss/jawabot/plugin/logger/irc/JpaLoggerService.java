@@ -62,11 +62,13 @@ public class JpaLoggerService implements ILoggerService {
    
    
    @Override
+   @JpaTransactional
    public void storeEvent(IrcEvent ev) {
       em.persist( ev );
    }
 
    @Override
+   @JpaTransactional
    public void storeMessage( IrcEvMessage msg ){
       log.info(" IRC message: " + msg);
       log.info(" em: " + em);
@@ -76,8 +78,15 @@ public class JpaLoggerService implements ILoggerService {
    
    
    @Override
-   public List<IrcEvMessage> getMessages( MessagesCriteria msgCriteria ){
+   @JpaTransactional
+   public List<IrcEvMessage> getMessages( IrcEventCriteria msgCriteria ){
       return em.createQuery("FROM IrcMessage m ORDER BY id DESC", IrcEvMessage.class).getResultList();
+   }
+
+   @Override
+   @JpaTransactional
+   public List<? extends IrcEvent> getEvents(IrcEventCriteria msgCriteria) {
+      return em.createQuery("FROM IrcMessage m ORDER BY id DESC", IrcEvent.class).getResultList();
    }
 
 }// class

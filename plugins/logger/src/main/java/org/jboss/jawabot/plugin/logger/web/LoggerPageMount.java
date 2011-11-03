@@ -14,7 +14,7 @@ public class LoggerPageMount implements IPageMount {
     @Override
     public void mount( MountProxy wicketApp ) {
         wicketApp.mount( new MixedParamHybridUrlCodingStrategy(
-                "channelLog", ChannelLogPage.class, new String[]{"since","until"}
+                "channelLog", ChannelLogPage.class, new String[]{"name"} // remaining are perhaps "since","until".
         ));
     }
     

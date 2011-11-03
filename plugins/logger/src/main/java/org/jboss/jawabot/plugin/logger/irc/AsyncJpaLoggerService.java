@@ -80,10 +80,14 @@ public class AsyncJpaLoggerService implements ILoggerService {
       return loggerService.isLoggingEnabledForChannel(ch);
    }
 
-   public List<IrcEvMessage> getMessages(MessagesCriteria msgCriteria) {
+   public List<IrcEvMessage> getMessages(IrcEventCriteria msgCriteria) {
       return loggerService.getMessages(msgCriteria);
    }
-   
+
+    @Override
+    public List<? extends IrcEvent> getEvents(IrcEventCriteria msgCriteria) {
+        return getMessages(msgCriteria);
+    }
 
 }// class
 

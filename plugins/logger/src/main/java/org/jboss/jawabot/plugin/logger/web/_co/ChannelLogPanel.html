@@ -1,23 +1,50 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title>JawaBot - IRC channel</title>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-   </head>
-   <body>
-      
-   <wicket:panel>
-      
-      <table border="1" class="flat">
-         <tbody>
-            <tr wicket:id="messages">
-               <td><a wicket:id="nick">ozizka</a></td>
-               <td><a wicket:id="mgs">This is a message.</a></td>
-            </tr>
-         </tbody>
-      </table>
+    <head>
+        <title>JawaBot - IRC channel</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
 
-   </wicket:panel>
-      
-   </body>
+    <wicket:head>
+        <style>
+            table.eventlog { border-collapse: collapse; }
+            table.eventlog td { border-style: none; vertical-align: baseline; }
+            table.eventlog tr.delim td {
+                border-bottom: 1px solid purple;
+                color: #fd5858;
+                font-size: 80%;
+                font-style: italic;
+            }
+            table.eventlog .when { color: #c1c1c1; }
+            table.eventlog tr.nick .nick,
+            table.eventlog tr.nick .text,
+            table.eventlog tr.join .nick,
+            table.eventlog tr.join .text,
+            table.eventlog tr.part .nick,
+            table.eventlog tr.part .text { color: #73d186;  font-size: 80%;  font-style: italic; }
+            table.eventlog tr.action .nick,
+            table.eventlog tr.action .text { color: #0236f5;  font-weight: bold; }
+        </style>
+    </wicket:head>
+    <wicket:panel>
+
+        <table class="eventlog flat">
+            <tbody>
+            <wicket:container  wicket:id="events">
+                <tr wicket:id="delimiter" class="delim">
+                    <td colspan="3">Day <span wicket:id="day" class="day">2011-08-03</span></td>
+                </tr>
+                <tr wicket:id="event">
+                    <td class="when"><span wicket:id="when">16:43:07</span></td>
+                    <td class="nick"><span wicket:id="nick">ozizka</span>: </td>
+                    <td class="text"><span wicket:id="text">This is a message.</span></td>
+                </tr>
+            </wicket:container>
+            </tbody>
+        </table>
+
+    </wicket:panel>
+
+</body>
 </html>

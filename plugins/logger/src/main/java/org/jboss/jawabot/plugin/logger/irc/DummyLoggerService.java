@@ -29,13 +29,18 @@ public class DummyLoggerService implements ILoggerService {
    
    
    @Override
-   public List<IrcEvMessage> getMessages( MessagesCriteria msgCriteria ){
+   public List<IrcEvMessage> getMessages( IrcEventCriteria msgCriteria ){
       List<IrcEvMessage> list = new ArrayList();
       list.add( new IrcEvMessage("serverA", "userA", "channelA", "text1", new Date() ) );
       list.add( new IrcEvMessage("serverB", "userB", "channelB", "text2", new Date() ) );
       list.add( new IrcEvMessage("serverC", "userB", "channelA", "text3", new Date() ) );
       return list;
    }
+
+    @Override
+    public List<? extends IrcEvent> getEvents(IrcEventCriteria msgCriteria) {
+        return getMessages(msgCriteria);
+    }
 
 }// class
 

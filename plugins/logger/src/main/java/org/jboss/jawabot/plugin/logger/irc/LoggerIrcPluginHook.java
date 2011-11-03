@@ -5,7 +5,11 @@ import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
+import org.jboss.jawabot.irc.ent.IrcEvAction;
+import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
+import org.jboss.jawabot.irc.ent.IrcEvNickChange;
+import org.jboss.jawabot.irc.ent.IrcEvPart;
 import org.jboss.weld.environment.se.jpa.JpaTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,12 +52,46 @@ public class LoggerIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
          log.debug("Logging not enabled for this channel: " + msg.getChannel() );
          return;
       }
-      this.loggerService.storeMessage( msg );
+      this.loggerService.storeEvent( msg );
    }
 
-   @Override
-   public void onPrivateMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
-   }
+   
+    @Override
+    @JpaTransactional
+    public void onBotJoinChannel(String channel, IrcBotProxy bot) {
+        boolean en = this.loggerService.isLoggingEnabledForChannel(channel);
+        if( en ){
+            bot.sendMessage(channel, "Logging for this channel " +(en ? "en" : "dis")+ "abled. (Change with \"log on\"/\"log off\".)");
+        }
+    }
+
+    @Override
+    @JpaTransactional
+    public void onJoin(IrcEvJoin event, IrcBotProxy bot) {
+        if( this.loggerService.isLoggingEnabledForChannel( event.getChannel() ) )
+            this.loggerService.storeEvent( event );
+    }
+
+    @Override
+    @JpaTransactional
+    public void onPart(IrcEvPart event, IrcBotProxy bot) {
+        if( this.loggerService.isLoggingEnabledForChannel( event.getChannel() ) )
+            this.loggerService.storeEvent( event );
+    }
+
+    @Override
+    @JpaTransactional
+    public void onAction(IrcEvAction event, IrcBotProxy bot) {
+        if( this.loggerService.isLoggingEnabledForChannel( event.getChannel() ) )
+            this.loggerService.storeEvent( event );
+    }
+
+    @Override
+    @JpaTransactional
+    public void onNickChange(IrcEvNickChange ev, IrcBotProxy pircBotProxy) {
+        if( this.loggerService.isLoggingEnabledForChannel( ev.getChannel() ) )
+            this.loggerService.storeEvent( ev );
+    }
 
    
 }// class

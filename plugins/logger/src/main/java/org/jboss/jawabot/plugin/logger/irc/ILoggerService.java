@@ -14,7 +14,9 @@ import org.jboss.jawabot.irc.ent.IrcEvent;
  */
 public interface ILoggerService {
 
-   List<IrcEvMessage> getMessages(MessagesCriteria msgCriteria);
+   List<IrcEvMessage> getMessages(IrcEventCriteria msgCriteria);
+   
+   List<? extends IrcEvent> getEvents(IrcEventCriteria msgCriteria);
 
    void storeMessage( IrcEvMessage msg );
    

@@ -12,8 +12,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue("P")
 public class IrcEvPart extends IrcEvent {
 
-    public IrcEvPart(String server, String user, String channel, String text, Date when) {
-        super(server, user, channel, text, when);
+    public IrcEvPart(String server, String channel, String user, String text, Date when) {
+        super(server, channel, user, text, when);
     }
 
     public IrcEvPart() {
