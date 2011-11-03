@@ -4,8 +4,9 @@
     Document   : JawaBotConfig.xml
     Created on : 2009-11-12, 19:19
     Author     : ondra
-    Description:
-        Purpose of the document follows.
+    
+    Config file of the core.
+    Configures the irc and web modules, plus persistence.
 -->
 
 <jawabotConfig>
@@ -29,10 +30,10 @@
     <irc>
         <defaultNick>gpark</defaultNick>
         <defaultNick2>JawaBot-debug_</defaultNick2>
-      <!--
-      <server host="irc.freenode.org">
-      <server host="porky.stuttgart.redhat.com">
-      -->
+        <!--
+        <server host="irc.freenode.org">
+        <server host="porky.stuttgart.redhat.com">
+        -->
         <server host="porky.stuttgart.redhat.com">
             <autoJoinChannels>
             #some
@@ -50,14 +51,14 @@
         </server>
     </irc>
 
-   <!-- TODO: Not used yet. -->
+    <!-- TODO: Not used yet. -->
     <web
         bind="0.0.0.0"
         port="8080"
         path="/"
     />
    
-   <!-- TODO: Not used yet (taken from PU). -->
+    <!-- TODO: Not used yet (taken from PU). -->
     <persistence
             scanForEntities="false"
         >
