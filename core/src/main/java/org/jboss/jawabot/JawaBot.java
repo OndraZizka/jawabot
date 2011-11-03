@@ -7,6 +7,7 @@ import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
 import java.util.List;
+import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.mail.EmailException;
@@ -16,6 +17,8 @@ import org.jboss.jawabot.state.beans.StateBean;
 import org.apache.log4j.Logger;
 import org.jboss.jawabot.ResourceManager.ReservationsBookingResult;
 import org.jboss.jawabot.groupmgr.GroupManager;
+import org.jboss.jawabot.plugin.pastebin.IPasteBinManager;
+import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
 import org.jboss.jawabot.plugin.pastebin.MemoryPasteBinManager;
 import org.jboss.jawabot.state.JaxbStatePersister;
 import org.jboss.jawabot.state.beans.ReservationBean;
@@ -66,8 +69,9 @@ public class JawaBot
       
 
    // PasteBinManager
-   private MemoryPasteBinManager pasteBinManager = new MemoryPasteBinManager();
-   public MemoryPasteBinManager getPasteBinManager() { return pasteBinManager; }
+   //private MemoryPasteBinManager pasteBinManager = new MemoryPasteBinManager();
+   @Inject private JpaPasteBinManager pasteBinManager;
+   public IPasteBinManager getPasteBinManager() { return pasteBinManager; }
    
    
 

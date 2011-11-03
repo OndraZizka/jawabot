@@ -34,7 +34,7 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
 
 
 		@PostConstruct
-      //@Inject 
+      //@Inject  // TODO: Report RFE - Handle wrong param count of a method with @PostConstruct.
 		public void init(/*@Observes ContainerInitialized containerInitialized*/   /*CdiPluginEntitiesPackagesProvider entPackProv*/ ) {
             // Hibernate, not JPA
             // new AnnotationConfiguration().addPackage(...)

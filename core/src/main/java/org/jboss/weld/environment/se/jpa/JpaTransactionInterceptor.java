@@ -29,14 +29,18 @@ import javax.persistence.EntityManager;
 @Interceptor
 @JpaTransactional
 public class JpaTransactionInterceptor {
-		private Logger logger = LoggerFactory.getLogger(JpaTransactionInterceptor.class);
+		private final Logger log = LoggerFactory.getLogger( JpaTransactionInterceptor.class );
 
 		@Inject
       private EntityManagerStore entityManagerStore;
 
 		@AroundInvoke
-		public Object runInTransaction(InvocationContext invocationContext) throws Exception {
+		public Object runInTransaction( InvocationContext invocationContext ) throws Exception {
 
+            log.debug(" In "+JpaTransactionInterceptor.class.getSimpleName() 
+                    +" - @AroundInvoke for " 
+                    + invocationContext.getTarget().getClass().getSimpleName()
+                    + invocationContext.getMethod().getName() );
 
 				// Create / get EM.
 				EntityManager em = entityManagerStore.createAndRegister();
@@ -51,11 +55,11 @@ public class JpaTransactionInterceptor {
 						try {
 								if (em.getTransaction().isActive()) {
 										em.getTransaction().rollback();
-										logger.debug("Rolled back transaction");
+										log.debug("Rolled back transaction");
 								}
 						}
 						catch (HibernateException e1) {
-								logger.warn("Rollback of transaction failed: " + e1);
+								log.warn("Rollback of transaction failed: " + e1);
 						}
 						throw e;
 				}

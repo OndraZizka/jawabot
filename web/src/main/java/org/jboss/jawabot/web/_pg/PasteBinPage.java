@@ -75,7 +75,8 @@ public class PasteBinPage extends BaseLayoutPage
 
 
       // Recent entries.
-      List<PasteBinEntry> entries = JawaBotApp.getPasteBinManager().getAll();
+      //List<PasteBinEntry> entries = JawaBotApp.getPasteBinManager().getAll();
+      List<PasteBinEntry> entries = pbManager.getLastPastes_OrderByWhenDesc(100);
 
       add( new ListView<PasteBinEntry>( "entries", new ListModel<PasteBinEntry>( entries ) ) {
 

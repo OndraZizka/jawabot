@@ -50,8 +50,8 @@ public class JawaBotApp
    public static UserManager getUserManager() { return userManager; }
 
    // PasteBin manager.
-   private static final MemoryPasteBinManager pasteBinManager = new MemoryPasteBinManager();
-   public static MemoryPasteBinManager getPasteBinManager() { return pasteBinManager; }
+   //private static final MemoryPasteBinManager pasteBinManager = new MemoryPasteBinManager();
+   //public static IPasteBinManager getPasteBinManager() { return pasteBinManager; }
 
    
    

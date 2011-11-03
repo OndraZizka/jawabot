@@ -39,6 +39,7 @@ public class JpaPasteBinManager implements IPasteBinManager, EntitiesPackagesPro
    }
 
    @JpaTransactional
+   @Override
    public List<PasteBinEntry> getLastPastes_OrderByWhenDesc( int i ) {
       //em.getCriteriaBuilder().createQuery( PasteBinEntry.class );
       return em.createQuery("SELECT pbe FROM PasteBinEntry pbe ORDER BY `when` DESC", PasteBinEntry.class).setMaxResults(i).getResultList();
