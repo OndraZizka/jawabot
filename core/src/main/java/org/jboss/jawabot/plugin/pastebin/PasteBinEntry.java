@@ -31,8 +31,10 @@ public class PasteBinEntry implements Serializable {
    public Long getId() { return id; }
    public void setId(Long id) { this.id = id; }
    public String getAuthor() { return author; }
+   public boolean hasAuthor() { return author != null; }
    public void setAuthor(String author) { this.author = author; }
    public String getChannel() { return channel; }
+   public boolean hasChannel() { return channel != null; }
    public void setChannel(String channel) { this.channel = channel; }
    public String getText() { return text; }
    public void setText(String text) { this.text = text; }
