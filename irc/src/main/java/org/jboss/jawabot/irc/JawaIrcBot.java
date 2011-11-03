@@ -493,35 +493,38 @@ public class JawaIrcBot extends PircBot
 
 
         // Join a channel.
-        else if (command.startsWith("join")) {
+        else if( command.startsWith( "join" ) ) {
             wasValidCommand = true;
-            reply = commandHandler.onJoin(ctx, command.substring(4).trim());
+            reply = commandHandler.onJoin( ctx, command.substring( 4 ).trim() );
         }
-        
+
 
         // Leave the current channel.
-        else if (!isFromPrivateMessage && command.startsWith("please leave")) {
+        else if( !isFromPrivateMessage && command.startsWith( "please leave" ) ) {
             wasValidCommand = true;
-            sendMessage(replyTo, "Bye everyone. I'll be around; if you miss me later, /invite me.");
-            this.partChannel(fromChannel, "Persona non grata.");
+            sendMessage( replyTo, "Bye everyone. I'll be around; if you miss me later, /invite me." );
+            this.partChannel( fromChannel, "Persona non grata." );
         }
-        
 
+            
         // Die - PM only.
-        else if ((isFromPrivateMessage && command.startsWith("quit " + this.getJawaBot().getQuitPassword()))
-                || (this.getJawaBot().getConfig().settings.unsecuredShutdown && command.startsWith("diedie"))) {
+        else if( 
+            ( isFromPrivateMessage  &&  command.startsWith( "quit " + this.getJawaBot().getQuitPassword() ))
+            ||
+            (this.getJawaBot().getConfig().settings.unsecuredShutdown && command.startsWith( "diedie" )) 
+        ) {
             wasValidCommand = true;
             stateChanged = true;
-            sendMessage(replyTo, "Bye, shutting down.");
+            sendMessage( replyTo, "Bye, shutting down." );
             //this.partChannel(from, "Warp core overload."); // From private message.
             this.disconnect();
         }
-        
+
       
         // About or Help.
-        else if (command.startsWith("about") || command.startsWith("help")) {
+        else if( command.startsWith( "about" ) || command.startsWith( "help" ) ) {
             wasValidCommand = true;
-            reply = commandHandler.onHelp(ctx, command);
+            reply = commandHandler.onHelp( ctx, command );
         }
 
 
@@ -530,7 +533,7 @@ public class JawaIrcBot extends PircBot
 
 
         // Temporarily in an if; after moving, throw if null.
-        if (reply != null) {
+        if( reply != null ) {
             // Temporary - copy the flag.
             stateChanged = reply.stateChanged;
             wasValidSyntax = !reply.reportInvalidSyntax;
@@ -538,56 +541,57 @@ public class JawaIrcBot extends PircBot
             // Send IRC messages.
 
             // Default and debug channel.
-            reply.additionalAnnounceChannels.add(this.getConfig().settings.announceDefaultChannel);
-            reply.additionalAnnounceChannels.add(this.getConfig().settings.debugChannel);
+            reply.additionalAnnounceChannels.add( this.getConfig().settings.announceDefaultChannel );
+            reply.additionalAnnounceChannels.add( this.getConfig().settings.debugChannel );
 
-            boolean noDangerOfReplyDubbing = ctx.isPrivate || !reply.additionalAnnounceChannels.contains(replyTo);
+            boolean noDangerOfReplyDubbing = ctx.isPrivate || !reply.additionalAnnounceChannels.contains( replyTo );
 
             // Send IRC messages.
-            for (CommandReplyMessage msg : reply.ircMessages) {
-                if (msg.isAnnouncement) {
-                    for (String sendTo : reply.additionalAnnounceChannels) {
-                        sendMessage(sendTo, msg.text);
+            for( CommandReplyMessage msg : reply.ircMessages ) {
+                if( msg.isAnnouncement ) {
+                    for( String sendTo : reply.additionalAnnounceChannels ) {
+                        sendMessage( sendTo, msg.text );
                     }
                 }
                 // Prevent duplication: To send this reply, it must not go to the channel where it already was sent to.
-                if (msg.isReply && (noDangerOfReplyDubbing || !msg.isAnnouncement)) {
-                    sendMessage(replyTo, msg.text);
+                if( msg.isReply && (noDangerOfReplyDubbing || !msg.isAnnouncement) ) {
+                    sendMessage( replyTo, msg.text );
                 }
             }
 
             // Send mail announcements.
-            for (MailData mail : reply.mailAnnouncements) {
-                trySendMail(mail, ctx.fromUserNorm, ctx.fromChannel);
+            for( MailData mail : reply.mailAnnouncements ) {
+                trySendMail( mail, ctx.fromUserNorm, ctx.fromChannel );
             }
         }
 
 
         // If the state changed, save.
         // TODO: Watch state changes in the reservationsManager.
-        if (stateChanged) {
+        if( stateChanged ) {
             try {
                 this.getJawaBot().saveState();
-                String msg = String.format("State saved after %s on %s did command: %s", fromUser, fromChannel, commandOrig);
-                log.info(msg);
-                sendDebugMessage(msg);
-            } catch (JawaBotIOException ex) {
+                String msg = String.format( "State saved after %s on %s did command: %s", fromUser, fromChannel, commandOrig );
+                log.info( msg );
+                sendDebugMessage( msg );
+            }
+            catch( JawaBotIOException ex ) {
                 String msg = "Error saving state: " + ex.getMessage();
-                log.error(msg, ex);
-                sendDebugMessage(msg);
+                log.error( msg, ex );
+                sendDebugMessage( msg );
             }
         }
 
 
         // Invalid command?
-        if (!wasValidCommand) {
+        if( !wasValidCommand ) {
             //sendMessage( replyTo, "Invalid command, see " + JawaBotApp.PROJECT_DOC_URL );
             // Nothing - plugins must checkt it too.
         }
 
         // Invalid syntax?
-        if (!wasValidSyntax) {
-            sendMessage(replyTo, "Invalid command syntax, see " + JawaBotApp.PROJECT_DOC_URL);
+        if( !wasValidSyntax ) {
+            sendMessage( replyTo, "Invalid command syntax, see " + JawaBotApp.PROJECT_DOC_URL );
         }
 
         return wasValidCommand;
@@ -615,23 +619,23 @@ public class JawaIrcBot extends PircBot
      * Sends an announcement mail to a mailing list.
      * @deprecated  in favor of CommandHandlerImpl.createTakeAnnouncementMail() .
      */
-    private void announceTakeOnMailingList(ReservationsBookingResult bookingResult, String customComment) {
+    private void announceTakeOnMailingList( ReservationsBookingResult bookingResult, String customComment ) {
         ConfigBean cnf = this.getConfig();
-        String subject = JawaBotUtils.formatReservationInfoLine(bookingResult);
+        String subject = JawaBotUtils.formatReservationInfoLine( bookingResult );
 
         // Message body.
 
         // Custom comment.
         StringBuilder sb = new StringBuilder();
-        if (null != customComment) {
-            sb.append(customComment).append("\n");
+        if( null != customComment ) {
+            sb.append( customComment ).append( "\n" );
         }
 
         // List the reservations.
-        if (bookingResult.resultingReservations.size() > 1) {
-            for (ReservationWrap resvWrap : bookingResult.resultingReservations) {
-                sb.append(JawaBotUtils.formatReservationInfoLine(resvWrap.resourceName, resvWrap));
-                sb.append("\n");
+        if( bookingResult.resultingReservations.size() > 1 ) {
+            for( ReservationWrap resvWrap : bookingResult.resultingReservations ) {
+                sb.append( JawaBotUtils.formatReservationInfoLine( resvWrap.resourceName, resvWrap ) );
+                sb.append( "\n" );
             }
         }
 
@@ -645,15 +649,16 @@ public class JawaIrcBot extends PircBot
     /**
      * Tries to send a mail; eventual failure is announced on the given channel.
      */
-    private void trySendMail(MailData mail, String fromUser, String fallbackErrorMsgChannel) {
+    private void trySendMail( MailData mail, String fromUser, String fallbackErrorMsgChannel ) {
         try {
             // Send the mail announcement.
-            sendMail(fromUser, mail);
-        } catch (JawaBotException ex) {
+            sendMail( fromUser, mail );
+        }
+        catch( JawaBotException ex ) {
             String excMessage = ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage();
             String reply = excMessage; //"Unable to send announcement email: "+excMessage;
-            log.error(reply);
-            sendMessage(fallbackErrorMsgChannel, reply);
+            log.error( reply );
+            sendMessage( fallbackErrorMsgChannel, reply);
         }
     }
 
@@ -661,23 +666,23 @@ public class JawaIrcBot extends PircBot
     /**
      * Sends a mail announcement about user's action.
      */
-    private void sendMail(String fromUser, MailData mail) throws JawaBotException {
+    private void sendMail( String fromUser, MailData mail ) throws JawaBotException {
 
         ConfigBean cnf = this.getConfig();
 
-        log.debug(String.format("Sending mail: host %s, to %s, from %s <%s>",
-                cnf.settings.smtpHost,
-                cnf.settings.announceEmailTo,
-                fromUser,
-                cnf.settings.announceEmailFrom));
+        log.debug( String.format( "Sending mail: host %s, to %s, from %s <%s>",
+            cnf.settings.smtpHost,
+            cnf.settings.announceEmailTo,
+            fromUser,
+            cnf.settings.announceEmailFrom ) );
 
-        String messageBody = (StringUtils.isBlank(mail.messageBody) ? "" : mail.messageBody + "\n\n");
+        String messageBody = (StringUtils.isBlank( mail.messageBody ) ? "" : mail.messageBody + "\n\n");
         messageBody += "Possible sender's e-mail: " + fromUser + "@redhat.com\nThis message was "
-                + "generated by JawaBot " + JawaBotApp.VERSION + ".\n" + JawaBotApp.PROJECT_DOC_URL;
+            + "generated by JawaBot " + JawaBotApp.VERSION + ".\n" + JawaBotApp.PROJECT_DOC_URL;
         mail.messageBody = messageBody;
         mail.fromName = fromUser + " via JawaBot";
 
-        this.jawaBot.getMailUtils().sendMail(mail);
+        this.jawaBot.getMailUtils().sendMail( mail );
 
     }
 
@@ -695,8 +700,8 @@ public class JawaIrcBot extends PircBot
       this.currentOnChannelInfoHandler.onChannelInfo( channel, userCount, topic );
     }
 
-    public void listChannels(ChannelInfoHandler handler) {
-        if (this.currentOnChannelInfoHandler != null) {
+    public void listChannels( ChannelInfoHandler handler ) {
+        if( this.currentOnChannelInfoHandler != null) {
             // The same handler.
             if (this.currentOnChannelInfoHandler.equals(handler))  return;
 
