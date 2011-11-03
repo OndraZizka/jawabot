@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import org.apache.log4j.Appender;
 import org.apache.log4j.EnhancedPatternLayout;
 import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.apache.wicket.protocol.http.WebApplication;
 import org.jboss.weld.util.collections.EnumerationList;
 
