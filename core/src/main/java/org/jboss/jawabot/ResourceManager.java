@@ -115,7 +115,7 @@ public class ResourceManager
     */
    public ReservationsBookingResult bookResources(List<Resource> chosen, Reservation resv) throws UnknownResourceException {
       String[] resNames = new String[chosen.size()];
-      for (int i = 0; i < 10; i++) {
+      for (int i = 0; i < chosen.size(); i++) {
          resNames[i] = chosen.get(i).getName();
       }
       
