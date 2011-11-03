@@ -3,7 +3,6 @@ package org.jboss.jawabot.web;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Singleton;
-import org.jboss.jawabot.JawaBotApp;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
 
 /**

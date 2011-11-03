@@ -7,8 +7,8 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.jboss.jawabot.plugin.irc.Channel;
 import org.jboss.jawabot.plugin.irc.ChannelManager;
-import org.jboss.jawabot.plugin.irc.web._co.ChannelListPanel;
 import org.jboss.jawabot.plugin.logger.web._co.ChannelLogPanel;
+import org.jboss.jawabot.plugin.logger.web._co.LoggedChannelsListPanel;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,11 +40,11 @@ public class ChannelLogPage extends BaseLayoutPage
      if( chan == null ){
         log.debug("Channel is null, using ChannelListPanel.");
         add( new Label("heading", "Logged Channels"));
-        add( new ChannelListPanel("channelLogPanel") );
+        add( new LoggedChannelsListPanel("channelLogPanel") );
      }
      else{
         log.debug("Using ChannelLogPanel with channel: " +chan);
-        add( new Label("heading", "Channel "+chan.getName()+" - details"));
+        add( new Label("heading", "Channel "+chan.getName()+" - log"));
         add( new ChannelLogPanel( "channelLogPanel", chan ) );
      }
   }

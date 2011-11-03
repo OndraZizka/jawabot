@@ -25,7 +25,7 @@ public class ChannelLogLinkSimplePanel extends Panel {
       
       String name = nameModel.getObject();
       BookmarkablePageLink<String> link = new BookmarkablePageLink<String>( "link", ChannelLogPage.class, PageParametersUtil.create("name", name));
-      link.add( new Image( "icoType", "User.gif" ) );
+      link.add( new Image( "icoType", "Channel.gif" ) );
       link.add( new Label("label", "" + name ));
       add(link.setVisible( null != name ));
       

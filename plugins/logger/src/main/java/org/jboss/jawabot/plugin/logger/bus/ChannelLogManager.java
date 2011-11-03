@@ -1,11 +1,13 @@
 package org.jboss.jawabot.plugin.logger.bus;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import org.apache.commons.lang.ObjectUtils;
 import org.jboss.jawabot.irc.ent.IrcEvent;
+import org.jboss.jawabot.plugin.logger.ent.ChannelLogInfo;
 import org.jboss.jawabot.plugin.logger.ent.IrcEventsCriteria;
 import org.jboss.weld.environment.se.jpa.JpaTransactional;
 
@@ -26,9 +28,33 @@ public class ChannelLogManager {
                 .setParameter( 1, crit.getChannel() )
                 .setParameter( 2, crit.getSince() )
                 .setParameter( 3, ObjectUtils.defaultIfNull( crit.getUntil(), new Date()) )
-                .getResultList()
-        ;
+                .getResultList();
+    }
+    
+    @JpaTransactional
+    public List<String> getLoggedChannelNames(){
+        return em.createQuery("SELECT ev.channel FROM IrcEvent ev GROUP BY ev.channel ORDER BY ev.channel", String.class).getResultList();
+    }
+    
+    @JpaTransactional
+    public List<ChannelLogInfo> getLoggedChannelInfos(){
+        /*return em.createQuery("SELECT NEW " + ChannelLogInfo.class.getName() +
+        "( ev.channel, COUNT(*) AS count, MIN(ev.when) AS  first, MAX(ev.when) AS last )"
+        + " FROM IrcEvent ev GROUP BY ev.channel ORDER BY ev.channel", ChannelLogInfo.class).getResultList();/*/
         
+        /*List<Object[]> list = em.createQuery("SELECT ev.channel, COUNT(*) AS count, MIN(ev.when) AS  first, MAX(ev.when) AS last"
+                                            + " FROM IrcEvent ev GROUP BY ev.channel ORDER BY ev.channel", Object[].class).getResultList();
+        for( Object[] row : list ) {
+            ret.add( new ChannelLogInfo( (String)row[0], (Long)row[1], (Date)row[2], (Date)row[3]) );
+        }/**/
+        
+        // TODO:  Fix when https://hibernate.onjira.com/browse/HHH-5348 gets fixed.
+        List<String> list = em.createQuery("SELECT ev.channel FROM IrcEvent ev GROUP BY ev.channel ORDER BY ev.channel", String.class).getResultList();
+        List<ChannelLogInfo> ret = new ArrayList(list.size());
+        for( String row : list ) {
+            ret.add( new ChannelLogInfo( row, 999L, new Date(), new Date()) );
+        }
+        return ret;
     }
     
 }// class

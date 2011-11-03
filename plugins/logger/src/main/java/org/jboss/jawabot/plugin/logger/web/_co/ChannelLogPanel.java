@@ -43,9 +43,9 @@ public class ChannelLogPanel extends Panel {
         super.onInitialize();
         
         IrcEventCriteriaLDM ldm = (IrcEventCriteriaLDM) this.getDefaultModel();
-        ListModel lm = new ListModel( ldm.getObject() );
+        //ListModel lm = new ListModel( ldm.getObject() );
 
-        add(new ListView<IrcEvent>("messages", lm ) {
+        add(new ListView<IrcEvent>("messages", ldm ) {
            @Override protected void populateItem(ListItem<IrcEvent> item) {
               item.add(new Label("nick", item.getModelObject().getUser() ));
               item.add(new Label("msg", item.getModelObject().getText() ));
