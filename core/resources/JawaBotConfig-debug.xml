@@ -31,6 +31,7 @@
       <defaultNick2>JawaBot-debug_</defaultNick2>
       <!--
       <server host="irc.freenode.org">
+      <server host="porky.stuttgart.redhat.com">
       -->
       <server host="porky.stuttgart.redhat.com">
          <autoJoinChannels>
