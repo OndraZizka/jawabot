@@ -6,7 +6,6 @@
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.version>2.0.0-SNAPSHOT</project.version>
    </properties>
 
    <groupId>org.jboss.jawabot</groupId>
@@ -45,46 +44,8 @@
    <dependencies>
 
 
-      <!-- These are referenced in the code, but not used. -->
-      
-      <!-- Spring -->
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring</artifactId>
-          <version>2.5.6</version>
-      </dependency>
-
-      <!-- Hibernate -->
-      <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-annotations</artifactId>
-          <version>3.4.0.GA</version>
-      </dependency>
-
-      <!-- MySQL -->
-      <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <version>5.1.16</version>
-          <!-- <scope>runtime</scope>  We need exceptions -->
-      </dependency>
-
-      <!-- Persistence -->
-      <dependency>
-        <groupId>javax.persistence</groupId>
-        <artifactId>persistence-api</artifactId>
-        <version>1.0</version>
-      </dependency>
-
 
 
    </dependencies>
    
-   <repositories>
-     <repository>
-       <id>ondrazizka</id>
-       <url>http://ondrazizka.googlecode.com/svn/maven</url>
-     </repository>
-   </repositories>
-
 </project>
