@@ -39,9 +39,13 @@
 
    <distributionManagement>
      <repository>
-       <id>jboss-snapshots</id>
-       <url>http://snapshots.jboss.org/maven2/</url>
+       <id>jboss-qa-brno-releases</id>
+       <url>http://jawa18.mw.lab.eng.brq.redhat.com:1212/nexus/content/repositories/releases</url>
      </repository>
+     <snapshotRepository>
+       <id>jboss-qa-brno-snapshots</id>
+       <url>http://jawa18.mw.lab.eng.brq.redhat.com:1212/nexus/content/repositories/snapshots</url>
+     </snapshotRepository>
    </distributionManagement>
 
 
