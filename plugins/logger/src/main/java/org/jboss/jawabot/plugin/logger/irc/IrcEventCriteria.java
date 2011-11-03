@@ -18,8 +18,8 @@ public class IrcEventCriteria {
    
    private String channel;
    private String user;
-   private Date fromDate;
-   private Date toDate;
+   private Date since;
+   private Date until;
    private int  num;
    private Set<Class<? extends IrcEvent>>  types;
 
@@ -30,8 +30,8 @@ public class IrcEventCriteria {
 
     public IrcEventCriteria(String channel, Date since, Date until) {
         this.channel = channel;
-        this.fromDate = since;
-        this.toDate = until;
+        this.since = since;
+        this.until = until;
     }
    
    
@@ -46,11 +46,11 @@ public class IrcEventCriteria {
     }
 
     public Date getFromDate() {
-        return fromDate;
+        return since;
     }
 
     public IrcEventCriteria setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
+        this.since = fromDate;
         return this;
     }
 
@@ -64,11 +64,11 @@ public class IrcEventCriteria {
     }
 
     public Date getToDate() {
-        return toDate;
+        return until;
     }
 
     public IrcEventCriteria setToDate(Date toDate) {
-        this.toDate = toDate;
+        this.until = toDate;
         return this;
     }
 
@@ -105,13 +105,29 @@ public class IrcEventCriteria {
         this.types.add(type);
         return this;
     }
+
+    public Date getSince() {
+        return since;
+    }
+
+    public void setSince(Date since) {
+        this.since = since;
+    }
+
+    public Date getUntil() {
+        return until;
+    }
+
+    public void setUntil(Date until) {
+        this.until = until;
+    }
    
-   
+    
    //</editor-fold>
 
    @Override
    public String toString() {
-      return "IrcEventCriteria{" + "#" + channel + ", user=" + user + ", from=" + fromDate + ", to=" + toDate + ", num=" + num + '}';
+      return "IrcEventCriteria{" + "#" + channel + ", user=" + user + ", from=" + since + ", to=" + until + ", num=" + num + '}';
    }
    
 }// class
