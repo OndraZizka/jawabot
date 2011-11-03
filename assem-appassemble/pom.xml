@@ -6,7 +6,7 @@
 
   
     <groupId>org.jboss.jawabot</groupId>
-    <artifactId>JawaBot-assem-appassembly</artifactId>
+    <artifactId>JawaBot-assem-appassemble</artifactId>
     <packaging>jar</packaging>
 
     <name>JawaBot 2.0 appassembly</name>
