@@ -14,6 +14,7 @@
    <packaging>jar</packaging>
 
    <name>JawaBot 2.0 core</name>
+   <description>Configuration, lifecycle (thread management), persistence, IoC (CDI?)</description>
 
    <parent>
       <groupId>org.jboss.jawabot</groupId>
@@ -101,8 +102,7 @@
         <version>1.0</version>
       </dependency>
 
-
-      <!-- Not needed?  Common Annotations for the JavaTM Platform
+      <!-- Not needed?  Common Annotations for the JavaTM Platform like @Generated, @PostConstruct, @Resource, @Resources
       <dependency>
          <groupId>javax.annotation</groupId>
          <artifactId>jsr250-api</artifactId>
