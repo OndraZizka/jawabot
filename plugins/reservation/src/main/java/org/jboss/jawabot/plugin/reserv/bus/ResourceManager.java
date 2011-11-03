@@ -9,11 +9,10 @@ import cz.dynawest.util.DateUtils;
 import cz.dynawest.util.sync.ReadersAndModifierSynchronizerReentrant;
 import cz.dynawest.util.sync.ReadersAndModifiersSynchronizer;
 import java.util.*;
+import javax.enterprise.context.ApplicationScoped;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.plugin.reserv.bus.ReservationWrap.Type;
 import org.slf4j.Logger;
@@ -30,6 +29,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Ondrej Zizka
  */
+@ApplicationScoped
 public class ResourceManager
 {
    private static final Logger log = LoggerFactory.getLogger( ResourceManager.class );

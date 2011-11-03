@@ -268,12 +268,6 @@ public class ReservationIrcPluginHook extends IrcPluginHookBase implements IIrcP
         }
 
 
-        // Invalid command?
-        if( !wasValidCommand ) {
-            //sendMessage( replyTo, "Invalid command, see " + JawaBotApp.PROJECT_DOC_URL );
-            // Nothing - plugins must checkt it too.
-        }
-
         // Invalid syntax?
         if( !wasValidSyntax ) {
             bot.sendMessage( replyTo, "Invalid command syntax, see " + JawaBotApp.PROJECT_DOC_URL );

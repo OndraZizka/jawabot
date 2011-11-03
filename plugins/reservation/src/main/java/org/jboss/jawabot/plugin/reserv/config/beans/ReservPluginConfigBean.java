@@ -30,7 +30,9 @@ public class ReservPluginConfigBean implements Serializable {
 
     @XmlElementWrapper(name="resourceGroups")
     @XmlElement
-    public GenericGroupBean resourceGroups;
+    public List<GenericGroupBean> resourceGroups;
+		public List<GenericGroupBean> getResourceGroups() {				return resourceGroups;		}
+		
 
    
 }// class

@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.jboss.jawabot.FromJawaBot;
+import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.MailData;
 import org.jboss.jawabot.config.JaxbGenericPersister;
@@ -34,7 +35,8 @@ public class ReservService {
     private ReservPluginConfigBean config;
 
     //@Inject private JaxbReservPluginConfigPersister configPersister;
-    @Inject @FromJawaBot private ConfigBean jawabotConfig;
+    //@Inject @FromJawaBot private ConfigBean jawabotConfig;
+		@Inject private JawaBot jawaBot;
 
 
     // ResourceManager
@@ -66,12 +68,14 @@ public class ReservService {
     public synchronized void init() throws JawaBotIOException, UnknownResourceException {
         log.info("Initializing...");
         
-        String configPath = this.jawabotConfig.getPluginsMap().get("reservation");
+        //String configPath = this.jawabotConfig.getPluginsMap().get("reservation");
+				String configPath = this.jawaBot.getConfig().getPluginsMap().get("reservation");
         
         // Config
         JaxbGenericPersister<ReservPluginConfigBean> persister = 
             new JaxbGenericPersister( configPath, ReservPluginConfigBean.class );
         this.config = persister.load();
+				this.applyConfig( this.config );
 
         //String statePath = "conf/JawaBotConfig-plugin-reservation"; // TODO: Take from config!!
         String statePath = this.config.settings.stateFilePath;

@@ -48,10 +48,12 @@
                     <!-- For running in NetBeans. -->
                     <copy todir="workdir/conf">
                         <fileset dir="conf" includes="**"/>
+                        <fileset dir="../../core/src/main/conf" includes="**"/>
                     </copy>
                     <!-- For tests. -->
                     <copy todir="target/workdir/conf">
                         <fileset dir="conf" includes="**"/>
+                        <fileset dir="../../core/src/main/conf" includes="**"/>
                     </copy>
                 </tasks> </configuration> </execution> </executions>
             </plugin>
