@@ -32,6 +32,7 @@ import javax.persistence.PersistenceException;
  *                      How it's done now spends too much code on querying the store.
  *
  * @author Sebastian Hennebrueder
+ * @author Ondrej Zizka
  */
 @Interceptor
 @JpaTransactional
