@@ -24,7 +24,7 @@ import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.UserListHandler;
 import org.jboss.jawabot.irc.UserListHandlerBase;
-import org.jboss.jawabot.irc.model.IrcMessage;
+import org.jboss.jawabot.irc.ent.IrcMessage;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +41,9 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     private static final Logger logScan = LoggerFactory.getLogger( WhereisIrcPluginHook.class.getName()+".channelScanQueueProcessor" );
     
     @Inject MemoryWhereIsService whereIsService;
+		
+		
+		private static final int MIN_USER_COUNT_TO_SCAN_CHANNEL = 10;
     
 
     // TODO: Prevent multiple scanning over this.
@@ -118,7 +121,8 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         ChannelInfoHandler handler = new ChannelInfoHandler() {
             public void onChannelInfo( String channel, int userCount, String topic ) {
                 //scanChannel( channel, bot );
-                scanQueue.add( new ChannelInfo(channel, userCount, topic) );
+								if( userCount >= MIN_USER_COUNT_TO_SCAN_CHANNEL )
+										scanQueue.add( new ChannelInfo(channel, userCount, topic) );
             }
         };
         bot.listChannels( handler );
