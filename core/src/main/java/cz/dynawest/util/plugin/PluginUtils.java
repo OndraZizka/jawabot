@@ -1,7 +1,10 @@
 package cz.dynawest.util.plugin;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
@@ -115,6 +118,58 @@ public class PluginUtils {
       return moduleHooks;
       
    }// initAndStartModules()
+   
+   
+   
+   /**
+    *  Formats a list of exceptions into a readable block.
+    */
+   public static <T extends Exception> void throwFormattedExceptionIfNeeded( List<Throwable> exs, List<String> errModules, Class<T> cls ) throws T
+   {
+      if( exs.size() == 0 )
+         return;
+      
+      
+      StringBuilder sb = new StringBuilder("Some modules couldn't be initialized or started: ")
+        .append( StringUtils.join( errModules, ", ") )
+        .append("\n");
+      for( Throwable ex : exs ) {
+         if( ex instanceof PluginLoadEx ){
+            PluginLoadEx plex = (PluginLoadEx) ex;
+            sb.append("\n  ")
+              .append( plex.getModuleClass() )
+              .append( ": " )
+              .append( ExceptionUtils.getRootCauseMessage(plex) );
+         }
+         else{
+            sb.append("\n")
+              .append( ExceptionUtils.getRootCauseMessage(ex) )
+              .append("\n")
+              .append( StringUtils.join( ExceptionUtils.getRootCauseStackTrace(ex), "\n") );
+         }
+         sb.append("\n");
+      }
+
+
+      try {
+         cls.getConstructor( String.class ).newInstance( sb.toString() );
+      } catch (InstantiationException ex) {
+         throw new RuntimeException("Failed creating "+ cls.getSimpleName()+" due to: "+ex+"\n   It should have contained: ", new Exception(sb.toString()) );
+      } catch (IllegalAccessException ex) {
+         throw new RuntimeException("Failed creating "+ cls.getSimpleName()+" due to: "+ex+"\n   It should have contained: ", new Exception(sb.toString()) );
+      } catch (NoSuchMethodException ex) {
+         throw new RuntimeException("Failed creating "+ cls.getSimpleName()+" due to: "+ex+"\n   It should have contained: ", new Exception(sb.toString()) );
+      } catch (SecurityException ex) {
+         throw new RuntimeException("Failed creating "+ cls.getSimpleName()+" due to: "+ex+"\n   It should have contained: ", new Exception(sb.toString()) );
+      } catch (IllegalArgumentException ex) {
+         throw new RuntimeException("Failed creating "+ cls.getSimpleName()+" due to: "+ex+"\n   It should have contained: ", new Exception(sb.toString()) );
+      } catch (InvocationTargetException ex) {
+         throw new RuntimeException("Failed creating "+ cls.getSimpleName()+" due to: "+ex+"\n   It should have contained: ", new Exception(sb.toString()) );
+      }
+         
+   }// throwFormattedExceptionIfNeeded()
+
+
    
    
 }// class
