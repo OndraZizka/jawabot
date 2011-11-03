@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 
 import org.apache.wicket.model.IModel;
@@ -34,12 +35,13 @@ import org.apache.wicket.model.Model;
  * must be serializable or model(Object) needs to be overridden to provide the proper model
  * implementation.
  * 
- * @author Igor Vaynberg ( ivaynberg )
  * @author Ondrej Zizka
  * @param <T>
  * 
- * TODO: Would be better to recalculate right in the iterator.
- * 
+ * TODO: Would be better to recalculate right in custom iterator.
+ * TODO: Perhaps even better would be to implement whole List which re-orders another list.
+ *       Custom iterator can't be implemented without private access to the ArrayList
+ *       because it uses modCount. So we can't check for concurrent modification.
  */
 public class ListColumnGridDataProvider<T extends Serializable> implements IDataProvider<T>
 {
@@ -57,24 +59,37 @@ public class ListColumnGridDataProvider<T extends Serializable> implements IData
       if( columns < 1 )
          throw new IllegalArgumentException("Column count must be > 0, was "+columns);
       this.columns = columns;
-      this.recalculateList2();
       return this;
    }
-      
-   private void recalculateList2() {
+   
+   
+   /**
+    *   Shuffles list's items appropriately.
+    * 
+    *   0 1        0 3
+    *   2 3   ->   1 4
+    *   4 -        2 -
+    * 
+    * @param list  List to shuffle. Kept intact.
+    * @return      new shuffled list.
+    */
+   private List<T> recalculateList( List<T> list )
+   {
       int cols = this.getColumns();
+      
       // Column height.
       int colHeight = list.size() / cols;
       // Last items may not fit whole row.
       colHeight += ( (list.size() % cols) == 0 ? 0 : 1 );
       System.out.println( "HEI: "+colHeight );///
       
-      list2 = new ArrayList<T>( list );
+      List list2 = new ArrayList<T>( list );
       for ( int i = 0; i < list.size(); i++ ) {
          int newIndex = (i % colHeight) * cols + (i / colHeight);
          list2.set( newIndex, list.get(i) );
          System.out.println("  list2["+newIndex+"] <- list["+i+"] ");///
       }
+      return list2;
    }
    
 
@@ -99,7 +114,7 @@ public class ListColumnGridDataProvider<T extends Serializable> implements IData
 		}
 
 		this.list = list;
-		this.list2 = new ArrayList<T>(list.size());
+		
 	}
 
 	/**
@@ -109,7 +124,7 @@ public class ListColumnGridDataProvider<T extends Serializable> implements IData
 	 */
 	protected List<T> getData()
 	{
-		return list2;
+		return list;
 	}
 
 	/**
@@ -118,6 +133,7 @@ public class ListColumnGridDataProvider<T extends Serializable> implements IData
 	public Iterator<? extends T> iterator(final int first, final int count)
 	{
 		List<T> list = getData();
+      list = this.recalculateList( list );
 
 		int toIndex = first + count;
 		if (toIndex > list.size())
@@ -149,5 +165,5 @@ public class ListColumnGridDataProvider<T extends Serializable> implements IData
 	public void detach()
 	{
 	}
-
+  
 }
