@@ -206,6 +206,7 @@ public class ChannelLogPanel extends Panel {
  *   Trying to implement Facebook-like "More" content-appending behavior.
  *   For ajax table try.
  *   @author ondra
+ *   @deprecated  Try failed.
  */
 class IrcEventsDataProvider implements ISortableDataProvider<IrcEvent> {
     

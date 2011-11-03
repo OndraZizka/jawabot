@@ -1,8 +1,6 @@
 
 package org.jboss.jawabot.plugin.logger.web._co;
 
-import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
@@ -12,7 +10,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.irc.ent.IrcEvent;
-import org.jboss.jawabot.plugin.logger.ent.IrcEventsCriteria;
+import org.jboss.jawabot.plugin.logger.irc.IrcEventCriteria;
 import org.jboss.jawabot.plugin.logger.web.IrcEventCriteriaLDM;
 
 
@@ -28,7 +26,7 @@ public class IrcEventsLogPanel extends Panel {
     
     @Inject private IrcEventCriteriaLDM model;
 
-    public IrcEventsLogPanel( String id, final IrcEventsCriteria crit ) {
+    public IrcEventsLogPanel( String id, final IrcEventCriteria crit ) {
         super( id );
         model.setCrit(crit);
         this.setDefaultModel(model);
