@@ -36,9 +36,46 @@
       <server host="porky.stuttgart.redhat.com">
          <autoJoinChannels>
             #some
+            #devstudio-qa
+            #devstudio-doc
+            <!--
+            #devstudio-f2f
+            #devstudio
+            #jboss-on
+            #jbds-pm-meeting
+            #edg
+            #infinispan-internal
+            -->
          </autoJoinChannels>
       </server>
    </irc>
+
+   <!-- TODO: Not used yet. -->
+   <web
+      bind="0.0.0.0"
+      path="/"
+   />
+   
+   <!-- TODO: Not used yet (taken from PU). -->
+   <persistence
+         scanForEntities="false"
+      >
+      <jdbc
+         user="jawabot" pass="jawabot" driver="com.mysql.jdbc.Driver" dialect="org.hibernate.dialect.MySQL5Dialect"
+         url="jdbc:mysql://localhost:3306/jawabot?autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"
+         cacheProvider="org.hibernate.cache.NoCacheProvider"
+      />
+   </persistence>
+   
+   <!-- TODO: Not used yet. Will probably point to other file. -->
+   <plugins>
+      <plugin name="reservation"></plugin>
+      <plugin name="jira"></plugin>
+      <plugin name="logger"></plugin>
+      <plugin name="whereis"></plugin>
+      <plugin name="autoop"></plugin>
+      <plugin name="messenger"></plugin>
+   </plugins>
 
    <resources>
 		<resource name="jawa01" note="EAP"/>
