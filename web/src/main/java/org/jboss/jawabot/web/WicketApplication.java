@@ -87,7 +87,12 @@ public class WicketApplication extends InjectingSeamApplication
       
       // Mount plugin pages.
       for( IPageMount pm : this.pageMounts ){
-         pm.mount( new MountProxy(this) );
+         log.info("  Mounting pages for " + pm.getClass().getName() );
+         try{
+            pm.mount( new MountProxy(this) );
+         } catch ( Throwable ex ){
+            log.error("Mounter misbehaved: " + ex.getMessage(), ex);
+         }
       }
       
       

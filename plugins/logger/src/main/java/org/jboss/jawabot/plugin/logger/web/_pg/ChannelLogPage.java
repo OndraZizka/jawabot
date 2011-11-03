@@ -7,7 +7,6 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.jboss.jawabot.plugin.irc.Channel;
 import org.jboss.jawabot.plugin.irc.ChannelManager;
-import org.jboss.jawabot.plugin.irc.web._co.ChannelDetailPanel;
 import org.jboss.jawabot.plugin.irc.web._co.ChannelListPanel;
 import org.jboss.jawabot.plugin.logger.web._co.ChannelLogPanel;
 import org.jboss.jawabot.web._base.BaseLayoutPage;

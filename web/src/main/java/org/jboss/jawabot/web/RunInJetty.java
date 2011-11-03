@@ -11,7 +11,6 @@ import org.apache.wicket.protocol.http.ReloadingWicketServlet;
 //import org.jboss.weld.wicket.BeanManagerLookup;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.*;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

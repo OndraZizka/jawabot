@@ -1,8 +1,9 @@
 
 package org.jboss.jawabot.plugin.logger.web._co;
 
-import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -11,22 +12,32 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.irc.ent.IrcEvent;
+import org.jboss.jawabot.plugin.logger.ent.IrcEventsCriteria;
+import org.jboss.jawabot.plugin.logger.web.IrcEventCriteriaLDM;
+
 
 /**
  *  
  *  @author Ondrej Zizka
  */
 public class IrcEventsLogPanel extends Panel {
-   
-   public IrcEventsLogPanel( String id, final List<IrcEvent> events ) {
-      super( id, new ListModel<IrcEvent>(events) );
-   }
+    
+    /*public IrcEventsLogPanel( String id, final List<IrcEvent> events ) {
+        super( id, new ListModel<IrcEvent>(events) );
+    }*/
+    
+    @Inject private IrcEventCriteriaLDM model;
 
-   
-   
-   @Override
-   protected void onInitialize() {
-      super.onInitialize();
+    public IrcEventsLogPanel( String id, final IrcEventsCriteria crit ) {
+        super( id );
+        model.setCrit(crit);
+        this.setDefaultModel(model);
+    }
+    
+
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
 
         add(new ListView<IrcEvent>("events", (ListModel) this.getDefaultModel() ) 
         {
@@ -34,7 +45,7 @@ public class IrcEventsLogPanel extends Panel {
               // Visible content
               item.add(new Label("nick", item.getModelObject().getUser() ));
               item.add(new Label("text", item.getModelObject().getText() ));
-              
+
               // class="..." - by type of the event.
               item.add(new AttributeModifier("class", new Model<String>() {
                   public String getObject() {
@@ -44,8 +55,8 @@ public class IrcEventsLogPanel extends Panel {
               } ));
            }
         });
-        
-   }// onInitialize()
+
+    }// onInitialize()
    
    
 }
