@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ChannelPage extends BaseLayoutPage
 {
-  private static final Logger log = LoggerFactory.getLogger( ResourcePage.class );
+  private static final Logger log = LoggerFactory.getLogger( ChannelPage.class );
 
   @Inject private ChannelManager channelManager;
   
