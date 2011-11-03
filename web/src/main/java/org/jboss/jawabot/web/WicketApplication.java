@@ -9,7 +9,6 @@ import org.jboss.jawabot.web._pg.PasteBinPage;
 import org.jboss.jawabot.web._pg.TakePage;
 import cz.dynawest.wicket.NonVersionedHybridUrlCodingStrategy;
 import cz.dynawest.wicket.PatternDateConverterThreadLocal;
-import java.util.logging.Logger;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
@@ -20,6 +19,8 @@ import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.web._base.BaseLayoutPage_Vut;
 import org.jboss.jawabot.web._pg.GroupPage;
 import org.jboss.seam.wicket.SeamApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 //import org.jboss.weld.wicket.WeldApplication;
 
 
@@ -30,7 +31,8 @@ import org.jboss.seam.wicket.SeamApplication;
  */
 public class WicketApplication extends SeamApplication // WebApplication 
 {
-   private static final Logger log = Logger.getLogger( WicketApplication.class.getName() );
+   //private static final Logger log = LoggerFactory.getLogger( WicketApplication.class );
+   private static final Logger log = LoggerFactory.getLogger( WicketApplication.class );
 
    private static PatternDateConverterThreadLocal patternDateConverterTL = new PatternDateConverterThreadLocal("yyyy-MM-dd", true);
    public static PatternDateConverterThreadLocal getPatternDateConverterTL() { return patternDateConverterTL; }

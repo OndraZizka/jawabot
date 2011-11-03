@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.*;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
@@ -39,7 +39,7 @@ import org.jboss.jawabot.web._co.ResourceLinkPanel;
  */
 public class HomePage extends BaseLayoutPage
 {
-  private static final Logger log = Logger.getLogger( HomePage.class.getName() );
+  private static final Logger log = LoggerFactory.getLogger( HomePage.class );
 
 
   private String note = "";

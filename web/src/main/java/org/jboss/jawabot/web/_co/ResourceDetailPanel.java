@@ -14,12 +14,16 @@ import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  *  
  *  @author ondra
  */
 public class ResourceDetailPanel extends Panel {
+   private static final Logger log = LoggerFactory.getLogger( ResourceDetailPanel.class );
    
    //Resource res;
 
@@ -44,37 +48,37 @@ public class ResourceDetailPanel extends Panel {
    protected void onInitialize() {
       super.onInitialize();
 
-        //add( new Label("res", this.getResource().getName()) );
+      //add( new Label("res", this.getResource().getName()) );
 
 
-        // Resource's groups - TODO
-        List<String> groups = new ArrayList();
-        groups.add( this.getResource().getProject() );
-        groups.add( "FooGroup" );
-        groups.add( "BarGroup" );
+      // Resource's groups - TODO
+      List<String> groups = new ArrayList();
+      groups.add( this.getResource().getProject() );
+      groups.add( "FooGroup" );
+      groups.add( "BarGroup" );
 
-        add(new ListView<String>("groups", new ListModel( groups ) ) {
-           @Override protected void populateItem(ListItem<String> item) {
-              item.add(new Label("group", item.getModelObject() ));
-              item.setVisible( StringUtils.isBlank( item.getModelObject() ) );
-           }
-        });
+      add(new ListView<String>("groups", new ListModel( groups ) ) {
+        @Override protected void populateItem(ListItem<String> item) {
+           item.add(new Label("group", item.getModelObject() ));
+           item.setVisible( StringUtils.isBlank( item.getModelObject() ) );
+        }
+      });
 
 
 
-        // Reservations.
-        List<ReservationWrap> resvs = JawaBotApp.getJawaBot().getResourceManager().getReservationsForResource( this.getResource() );
+      // Reservations.
+      List<ReservationWrap> resvs = JawaBotApp.getJawaBot().getResourceManager().getReservationsForResource( this.getResource() );
 
-        add(new ListView<ReservationWrap>("reservations", new ListModel<ReservationWrap>( resvs ) ) {
-           @Override protected void populateItem(ListItem<ReservationWrap> item) {
-              ReservationWrap res = item.getModelObject();
-              item.add(new Label("res", res.getResourceName() ));
-              item.add(new Label("owner", res.getForUser() ));
-              item.add(new Label("from", DateUtils.toStringSQL( res.getFrom() ) ));
-              item.add(new Label("to",   DateUtils.toStringSQL( res.getTo()   ) ));
-              item.add(new Label("note", "" ));
-           }
-        });
+      add(new ListView<ReservationWrap>("reservations", new ListModel<ReservationWrap>( resvs ) ) {
+         @Override protected void populateItem(ListItem<ReservationWrap> item) {
+            ReservationWrap res = item.getModelObject();
+            item.add(new Label("res", res.getResourceName() ));
+            item.add(new Label("owner", res.getForUser() ));
+            item.add(new Label("from", DateUtils.toStringSQL( res.getFrom() ) ));
+            item.add(new Label("to",   DateUtils.toStringSQL( res.getTo()   ) ));
+            item.add(new Label("note", "" ));
+         }
+      });
       
    }
    

@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.*;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
@@ -40,7 +40,7 @@ import org.jboss.jawabot.web._base.BaseLayoutPage;
  */
 public class PasteBinPage extends BaseLayoutPage
 {
-   private static final Logger log = Logger.getLogger( PasteBinPage.class.getName() );
+   private static final Logger log = LoggerFactory.getLogger( PasteBinPage.class );
 
 
    // This page's model.

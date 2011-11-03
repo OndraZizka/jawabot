@@ -2,13 +2,13 @@
 package org.jboss.jawabot.web._co.menu;
 
 
-import java.util.logging.*;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.jawabot.web.JawaBotSession;
-import org.jboss.jawabot.web._pg.MenuPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -17,7 +17,7 @@ import org.jboss.jawabot.web._pg.MenuPanel;
  */
 public class AccountBoxPanel extends Panel
 {
-   private static final Logger log = Logger.getLogger( MenuPanel.class.getName() );
+   private static final Logger log = LoggerFactory.getLogger( MenuPanel.class );
 
    
    public AccountBoxPanel( String id ) {

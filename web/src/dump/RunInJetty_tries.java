@@ -44,7 +44,7 @@ import org.mortbay.xml.XmlConfiguration;
  */
 public class RunInJetty_tries
 {
-   private static final Logger log = Logger.getLogger(RunInJetty_tries.class);
+   private static final Logger log = LoggerFactory.getLogger(RunInJetty_tries.class);
 
    
    public static void main( String[] args ){
@@ -127,14 +127,14 @@ public class RunInJetty_tries
       
       // Wicket.
       final ServletHolder wicketSH = new ServletHolder( new MyReloadingWicketServlet() );
-      wicketSH.setInitParameter( "applicationClassName", WicketApplication.class.getName() );
+      wicketSH.setInitParameter( "applicationClassName", WicketApplication.class );
       ctx.addServlet( wicketSH, "/*" );
       //ctx.setAttribute( JawaBotApp.ID.JAWABOT, JawaBotApp.getJawaBot() );
 
 
       /*/
       FilterHolder filterHolder = new FilterHolder( new WicketFilter() );
-      filterHolder.setInitParameter("applicationClassName", cz.dw.test.WicketApplication.class.getName() );
+      filterHolder.setInitParameter("applicationClassName", cz.dw.test.WicketApplication.class );
       root.addFilter( filterHolder, "/*" , Handler.ALL );
       /**/
 
@@ -166,9 +166,9 @@ public class RunInJetty_tries
          
          javax.naming.Reference ref = 
                new javax.naming.Reference(
-                  javax.enterprise.inject.spi.BeanManager.class.getName(),
+                  javax.enterprise.inject.spi.BeanManager.class,
                   //"org.jboss.weld.resources.ManagerObjectFactory",
-                  org.jboss.weld.resources.ManagerObjectFactory.class.getName(),
+                  org.jboss.weld.resources.ManagerObjectFactory.class,
                   null 
                );
 

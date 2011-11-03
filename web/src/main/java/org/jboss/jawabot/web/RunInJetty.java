@@ -11,7 +11,6 @@ import javax.naming.NameClassPair;
 import javax.naming.NameParser;
 import javax.naming.NamingEnumeration;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.wicket.application.ReloadingClassLoader;
 import org.apache.wicket.protocol.http.ReloadingWicketServlet;
 //import org.jboss.weld.wicket.BeanManagerLookup;
@@ -22,6 +21,8 @@ import org.mortbay.jetty.plus.naming.Resource;
 import org.mortbay.jetty.servlet.*;
 import org.mortbay.naming.NamingUtil;
 import org.mortbay.xml.XmlConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
@@ -36,7 +37,7 @@ import org.mortbay.xml.XmlConfiguration;
  */
 public class RunInJetty
 {
-   private static final Logger log = Logger.getLogger(RunInJetty.class);
+   private static final Logger log = LoggerFactory.getLogger(RunInJetty.class);
 
    
    public static void main( String[] args ){

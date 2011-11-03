@@ -7,7 +7,7 @@ import org.jboss.jawabot.web._base.BaseLayoutPage_orig;
 import cz.dynawest.util.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.*;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.datetime.markup.html.form.DateTextField;
@@ -31,7 +31,7 @@ import org.jboss.jawabot.web._base.BaseLayoutPage;
  */
 public class LeavePage extends BaseLayoutPage
 {
-   private static final Logger log = Logger.getLogger( TakePage.class.getName() );
+   private static final Logger log = LoggerFactory.getLogger( TakePage.class );
 
 
    // -- Form backing --

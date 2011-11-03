@@ -2,12 +2,12 @@
 package org.jboss.jawabot.web._base;
 
 
-import java.util.logging.*;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.jboss.jawabot.web.JawaBotSession;
 import org.jboss.jawabot.web.WicketApplication;
-import org.jboss.jawabot.web._pg.MenuPanel;
+import org.jboss.jawabot.web._co.menu.MenuPanel;
 
 
 /**
@@ -16,7 +16,7 @@ import org.jboss.jawabot.web._pg.MenuPanel;
  */
 public class BaseLayoutPage_Vut extends ConveniencePageBase
 {
-  private static final Logger log = Logger.getLogger( BaseLayoutPage_orig.class.getName() );
+  private static final Logger log = LoggerFactory.getLogger( BaseLayoutPage_orig.class );
 
   public BaseLayoutPage_Vut( PageParameters parameters ) {
     super( parameters );

@@ -3,8 +3,6 @@ package org.jboss.jawabot.web._pg;
 
 
 import java.io.Serializable;
-import java.util.logging.*;
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
@@ -14,6 +12,8 @@ import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -22,7 +22,7 @@ import org.jboss.jawabot.web._base.BaseLayoutPage;
  */
 public class LoginPage extends BaseLayoutPage
 {
-  private static final Logger log = Logger.getLogger( HomePage.class.getName() );
+  private static final Logger log = LoggerFactory.getLogger( HomePage.class );
   
   
   public static final String PARAM_LOGOUT = "logout";

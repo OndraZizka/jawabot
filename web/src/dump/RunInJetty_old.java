@@ -25,7 +25,7 @@ import org.mortbay.jetty.servlet.*;
  */
 public class RunInJetty_old
 {
-   private static final Logger log = Logger.getLogger(RunInJetty_old.class);
+   private static final Logger log = LoggerFactory.getLogger(RunInJetty_old.class);
 
    
    public static void main( String[] args ){
@@ -101,14 +101,14 @@ public class RunInJetty_old
       
       // Wicket.
       final ServletHolder wicketSH = new ServletHolder( new MyReloadingWicketServlet() );
-      wicketSH.setInitParameter( "applicationClassName", WicketApplication.class.getName() );
+      wicketSH.setInitParameter( "applicationClassName", WicketApplication.class );
       ctx.addServlet( wicketSH, "/*" );
       //ctx.setAttribute( JawaBotApp.ID.JAWABOT, JawaBotApp.getJawaBot() );
 
 
       /*/
       FilterHolder filterHolder = new FilterHolder( new WicketFilter() );
-      filterHolder.setInitParameter("applicationClassName", cz.dw.test.WicketApplication.class.getName() );
+      filterHolder.setInitParameter("applicationClassName", cz.dw.test.WicketApplication.class );
       root.addFilter( filterHolder, "/*" , Handler.ALL );
       /**/
 

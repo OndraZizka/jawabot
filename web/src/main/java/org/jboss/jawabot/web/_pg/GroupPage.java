@@ -3,12 +3,13 @@ package org.jboss.jawabot.web._pg;
 
 
 import javax.inject.Inject;
-import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.jboss.jawabot.groupmgr.GroupManager;
 import org.jboss.jawabot.state.ent.Group;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -17,7 +18,7 @@ import org.jboss.jawabot.web._base.BaseLayoutPage;
  */
 public class GroupPage extends BaseLayoutPage
 {
-  private static final Logger log = Logger.getLogger( GroupPage.class.getName() );
+  private static final Logger log = LoggerFactory.getLogger( GroupPage.class );
   private final String GROUP_NAME = "group";
   
   @Inject private GroupManager groupManager;

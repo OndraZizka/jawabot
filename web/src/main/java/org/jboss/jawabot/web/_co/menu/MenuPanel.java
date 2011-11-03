@@ -1,16 +1,12 @@
 
-package org.jboss.jawabot.web._pg;
+package org.jboss.jawabot.web._co.menu;
 
 
 import org.jboss.jawabot.web._base.ConveniencePageBase;
 import java.util.List;
-import java.util.logging.*;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.pastebin.PasteBinEntry;
@@ -19,8 +15,8 @@ import org.jboss.jawabot.web.JawaBotSession;
 import org.jboss.jawabot.web._co.GroupLinkPanel;
 import org.jboss.jawabot.web._co.PastebinLinkPanel;
 import org.jboss.jawabot.web._co.ResourceLinkPanel;
-import org.jboss.jawabot.web._co.menu.AccountBoxPanel;
-import org.jboss.jawabot.web._co.menu.MenuBoxPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -29,7 +25,7 @@ import org.jboss.jawabot.web._co.menu.MenuBoxPanel;
  */
 public class MenuPanel extends Panel
 {
-   private static final Logger log = Logger.getLogger( MenuPanel.class.getName() );
+   private static final Logger log = LoggerFactory.getLogger( MenuPanel.class );
 
    
    public MenuPanel( String id ) {
@@ -44,17 +40,6 @@ public class MenuPanel extends Panel
       // User box - MenuBox test.
       add( new MenuBoxPanel( "accountBox", "Account", new AccountBoxPanel("content") ) );
 
-      // User box.
-      add( new WebMarkupContainer("userNotLogged"){
-            @Override public boolean isVisible() { return !isUserLogged(); }
-      });
-      add( new WebMarkupContainer("userLogged"){
-            @Override public boolean isVisible() { return isUserLogged(); }
-         }
-         .add( new Label("loggedUser", new PropertyModel(getSession(), "loggedUser")){
-            @Override public boolean isVisible() { return isUserLogged(); }
-         })
-      );
 
       // Resources.
       List<Resource> resources = ((ConveniencePageBase)getPage()).getJawaBot().getResourceManager().getResourcesWithNoReservations();
