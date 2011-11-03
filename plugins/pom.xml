@@ -25,9 +25,9 @@
    <modules>
       <!--
       <module>resources</module>
-      <module>logger</module>
       <module>pastebin</module>
       -->
+      <module>logger</module>
       <module>autoop</module>
       <module>jira</module>
    </modules>
@@ -35,25 +35,44 @@
 
 
    <!-- Dependencies -->
+   <dependencyManagement>
+       <dependencies>
+          <dependency>
+             <groupId>org.jboss.jawabot</groupId>
+             <artifactId>JawaBot-core</artifactId>
+             <version>${project.version}</version>
+          </dependency>
+
+          <dependency>
+             <groupId>org.jboss.jawabot</groupId>
+             <artifactId>JawaBot-irc</artifactId>
+             <version>${project.version}</version>
+          </dependency>
+
+          <dependency>
+             <groupId>org.jboss.jawabot</groupId>
+             <artifactId>JawaBot-web</artifactId>
+             <version>${project.version}</version>
+          </dependency>
+      </dependencies>
+   </dependencyManagement>
+   
    <dependencies>
 
       <dependency>
          <groupId>org.jboss.jawabot</groupId>
          <artifactId>JawaBot-core</artifactId>
-         <version>${project.version}</version>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.jawabot</groupId>
          <artifactId>JawaBot-irc</artifactId>
-         <version>${project.version}</version>
          <optional>true</optional>
       </dependency>
       
       <dependency>
          <groupId>org.jboss.jawabot</groupId>
          <artifactId>JawaBot-web</artifactId>
-         <version>${project.version}</version>
          <optional>true</optional>
       </dependency>
 

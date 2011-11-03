@@ -9,14 +9,14 @@
    </properties>
 
    <groupId>org.jboss.jawabot</groupId>
-   <artifactId>JawaBot-logger</artifactId>
+   <artifactId>JawaBot-plugin-jira</artifactId>
    <packaging>jar</packaging>
 
-   <name>JawaBot 2.0 logger</name>
+   <name>JawaBot 2.0 plugin jira</name>
 
    <parent>
       <groupId>org.jboss.jawabot</groupId>
-      <artifactId>JawaBot-root</artifactId>
+      <artifactId>JawaBot-plugins</artifactId>
       <version>2.0.0-SNAPSHOT</version>
    </parent>
 

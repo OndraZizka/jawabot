@@ -1,7 +1,7 @@
 package org.jboss.jawabot.web;
 
 import javax.enterprise.inject.spi.BeanManager;
-import org.jboss.jawabot.JawaBotApp;
+import javax.inject.Inject;
 
 /**
  *  
@@ -9,9 +9,12 @@ import org.jboss.jawabot.JawaBotApp;
  */
 public class JawaBotAppBeanManagerProvider implements org.jboss.seam.solder.beanManager.BeanManagerProvider {
 
+   @Inject private BeanManager beanManager;
+
    @Override
    public BeanManager getBeanManager() {
-      return JawaBotApp.beanManager;
+      assert this.beanManager != null;
+      return this.beanManager;
    }
 
    @Override

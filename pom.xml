@@ -15,7 +15,6 @@
       <module>core</module>
       <!-- Keep the core above. -->
       <module>irc</module>
-      <module>logger</module>
       <!-- Keep this down. -->
       <module>web</module>
       <!--<module>web3</module>-->
