@@ -75,8 +75,30 @@
          <scope>test</scope>
       </dependency>
 
-
    </dependencies>
+   
+   <dependencyManagement>
+      <dependencies>
+         <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.1</version>
+         </dependency>
+         
+         <!-- Slf4j -->
+         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.5.11</version>
+         </dependency>
+         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.5.11</version>
+         </dependency>
+
+      </dependencies>
+   </dependencyManagement>
 
    <repositories>
       <!-- Infinispan 

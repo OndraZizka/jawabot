@@ -1,5 +1,5 @@
 
-package org.jboss.jawabot.web._pg;
+package org.jboss.jawabot.web._pg.test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
