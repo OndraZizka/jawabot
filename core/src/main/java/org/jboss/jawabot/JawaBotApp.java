@@ -3,8 +3,10 @@ package org.jboss.jawabot;
 import cz.dynawest.util.plugin.PluginLoadEx;
 import cz.dynawest.util.plugin.PluginUtils;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
@@ -30,6 +32,9 @@ public class JawaBotApp
    }*/
    
    @Inject private BeanManager beanManager;
+   
+   @Inject private Instance<IModuleHook> moduleHookInstances;
+   
 
    
    // Things shown in the "help" command reply.
@@ -96,21 +101,94 @@ public class JawaBotApp
    
    
    /**
+    *  Initialization of all modules (like IRC and Web).
+    */
+   private void initAndStartModules() throws JawaBotException {
+
+      
+      // For listing of init errors.
+      List<Throwable> exs = new ArrayList<Throwable>();
+      List<String> errModules = new ArrayList<String>();
+      
+      //IModuleHook[] moduleHooks = new IModuleHook[moduleHookInstances];
+      List<IModuleHook> moduleHooks = new ArrayList();
+      for( IModuleHook iModuleHook : moduleHookInstances ) {
+         moduleHooks.add(iModuleHook);
+      }
+      
+      // Instantiate
+      /*for( Bean<?>  moduleHookBean : moduleHookBeans ){
+         try {
+            //moduleHooks[i] = moduleHookBean.;
+         } catch(  Exception ex ) {
+            exs.add( ex );
+            //errModules.add(  );
+         }
+      }*/
+      
+      // Init
+      for( IModuleHook hook : moduleHooks ) {
+         try {
+            if( null == hook ) continue;
+            hook.initModule( getJawaBot(), getJawaBot().getConfig() );
+         } catch( Throwable ex ) {
+            exs.add( ex );
+            errModules.add( hook.getClass().getName() );
+         }
+      }
+      
+      // Start
+      for( IModuleHook hook : moduleHooks ) {
+         try {
+            if( null == hook ) continue;
+            hook.startModule();
+         } catch( Throwable ex ) {
+            exs.add( ex );
+            errModules.add( hook.getClass().getName() );
+         }
+      }
+      
+      //if( exs.size() == 1 )
+      //   throw new JawaBotException( exs.get(0).getMessage(), exs.get(0) );
+      
+      if( exs.size() != 0 ){
+         StringBuilder sb = new StringBuilder("Some modules couldn't be initialized or started: ")
+           .append( StringUtils.join( errModules, ", ") )
+           .append("\n");
+         for( Throwable ex : exs ) {
+            if( ex instanceof PluginLoadEx ){
+               PluginLoadEx plex = (PluginLoadEx) ex;
+               sb.append("\n  ")
+                 .append( plex.getModuleClass() )
+                 .append( ": " )
+                 .append( ExceptionUtils.getRootCauseMessage(plex) );
+            }
+            else{
+               sb.append("\n")
+                 .append( ExceptionUtils.getRootCauseMessage(ex) )
+                 .append("\n")
+                 .append( StringUtils.join( ExceptionUtils.getRootCauseStackTrace(ex), "\n") );
+            }
+            sb.append("\n");
+         }
+         throw new JawaBotException( sb.toString(), null);
+      }
+      
+   }// initAndStartModules()
+
+   /**
     *  Initialization of all modules.
     *  Currently listed statically - IRC and Web.
     *  With a bit of PHP style on top.
     */
-   private void initAndStartModules() throws JawaBotException {
+   private void initAndStartModules_Old() throws JawaBotException {
 
       String[] moduleNames = new String[] {
          "org.jboss.jawabot.irc.IrcModuleHook",
          "org.jboss.jawabot.mod.web.WebModuleHook",
       };
       
-      Set<Bean<?>> beans = beanManager.getBeans(IModuleHook.class);
-      
-      // TODO:  Traverse that beans, not moduleNames.
-      
+     
       IModuleHook[] moduleHooks = new IModuleHook[moduleNames.length];
 
       // For listing of init errors.
@@ -175,7 +253,7 @@ public class JawaBotApp
          throw new JawaBotException( sb.toString(), null);
       }
       
-   }// initAndStartModules()
+   }// initAndStartModules_Old()
 
    
    
