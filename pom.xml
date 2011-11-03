@@ -133,9 +133,7 @@
    </dependencyManagement>
    
    <repositories>
-      <!-- Infinispan 
       <repository><id>jboss</id><url>https://repository.jboss.org/nexus/content/groups/public</url></repository>
-      -->
       <!-- PLJ filter, PircBot 1.5.0 -->
       <repository><id>ondrazizka-googlecode</id><url>http://ondrazizka.googlecode.com/svn/maven</url></repository>
    </repositories>
