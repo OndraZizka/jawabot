@@ -93,6 +93,29 @@
          <version>${project.version}</version>
       </dependency>
 
+      <!-- Plugins -->
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-plugin-jira</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-plugin-logger</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-plugin-messenger</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-plugin-whereis</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+
+
    </dependencies>
    
 </project>
