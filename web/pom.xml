@@ -73,88 +73,99 @@
    <!-- Dependencies -->
    <dependencies>
 
-        <dependency>
-            <groupId>org.jboss.jawabot</groupId>
-            <artifactId>JawaBot-core</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
-        </dependency>
+      <dependency>
+         <groupId>org.jboss.jawabot</groupId>
+         <artifactId>JawaBot-core</artifactId>
+         <version>2.0.0-SNAPSHOT</version>
+      </dependency>
 
 
 
 
-        <!-- ======================= WEB ======================= -->
+      <!-- ======================= WEB ======================= -->
 
-        <!--  Wicket -->
-        <dependency>
-            <groupId>org.apache.wicket</groupId>
-            <artifactId>wicket</artifactId>
-            <version>${wicket.version}</version>
-        </dependency>
-        <dependency>
-        <groupId>org.jboss.weld</groupId>
-            <artifactId>weld-wicket</artifactId>
-            <version>1.0.1-Final</version>
-            <type>jar</type>
-        </dependency>
-
-        <!-- Optional
-        -->
-        <dependency> 
-            <groupId>org.apache.wicket</groupId>	
-            <artifactId>wicket-extensions</artifactId> 
-            <version>${wicket.version}</version> 
-        </dependency>
-        <dependency>
-            <groupId>org.apache.wicket</groupId>
-            <artifactId>wicket-datetime</artifactId>
-            <version>${wicket.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.wicket</groupId>
-            <artifactId>wicket-devutils</artifactId>
-            <version>${wicket.version}</version>
-        </dependency>
-
-        <!-- Slf4j -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.4.2</version>
-        </dependency>
-
-        <!--  Jetty  -->
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty</artifactId>
-            <version>${jetty.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty-util</artifactId>
-            <version>${jetty.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty-management</artifactId>
-            <version>${jetty.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty-plus</artifactId>
-            <version>${jetty.version}</version>
-            <type>jar</type>
-        </dependency>
+      <!--  Wicket -->
+      <dependency>
+         <groupId>org.apache.wicket</groupId>
+         <artifactId>wicket</artifactId>
+         <version>${wicket.version}</version>
+      </dependency>
       
-        <!-- PLJ compressing servlet filter -->
-        <dependency>
-            <groupId>cz.dynawest.third.pljfilter</groupId>
-            <artifactId>pljFilter</artifactId>
-            <version>1.7</version>
-        </dependency>
-        
+      <!-- Weld-Wicket for CDI -->
+      <dependency>
+         <groupId>org.jboss.weld</groupId>
+         <artifactId>weld-wicket</artifactId>
+         <version>1.0.1-Final</version>
+         <type>jar</type>
+      </dependency>
+      <!-- TODO: Weld-Wicket was moved to Seam... 
+      <dependency>
+         <groupId>org.jboss.seam.wicket</groupId>
+         <artifactId>seam-wicket</artifactId>
+         <version>3.0.0.Final</version>
+         <type>jar</type>
+      </dependency>
+      -->
+
+
+      <!-- Optional
+      -->
+      <dependency> 
+         <groupId>org.apache.wicket</groupId>	
+         <artifactId>wicket-extensions</artifactId> 
+         <version>${wicket.version}</version> 
+      </dependency>
+      <dependency>
+         <groupId>org.apache.wicket</groupId>
+         <artifactId>wicket-datetime</artifactId>
+         <version>${wicket.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.wicket</groupId>
+         <artifactId>wicket-devutils</artifactId>
+         <version>${wicket.version}</version>
+      </dependency>
+
+      <!-- Slf4j -->
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-log4j12</artifactId>
+         <version>1.4.2</version>
+      </dependency>
+
+      <!--  Jetty  -->
+      <dependency>
+         <groupId>org.mortbay.jetty</groupId>
+         <artifactId>jetty</artifactId>
+         <version>${jetty.version}</version>
+         <scope>compile</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.mortbay.jetty</groupId>
+         <artifactId>jetty-util</artifactId>
+         <version>${jetty.version}</version>
+         <scope>compile</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.mortbay.jetty</groupId>
+         <artifactId>jetty-management</artifactId>
+         <version>${jetty.version}</version>
+         <scope>compile</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.mortbay.jetty</groupId>
+         <artifactId>jetty-plus</artifactId>
+         <version>${jetty.version}</version>
+         <type>jar</type>
+      </dependency>
+      
+      <!-- PLJ compressing servlet filter -->
+      <dependency>
+         <groupId>cz.dynawest.third.pljfilter</groupId>
+         <artifactId>pljFilter</artifactId>
+         <version>1.7</version>
+      </dependency>
+      
    </dependencies>
 
 

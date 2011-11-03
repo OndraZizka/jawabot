@@ -2,7 +2,7 @@
    "http://jetty.mortbay.org/configure.dtd">
    
    <!--
-     This web.xml doesn't have any effect - Jetty is configured programatically.
+     This file doesn't have any effect - Jetty is configured programatically.
      
      This only keeps the following CDI-related code sample, taken from here:
      http://docs.jboss.org/weld/reference/latest/en-US/html/environments.html#d0e5286

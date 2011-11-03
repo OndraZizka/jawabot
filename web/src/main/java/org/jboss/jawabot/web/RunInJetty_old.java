@@ -5,16 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.wicket.application.ReloadingClassLoader;
 import org.apache.wicket.protocol.http.ReloadingWicketServlet;
-import org.jboss.weld.wicket.BeanManagerLookup;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.*;
-import org.mortbay.jetty.webapp.WebAppContext;
-import org.mortbay.xml.XmlConfiguration;
 
 
 
@@ -27,9 +23,9 @@ import org.mortbay.xml.XmlConfiguration;
  * 
  * @author Ondrej Zizka
  */
-public class RunInJetty
+public class RunInJetty_old
 {
-   private static final Logger log = Logger.getLogger(RunInJetty.class);
+   private static final Logger log = Logger.getLogger(RunInJetty_old.class);
 
    
    public static void main( String[] args ){
@@ -40,9 +36,7 @@ public class RunInJetty
    {
 
       Server server = new Server( 8080 );
-      //Context ctx = new Context( server, "/", Context.NO_SECURITY | Context.SESSIONS );
-      WebAppContext ctx = new WebAppContext( server, null, "/"); /// new approach
-      
+      Context ctx = new Context( server, "/", Context.NO_SECURITY | Context.SESSIONS );
 
 
       
@@ -62,7 +56,7 @@ public class RunInJetty
       }
       else {
          // Use classes path as default
-         URL staticDirURL = RunInJetty.class.getResource("/org/jboss/jawabot/web/RunInJetty.class");
+         URL staticDirURL = RunInJetty_old.class.getResource("/org/jboss/jawabot/web/RunInJetty.class");
          try {
             staticDir = new File( staticDirURL.toURI() );
          } catch( URISyntaxException ex ) {
@@ -133,26 +127,6 @@ public class RunInJetty
       //ctx.addHandler( new );
 
 
-      /**/
-      try {
-         
-         // See Jetty examples - FromXmlConfiguration.java
-         String confXml = IOUtils.toString( RunInJetty.class.getResourceAsStream( "/WEB-INF/jetty-env.xml" ) );
-         XmlConfiguration configuration = new XmlConfiguration(confXml); 
-         configuration.configure(server);
-         
-         //BeanManager
-         new org.mortbay.jetty.plus.naming.Resource( ctx, /*"BeanManager"*/ BeanManagerLookup.getBeanManagerJndiName(), 
-            new javax.naming.Reference(
-               "javax.enterprise.inject.spi.BeanManager",
-               "org.jboss.weld.resources.ManagerObjectFactory", null )
-         );
-      } catch ( Exception ex ) {
-         log.error( ex );
-      }
-      /**/
-
-
 
       try {
          server.start();
@@ -166,10 +140,3 @@ public class RunInJetty
 
 
 
-class MyReloadingWicketServlet extends ReloadingWicketServlet 
-{
-    static {
-        ReloadingClassLoader.excludePattern( "org.apache.wicket.*" );
-        ReloadingClassLoader.includePattern( "org.jboss.jawabot.*" );
-    }
-}
