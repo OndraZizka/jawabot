@@ -14,8 +14,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
@@ -30,7 +31,7 @@ import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
  */
 public class ResourceManager
 {
-   private static final Logger log = Logger.getLogger( ResourceManager.class );
+   private static final Logger log = LoggerFactory.getLogger( ResourceManager.class );
 
    private ReadersAndModifiersSynchronizer rwlock = new ReadersAndModifierSynchronizerReentrant();
 

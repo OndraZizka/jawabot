@@ -5,7 +5,6 @@ package org.jboss.jawabot.state.ent;
 import cz.dynawest.util.DateUtils;
 import java.io.Serializable;
 import java.util.*;
-import java.util.logging.*;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +16,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -36,7 +37,7 @@ import javax.persistence.TemporalType;
 public class Reservation implements Serializable
 {
    private static final long serialVersionUID = 1L;
-   private static final Logger log = Logger.getLogger( Reservation.class.getName() );
+   private static final Logger log = LoggerFactory.getLogger( Reservation.class.getName() );
 
    
 

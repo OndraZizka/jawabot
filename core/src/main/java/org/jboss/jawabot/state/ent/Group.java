@@ -3,8 +3,7 @@ package org.jboss.jawabot.state.ent;
 
 
 import java.io.Serializable;
-import java.util.*;
-import java.util.logging.*;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +14,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 /**
@@ -29,7 +31,7 @@ import javax.persistence.Table;
 public class Group implements Serializable, Comparable<Group> 
 {
    private static final long serialVersionUID = 1L;
-   private static final Logger log = Logger.getLogger( Group.class.getName() );
+   private static final Logger log = LoggerFactory.getLogger( Group.class );
 
    
    @Id

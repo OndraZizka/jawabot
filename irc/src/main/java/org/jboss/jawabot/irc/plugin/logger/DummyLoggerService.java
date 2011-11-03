@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * @author Ondrej Zizka
  */
 public class DummyLoggerService implements ILoggerService {
-   private static final Logger log = LoggerFactory.getLogger( LoggerIrcPluginHook.class );
+   private static final Logger log = LoggerFactory.getLogger( DummyLoggerService.class );
    
    
    @Override

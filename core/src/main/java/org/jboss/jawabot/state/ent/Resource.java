@@ -4,7 +4,6 @@ package org.jboss.jawabot.state.ent;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.logging.*;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +14,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -29,14 +30,20 @@ import javax.persistence.Table;
 public class Resource implements Serializable
 {
    private static final long serialVersionUID = 1L;
-   @Id
-   @Basic(optional = false)
+   private static final Logger log = LoggerFactory.getLogger( Resource.class.getName() );
+   
+   
+   @Id  @Basic(optional = false)
    @Column(name = "name", nullable = false, length = 8)
    private String name;
+   
+   
    @OneToMany(cascade = CascadeType.ALL, mappedBy = "res", fetch = FetchType.LAZY)
    private Collection<ResourceInGroup> resourceInGroupCollection;
-  private static final Logger log = Logger.getLogger( Resource.class.getName() );
+   
 
+   
+   
    public Resource() {
    }
 
@@ -44,14 +51,12 @@ public class Resource implements Serializable
       this.name = name;
    }
 
-   public String getName() {
-      return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
-
+   
+   
+   public String getName() { return name; }
+   public void setName(String name) { this.name = name; }
+   
+   
    public Collection<ResourceInGroup> getResourceInGroupCollection() {
       return resourceInGroupCollection;
    }
@@ -60,6 +65,8 @@ public class Resource implements Serializable
       this.resourceInGroupCollection = resourceInGroupCollection;
    }
 
+   
+   
    @Override
    public int hashCode() {
       int hash = 0;

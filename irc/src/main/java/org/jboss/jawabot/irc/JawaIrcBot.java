@@ -8,7 +8,6 @@ import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
 import java.util.Map.Entry;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.state.beans.StateBean;
@@ -37,7 +36,6 @@ import org.jibble.pircbot.NickAlreadyInUseException;
  *
  * @author ondra
  */
-@XmlRootElement
 public class JawaIrcBot extends PircBot
 {
    private static final Logger log = Logger.getLogger( JawaIrcBot.class );
@@ -255,11 +253,16 @@ public class JawaIrcBot extends PircBot
             try {
                entry.getValue().onMessage( msg );
             }
-            catch (IrcPluginException ex) {
+            //catch( IrcPluginException ex ) {
+            catch( NullPointerException ex ) {
+               log.error( "Plugin misbehaved: " + ex, ex );
+               // TODO: Filter same exceptions.
+            }
+            catch( Throwable ex ) {
                if( System.getProperty("bot.irc.plugins.printStackTraces") != null )
                   log.error( "Plugin misbehaved: " + ex.getMessage(), ex );
                else
-                  log.error( "Plugin misbehaved: " + ex.getMessage(), ex );
+                  log.error( "Plugin misbehaved: " + ex );
             }
          }// for
          

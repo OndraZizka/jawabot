@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  */
 public class LoginPage extends BaseLayoutPage
 {
-  private static final Logger log = LoggerFactory.getLogger( HomePage.class );
+  private static final Logger log = LoggerFactory.getLogger( LoginPage.class );
   
   
   public static final String PARAM_LOGOUT = "logout";

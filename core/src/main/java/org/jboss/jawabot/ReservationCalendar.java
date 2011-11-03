@@ -7,7 +7,9 @@ import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Wrapper - basically, an ArrayList of reservations.
@@ -15,7 +17,7 @@ import org.apache.log4j.Logger;
  */
 public class ReservationCalendar implements Serializable
 {
-   private static final Logger log = Logger.getLogger( ReservationCalendar.class );
+   private static final Logger log = LoggerFactory.getLogger( ReservationCalendar.class );
 
 
    

@@ -4,7 +4,6 @@ package org.jboss.jawabot.state.ent;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.logging.*;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +17,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 /**
@@ -34,22 +36,28 @@ import javax.persistence.UniqueConstraint;
 public class ResourceInGroup implements Serializable
 {
    private static final long serialVersionUID = 1L;
+   private static final Logger log = LoggerFactory.getLogger( ResourceInGroup.class.getName() );
+   
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Basic(optional = false)
    @Column(name = "id", nullable = false)
    private Integer id;
+   
    @Basic(optional = false)
    @Column(name = "ver", nullable = false)
    private int ver;
+   
    @JoinColumn(name = "res", referencedColumnName = "name", nullable = false)
    @ManyToOne(optional = false, fetch = FetchType.LAZY)
    private Resource res;
+   
    @JoinColumn(name = "grp", referencedColumnName = "name", nullable = false)
    @ManyToOne(optional = false, fetch = FetchType.LAZY)
    private Group grp;
-  private static final Logger log = Logger.getLogger( ResourceInGroup.class.getName() );
 
+   
+   
    public ResourceInGroup() {
    }
 
@@ -62,38 +70,21 @@ public class ResourceInGroup implements Serializable
       this.ver = ver;
    }
 
-   public Integer getId() {
-      return id;
-   }
-
-   public void setId(Integer id) {
-      this.id = id;
-   }
-
-   public int getVer() {
-      return ver;
-   }
-
-   public void setVer(int ver) {
-      this.ver = ver;
-   }
-
-   public Resource getRes() {
-      return res;
-   }
-
-   public void setRes(Resource res) {
-      this.res = res;
-   }
-
-   public Group getGrp() {
-      return grp;
-   }
-
-   public void setGrp(Group grp) {
-      this.grp = grp;
-   }
-
+   
+   
+   public Integer getId() { return id; }
+   public void setId(Integer id) { this.id = id; }
+   public int getVer() { return ver; }
+   public void setVer(int ver) { this.ver = ver; }
+   public Resource getRes() { return res; }
+   public void setRes(Resource res) { this.res = res; }
+   public Group getGrp() { return grp; }
+   public void setGrp(Group grp) { this.grp = grp; }
+   
+   
+   
+   
+   
    @Override
    public int hashCode() {
       int hash = 0;

@@ -31,7 +31,7 @@ import org.jboss.jawabot.ex.JawaBotException;
  */
 public class CommandHandlerImpl implements CommandHandler
 {
-   private static final Logger log = Logger.getLogger( JawaIrcBot.class );
+   private static final Logger log = Logger.getLogger( CommandHandlerImpl.class );
 
    
    

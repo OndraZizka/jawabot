@@ -29,13 +29,16 @@ import javax.persistence.Table;
 public class User implements Serializable
 {
    private static final long serialVersionUID = 1L;
-   @Id
-   @Basic(optional = false)
+   private static final Logger log = Logger.getLogger( User.class.getName() );
+
+  
+   
+   @Id  @Basic(optional = false)
    @Column(name = "name", nullable = false, length = 24)
    private String name;
+   
    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
    private Collection<UserInGroup> userInGroupCollection;
-  private static final Logger log = Logger.getLogger( User.class.getName() );
 
    public User() {
    }
@@ -44,13 +47,9 @@ public class User implements Serializable
       this.name = name;
    }
 
-   public String getName() {
-      return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
+   
+   public String getName() { return name; }
+   public void setName(String name) { this.name = name; }
 
    public Collection<UserInGroup> getUserInGroupCollection() {
       return userInGroupCollection;

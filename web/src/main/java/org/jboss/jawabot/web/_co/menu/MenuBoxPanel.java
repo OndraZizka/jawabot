@@ -3,7 +3,6 @@ package org.jboss.jawabot.web._co.menu;
 
 
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.jboss.jawabot.web.JawaBotSession;
@@ -15,7 +14,7 @@ import org.jboss.jawabot.web.JawaBotSession;
  */
 public class MenuBoxPanel extends Panel
 {
-   private static final Logger log = LoggerFactory.getLogger( MenuPanel.class );
+   private static final Logger log = LoggerFactory.getLogger( MenuBoxPanel.class );
    
    String label;
    //Panel content;

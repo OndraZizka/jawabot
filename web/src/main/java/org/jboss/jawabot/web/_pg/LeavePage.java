@@ -31,7 +31,7 @@ import org.jboss.jawabot.web._base.BaseLayoutPage;
  */
 public class LeavePage extends BaseLayoutPage
 {
-   private static final Logger log = LoggerFactory.getLogger( TakePage.class );
+   private static final Logger log = LoggerFactory.getLogger( LeavePage.class );
 
 
    // -- Form backing --

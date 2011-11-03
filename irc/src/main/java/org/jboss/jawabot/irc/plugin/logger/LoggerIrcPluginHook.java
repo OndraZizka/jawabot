@@ -1,6 +1,7 @@
 package org.jboss.jawabot.irc.plugin.logger;
 
 import cz.dynawest.util.plugin.PluginEx;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import org.jboss.jawabot.irc.IIrcPluginHook;
@@ -18,11 +19,13 @@ public class LoggerIrcPluginHook implements IIrcPluginHook<Object> {
    private static final Logger log = LoggerFactory.getLogger( LoggerIrcPluginHook.class );
 
    @Inject EntityManager em;
+   @Inject private Instance<IIrcPluginHook> pluginHookInstances;
    
    
    @Override
    public void onMessage(IrcMessage message) throws IrcPluginException {
       log.info(" IRC message: " + message);
+      log.info(" em: " + em);
       em.persist( message );
       log.info(" IRC message: " + message);
    }

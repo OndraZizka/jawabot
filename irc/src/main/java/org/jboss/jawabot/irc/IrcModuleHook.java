@@ -2,14 +2,14 @@
 package org.jboss.jawabot.irc;
 
 import org.jboss.jawabot.IModuleHook;
-import org.jboss.jawabot.config.JaxbConfigPersister;
 import org.jboss.jawabot.config.beans.ConfigBean;
 
-import org.apache.log4j.Logger;
 import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.UnknownResourceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.jboss.jawabot.ex.UnknownResourceException;
  */
 public class IrcModuleHook implements IModuleHook 
 {
-   private static final Logger log = Logger.getLogger(JaxbConfigPersister.class);
+   private static final Logger log = LoggerFactory.getLogger(IrcModuleHook.class);
     
     
    private static JawaIrcBot bot;
@@ -33,20 +33,20 @@ public class IrcModuleHook implements IModuleHook
 
    @Override
    public void destroyModule() {
+      bot.dispose();
    }
     
    
    
    @Override
    public void applyConfig(ConfigBean configBean) {
-      throw new UnsupportedOperationException("Not supported yet.");
    }
 
    @Override
    public void mergeConfig(ConfigBean configBean) {
-      throw new UnsupportedOperationException("Not supported yet.");
    }
 
+   
    @Override
    public void startModule() throws JawaBotException {
       bot.connectAndJoin();
@@ -54,6 +54,7 @@ public class IrcModuleHook implements IModuleHook
 
    @Override
    public void stopModule() {
+      bot.disconnect();
    }
 
    

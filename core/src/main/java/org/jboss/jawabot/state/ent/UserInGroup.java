@@ -4,7 +4,8 @@ package org.jboss.jawabot.state.ent;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.logging.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -34,22 +36,29 @@ import javax.persistence.UniqueConstraint;
 public class UserInGroup implements Serializable
 {
    private static final long serialVersionUID = 1L;
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private static final Logger log = LoggerFactory.getLogger( UserInGroup.class.getName() );
+
+   
+   
+   @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Basic(optional = false)
    @Column(name = "id", nullable = false)
    private Integer id;
+   
    @Basic(optional = false)
    @Column(name = "ver", nullable = false)
    private int ver;
+   
    @JoinColumn(name = "user", referencedColumnName = "name", nullable = false)
    @ManyToOne(optional = false, fetch = FetchType.LAZY)
    private User user;
+   
    @JoinColumn(name = "group", referencedColumnName = "name", nullable = false)
    @ManyToOne(optional = false, fetch = FetchType.LAZY)
    private Group group1;
-  private static final Logger log = Logger.getLogger( UserInGroup.class.getName() );
 
+   
+   
    public UserInGroup() {
    }
 
@@ -62,38 +71,20 @@ public class UserInGroup implements Serializable
       this.ver = ver;
    }
 
-   public Integer getId() {
-      return id;
-   }
-
-   public void setId(Integer id) {
-      this.id = id;
-   }
-
-   public int getVer() {
-      return ver;
-   }
-
-   public void setVer(int ver) {
-      this.ver = ver;
-   }
-
-   public User getUser() {
-      return user;
-   }
-
-   public void setUser(User user) {
-      this.user = user;
-   }
-
-   public Group getGroup1() {
-      return group1;
-   }
-
-   public void setGroup1(Group group1) {
-      this.group1 = group1;
-   }
-
+   
+   
+   public Integer getId() { return id; }
+   public void setId(Integer id) { this.id = id; }
+   public int getVer() { return ver; }
+   public void setVer(int ver) { this.ver = ver; }
+   public User getUser() { return user; }
+   public void setUser(User user) { this.user = user; }
+   public Group getGroup1() { return group1; }
+   public void setGroup1(Group group1) { this.group1 = group1; }
+   
+   
+   
+   
    @Override
    public int hashCode() {
       int hash = 0;
