@@ -54,7 +54,7 @@ public class ResourceInGroup implements Serializable
    
    @JoinColumn(name = "grp", referencedColumnName = "name", nullable = false)
    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-   private Group grp;
+   private Group group;
 
    
    
@@ -78,8 +78,8 @@ public class ResourceInGroup implements Serializable
    public void setVer(int ver) { this.ver = ver; }
    public Resource getRes() { return res; }
    public void setRes(Resource res) { this.res = res; }
-   public Group getGrp() { return grp; }
-   public void setGrp(Group grp) { this.grp = grp; }
+   public Group getGroup() { return group; }
+   public void setGroup(Group grp) { this.group = grp; }
    
    
    

@@ -29,8 +29,10 @@
    <irc>
       <defaultNick>JawaBot-debug</defaultNick>
       <defaultNick2>JawaBot-debug_</defaultNick2>
-      <!--<server host="porky.stuttgart.redhat.com">-->
+      <!--
       <server host="irc.freenode.org">
+      -->
+      <server host="porky.stuttgart.redhat.com">
          <autoJoinChannels>
             #some
          </autoJoinChannels>

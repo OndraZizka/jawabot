@@ -2,7 +2,11 @@ package org.jboss.jawabot.irc.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *  
@@ -11,12 +15,19 @@ import javax.persistence.Entity;
 @Entity
 public class IrcMessage implements Serializable {
    
+   @Id @GeneratedValue
+   private Long id;
+
    private String server;
    private String user;
    private String channel;
    private String text;
+   
+   @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+   @Column(name="`when`")
    private Date when;
-
+   
+   public IrcMessage(){}
    public IrcMessage(String server, String user, String channel, String text, Date when) {
       this.server = server;
       this.user = user;
@@ -66,6 +77,10 @@ public class IrcMessage implements Serializable {
    public void setServer(String server) {
       this.server = server;
    }
+   
+   public Long getId() { return id; }
+   public void setId(Long id) { this.id = id; }
+   
    //</editor-fold>
 
    @Override

@@ -322,10 +322,13 @@ public class JawaIrcBot extends PircBot
                log.error( "Plugin misbehaved: " + ex, ex );
             }
             catch( Throwable ex ) {
-               if( System.getProperty("bot.irc.plugins.printStackTraces") != null )
+               if( System.getProperty("bot.irc.plugins.noStackTraces") == null )
                   log.error( "Plugin misbehaved: " + ex.getMessage(), ex );
-               else
+               else {
                   log.error( "Plugin misbehaved: " + ex );
+                  if( ex.getCause() != null )
+                     log.error( "  Cause: " + ex.getCause() );
+               }
             }
          }// for
          

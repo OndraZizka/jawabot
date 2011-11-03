@@ -12,6 +12,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.Stack;
 import javax.annotation.PostConstruct;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.ejb.Ejb3Configuration;
 
 /**
  * A store for entity managers. It is basically a ThreadLocal which stores the entity manager.
@@ -31,7 +33,21 @@ public class EntityManagerStoreImpl implements EntityManagerStore {
 
 		@PostConstruct
 		public void init(/*@Observes ContainerInitialized containerInitialized*/) {
-				emf = Persistence.createEntityManagerFactory("TestPU");
+            // Hibernate, not JPA
+            // new AnnotationConfiguration().addPackage(...)
+            
+            emf = new Ejb3Configuration()
+            /* .addProperties( properties ) //add some properties
+               .addRerousce( "mypath/MyOtherCLass.hbm.xml ) //add an hbm.xml file
+               .addRerousce( "mypath/orm.xml ) //add an EJB3 deployment descriptor
+               .configure("/mypath/hibernate.cfg.xml") //add a regular hibernate.cfg.xml*/
+               .configure("TestPU", null)
+               .addPackage("org.jboss.jawabot.irc.ent")
+               .addPackage("org.jboss.jawabot.irc.model")
+               .buildEntityManagerFactory(); //Create the entity manager factory
+     
+
+				//emf = Persistence.createEntityManagerFactory("TestPU");
 		}
 		
 

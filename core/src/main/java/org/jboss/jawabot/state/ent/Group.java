@@ -20,14 +20,15 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- *
+ * Group of resources, users, and whatever.
+ * 
  * @author Ondrej Zizka
  */
 @Entity
 @Table(name = "jw_groups")
 @NamedQueries({
-   @NamedQuery(name = "Grp.findAll", query = "SELECT g FROM Grp g"),
-   @NamedQuery(name = "Grp.findByName", query = "SELECT g FROM Grp g WHERE g.name = :name")})
+   @NamedQuery(name = "Grp.findAll", query = "SELECT g FROM Group g"),
+   @NamedQuery(name = "Grp.findByName", query = "SELECT g FROM Group g WHERE g.name = :name")})
 public class Group implements Serializable, Comparable<Group> 
 {
    private static final long serialVersionUID = 1L;
@@ -39,10 +40,10 @@ public class Group implements Serializable, Comparable<Group>
    @Column(name = "name", nullable = false, length = 16)
    private String name;
    
-   @OneToMany(cascade = CascadeType.ALL, mappedBy = "group1", fetch = FetchType.LAZY)
+   @OneToMany(cascade = CascadeType.ALL, mappedBy = "group", fetch = FetchType.LAZY)
    private Collection<UserInGroup> userInGroupCollection;
    
-   @OneToMany(cascade = CascadeType.ALL, mappedBy = "grp", fetch = FetchType.LAZY)
+   @OneToMany(cascade = CascadeType.ALL, mappedBy = "group", fetch = FetchType.LAZY)
    private Collection<ResourceInGroup> resourceInGroupCollection;
    
 

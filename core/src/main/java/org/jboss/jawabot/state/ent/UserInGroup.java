@@ -3,9 +3,6 @@ package org.jboss.jawabot.state.ent;
 
 
 import java.io.Serializable;
-import java.util.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
@@ -28,7 +26,7 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 @Table(name = "jw_user_grp", uniqueConstraints = {
-   @UniqueConstraint(columnNames = {"user", "group"})})
+   @UniqueConstraint(columnNames = {"user", "grp"})})
 @NamedQueries({
    @NamedQuery(name = "UserInGroup.findAll", query = "SELECT u FROM UserInGroup u"),
    @NamedQuery(name = "UserInGroup.findById", query = "SELECT u FROM UserInGroup u WHERE u.id = :id"),
@@ -53,9 +51,9 @@ public class UserInGroup implements Serializable
    @ManyToOne(optional = false, fetch = FetchType.LAZY)
    private User user;
    
-   @JoinColumn(name = "group", referencedColumnName = "name", nullable = false)
+   @JoinColumn(name = "grp", referencedColumnName = "name", nullable = false)
    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-   private Group group1;
+   private Group group;
 
    
    
@@ -79,8 +77,9 @@ public class UserInGroup implements Serializable
    public void setVer(int ver) { this.ver = ver; }
    public User getUser() { return user; }
    public void setUser(User user) { this.user = user; }
-   public Group getGroup1() { return group1; }
-   public void setGroup1(Group group1) { this.group1 = group1; }
+   @Column(name="grp")
+   public Group getGroup() { return group; }
+   public void setGroup(Group group) { this.group = group; }
    
    
    

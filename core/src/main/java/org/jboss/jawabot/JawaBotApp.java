@@ -6,7 +6,6 @@ import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.jboss.jawabot.config.beans.ConfigBean;
@@ -17,6 +16,7 @@ import org.jboss.jawabot.pastebin.PasteBinManager;
 import org.jboss.jawabot.usermgr.UserManager;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
+import org.jboss.weld.environment.se.jpa.EntityManagerStore;
 
 
 @Singleton
@@ -27,9 +27,10 @@ public class JawaBotApp
       org.apache.log4j.BasicConfigurator.configure();
    }*/
    
-   @Inject private BeanManager beanManager;
+   //@Inject private BeanManager beanManager;
    
    @Inject private Instance<IModuleHook> moduleHookInstances;
+   @Inject EntityManagerStore emf; // To have it created at the very start.
    
 
    

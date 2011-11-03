@@ -57,7 +57,7 @@ public class Reservation implements Serializable
    private Date since;
 
    @Basic(optional = false)
-   @Column(name = "until", nullable = false)
+   @Column(name = "`until`", nullable = false)
    @Temporal(TemporalType.TIMESTAMP)
    private Date until;
 
