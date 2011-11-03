@@ -15,11 +15,13 @@
       <module>core</module>
       <!-- Keep the core above. -->
       <module>irc</module>
-      <!-- Keep this down. -->
       <module>web</module>
-      <!--<module>web3</module>-->
+      <!-- Keep plugins down. -->
       <module>plugins</module>
-      <module>assemble</module>
+      <!--<module>assemble</module>-->
+      <!--<module>assem-onejar</module>-->
+      <!--<module>assem-zip</module>-->
+      <module>assem-appassemble</module>
    </modules>
 
    
