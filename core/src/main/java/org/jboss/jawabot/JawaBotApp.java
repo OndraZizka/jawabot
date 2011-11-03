@@ -4,16 +4,18 @@ import cz.dynawest.util.plugin.PluginLoadEx;
 import cz.dynawest.util.plugin.PluginUtils;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Singleton;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.apache.log4j.Logger;
 import org.jboss.jawabot.config.JaxbConfigPersister;
-import org.jboss.jawabot.ex.ModuleNotFoundEx;
 import org.jboss.jawabot.pastebin.PasteBinManager;
 import org.jboss.jawabot.usermgr.UserManager;
 
+
+@Singleton
 public class JawaBotApp
 {
    private static final Logger log = Logger.getLogger(JawaBotApp.class);

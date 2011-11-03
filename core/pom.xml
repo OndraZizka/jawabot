@@ -110,7 +110,15 @@
          <scope>provided</scope>
       </dependency>
       -->
-
+      
+      
+      <!-- Playing with CDI in a Standalone app. -->
+      <dependency>
+         <groupId>org.jboss.weld.se</groupId>
+         <artifactId>weld-se</artifactId>
+         <version>1.1.1.Final</version>
+         <type>jar</type>
+      </dependency>
    </dependencies>
    
    <repositories>
