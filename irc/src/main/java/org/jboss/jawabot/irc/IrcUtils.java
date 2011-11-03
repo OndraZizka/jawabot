@@ -9,8 +9,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class IrcUtils {
 
-   // Use only first part consisting of lowercase latin alphabetic chars as user name.
-   // This normalizes user names like ozizka-dinner, ozizka_wfh or ozizka1.
+   /**
+    * Use only first part consisting of lowercase latin alphabetic chars as user name.
+    * This normalizes user names like ozizka-dinner, ozizka_wfh or ozizka1.
+    */
    public static String normalizeUserNick( String nick ){
 
       int nonAlnum = StringUtils.indexOfAnyBut(nick, "abcdefghijklmnopqrstuvwxyz");

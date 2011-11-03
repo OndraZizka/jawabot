@@ -1,12 +1,16 @@
 
 package org.jboss.jawabot.irc;
 
+import cz.dynawest.util.plugin.PluginEx;
+import cz.dynawest.util.plugin.PluginLoadEx;
+import cz.dynawest.util.plugin.PluginUtils;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.state.beans.StateBean;
 import org.jibble.pircbot.PircBot;
@@ -46,6 +50,12 @@ public class JawaIrcBot extends PircBot
    public JawaBot getJawaBot() { return jawaBot; }
 
    
+   
+   /** Plugins map */
+   private SortedMap<String, IIrcPluginHook> plugins = new TreeMap();
+   
+   
+   
    /** Const. */
    public JawaIrcBot( JawaBot jawaBot ) {
       this.jawaBot = jawaBot;
@@ -65,10 +75,7 @@ public class JawaIrcBot extends PircBot
 
 
 
-   /** [JAXB] Returns a list of all reservation calendars. */
-   // Moved to here to omit one XML element level.
-   //@XmlElement
-   //@XmlJavaTypeAdapter( value = ReservCalendarMapAdaptor.class )
+   /** Returns a list of all reservation calendars. */
    Map<Resource, ReservationCalendar> getReservationCalendars(){
       return this.getJawaBot().getResourceManager().getReservationCalendars();
    }
@@ -79,25 +86,10 @@ public class JawaIrcBot extends PircBot
 
 
 
-
-
-   /**
-    * Creates the bot, loads the configuration, initializes and returns the bot.
-    */
-   /*public static JawaIrcBot create( JawaBot jawaBot, ConfigBean cb ) throws JawaBotException{
-      JawaIrcBot bot = new JawaIrcBot( jawaBot );
-      bot.applyConfig(cb);
-      bot.init();
-      return bot;
-   }*/
-	
-
-
-
 	/**
     * Init - .
     */
-	public synchronized void init() throws JawaBotIOException, UnknownResourceException {
+	public synchronized void init() throws JawaBotException {
       log.info("Initializing...");
       if( this.initialized )
          log.warn("Already initialized.");
@@ -105,6 +97,19 @@ public class JawaIrcBot extends PircBot
 
       // Create a command handler.
       this.commandHandler = new CommandHandlerImpl(this);
+      
+      //this.initAndStartModules();
+      try {
+         PluginUtils.initAndStartModules( new String[] {
+               "org.jboss.jawabot.irc.plugin.LoggerIrcPluginHook",
+               "org.jboss.jawabot.mod.web.WebModuleHook",
+            },
+            getJawaBot()
+         );
+      }
+      catch( PluginEx ex ){
+         throw new JawaBotException("Failed loading IRC plugins: " + ex.getMessage(), ex);
+      }
       
       this.initialized = true;
 	}
@@ -653,7 +658,7 @@ public class JawaIrcBot extends PircBot
     *
     * TODO: Return the position of the end of the prolog (start of the actual message).
     */
-   private boolean isMsgForNick( String msg, String nick ) {
+   private static boolean isMsgForNick( String msg, String nick ) {
       if( null == msg || msg.equals("") || null == nick || nick.equals("") )
          return false;
 
@@ -664,8 +669,91 @@ public class JawaIrcBot extends PircBot
           && StringUtils.contains(" ,:", msg.charAt( nick.length() ) );
    }
 
+   
+   
+   
+   
+   /**
+    *  Initialization of all modules.
+    *  Currently listed statically.
+    * 
+    *  COPIED from JawaBotApp, perhaps refactor to reuse the code somehow?
+    *  @deprecated - Moved to PluginUtils.
+    */
+   private void xinitAndStartModules() throws JawaBotException {
 
+      String[] moduleNames = new String[] {
+         "org.jboss.jawabot.irc.plugin.LoggerIrcPluginHook",
+         "org.jboss.jawabot.mod.web.WebModuleHook",
+      };
+      
+      IIrcPluginHook[] moduleHooks = new IIrcPluginHook[moduleNames.length];
 
+      // For listing of init errors.
+      List<Throwable> exs = new ArrayList<Throwable>();
+      List<String> errMods = new ArrayList<String>();
+      
+      // Instantiate
+      for (int i = 0; i < moduleNames.length; i++) {
+         try {
+            moduleHooks[i] = PluginUtils.<IIrcPluginHook>instantiateModule( moduleNames[i] );
+         } catch(  PluginLoadEx ex ) {
+            exs.add( ex );
+            errMods.add( moduleNames[i] );
+         }
+      }
+      
+      // Init
+      for( IIrcPluginHook hook : moduleHooks ) {
+         try {
+            if( null == hook ) continue;
+            hook.initModule( getJawaBot() );
+         } catch( Throwable ex ) {
+            exs.add( ex );
+            errMods.add( hook.getClass().getName() );
+         }
+      }
+      
+      // Start
+      for( IIrcPluginHook hook : moduleHooks ) {
+         try {
+            if( null == hook ) continue;
+            hook.startModule();
+         } catch( Throwable ex ) {
+            exs.add( ex );
+            errMods.add( hook.getClass().getName() );
+         }
+      }
+      
+      //if( exs.size() == 1 )
+      //   throw new JawaBotException( exs.get(0).getMessage(), exs.get(0) );
+      
+      if( exs.size() != 0 ){
+         StringBuilder sb = new StringBuilder("Some modules couldn't be initialized or started: ")
+           .append( StringUtils.join( errMods, ", ") )
+           .append("\n");
+         for( Throwable ex : exs ) {
+            if( ex instanceof PluginLoadEx ){
+               PluginLoadEx plex = (PluginLoadEx) ex;
+               sb.append("\n  ")
+                 .append( plex.getModuleClass() )
+                 .append( ": " )
+                 .append( ExceptionUtils.getRootCauseMessage(plex) );
+            }
+            else{
+               sb.append("\n")
+                 .append( ExceptionUtils.getRootCauseMessage(ex) )
+                 .append("\n")
+                 .append( StringUtils.join( ExceptionUtils.getRootCauseStackTrace(ex), "\n") );
+            }
+            sb.append("\n");
+         }
+         throw new JawaBotException( sb.toString(), null);
+      }
+      
+   }// initAndStartModules()
+   
+   
 
 		
 }// class

@@ -25,7 +25,7 @@ public class IrcModuleHook implements IModuleHook
    public static JawaIrcBot getBot() { return bot; }
     
    @Override
-   public void initModule( JawaBot jawaBot, ConfigBean configBean ) throws JawaBotIOException, UnknownResourceException {
+   public void initModule( JawaBot jawaBot, ConfigBean configBean ) throws JawaBotIOException, UnknownResourceException, JawaBotException {
       bot = new JawaIrcBot( jawaBot );
       bot.applyConfig( configBean );
       bot.init();
