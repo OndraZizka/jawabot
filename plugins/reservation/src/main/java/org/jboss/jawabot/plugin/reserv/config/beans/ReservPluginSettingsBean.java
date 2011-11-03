@@ -1,4 +1,4 @@
-package org.jboss.jawabot.plugin.reserv.config;
+package org.jboss.jawabot.plugin.reserv.config.beans;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.*;

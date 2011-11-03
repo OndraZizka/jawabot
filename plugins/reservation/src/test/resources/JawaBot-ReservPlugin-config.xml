@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pluginConfig>
+    
+    <!-- List of resources. -->
+    <resources>
+        <resource name="jawa01" note="EAP"/>
+        <resource name="jawa02" note="EAP"/>
+        <resource name="jawa03" note="EAP"/>
+        <resource name="jawa04" note="EAP"/>
+        <resource name="jawa05" note="Productization"/>
+        <resource name="jawa06" note="SOA"/>
+        <resource name="jawa07" note="SOA"/>
+        <resource name="jawa08" note="SOA"/>
+        <resource name="jawa09" note="SOA"/>
+        <resource name="jawa10" note=""/>
+        <resource name="jawa11" note=""/>
+        <resource name="jawa12" note=""/>
+        <resource name="jawa13" note=""/>
+        <resource name="jawa14" note=""/>
+        <resource name="jawa15" note="EWS"/>
+        <resource name="jawa16" note="OpenJDK"/>
+        <resource name="jawa17" note=""/>
+        <resource name="jawa18" note=""/>
+        <resource name="jawa19" note=""/>
+        <resource name="jawa20" note=""/>
+        <resource name="jawa21" note=""/>
+        <resource name="jawa22" note=""/>
+        <resource name="jawa23" note=""/>
+        <resource name="jawa24" note=""/>
+        <resource name="jawa25" note=""/>
+        <resource name="jawa26" note=""/>
+        <resource name="jawa27" note=""/>
+        <resource name="jawa28" note="OpenJDK"/>
+        <resource name="jawa29" note="OpenJDK"/>
+        <resource name="xen19" note=""/>
+        <resource name="xen64" note=""/>
+    </resources>
+
+    <!-- Which groups does which resource belong to. -->
+    <resourceGroups>
+        <group name="brno" channel="#jboss-qa-brno" mail="jboss-qa-brno@redhat.com"> jawa01 jawa02 jawa03 jawa04 jawa05 jawa06 jawa07 jawa08 jawa09 jawa10 jawa11 jawa12 jawa13 jawa14 jawa15 jawa16 jawa17 jawa18 jawa19 jawa20 jawa21 jawa22 jawa23 jawa24 jawa25 jawa26 jawa27 jawa28 jawa29 xen19 xen64</group>
+
+        <group name="eap">jawa01 jawa02 jawa03 jawa04</group>
+        <group name="soa" channel="#jbosssoaqa">jawa06 jawa07 jawa08 jawa09</group>
+        <group name="embjopr">jawa18 jawa17</group>
+        <group name="openjdk">jawa16 jawa28 jawa29</group>
+        
+        <!--
+        <group name="qalab" channel="#jboss-qa" mail="jboss-qa-internal@redhat.com">dev01 dev02</group>
+        -->
+    </resourceGroups>
+
+</pluginConfig>

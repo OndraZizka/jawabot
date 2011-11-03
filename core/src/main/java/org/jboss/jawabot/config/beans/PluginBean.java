@@ -8,11 +8,22 @@ import javax.xml.bind.annotation.XmlAttribute;
  */
 public class PluginBean {
    
-   @XmlAttribute
-   public String id;
-   
-   @XmlAttribute
-   public String config;
-   
+    @XmlAttribute
+    public String id;
+
+    @XmlAttribute
+    public String config;
+
+    
+    
+    public PluginBean() {
+    }
+
+    /** Used by PluginsMapAdaptor.marshall(). */
+    public PluginBean( String id, String config ) {
+        this.id = id;
+        this.config = config;
+    }
+
 }// class
 

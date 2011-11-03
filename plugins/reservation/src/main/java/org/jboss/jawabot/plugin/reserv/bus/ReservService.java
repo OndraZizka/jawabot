@@ -1,9 +1,5 @@
 package org.jboss.jawabot.plugin.reserv.bus;
 
-
-
-
-
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
@@ -13,10 +9,11 @@ import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
+import org.jboss.jawabot.FromJawaBot;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.MailData;
 import org.jboss.jawabot.config.beans.ConfigBean;
-import org.jboss.jawabot.plugin.reserv.config.ReservPluginConfigBean;
+import org.jboss.jawabot.plugin.reserv.config.beans.ReservPluginConfigBean;
 import org.jboss.jawabot.plugin.reserv.state.beans.StateBean;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.plugin.reserv.bus.ResourceManager.ReservationsBookingResult;
@@ -33,6 +30,10 @@ public class ReservService {
     private static final Logger log = LoggerFactory.getLogger( ReservService.class );
 
     private ReservPluginConfigBean config;
+    
+    //@Inject private JaxbReservPluginConfigPersister configPersister;
+    @Inject @FromJawaBot ConfigBean jawabotConfig;
+    
     
     // ResourceManager
     @Inject private ResourceManager resourceManager;
@@ -64,6 +65,8 @@ public class ReservService {
     */
 	public synchronized void init() throws JawaBotIOException, UnknownResourceException {
       log.info("Initializing...");
+      
+      //jawabotConfig.plugins.
 
       String statePath = "conf/JawaBotConfig-plugin-reservation"; // TODO: Take from config!!
       StateBean state = new JaxbStatePersister().setFilePath(statePath).load();

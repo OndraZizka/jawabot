@@ -24,7 +24,7 @@ import org.jboss.jawabot.irc.CommandContext;
 import org.jboss.jawabot.irc.CommandReply;
 import org.jboss.jawabot.irc.CommandReplyMessage;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
-import org.jboss.jawabot.plugin.reserv.config.ReservPluginConfigBean;
+import org.jboss.jawabot.plugin.reserv.config.beans.ReservPluginConfigBean;
 import org.jboss.jawabot.plugin.reserv.bus.ReservService;
 import org.jboss.jawabot.plugin.reserv.bus.ReservationWrap;
 import org.jboss.jawabot.plugin.reserv.bus.Resource;

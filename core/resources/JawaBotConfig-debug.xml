@@ -71,26 +71,26 @@
    
     <!-- Configuration files of plugins, plus simple key-value settings. -->
     <plugins>
-        <plugin name="reservation" config="JawaBotConfig-plugin-reservation.xml"></plugin>
-        <plugin name="jira"></plugin>
-        <plugin name="logger">
+        <plugin id="reservation" config="JawaBotConfig-plugin-reservation.xml"></plugin>
+        <plugin id="jira"></plugin>
+        <plugin id="logger">
             <settings
                 logEnabledByDefault="true"
             />
         </plugin>
-        <plugin name="whereis">
+        <plugin id="whereis">
             <settings
                 scanPeriodMin="30"
             />
         </plugin>
-        <plugin name="autoop">
+        <plugin id="autoop">
             <settings
                 begForOpPeriod="0"
              />
             <nicks>ozizka</nicks>
         </plugin>
-        <plugin name="messenger"></plugin>
-        <plugin name="social"></plugin>
+        <plugin id="messenger"></plugin>
+        <plugin id="social"></plugin>
     </plugins>
 
 

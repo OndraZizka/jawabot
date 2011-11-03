@@ -1,6 +1,6 @@
 
 
-package org.jboss.jawabot.plugin.reserv.config;
+package org.jboss.jawabot.plugin.reserv.config.beans;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 /**
  *
  * @author Ondrej Zizka
+ * @deprecated - GenericGroupBean + @XmlElementWrapper(name="resourceGroups")
  */
 public class ResourceGroupsBean implements Serializable {
 

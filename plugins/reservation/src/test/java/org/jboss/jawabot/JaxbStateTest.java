@@ -8,8 +8,6 @@ import javax.xml.bind.JAXBException;
 import java.io.Writer;
 import java.util.Date;
 import org.apache.commons.lang.time.DateUtils;
-import org.jboss.jawabot.config.JaxbConfigPersister;
-import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.plugin.reserv.bus.Resource;
 import org.jboss.jawabot.plugin.reserv.bus.ResourceManager;
 import org.jboss.jawabot.plugin.reserv.state.JaxbStatePersister;
@@ -17,12 +15,6 @@ import org.jboss.jawabot.plugin.reserv.state.beans.ReservationBean;
 import org.jboss.jawabot.plugin.reserv.state.beans.StateBean;
 import org.jboss.jawabot.testbase.JawaBotTestBase;
 import org.jboss.jawabot.testbase.SoutCopyingFileWriter;
-
-
-
-
-
-
 
 
 /**
@@ -34,9 +26,6 @@ public class JaxbStateTest extends JawaBotTestBase {
 
    public void testStateExtract() throws JawaBotIOException, JawaBotException, IOException {
 
-      JaxbConfigPersister re = new JaxbConfigPersister();
-      ConfigBean cb = re.load();
-      
       ResourceManager rm = new ResourceManager();
       // TODO: Apply config. Before I did it through JawaBot.applyConfig().
       rm.addResource( new Resource("jawa01", "projectA") );

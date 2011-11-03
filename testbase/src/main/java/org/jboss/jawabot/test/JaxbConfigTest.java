@@ -29,7 +29,8 @@ public class JaxbConfigTest extends TestCase {
       ConfigBean cb = new ConfigBean();
 
       // Write the XML.
-      ConfigPersister cp = new JaxbConfigPersister( new SoutCopyingFileWriter("testConfig.xml") );
+      JaxbConfigPersister cp = new JaxbConfigPersister("");
+      cp.setWriter( new SoutCopyingFileWriter("testConfig.xml") );
       cp.save( cb );
       
    }
@@ -37,7 +38,7 @@ public class JaxbConfigTest extends TestCase {
 
    public void testConfigRead() throws JawaBotIOException, JawaBotException, IOException, JAXBException
    {
-      JaxbConfigPersister jcp = new JaxbConfigPersister();
+      JaxbConfigPersister jcp = new JaxbConfigPersister("JawaBotConfig.xml");
       ConfigBean cb = jcp.load();
    }
 
