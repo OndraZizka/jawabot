@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="autoJoinChannels">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="group">
+    <xs:complexType mixed="true">
+      <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="irc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="nick" />
+        <xs:element ref="server" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="jawabotConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="settings" />
+        <xs:element ref="irc" />
+        <xs:element ref="resources" />
+        <xs:element ref="resourceGroups" />
+        <xs:element ref="userGroups" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="nick">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="resource">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="resourceGroups">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="group" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="resources">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="resource" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="server">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="autoJoinChannels" />
+      </xs:sequence>
+      <xs:attribute name="host" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="settings">
+    <xs:complexType>
+      <xs:attribute name="leaveOnAsk" type="xs:NMTOKEN" use="required" />
+      <xs:attribute name="adminUser" type="xs:NMTOKEN" use="required" />
+      <xs:attribute name="maxJirasPerRequest" type="xs:NMTOKEN" use="required" />
+      <xs:attribute name="joinOnInvite" type="xs:NMTOKEN" use="required" />
+      <xs:attribute name="messageDelay" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="userGroups">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="group" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <groupId>org.jboss.jawabot</groupId>
+   <artifactId>JawaBot-root</artifactId>
+   <packaging>pom</packaging>
+   <version>2.0.0-SNAPSHOT</version>
+
+   <name>JawaBot 2.0 root</name>
+
+   <modules>
+      <module>core</module>
+      <module>irc</module>
+      <module>web</module>
+      <module>assemble</module>
+   </modules>
+
+   
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+
+
+   <build>
+      <plugins>
+         <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+               <source>1.6</source>
+               <target>1.6</target>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+
+
+   <distributionManagement>
+     <repository>
+       <id>jboss-snapshots</id>
+       <url>http://snapshots.jboss.org/maven2/</url>
+     </repository>
+   </distributionManagement>
+
+
+   <!-- Dependencies -->
+   <dependencies>
+
+      <!-- Commons -->
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.0.1</version>
+      </dependency>
+      
+
+      <!-- Various -->
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.16</version>
+      </dependency>
+
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>3.8.2</version>
+         <scope>test</scope>
+      </dependency>
+
+
+   </dependencies>
+
+   <repositories>
+      <!-- Infinispan 
+      <repository><id>jboss</id><url>https://repository.jboss.org/nexus/content/groups/public</url></repository>
+      -->
+      <!-- PLJ filter, PircBot 1.5.0 -->
+      <repository><id>ondrazizka-googlecode</id><url>http://ondrazizka.googlecode.com/svn/maven</url></repository>
+   </repositories>
+
+</project>

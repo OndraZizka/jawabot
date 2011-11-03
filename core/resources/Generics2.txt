@@ -1,0 +1,70 @@
+// Another vain try...
+
+
+
+
+
+@XmlRootElement(name = "MyMapCustom")
+class MapWrapper2 extends MapWrapper<Resource, ReservationCalendar> {}
+
+
+
+
+/** Generic Wrapper Map */
+@XmlRootElement(name = "MyMap")
+class MapWrapper<Key, Value> {
+   @XmlElement(name = "mapItem", required = true)
+   public List<MapItem<Key, Value>> getItems() { return this.items; }
+   private final List<MapItem<Key, Value>> items = new ArrayList();
+}
+
+
+
+
+/** Generic Wrapper Map Item */
+class MapItem<Key, Value> {
+   @XmlAttribute public Key key;
+   @XmlElement   public Value value;
+
+   public MapItem() { }
+
+   public MapItem(Key key, Value value) {
+      this.key = key;
+      this.value = value;
+   }
+}
+
+
+/** Generic Adaptor */
+class  MapAdaptor<Wrapper extends MapWrapper, Key, Value> extends XmlAdapter<MapWrapper<Key, Value>, Map<Key, Value>> {
+
+   @Override
+   public Wrapper marshal(Map<Key, Value> v) throws Exception {
+      Wrapper myWrapper = new Wrapper();
+      List<MapItem<Key, Value>> aList = myWrapper.getItems();
+      for (Map.Entry<Key, Value> e : v.entrySet()) {
+         aList.add(new MapItem(e.getKey(), e.getValue()));
+      }
+      return myWrapper;
+   }
+
+   @Override
+   public Map<Key, Value> unmarshal(MapWrapper<Key, Value> val) throws Exception {
+      Map<Key, Value> map = new HashMap();
+      for (MapItem<Key, Value> item : val.getItems() ) {
+         //TODO: Resource res = JawaBotApp.getInstance().getBot().getResourceManager().getResourceByName( item.key ) );
+         Key res = Main.getBot().getResourceManager().getResourceByName( item.key );
+         map.put( res, item.value );
+      }
+      return map;
+   }
+
+}
+
+
+/** Custom */
+class ResourceKeyResolver<Key> {
+   public Key resolve( Object key ){
+      return Main.getBot().getResourceManager().getResourceByName( key );
+   }
+}

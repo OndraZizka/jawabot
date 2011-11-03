@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="cz" lang="cz">
+<head/>
+<body>
+
+<wicket:panel>
+   <ul id="menu" class="flat level0">
+
+      <!-- Login -->
+      <li class="level0 collapsed"><span>Account</span>
+         <ul class="flat level1">
+            <wicket:container wicket:id="userNotLogged">
+               <li><a href="/login">Login</a></li>
+               <!--<li><a href="/register">Register</a></li>-->
+            </wicket:container>
+            <wicket:container wicket:id="userLogged">
+               <li wicket:id="loggedUser">ozizka</li>
+               <li><a href="/logout">Logout</a></li>
+            </wicket:container>
+         </ul></li>
+
+      <!-- Actions -->
+      <li class="level0 collapsed"><span>Actions</span>
+         <ul class="flat level1">
+            <li><a href="/take">Reserve (take)</a></li>
+            <li><a href="/leave">Leave</a></li>
+            <li><a href="/list">List</a></li>
+         </ul></li>
+
+      <!-- Resources -->
+      <li class="level0 collapsed"><span>Resources</span>
+         <ul class="flat level1">
+            <wicket:container wicket:id="resourceList">
+               <li><a wicket:id="link" href="/resources/jawa01"><span wicket:id="name">jawa01</span></a></li>
+            </wicket:container>
+         </ul></li>
+
+      <!-- Groups -->
+      <li class="level0 collapsed"><span>Groups</span>
+         <ul class="flat level1">
+            <li><a href="/groups/eap">eap</a></li>
+            <li><a href="/groups/soa">soa</a></li>
+         </ul></li>
+
+      <!-- Pastebin -->
+      <li class="level0 collapsed"><span>Groups</span>
+         <ul class="flat level1">
+            <li><a href="/pastebin/new">PasteBin</a></li>
+            <li><a href="/pastebin/22">PB-22</a></li>
+            <li><a href="/pastebin/21">PB-21</a></li>
+            <li><a href="/pastebin/20">PB-20</a></li>
+         </ul></li>
+
+   </ul>
+</wicket:panel>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+// I was trying to create generic Map mapping, using generics...
+
+class MapAdaptor2 extends MapAdaptor<Foo2> {}
+
+
+
+
+/** Wrapper Map */
+@XmlRootElement(name = "MyMap")
+class MapWrapper <T extends Foo> {
+   @XmlElement(name = "mapItem", required = true)
+   private final List<MapItem<T>> items = new ArrayList();
+   public List<MapItem<T>> getItems() { return this.items; }
+}
+
+
+
+class Foo { public static final String XX = "Foo1"; }
+class Foo2 extends Foo { public static final String XX = "Foo2"; }
+
+
+
+/** Wrapper Map Item */
+class MapItem<T extends Foo> {
+   @XmlAttribute(name=T.XX) public String key;
+   @XmlElement   public ReservationCalendar value;
+
+   public MapItem() { }
+
+   public MapItem(Resource key, ReservationCalendar value) {
+      this.key = key.getName();
+      this.value = value;
+   }
+}
+
+
+/** Adaptor */
+class  MapAdaptor<T extends Foo> extends XmlAdapter<MapWrapper<T>, Map<Resource, ReservationCalendar>> {
+
+   @Override
+   public MapWrapper marshal(Map<Resource, ReservationCalendar> v) throws Exception {
+      MapWrapper myWrapper = new MapWrapper();
+      List<MapItem<T>> aList = myWrapper.getItems();
+      for (Map.Entry<Resource, ReservationCalendar> e : v.entrySet()) {
+         aList.add(new MapItem<T>(e.getKey(), e.getValue()));
+      }
+      return myWrapper;
+   }
+
+   @Override
+   public Map<Resource, ReservationCalendar> unmarshal(MapWrapper<T> val) throws Exception {
+      Map<Resource, ReservationCalendar> map = new HashMap();
+      for (MapItem<T> item : val.getItems() ) {
+         //TODO: Resource res = JawaBotApp.getInstance().getBot().getResourceManager().getResourceByName( item.key ) );
+         Resource res = Main.getBot().getResourceManager().getResourceByName( item.key );
+         map.put( res, item.value );
+      }
+      return map;
+   }
+
+
+
+}

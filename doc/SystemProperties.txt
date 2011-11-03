@@ -1,0 +1,3 @@
+
+
+JawaBot.stateFile.path "JawabotState.xml"   JawaBot.java   Where is the JawaBot state (reservations etc.) read from.

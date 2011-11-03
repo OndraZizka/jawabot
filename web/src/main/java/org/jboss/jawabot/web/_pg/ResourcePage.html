@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="cz" lang="cz">
+<head/>
+<body>
+
+<wicket:extend>
+
+   <h2>Resource <span wicket:id="res"></span></h2>
+   <h3>Groups:</h3>
+   <ul>
+      <wicket:container wicket:id="groups">
+      <li wicket:id="group">eap</li>
+      </wicket:container>
+   </ul>
+
+   <h3>Reservations</h3>
+   <table border="1" class="flat">
+      <thead>
+         <tr>
+            <th>res</th>
+            <th>owner</th>
+            <th>from</th>
+            <th>until</th>
+            <th>note</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr wicket:id="reservations">
+            <td wicket:id="res">jawa02</td>
+            <td wicket:id="owner">ozizka</td>
+            <td wicket:id="from">today</td>
+            <td wicket:id="to">tomorrow</td>
+            <td wicket:id="note">EWS CR2</td>
+         </tr>
+      </tbody>
+   </table>
+
+</wicket:extend>
+
+</body>
+</html>
