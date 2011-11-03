@@ -5,7 +5,9 @@ import cz.dynawest.util.plugin.PluginUtils;
 import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
 import java.util.ArrayList;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -28,7 +30,6 @@ public class JawaBotApp
    }*/
    
    //@Inject private BeanManager beanManager;
-   public static BeanManager beanManager;
    
    @Inject private Instance<IModuleHook> moduleHookInstances;
    @Inject private EntityManagerStore emf; // To have it created at the very start.
@@ -43,7 +44,7 @@ public class JawaBotApp
 
    // JawaBot instance reference.
    private static JawaBot jawaBot;
-   public static JawaBot getJawaBot() { return jawaBot; }
+   @Produces public static JawaBot getJawaBot() { return jawaBot; }
 
    
    // UserManager instance. Read-only, no need to sync.
@@ -63,8 +64,7 @@ public class JawaBotApp
 
       WeldContainer weld = new Weld().initialize();
       JawaBotApp jawaBotApp = weld.instance().select(JawaBotApp.class).get();
-      JawaBotApp.beanManager = weld.getBeanManager();
-      // TODO: Through @Inject?
+      weld.getBeanManager().getContext(ApplicationScoped.class);
       
       jawaBotApp.run(args);
    }
@@ -98,112 +98,6 @@ public class JawaBotApp
       ConfigBean cb = new JaxbConfigPersister(configFilePathString).load();
       JawaBotApp.jawaBot = JawaBot.create( cb );
    }
-
-   
-   
-   /**
-    *  Initialization of all modules (like IRC and Web).
-    *  @deprecated  in favor of CdiPluginUtils.initAndStartPlugins
-    */
-   private void initAndStartModules() throws JawaBotException {
-
-      
-      // For listing of init errors.
-      List<Throwable> exs = new ArrayList<Throwable>();
-      List<String> errModules = new ArrayList<String>();
-      
-      //IModuleHook[] moduleHooks = new IModuleHook[moduleHookInstances];
-      List<IModuleHook> moduleHooks = new ArrayList();
-      for( IModuleHook iModuleHook : moduleHookInstances ) {
-         moduleHooks.add(iModuleHook);
-      }
-      
-      // Init
-      for( IModuleHook hook : moduleHooks ) {
-         try {
-            if( null == hook ) continue;
-            hook.initModule( getJawaBot(), getJawaBot().getConfig() );
-         } catch( Throwable ex ) {
-            exs.add( ex );
-            errModules.add( hook.getClass().getName() );
-         }
-      }
-      
-      // Start
-      for( IModuleHook hook : moduleHooks ) {
-         try {
-            if( null == hook ) continue;
-            hook.startModule();
-         } catch( Throwable ex ) {
-            exs.add( ex );
-            errModules.add( hook.getClass().getName() );
-         }
-      }
-      
-      PluginUtils.throwFormattedExceptionIfNeeded( exs, errModules, JawaBotException.class );
-      
-   }// initAndStartModules()
-
-   
-   
-   /**
-    *  Initialization of all modules.
-    *  Currently listed statically - IRC and Web.
-    *  With a bit of PHP style on top.
-    *  @deprecated 
-    */
-   private void initAndStartModules_Old() throws JawaBotException {
-
-      String[] moduleNames = new String[] {
-         "org.jboss.jawabot.irc.IrcModuleHook",
-         "org.jboss.jawabot.mod.web.WebModuleHook",
-      };
-      
-     
-      IModuleHook[] moduleHooks = new IModuleHook[moduleNames.length];
-
-      // For listing of init errors.
-      List<Throwable> exs = new ArrayList<Throwable>();
-      List<String> errModules = new ArrayList<String>();
-      
-      // Instantiate
-      for (int i = 0; i < moduleNames.length; i++) {
-         try {
-            moduleHooks[i] = PluginUtils.<IModuleHook>instantiateModule( moduleNames[i] );
-         } catch(  PluginLoadEx ex ) {
-            exs.add( ex );
-            errModules.add( moduleNames[i] );
-         }
-      }
-      
-      // Init
-      for( IModuleHook hook : moduleHooks ) {
-         try {
-            if( null == hook ) continue;
-            hook.initModule( getJawaBot(), getJawaBot().getConfig() );
-         } catch( Throwable ex ) {
-            exs.add( ex );
-            errModules.add( hook.getClass().getName() );
-         }
-      }
-      
-      // Start
-      for( IModuleHook hook : moduleHooks ) {
-         try {
-            if( null == hook ) continue;
-            hook.startModule();
-         } catch( Throwable ex ) {
-            exs.add( ex );
-            errModules.add( hook.getClass().getName() );
-         }
-      }
-      
-      PluginUtils.throwFormattedExceptionIfNeeded( exs, errModules, JawaBotException.class );
-      
-   }// initAndStartModules_Old()
-
-   
-   
 
    
    

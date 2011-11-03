@@ -317,7 +317,7 @@ public class JawaIrcBot extends PircBot
                public void doIt( IrcMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
                   plugin.onMessage( msg, pircBotProxy );
                }
-            }.handle( msg, pircBotProxy );
+            }.handle( msg, this.pircBotProxy );
 
          }// for
          

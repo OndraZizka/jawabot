@@ -63,6 +63,10 @@ public class EntityManagerStoreImpl implements EntityManagerStore
       //@Inject  // TODO: Report RFE - Handle wrong param count of a method with @PostConstruct.
 		public void init(/*@Observes ContainerInitialized containerInitialized*/   /*CdiPluginEntitiesPackagesProvider entPackProv*/ )
       {
+            log.info("================================================================================");
+            log.info("==   Persistence initialization  start   =======================================");
+            log.info("================================================================================");
+            
             // Old simple way.
 				//emf = Persistence.createEntityManagerFactory("TestPU");
 
@@ -101,6 +105,10 @@ public class EntityManagerStoreImpl implements EntityManagerStore
             
             
             emf = ejbConf.buildEntityManagerFactory(); //Create the entity manager factory
+            
+            log.info("================================================================================");
+            log.info("==   Persistence initialization  end  ==========================================");
+            log.info("================================================================================");
 		}
 		
 

@@ -5,6 +5,13 @@
              version="2.0">
   <persistence-unit name="TestPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>org.jboss.jawabot.state.ent.Group</class>
+    <class>org.jboss.jawabot.state.ent.Reservation</class>
+    <class>org.jboss.jawabot.state.ent.Resource</class>
+    <class>org.jboss.jawabot.state.ent.ResourceInGroup</class>
+    <class>org.jboss.jawabot.state.ent.User</class>
+    <class>org.jboss.jawabot.state.ent.UserInGroup</class>
+    <exclude-unlisted-classes/>
     <properties>
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
       <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/jawabot?autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"/>
