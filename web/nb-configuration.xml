@@ -37,6 +37,7 @@ Any value defined here will override the pom.xml file value but is only applicab
         <word>const</word>
         <word>jawa</word>
         <word>JawaBot</word>
+        <word>Jira</word>
         <word>ozizka</word>
         <word>PasteBin</word>
         <word>plugins</word>

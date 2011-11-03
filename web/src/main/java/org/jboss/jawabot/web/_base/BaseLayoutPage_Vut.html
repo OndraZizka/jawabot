@@ -1,75 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="cz" lang="cz">
-<head>
+   <head>
 
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="Author" content="Ondra Žižka, ozizka at redhat.com"/>
-	<meta name="Description" content="JawaBot web UI"/>
-   <wicket:link>
-      <link rel="stylesheet" type="text/css" href="files/css/dw_styles.css"/>
-      <link rel="stylesheet" type="text/css" href="files/css/common.css"/>
-      <link rel="stylesheet" type="text/css" href="files/css/layout-vut.css"/>
-      <link rel="shortcut icon" href="files/favicon.ico" type="image/x-icon">
-   </wicket:link>
-   <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-   <!--  TODO:  Create RFE Jira.
-   <wicket:head>
-      <script type="text/javascript" charset="utf-8" src="files/js/jquery.js"></script>
-      <script type="text/javascript" charset="utf-8" src="files/js/logout.js"></script>
-   </wicket:head>
-   -->
-   <style>
-      #header h1 a { text-decoration: none; color: white; }
-   </style>
-   <title>JawaBot - resource reservation tool</title>
-</head>
-<body>
-<div wicket:id="debug"/>
-<div id="wrap">
-
-
-  <div xwicket:id="header" id="header">
-     <h1><a href="#">JawaBot</a></h1>
-  </div>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <meta name="Author" content="Ondra Žižka, ozizka at redhat.com"/>
+      <meta name="Description" content="JawaBot web UI"/>
+      <wicket:link>
+         <link rel="stylesheet" type="text/css" href="files/css/dw_styles.css"/>
+         <link rel="stylesheet" type="text/css" href="files/css/common.css"/>
+         <link rel="stylesheet" type="text/css" href="files/css/layout-vut.css"/>
+         <link rel="shortcut icon" href="files/favicon.ico" type="image/x-icon">
+      </wicket:link>
+      <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+      <!--  TODO:  Create RFE Jira.
+      <wicket:head>
+         <script type="text/javascript" charset="utf-8" src="files/js/jquery.js"></script>
+         <script type="text/javascript" charset="utf-8" src="files/js/logout.js"></script>
+      </wicket:head>
+      -->
+      <style>
+         #header h1 a { text-decoration: none; color: white; }
+      </style>
+      <title>JawaBot - resource reservation tool</title>
+   </head>
+   <body>
+      <div wicket:id="debug"/>
+      <div id="wrap">
 
 
-  <div id="main">
-  <!-- MAIN TABLE -->
+         <div xwicket:id="header" id="header">
+            <h1><a href="#">JawaBot</a></h1>
+         </div>
 
-     <table border="0" cellspacing="0" cellpadding="0" style="width:100%"><tr>
-           
-     <!-- Menu -->
-     <td valign="top" width="100">
-       <div id="menu_container">
-
-             <!-- Menu -->
-             <div class="menu" wicket:id="menu">Menu menu menu</div>
-
-         <hr class="cistic" />
-       </div>
-     </td><!-- Menu KONEC -->
+         <!-- Plugin's tabs. -->
+         <div wicket:id="tabbar" id="tabbar">
+            
+         </div>
 
 
 
-     <!-- MAIN CELL -->
-     <td valign="top" width="94%">
+         <div id="main">
+            <!-- MAIN TABLE -->
 
-             <!-- Obsah -->
-             <div class="obsah" id="obsah">
-               <wicket:child>
-               </wicket:child>
-             </div>
-     
-     </td>
-     <!-- MAIN CELL KONEC -->
+            <table border="0" cellspacing="0" cellpadding="0" style="width:100%"><tr>
 
-     </tr>
-     </table>
+                  <!-- Menu -->
+                  <td valign="top" width="100">
+                     <div id="menu_container">
 
-   <!-- MAIN TABLE KONEC -->
-   <!-- <hr class="cistic" size="0"/> -->
-   </div>
+                        <!-- Menu -->
+                        <div class="menu" wicket:id="menu">Menu menu menu</div>
 
-</div><!-- #wrap -->
-</body>
+                        <hr class="cistic" />
+                     </div>
+                  </td><!-- Menu KONEC -->
+
+
+
+                  <!-- MAIN CELL -->
+                  <td valign="top" width="94%">
+
+                     <!-- Obsah -->
+                     <div class="obsah" id="obsah">
+                        <wicket:child>
+                        </wicket:child>
+                     </div>
+
+                  </td>
+                  <!-- MAIN CELL KONEC -->
+
+               </tr>
+            </table>
+
+            <!-- MAIN TABLE KONEC -->
+            <!-- <hr class="cistic" size="0"/> -->
+         </div>
+
+      </div><!-- #wrap -->
+   </body>
 </html>

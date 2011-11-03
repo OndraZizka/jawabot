@@ -30,7 +30,10 @@ public class BaseLayoutPage_Vut extends WebPage
 
     add( new DebugBar("debug") );
 
+    add( new JawaBotTabBarPanel("tabbar") );
+            
     add( new MenuPanel("menu") );
+    
   }
 
 

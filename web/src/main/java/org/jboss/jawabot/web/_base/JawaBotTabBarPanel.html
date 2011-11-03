@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="cz" lang="cz">
+   <head/>
+   <body>
+
+      <!-- Tab bar where plugins can add their component. -->
+
+      <wicket:head>
+         <style>
+         .jbPluginTabs { background-color: black; }
+         .jbPluginTabs .tab {
+            border: 1px solid red;
+            margin: 2px 0.5em;
+            padding: 0.2ex 0.5em;
+            color: white;
+            font-size: 16pt;
+            font-weight: bold;
+         }
+         </style>
+      </wicket:head>
+      <wicket:panel>
+         <div class="jbPluginTabs">
+
+            <!-- Repeater -->
+            <div wicket:id="tabs" class="tab">
+               <a wicket:id="link"><span wicket:id="label">Jira plugin</span></a>
+            </div>
+
+         </div>
+      </wicket:panel>
+
+   </body>
+</html>

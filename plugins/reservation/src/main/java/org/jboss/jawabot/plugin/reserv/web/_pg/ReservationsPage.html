@@ -7,7 +7,53 @@
 
    <h2 xwicket:id="heading">Logged channels</h2>
    
-   <div wicket:id="channelList" id="channelList" />
+   <table border="0" class="common ">
+      <thead>
+         <tr>
+            <th>res</th>
+            <th colspan="5">Reserve for</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr wicket:id="resources">
+            <td><a href="#" wicket:id="reslink"><img xwicket:id="icoType" src="ResourceMachine.gif"/><span xwicket:id="label">jawa01</span></a></td>
+            <td xwicket:id="today"><a href="#" wicket:id="today"><span wicket:id="label">today</span></a></td>
+            <td xwicket:id="todayPlus1"><a href="#" wicket:id="todayPlus1"><span wicket:id="label">tomorrow</span></a></td>
+            <td xwicket:id="todayPlus2"><a href="#" wicket:id="todayPlus2"><span wicket:id="label">+2</span></a></td>
+            <td xwicket:id="todayPlus3"><a href="#" wicket:id="todayPlus3"><span wicket:id="label">+3</span></a></td>
+            <td xwicket:id="chooseSpan"><a href="#" wicket:id="chooseTimeSpan"><span xwicket:id="label">choose span...</span></a></td>
+         </tr>
+         <tr><td colspan="6"> <input type="text" wicket:id="note" /> </td></tr>
+      </tbody>
+   </table>
+
+
+
+
+   <h2>Reserved resources</h2>
+   <table border="0" class="common" wicket:id="reservations">
+   <!--
+      <thead>
+         <tr>
+            <th>res</th>
+            <th>owner</th>
+            <th>from</th>
+            <th>until</th>
+            <th>note</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr wicket:id="reservations">
+            <td><a wicket:id="res">jawa02</a></td>
+            <td wicket:id="owner">ozizka</td>
+            <td wicket:id="from">today</td>
+            <td wicket:id="to">tomorrow</td>
+            <td wicket:id="note">EWS CR2</td>
+         </tr>
+      </tbody>
+    -->
+   </table>
+
 
 </wicket:extend>
 

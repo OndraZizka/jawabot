@@ -1,27 +1,6 @@
 package org.jboss.jawabot.plugin.reserv.web._pg;
 
 
-import cz.dynawest.wicket.BookmarkablePageLink;
-import java.util.List;
-import javax.inject.Inject;
-import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
-import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.util.ListModel;
-import org.jboss.jawabot.JawaBotApp;
-import org.jboss.jawabot.plugin.reserv.bus.ReservationWrap;
-import org.jboss.jawabot.plugin.reserv.bus.ResourceManager;
-import org.jboss.jawabot.plugin.reserv.bus.ResourceWithNearestFreePeriodDTO;
-import org.jboss.jawabot.web._base.BaseLayoutPage;
-import org.jboss.jawabot.plugin.reserv.web._co.ReservationListPanel;
-import org.jboss.jawabot.plugin.reserv.web._co.ReserveLinkPanel;
-import org.jboss.jawabot.plugin.reserv.web._co.ResourceLinkPanel;
-import org.jboss.jawabot.web._pg.HomePage;
-
 import cz.dynawest.util.DateUtils;
 import cz.dynawest.wicket.BookmarkablePageLink;
 import java.util.ArrayList;
@@ -39,14 +18,15 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.util.string.Strings;
-import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.plugin.reserv.bus.Reservation;
 import org.jboss.jawabot.plugin.reserv.bus.Resource;
 import org.jboss.jawabot.usermgr.UserManager;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
+import org.jboss.jawabot.plugin.reserv.bus.ReservationWrap;
+import org.jboss.jawabot.plugin.reserv.bus.ResourceManager;
+import org.jboss.jawabot.plugin.reserv.bus.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.plugin.reserv.web._co.ReservationListPanel;
 import org.jboss.jawabot.plugin.reserv.web._co.ReserveLinkPanel;
 import org.jboss.jawabot.plugin.reserv.web._co.ResourceLinkPanel;
@@ -79,6 +59,7 @@ public class ReservationsPage extends BaseLayoutPage {
         
          // -- Resources table with "reserve" links. --
          // We are keeping it here as non-component since it's only at home page.
+         // Todo: Make a component anyway.
 
          List<ResourceWithNearestFreePeriodDTO> resources = getResourceWithNearestFreePeriod( resourceManager.getResources_SortByName() );
 
