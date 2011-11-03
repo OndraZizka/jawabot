@@ -10,7 +10,8 @@ body {
 /*	background-image: url(icons/ssplogo-fish.png);
 	background-repeat: no-repeat; */
 	color: #333;
-	font: 83%/1.5 arial,tahoma,verdana,sans-serif;
+	/*font: 83%/1.5 arial,tahoma,verdana,sans-serif;*/
+   font: 83% arial,tahoma,verdana,sans-serif;
 }
 
 img { border: none; }
@@ -40,10 +41,7 @@ hr {
 	max-width: 950px;
 }
 
-#languagebar {
-	padding-left: 10px;
-	padding-right: 10px;
-}
+#languagebar { padding: 0 10px; }
 #languagebar a:link, #languagebar a:visited {
 	text-decoration: none;
 	color: #777;
@@ -54,19 +52,24 @@ hr {
 	text-decoration: none;
 	color: #333;
 	border-bottom: 1px solid #333;
-	
 }
 
+
 #header {
-	background: #666 url("sprites.gif") repeat-x 0 100%;
+	background-color: #666666;
+   background-image: url("sprites.gif");
+   background-repeat: repeat-x;
+   background-position: 0 -1921px;
 	margin: 0px;
 	padding: 0 0 8px;
 }
 
 #header h1 {
-	color: #fff;
-	font-size: 145%;
-	padding: 20px 20px 12px;
+    color: #FFFFFF;
+    font-size: 20pt;
+    padding: 1.8ex 1em 1.0ex;
+    font-weight: bold;
+    margin: 0;
 }
 
 
@@ -86,53 +89,30 @@ hr {
 
 
 /* LINKS */
-a, a:link, a:link, a:link, a:hover {
-
+a, a:link, a:hover, a:visited  {
 	text-decoration: none;
 	color: #777;
 	border-bottom: 1px dotted #ccc;
 	font-weight: normal;
 }
 
-
-a:link, a:visited {
-	text-decoration: none;
-	color: #777;
-	border-bottom: 1px dotted #ccc;
-	font-weight: normal;
-}
 .ui-tabs-nav a {
 	border: none ! important;
 	text-decoration: none;
 }
-a:visited {
-	color: #999;
-} 
+
+a:visited { color: #999; } 
 
 a:hover, a:active {
 	color: #069;
-	text-decoration: none;
-	color: #333;
 	border-bottom: 1px solid #333;
 } 
 
 /* LISTS */
-ul {
-	margin: .3em 0 1.5em 2em;
-}
-
-ul.related {
-	margin-top: -1em;
-}
-
-li {
-	margin-left: 2em;
-}
-
-dt {
-	font-weight: bold;
-}
-
+ul { margin: .3em 0 1.5em 2em; }
+ul.related { margin-top: -1em; }
+li { margin-left: 2em; }
+dt { font-weight: bold; }
 
 
 /* TYPOGRAPHY */

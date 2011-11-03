@@ -28,9 +28,9 @@ import org.jboss.jawabot.web._co.UserLinkSimplePanel;
 
 
 /**
- *  Page with form to submit new paste entry.
+ *  Page with form to submit new paste entry and a list of recent entries.
  * 
- * @author Ondrej Zizka
+ *  @author Ondrej Zizka
  */
 public class PasteBinPage extends BaseLayoutPage
 {
@@ -50,6 +50,9 @@ public class PasteBinPage extends BaseLayoutPage
       build();
    }
 
+   /**
+    * Builds page components.
+    */
    private void build(){
 
       // New entry.

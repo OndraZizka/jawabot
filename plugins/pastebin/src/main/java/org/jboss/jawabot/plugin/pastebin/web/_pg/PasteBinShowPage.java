@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.jawabot.plugin.irc.web._co.ChannelLinkSimplePanel;
@@ -18,7 +17,7 @@ import org.jboss.jawabot.web._co.UserLinkSimplePanel;
 
 
 /** 
- *  
+ *  Shows single pastebin entry.
  *  @author Ondrej Zizka
  */
 public class PasteBinShowPage extends BaseLayoutPage {

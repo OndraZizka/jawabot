@@ -48,7 +48,7 @@ public class JawaBotTabBarPanel extends Panel {
       
       view.add( new WMC( view.newChildId() )
               .add( new BookmarkablePageLink("link", HomePage.class)
-                         .add(new Label("label", "HP")) 
+                         .add(new Label("label", "Home")) 
               )
       );
       
@@ -59,10 +59,6 @@ public class JawaBotTabBarPanel extends Panel {
                      .add( tabContrib.getLabel("label"))
                  )
          );
-
-         BookmarkablePageLink link = new BookmarkablePageLink("link", tabContrib.getLinkedPage());
-         link.add( tabContrib.getLabel("label") );
-         this.add( link );
       }
 
       
