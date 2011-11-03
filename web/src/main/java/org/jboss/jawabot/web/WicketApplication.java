@@ -18,13 +18,15 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.web._base.BaseLayoutPage_Vut;
+import org.jboss.jawabot.web._pg.GroupPage;
+import org.jboss.weld.wicket.WeldApplication;
 
 /**
  * Application object for your web application. If you want to run this application without deploying, run the Start class.
  * 
  * @see cz.dw.test.Start#main(String[])
  */
-public class WicketApplication extends WebApplication
+public class WicketApplication extends WeldApplication // WebApplication 
 {
    private static final Logger log = Logger.getLogger( WicketApplication.class.getName() );
 
@@ -53,6 +55,7 @@ public class WicketApplication extends WebApplication
    protected void init() {
       System.out.println("----  Wicket init() ----");
       mountBookmarkablePage("res",   ResourcePage.class);
+      mountBookmarkablePage("group",   GroupPage.class);
       mountBookmarkablePage("take",  TakePage.class);
       mountBookmarkablePage("leave", LeavePage.class);
       mountBookmarkablePage("debug", InspectorPage.class);
