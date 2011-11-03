@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
+import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.web._pg.ResourcePage;
 
@@ -15,23 +16,26 @@ import org.jboss.jawabot.web._pg.ResourcePage;
  */
 public class ResourceLinkPanel extends Panel {
    
-   Resource res;
-   
+   //Resource res;
+
    public ResourceLinkPanel( String id, final String name ) {
-      
+      super( id, new Model( JawaBotApp.getJawaBot().getResourceManager().getResource( name ) ) );
+      //Resource res = JawaBotApp.getJawaBot().getResourceManager().getResource( name );
+      //this.res = res;
    }
 
    public ResourceLinkPanel( String id, final Resource res ) {
       super( id, new Model<Resource>(res) );
+      //IBehavior a = new CssModifier( , null)
    }
 
    @Override
    protected void onInitialize() {
       super.onInitialize();
-      add( new BookmarkablePageLink<Resource>( "link", ResourcePage.class){{
-         add( new Image( "icoType", "ResourceMachine.gif" ) );
-         add( new Label("label", res.getName() ));
-      }});
+      BookmarkablePageLink<Resource> link = new BookmarkablePageLink<Resource>( "link", ResourcePage.class);
+      link.add( new Image( "icoType", "ResourceMachine.gif" ) );
+      link.add( new Label("label", ((Resource)getDefaultModelObject()).getName() ));
+      add(link);
    }
    
    

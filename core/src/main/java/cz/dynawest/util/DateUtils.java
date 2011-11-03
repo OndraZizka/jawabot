@@ -34,7 +34,7 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
    public static String toStringSQL( Date date ){
       if( null == date ) return "";
       StringBuilder sb = new StringBuilder(10);
-      sb.append( date.getYear() ).append('-');
+      sb.append( date.getYear()+1900 ).append('-');
       if(date.getMonth() < 9 ) sb.append('0');
       sb.append(date.getMonth()+1).append('-');
       if(date.getDate() < 10 ) sb.append('0');

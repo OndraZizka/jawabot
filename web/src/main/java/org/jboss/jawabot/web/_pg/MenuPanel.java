@@ -14,6 +14,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.util.ListModel;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.web.JawaBotSession;
+import org.jboss.jawabot.web._co.ResourceLinkPanel;
 
 
 /**
@@ -51,10 +52,7 @@ public class MenuPanel extends Panel
 
       add(new ListView<Resource>("resourceList", new ListModel( resources ) ) {
         @Override protected void populateItem(ListItem<Resource> item) {
-           item.add( new BookmarkablePageLink("link", ResourcePage.class)
-                     .setParameter("name", item.getModelObject().getName())
-                     .add( new Label("name", item.getModelObject().getName()) )
-           );
+           item.add( new ResourceLinkPanel("link", item.getModelObject()));
         }
       });
 

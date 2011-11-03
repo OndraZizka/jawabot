@@ -88,7 +88,7 @@ public class HomePage extends BaseLayoutPage
      add(new ListView<ReservationWrap>("reservations", new ListModel<ReservationWrap>( resvs ) ) {
         @Override protected void populateItem(ListItem<ReservationWrap> item) {
            ReservationWrap res = item.getModelObject();
-           item.add(new Label("res", res.getResourceName() ));
+           item.add(new ResourceLinkPanel("res", res.getResourceName() ));
            item.add(new Label("owner", res.getForUser() ));
            item.add(new Label("from", DateUtils.toStringSQL( res.getFrom() ) ));
            item.add(new Label("to",   DateUtils.toStringSQL( res.getTo()   ) ));
