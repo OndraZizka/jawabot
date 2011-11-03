@@ -55,7 +55,7 @@ public class JawaBotApp
    
    
    /**
-    * Main.
+    * Instantiates JawaBotApp through CDI/Weld and calls it's run().
     */
    public static void main(String[] args) throws JawaBotException {
 
@@ -77,8 +77,8 @@ public class JawaBotApp
          String configFilePath = System.getProperty("config", "JawaBotConfig-debug.xml");
          this.init( configFilePath );
          //this.initAndStartModules(); // TODO: Move to JawaBot.
-         CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, this.getJawaBot(), JawaBotException.class);
-         this.getJawaBot().waitForShutdown();
+         CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, JawaBotApp.getJawaBot(), JawaBotException.class);
+         JawaBotApp.getJawaBot().waitForShutdown();
       } catch ( JawaBotException ex ) {
          ex.printStackTrace();
       }

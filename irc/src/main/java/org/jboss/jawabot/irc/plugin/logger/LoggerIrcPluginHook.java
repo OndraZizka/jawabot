@@ -1,6 +1,5 @@
 package org.jboss.jawabot.irc.plugin.logger;
 
-import cz.dynawest.util.plugin.PluginEx;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import org.jboss.jawabot.irc.IIrcPluginHook;

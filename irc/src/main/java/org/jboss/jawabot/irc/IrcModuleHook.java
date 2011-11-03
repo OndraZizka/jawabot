@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ *  IRC module for JawaBot. Handles IRC connection (PircBot) and manages the plugins (CDI).
  *
  * @author Ondrej Zizka
  */

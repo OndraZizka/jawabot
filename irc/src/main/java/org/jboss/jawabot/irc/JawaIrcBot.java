@@ -2,6 +2,7 @@
 package org.jboss.jawabot.irc;
 
 import cz.dynawest.util.plugin.PluginUtils;
+import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
@@ -44,16 +45,21 @@ public class JawaIrcBot extends PircBot
    private JawaBot jawaBot;
    public JawaBot getJawaBot() { return jawaBot; }
    
+   private boolean initialized = false;
+   public boolean isInitialized() {      return initialized;   }
 
    // Plugin instances "placeholder".
    @Inject private Instance<IIrcPluginHook> pluginHookInstances;
 
-
-   
-   
    /** Plugins map */
    private SortedMap<String, IIrcPluginHook> pluginsByClass = new TreeMap();
    
+   //private ConfigBean config;
+   public ConfigBean getConfig() {      return this.getJawaBot().getConfig();   }
+
+   private CommandHandler commandHandler;
+   
+
    
    
    /** Const. */
@@ -63,17 +69,6 @@ public class JawaIrcBot extends PircBot
    
    
    
-
-   //private ConfigBean config;
-   public ConfigBean getConfig() {      return this.getJawaBot().getConfig();   }
-
-
-   private boolean initialized = false;
-   public boolean isInitialized() {      return initialized;   }
-
-   private CommandHandler commandHandler;
-
-
 
    /** Returns a list of all reservation calendars. */
    Map<Resource, ReservationCalendar> getReservationCalendars(){
@@ -98,7 +93,8 @@ public class JawaIrcBot extends PircBot
       // Create a command handler for core commands.
       this.commandHandler = new CommandHandlerImpl(this);
       
-      this.initAndStartPlugins();
+      //this.initAndStartPlugins();
+      CdiPluginUtils.initAndStartPlugins( this.pluginHookInstances, JawaBotApp.getJawaBot(), JawaBotException.class );
       
       this.initialized = true;
 	}
@@ -128,6 +124,7 @@ public class JawaIrcBot extends PircBot
    /**
     *  Initialization of all plugins.
     *  Copied from JawaBotApp. TODO: Generalize? Or should I rely on CDI?
+    * @deprecated  in favor of CdiPluginUtils.initAndStartPlugins()
     */
    private void initAndStartPlugins() throws JawaBotException {
 
