@@ -23,6 +23,8 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.util.string.Strings;
@@ -81,12 +83,17 @@ public class PasteBinPage extends BaseLayoutPage
 
       // Recent entries.
       //List<PasteBinEntry> entries = JawaBotApp.getPasteBinManager().getAll();
-      List<PasteBinEntry> entries = pbManager.getLastPastes_OrderByWhenDesc(100);
+      //IModel model = new ListModel<PasteBinEntry>( entries );
+      IModel model = new LoadableDetachableModel<List<? extends PasteBinEntry>>() {
+         protected List<? extends PasteBinEntry> load() {
+            return pbManager.getLastPastes_OrderByWhenDesc(100);
+         }
+      };
 
       add( new WebMarkupContainer( "entries" )
-         .add( new ListView<PasteBinEntry>( "entry", new ListModel<PasteBinEntry>( entries ) ) {
+         
+         .add( new ListView<PasteBinEntry>( "entry", model) {
 
-            @Override
             protected void populateItem( final ListItem<PasteBinEntry> item ) {
                final PasteBinEntry entry = item.getModelObject();
                item.add( new UserLinkSimplePanel( "author", entry.getAuthor() ) );
