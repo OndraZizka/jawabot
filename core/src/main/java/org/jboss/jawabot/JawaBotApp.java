@@ -125,7 +125,7 @@ public class JawaBotApp
       //   throw new JawaBotException( exs.get(0).getMessage(), exs.get(0) );
       
       if( exs.size() != 0 ){
-         StringBuilder sb = new StringBuilder("Multiple module's couldn't be initialized or started: ")
+         StringBuilder sb = new StringBuilder("Some modules couldn't be initialized or started: ")
            .append( StringUtils.join( errMods, ", ") )
            .append("\n");
          for( Throwable ex : exs ) {
