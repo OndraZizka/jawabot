@@ -12,7 +12,7 @@ import org.jboss.jawabot.ex.JawaBotException;
 public class Options {
 
 
-   // Load configuration from file at custom path.
+   // Load configuration from file at this path.
    private String configFile = "JawaBotConfig.xml";
 
    // Options profile - load configuration from JawaBotConfig-<profile>.xml.

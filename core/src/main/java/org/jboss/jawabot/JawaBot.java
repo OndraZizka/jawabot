@@ -8,7 +8,6 @@ import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
@@ -42,14 +41,14 @@ public class JawaBot
    private boolean initialized = false;
    public boolean isInitialized() {      return initialized;   }
    
-	private int quitPassword = new Random().nextInt(1000);
+   private int quitPassword = new Random().nextInt(1000);
    public int getQuitPassword() { return quitPassword; }
    
    
 
 
    // GroupManager
-	private GroupManager groupManager = new GroupManager();
+   private GroupManager groupManager = new GroupManager();
    public GroupManager getGroupManager() { return groupManager; }
    public void setGroupManager(GroupManager groupManager) { this.groupManager = groupManager; }
       

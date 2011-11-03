@@ -1,6 +1,8 @@
 
 package org.jboss.jawabot.config;
 
+import java.io.File;
+import java.io.FileInputStream;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import java.io.FileWriter;
 import java.io.InputStream;
@@ -22,23 +24,18 @@ public class JaxbConfigPersister implements ConfigPersister
    private static final Logger log = LoggerFactory.getLogger(JaxbConfigPersister.class);
 
 
-   private String filePath = "JawaBotConfig.xml";
-   public Writer writer = null;
+   private String filePath;
+   private Writer writer = null;
 
-   // Const
-
-   /** Default config file path: "JawaBotConfig.xml" */
-   public JaxbConfigPersister() { }
-
-   /** Configures the bot according to the given config file. */
+   
+   /**
+    *  @param filePath  The path to be used by load() and write().
+    */
    public JaxbConfigPersister( String filePath ) {
+      assert( filePath != null );
       this.filePath = filePath;
    }
-
-   /** The given writer will be used when writing via JAXB. */
-   public JaxbConfigPersister(Writer soutCopyingFileWriter) {
-      this.writer = soutCopyingFileWriter;
-   }
+   
 
 
    
@@ -50,24 +47,31 @@ public class JaxbConfigPersister implements ConfigPersister
    @Override
    public ConfigBean load() throws JawaBotIOException
    {
-      log.info("Loading config from: " + this.filePath);
+        log.info( "Loading config from: " + this.filePath );
 
-      try{
-         //FileReader reader = new FileReader(filePath);
+       try {
+           // Try filesystem, then classpath.
+           InputStream is;
+           if( new File( this.filePath ).exists() ) {
+               log.info( "Loading config from the filesystem." );
+               is = new FileInputStream( this.filePath );
+           } else {
+               log.info( "Loading config from the classpath." );
+               is = JaxbConfigPersister.class.getClassLoader().getResourceAsStream( this.filePath );
+           }
+           if( null == is ) {
+               throw new JawaBotIOException( "Can't find '" + this.filePath + "'" );
+           }
 
-         InputStream is = JaxbConfigPersister.class.getClassLoader().getResourceAsStream(this.filePath);
-         InputStreamReader reader = new InputStreamReader( is );
-
-
-         JAXBContext jc = JAXBContext.newInstance( ConfigBean.class );
-         Unmarshaller mc = jc.createUnmarshaller();
-         ConfigBean configBean = (ConfigBean) mc.unmarshal(reader);
-
-         return configBean;
-      }
-		catch (/*JAXB*/Exception ex) {
-			throw new JawaBotIOException( ex );
-		}
+           InputStreamReader reader = new InputStreamReader( is );
+           JAXBContext jc = JAXBContext.newInstance( ConfigBean.class );
+           Unmarshaller mc = jc.createUnmarshaller();
+           ConfigBean configBean = (ConfigBean) mc.unmarshal( reader );
+           return configBean;
+       }
+       catch( /*JAXB*/ Exception ex ) {
+           throw new JawaBotIOException( ex );
+       }
    }
 
 
@@ -92,7 +96,7 @@ public class JaxbConfigPersister implements ConfigPersister
 		try {
          Writer writer = this.writer;
          if( null == writer )
-            writer = new FileWriter(filePath);
+            writer = new FileWriter( this.filePath );
 
          JAXBContext jc = JAXBContext.newInstance( ConfigBean.class );
          Marshaller mc = jc.createMarshaller();
@@ -106,4 +110,11 @@ public class JaxbConfigPersister implements ConfigPersister
 	}
 
 
+    
+    
+   /** The given writer will be used when writing via JAXB. */
+    public void setWriter(Writer writer) {
+        this.writer = writer;
+    }
+    
 }// class

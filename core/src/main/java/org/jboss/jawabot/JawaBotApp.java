@@ -18,17 +18,25 @@ import org.jboss.weld.environment.se.events.ContainerInitialized;
 import org.jboss.weld.environment.se.jpa.EntityManagerStore;
 
 
+/**
+ *  Application class - entry point of the application.
+ *  Used statically.
+ *  Bootstraps CDI.
+ *  Creates JawaBot, initializes it, configures it,
+ *  
+ * @author ondra
+ */
 @Singleton
 public class JawaBotApp
 {
     private static final Logger log = LoggerFactory.getLogger(JawaBotApp.class);
 
     @Inject private Instance<IModuleHook> moduleHookInstances;
-    @Inject private EntityManagerStore emf; // To have it created at the very start.
+    @Inject private EntityManagerStore emf; // To have it created at the very start, we would have to call em.get().
    
 
    
-    // Things shown in the "help" command reply.
+    // Find VERSION from a package.
     public static final String VERSION;
     static{
         String version = null;
@@ -70,7 +78,8 @@ public class JawaBotApp
 
 
    /**
-    * Run.
+    *  Reads the options, creates jawabot, applies options on it, 
+    *  initializes the plugins, and last, waits for JawaBot to notify shutting down.
     */
    public void run(String[] args) throws JawaBotException {
       log.debug( JawaBotApp.class.getSimpleName() + "#main() start.");
@@ -78,7 +87,8 @@ public class JawaBotApp
       Options options = new Options().applySysProps().applyAppParams(args).validate();
 
       try {
-         this.init( options.getConfigFile() );
+         ConfigBean cb = new JaxbConfigPersister( options.getConfigFile() ).load();
+         JawaBotApp.jawaBot = JawaBot.create( cb );
          
          // TODO: Move to JawaBot.
          CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, JawaBotApp.getJawaBot(), JawaBotException.class);
@@ -90,22 +100,17 @@ public class JawaBotApp
       log.debug( JawaBotApp.class.getSimpleName() + "#main() end.");
    }
    
+
    
-   /**
-    *  Init module instances acquired through CDI.
-    */
-   private void init( String configFile ) throws JawaBotException {
-      ConfigBean cb = new JaxbConfigPersister( configFile ).load();
-      JawaBotApp.jawaBot = JawaBot.create( cb );
-   }
-
-
+   
+   
+   
    /**
     *  This is here for JawaBotAppBeanManagerProvider.
     */
    public static BeanManager getBeanManager() { return beanManager; }
    private static BeanManager beanManager;
    
-      
+  
 
 }// class
