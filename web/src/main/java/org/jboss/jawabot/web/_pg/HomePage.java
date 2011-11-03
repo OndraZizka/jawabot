@@ -9,13 +9,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javax.inject.Inject;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -29,6 +29,7 @@ import org.jboss.jawabot.ReservationWrap;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.state.ent.User;
+import org.jboss.jawabot.usermgr.UserManager;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
 import org.jboss.jawabot.web._co.ReservationListPanel;
 import org.jboss.jawabot.web._co.ReserveLinkPanel;
@@ -43,6 +44,8 @@ import org.jboss.jawabot.web._co.ResourceLinkPanel;
 public class HomePage extends BaseLayoutPage
 {
   private static final Logger log = LoggerFactory.getLogger( HomePage.class );
+  
+  @Inject private UserManager userManager;
 
 
   private String note = "";
@@ -153,22 +156,8 @@ public class HomePage extends BaseLayoutPage
             if ( Strings.isEmpty( input ) ) {
                return Collections.EMPTY_LIST.iterator();
             }
-
-            input = input.toLowerCase();
-
-            List<User> users = JawaBotApp.getUserManager().getUsers_OrderByName();
-            for( User user : users )
-            {
-               String name = user.getName().toLowerCase();
-               if( StringUtils.isBlank( name ) ) continue;
-               if( name.startsWith( input )
-                || name.substring(1).startsWith( input ) 
-               ) {
-                  users.add( user );
-                  if ( users.size() == 20 ) break;
-               }
-            }
-            return users.iterator();
+            
+            return userManager.getUsersNameStartsWith( input.toLowerCase() ).iterator() ;
          }
       };
       return field;

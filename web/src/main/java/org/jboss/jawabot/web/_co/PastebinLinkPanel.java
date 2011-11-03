@@ -31,8 +31,8 @@ public class PastebinLinkPanel extends Panel {
    protected void onInitialize() {
       super.onInitialize();
       BookmarkablePageLink<Resource> link = new BookmarkablePageLink<Resource>( "link", ResourcePage.class);
-      link.add( new Image( "icoType", "ResourceMachine.gif" ) );
-      link.add( new Label("label", ((Resource)getDefaultModelObject()).getName() ));
+      link.add( new Image( "icoType", "PasteBinEntry.gif" ) );
+      link.add( new Label("label", "" + ((PasteBinEntry)getDefaultModelObject()).getId() ));
       add(link);
    }
    

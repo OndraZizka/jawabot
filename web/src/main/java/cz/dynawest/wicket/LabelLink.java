@@ -1,7 +1,5 @@
 package cz.dynawest.wicket;
 
-import java.util.*;
-import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.link.Link;

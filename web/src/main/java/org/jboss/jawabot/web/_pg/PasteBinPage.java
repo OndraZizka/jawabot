@@ -13,6 +13,7 @@ import org.slf4j.Logger; import org.slf4j.LoggerFactory;
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -30,10 +31,11 @@ import org.jboss.jawabot.Reservation;
 import org.jboss.jawabot.Resource;
 import org.jboss.jawabot.plugin.pastebin.JpaPasteBinManager;
 import org.jboss.jawabot.plugin.pastebin.PasteBinEntry;
-import org.jboss.jawabot.plugin.pastebin.MemoryPasteBinManager;
 import org.jboss.jawabot.resmgr.ResourceWithNearestFreePeriodDTO;
 import org.jboss.jawabot.state.ent.User;
 import org.jboss.jawabot.web._base.BaseLayoutPage;
+import org.jboss.jawabot.web._co.ChannelLinkPanel;
+import org.jboss.jawabot.web._co.UserLinkPanel;
 
 
 
@@ -69,7 +71,7 @@ public class PasteBinPage extends BaseLayoutPage
       };
       this.add( form );
       form.add( new TextField( "author" ) );
-      form.add( new TextField( "to" ) );
+      form.add( new TextField( "for" ) );
       form.add( new TextArea( "text" ) );
       form.add( new Button("submit") );
 
@@ -78,27 +80,24 @@ public class PasteBinPage extends BaseLayoutPage
       //List<PasteBinEntry> entries = JawaBotApp.getPasteBinManager().getAll();
       List<PasteBinEntry> entries = pbManager.getLastPastes_OrderByWhenDesc(100);
 
-      add( new ListView<PasteBinEntry>( "entries", new ListModel<PasteBinEntry>( entries ) ) {
+      add( new WebMarkupContainer( "entries" )
+         .add( new ListView<PasteBinEntry>( "entry", new ListModel<PasteBinEntry>( entries ) ) {
 
-         @Override
-         protected void populateItem( final ListItem<PasteBinEntry> item ) {
-            final PasteBinEntry entry = item.getModelObject();
-            item.add( new Link("entry"){
-               {
-                  add( new Label( "author", entry.getAuthor() ) );
-                  add( new Label( "for", entry.getFor() ) );
-                  add( new Label( "from", DateUtils.toStringSQL( entry.getWhen() ) ) );
-                  add( new Label( "channel", entry.getChannel() ) );
-               }
-
-               @Override
-               public void onClick() {
-                  setResponsePage( new PasteBinShowPage( item.getModelObject() ) );
-               }
-               
-            });
-         }// populateItem()
-      } );
+            @Override
+            protected void populateItem( final ListItem<PasteBinEntry> item ) {
+               final PasteBinEntry entry = item.getModelObject();
+               item.add( new UserLinkPanel( "author", entry.getAuthor() ) );
+               item.add( new UserLinkPanel( "for", entry.getFor() ) );
+               item.add( new ChannelLinkPanel( "channel", entry.getChannel() ) );
+               item.add( new Label( "when", DateUtils.toStringSQL( entry.getWhen() ) ) );
+               item.add( new Link( "showLink" ){
+                  public void onClick() {
+                     setResponsePage( new PasteBinShowPage( item.getModelObject() ) );
+                  }
+               });
+            }// populateItem()
+         } )// ListView
+      );
 
    }// build()
 
@@ -147,7 +146,7 @@ public class PasteBinPage extends BaseLayoutPage
 
             input = input.toLowerCase();
 
-            List<User> users = JawaBotApp.getUserManager().getUsers_OrderByName();
+            List<User> users = JawaBotApp.getUserManager().getUsersRange_OrderByName(0, 1000);
             for( User user : users )
             {
                String name = user.getName().toLowerCase();
