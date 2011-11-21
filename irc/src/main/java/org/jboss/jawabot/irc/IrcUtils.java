@@ -86,7 +86,7 @@ public class IrcUtils {
    }
    
    /**
-    * Does not support multiple nicks (yet).
+    *  TODO: Does not support multiple nicks (yet).
     * 
     *  @returns  A list of nicks given message is for.
     */
@@ -103,8 +103,8 @@ public class IrcUtils {
         return Collections.singletonList(nick);
    }
    
-   private static final Pattern MESSAGE_AFTER_NICK_PATTERN = Pattern.compile("([a-zA-Z][-_|=~+a-zA-Z0-9]*)[:,].*");
-   private static final Pattern MESSAGE_AFTER_NICK_COLON_PATTERN = Pattern.compile("([a-zA-Z][-_|=~+a-zA-Z0-9]*):.*");
+   private static final Pattern MESSAGE_AFTER_NICK_PATTERN = Pattern.compile("([a-zA-Z][-_|=~+a-zA-Z0-9]*)[:,] .*");
+   private static final Pattern MESSAGE_AFTER_NICK_COLON_PATTERN = Pattern.compile("([a-zA-Z][-_|=~+a-zA-Z0-9]*): .*");
 
 
 }// class
