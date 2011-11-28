@@ -1,6 +1,7 @@
 package org.jboss.jawabot;
 
 import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
+import java.io.File;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
@@ -9,8 +10,10 @@ import javax.inject.Singleton;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.ex.JawaBotException;
+import org.jboss.jawabot.ex.JawaBotIOException;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.config.JaxbConfigPersister;
+import org.jboss.jawabot.config.JaxbGenericPersister;
 import org.jboss.jawabot.usermgr.UserManager;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
@@ -80,8 +83,11 @@ public class JawaBotApp
 
 
    /**
-    *  Reads the options, creates jawabot, applies options on it, 
-    *  initializes the plugins, and last, waits for JawaBot to notify shutting down.
+    *  * Reads the options
+    *  * Creates jawabot
+    *  * Applies options on it
+    *  * Initializes the plugins
+    *  * and last, waits for JawaBot to notify shutting down.
     */
    public void run(String[] args) throws JawaBotException {
       log.debug( JawaBotApp.class.getSimpleName() + "#main() start.");
@@ -91,9 +97,12 @@ public class JawaBotApp
       try {
          ConfigBean cb = new JaxbConfigPersister( options.getConfigFile() ).load();
          JawaBotApp.jawaBot = JawaBot.create( cb );
+         JawaBotApp.jawaBot.configWasReadFrom = options.getConfigFile();
          
          // TODO: Move to JawaBot.
          CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, JawaBotApp.jawaBot, JawaBotException.class);
+         
+         // Wait for shutdown (the rest of the app runs in other threads).
          JawaBotApp.jawaBot.waitForShutdown();
       } catch ( JawaBotException ex ) {
          log.error( "Error during JawaBot initialization", ex );
@@ -102,7 +111,7 @@ public class JawaBotApp
       log.debug( JawaBotApp.class.getSimpleName() + "#main() end.");
    }
    
-
+   
    
    
    

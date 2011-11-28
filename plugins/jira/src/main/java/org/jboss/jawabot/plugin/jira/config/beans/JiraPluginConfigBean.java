@@ -8,17 +8,14 @@ import javax.xml.bind.annotation.*;
  *
  * @author Ondrej Zizka
  */
-@XmlRootElement(name="jirabotConfig"
+@XmlRootElement(name="jiraPluginConfig"
    //factoryClass=org.jboss.jawabot.config.ConfigBeanFactory.class
    //factoryMethod=""
 )
-public class ConfigBean {
+public class JiraPluginConfigBean {
 
    @XmlElement
    public SettingsBean settings;
-
-   @XmlElement
-   public IrcBean irc;
 
    @XmlElement
    public JiraBean jira;

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import org.jboss.jawabot.plugin.jira.core.JiraBotException;
-import org.jboss.jawabot.plugin.jira.config.beans.ConfigBean;
+import org.jboss.jawabot.plugin.jira.config.beans.JiraPluginConfigBean;
 import org.jboss.jawabot.plugin.jira.config.beans.ProjectBean;
 import org.jboss.jawabot.plugin.jira.config.beans.RepositoryBean;
 import org.jboss.jawabot.plugin.jira.repo.RepositoryCache.Site;
@@ -20,14 +20,14 @@ import org.slf4j.LoggerFactory;
 public class ConfigRepositoryCacheLoader implements IRepositoryCacheLoader {
 	private static final Logger log = LoggerFactory.getLogger( ConfigRepositoryCacheLoader.class );
 
-   private ConfigBean config;
+   private JiraPluginConfigBean config;
 
    private Map<String, Site> mappings = new HashMap();
    private Set<String> ignoredPrefixes = new TreeSet<String>();
    private Site defaultRepo;
 
 
-   public ConfigRepositoryCacheLoader(ConfigBean config) {
+   public ConfigRepositoryCacheLoader(JiraPluginConfigBean config) {
       if( null == config )
          throw new IllegalArgumentException("Config can't be null.");
       this.config = config;

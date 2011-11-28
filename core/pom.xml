@@ -34,60 +34,76 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+            
+            <!-- TODO: Move to "root" module. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution><id>copy-config</id><goals><goal>copy-resources</goal></goals><phase>process-resources</phase>
+                        <configuration>
+                            <resources><resource><directory>${basedir}/../conf</directory><includes><include>**/*</include></includes></resource></resources>
+                            <outputDirectory>${basedir}/../target/workdir/conf</outputDirectory>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         
-     <!-- Plugins' tests need test classes. TODO: Create standalone "testbase" package. -->
-     <sourceDirectory>src/main/java</sourceDirectory>
+        <!-- Plugins' tests need test classes. TODO: Create standalone "testbase" package. -->
+        <sourceDirectory>src/main/java</sourceDirectory>
 
-      <resources>
-         <resource>
-            <directory>src/main/java</directory>
-            <includes> <include>**/*</include> </includes>
-            <excludes> <exclude>**/*.java</exclude> </excludes>
-            <filtering>false</filtering>
-         </resource>
-         <resource>
-            <directory>resources</directory>
-            <includes> <include>**/*</include> </includes>
-         </resource>
-      </resources>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes> <include>**/*</include> </includes>
+                <excludes> <exclude>**/*.java</exclude> </excludes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>resources</directory>
+                <includes> <include>**/*</include> </includes>
+            </resource>
+        </resources>
 
-   <testResources>
-      <testResource>
-         <directory>src/test/resources</directory>
-         <includes> <include>**/*</include> </includes>
-      </testResource>
-   </testResources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes> <include>**/*</include> </includes>
+            </testResource>
+        </testResources>
 
-   </build>
-
-
+    </build>
 
 
-   <!-- Dependencies -->
-   <dependencies>
+
+
+    <!-- Dependencies -->
+    <dependencies>
 
       
-      <!-- Commons email - SimpleMail in JawaBot.java, MailUtils -->
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-email</artifactId>
-        <version>1.2</version>
-      </dependency>
+        <!-- Commons email - SimpleMail in JawaBot.java, MailUtils -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.2</version>
+        </dependency>
 
 
-      <!-- JAXB -->
-      <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.2.3</version>
-      </dependency>
+        <!-- JAXB -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.3</version>
+        </dependency>
 
-      <dependency>
-        <groupId>javax.xml</groupId>
-        <artifactId>jaxb-impl</artifactId>
-        <version>2.2.3</version>
-      </dependency>
+        <dependency>
+            <groupId>javax.xml</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.2.3</version>
+        </dependency>
 
 
 
@@ -213,13 +229,13 @@
          <scope>test</scope>
       </dependency>
       -->
-   </dependencies>
+    </dependencies>
    
-   <repositories>
-     <repository>
-       <id>ondrazizka</id>
-       <url>http://ondrazizka.googlecode.com/svn/maven</url>
-     </repository>
-   </repositories>
+    <repositories>
+        <repository>
+            <id>ondrazizka</id>
+            <url>http://ondrazizka.googlecode.com/svn/maven</url>
+        </repository>
+    </repositories>
 
 </project>

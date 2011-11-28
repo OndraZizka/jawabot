@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginException;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
-import org.jboss.jawabot.plugin.jira.config.beans.ConfigBean;
+import org.jboss.jawabot.plugin.jira.config.beans.JiraPluginConfigBean;
 import org.jboss.jawabot.plugin.jira.config.beans.RepositoryBean;
 import org.jboss.jawabot.plugin.jira.core.ChannelsStatusStore;
 import org.jboss.jawabot.plugin.jira.core.IssueShownInfo;
+import org.jboss.jawabot.plugin.jira.core.JiraPlugin;
 import org.jboss.jawabot.plugin.jira.core.TimeoutCache;
 import org.jboss.jawabot.plugin.jira.repo2.RepositoriesManager;
 import org.jboss.jawabot.plugin.jira.scrapers.IssueInfo;
@@ -43,8 +46,13 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
     private static final int DEFAULT_CACHED_ISSUES_TIMEOUT_MINUTES = 60; // TODO: Move to the configuration.
 
 
-    private ConfigBean config = null;
+    //@Inject private JiraPluginConfigBean config = null;
+		//@Inject private JawaBot jawaBot;
 		
+		/**
+		 * This will receive app-scoped plugin bean which keeps the loaded config.
+		 */
+		@Inject JiraPlugin jiraPlugin;		
 		
 	 
     private final RepositoriesManager repoManager = new RepositoriesManager();
@@ -131,8 +139,9 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
       if( jiraIDs.size() == 0 ) return;
 
       // At most X jira requests in one messge.
-      if( jiraIDs.size() > this.config.settings.repeatDelayMessages ){
-         bot.sendMessage(from, "Don't be obnoxious, I'll answer up to " + this.config.settings.repeatDelayMessages + " JIRA requests at a time.");
+      //if( jiraIDs.size() > this.jawaBot.getConfig().getPluginsMap().get("jira").settings.repeatDelayMessages ){
+      if( jiraIDs.size() > this.jiraPlugin.getConfig().settings.repeatDelayMessages ){
+         bot.sendMessage(from, "Don't be obnoxious, I'll answer up to " + this.jiraPlugin.getConfig().settings.repeatDelayMessages + " JIRA requests at a time.");
          return;
       }
 
@@ -170,7 +179,7 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
    ) {
 
         // TODO: Refactor - repeated in other method.
-        String replyTo = this.config.settings.debug ? this.config.settings.debugChannel : from;
+        String replyTo = this.jiraPlugin.getConfig().settings.debug ? this.jiraPlugin.getConfig().settings.debugChannel : from;
 
         // Skip Jiras with ignored prefixes.
         if( this.repoManager.hasIgnoredPrefix(issueID) )
@@ -183,8 +192,8 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
         // Show after at least 15 messages and 3 minutes.
         // TODO: Make this configurable.
         IssueShownInfo repeatedShowThreshold = new IssueShownInfo( 
-                 this.config.settings.repeatDelayMessages, 
-                 this.config.settings.repeatDelaySeconds * 1000 );
+                 this.jiraPlugin.getConfig().settings.repeatDelayMessages, 
+                 this.jiraPlugin.getConfig().settings.repeatDelaySeconds * 1000 );
         long curTimeMS = System.currentTimeMillis();
 
         // Check the channel activity - when this issue was last shown.
@@ -265,7 +274,7 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 
         boolean wasValidCommand = false;
 
-        String replyTo = this.config.settings.debug ? this.config.settings.debugChannel : from;
+        String replyTo = this.jiraPlugin.getConfig().settings.debug ? this.jiraPlugin.getConfig().settings.debugChannel : from;
 
         command = command.toLowerCase();
 

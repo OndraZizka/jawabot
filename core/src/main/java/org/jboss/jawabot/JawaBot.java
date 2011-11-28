@@ -9,6 +9,8 @@ import java.util.*;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.jawabot.config.JaxbGenericPersister;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.groupmgr.GroupManager;
@@ -29,7 +31,7 @@ import org.jboss.jawabot.groupmgr.GroupManager;
 public class JawaBot
 {
    private static final Logger log = LoggerFactory.getLogger( JawaBot.class );
-
+   
    
 
    @Produces @FromJawaBot
@@ -38,6 +40,8 @@ public class JawaBot
    }
    private ConfigBean config;
 
+   public String configWasReadFrom;
+   
    private final MailUtils mailUtils = new MailUtils( this.config );
    @Produces @FromJawaBot public MailUtils getMailUtils() { return this.mailUtils; }
 
@@ -107,6 +111,31 @@ public class JawaBot
 
 
 
+   /**
+    * 
+    * @param pluginID        Plugin ID, like "jira" or "social"
+    * @param jaxbBeanClass   JAXB class to read options to.
+    */
+   public <TConfigBean> TConfigBean readCustomConfig( String pluginID, Class<TConfigBean> jaxbBeanClass ) throws JawaBotException  {
+        String configPathStr = this.getConfig().getPluginsMap().get( pluginID );
+        if( configPathStr == null )
+            throw new JawaBotException("No config file defined for plugin ID: " + pluginID);
+        
+        
+        String configDirStr = StringUtils.defaultIfEmpty( this.configWasReadFrom, "." );
+        File configDir = new File( configDirStr ).getParentFile();
+        File configPath = new File( configDir, configPathStr );
+        log.info("Looking for Jira plugin config at: " + configPath.getAbsolutePath() );
+        
+        JaxbGenericPersister<TConfigBean> persister = new JaxbGenericPersister( configPath.getPath(), jaxbBeanClass );
+        try {
+            TConfigBean pluginConfigBean = persister.load();
+            return pluginConfigBean;
+        } catch( JawaBotIOException ex ) {
+            throw new JawaBotException("Error loading config file " + configPathStr + " defined for plugin ID '" + pluginID + "':\n\t" + ex.getMessage(), ex );
+        }
+   }
+    
 
 
 
