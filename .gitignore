@@ -1,0 +1,14 @@
+/web/target/
+/plugins/logger/target/
+/plugins/social/target/
+/plugins/pastebin/target/
+/plugins/jira/target/
+/assem-appassemble/target/
+/plugins/messenger/target/
+/plugins/reservation/target/
+/plugins/autoop/target/
+/testbase/target/
+/core/target/
+/plugins/whereis/target/
+/irc/target/
+/target/
