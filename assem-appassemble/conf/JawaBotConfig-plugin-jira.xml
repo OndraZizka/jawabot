@@ -20,22 +20,10 @@
    />
 
    <irc>
-      <nick>apeniakox</nick>
-      <server host="porky.stuttgart.redhat.com">
-         <autoJoinChannels>
-            #some
-            #embjopr
-            #jbossas
-            #jbossqa
-            #jbossportal
-            #jbosssoaqa
-            #jboss-on
-            #rfqa
-            #ejb3
-         </autoJoinChannels>
-         <!--
-         -->
-      </server>
+      <!-- TODO, maybe in DB.
+      <disabledInChannels>
+      </disabledInChannels>
+      -->
    </irc>
 
    <jira defaultRepo="jboss" defaultType="jira41"> <!-- TODO: Use repositories/@defaultType -->
