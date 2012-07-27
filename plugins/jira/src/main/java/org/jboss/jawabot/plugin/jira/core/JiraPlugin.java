@@ -26,60 +26,60 @@ import org.slf4j.LoggerFactory;
  */
 @ApplicationScoped
 public class JiraPlugin implements IJaxbConfigurablePlugin<JiraPluginConfigBean> {
-		
-		private static final Logger log = LoggerFactory.getLogger( JiraPlugin.class );
-		
-		public static final String JIRA_PLUGIN_NAME = "jira";
-		
-		
-		@Inject private JawaBot jawaBot;
-		
-		private JiraPluginConfigBean config;
-		
-		
-		/**
-		 *  Gets this plugin's config file path,
-		 *  parses it via JAXB
-		 *  and applies it to this plugin.
-		 */
-		@PostConstruct
-		private void init() throws JawaBotIOException, JawaBotException{
-				log.info("@PostConstruct init()");
-				
-				String configPath = jawaBot.getConfig().getPluginsMap().get( JIRA_PLUGIN_NAME );
-				
+        
+    private static final Logger log = LoggerFactory.getLogger( JiraPlugin.class );
+
+    public static final String JIRA_PLUGIN_NAME = "jira";
+
+
+    @Inject private JawaBot jawaBot;
+
+    private JiraPluginConfigBean config;
+
+
+    /**
+    *  Gets this plugin's config file path,
+    *  parses it via JAXB
+    *  and applies it to this plugin.
+    */
+    @PostConstruct
+    private void init() throws JawaBotIOException, JawaBotException{
+        log.info("@PostConstruct init()");
+
+        String configPath = jawaBot.getConfig().getPluginsMap().get( JIRA_PLUGIN_NAME ).getConfigPath();
+
         // Config
-				// TODO: Move to JawaBotApp.readCustomConfig() ?  --> Done
+        // TODO: Move to JawaBotApp.readCustomConfig() ?  --> Done
         /*JaxbGenericPersister<JiraPluginConfigBean> persister = 
-            new JaxbGenericPersister( configPath, JiraPluginConfigBean.class );
+        new JaxbGenericPersister( configPath, JiraPluginConfigBean.class );
         JiraPluginConfigBean pluginConfigBean = persister.load();*/
-				JiraPluginConfigBean pluginConfigBean = jawaBot.readCustomConfig( "jira", JiraPluginConfigBean.class );
-				
-				this.applyConfig( pluginConfigBean );
-				
-		}
+        JiraPluginConfigBean pluginConfigBean = jawaBot.readCustomConfig( "jira", JiraPluginConfigBean.class );
 
-		/**
-		 * Applies (processes) the config bean to actual config model.
-		 * @param pluginConfig
-		 */
-		@Override
-		public void applyConfig(JiraPluginConfigBean pluginConfig) {
-				this.config = pluginConfig;
-		}
+        this.applyConfig( pluginConfigBean );
 
-		@Override
-		public Class getJaxbBeanClass() {
-				return JiraPluginConfigBean.class;
-		}
+    }
 
-		
-		public JiraPluginConfigBean getConfig() {
-				return config;
-		}
-		
-		
-		
-		
+    /**
+    * Applies (processes) the config bean to actual config model.
+    * @param pluginConfig
+    */
+    @Override
+    public void applyConfig(JiraPluginConfigBean pluginConfig) {
+        this.config = pluginConfig;
+    }
+
+    @Override
+    public Class getJaxbBeanClass() {
+        return JiraPluginConfigBean.class;
+    }
+
+
+    public JiraPluginConfigBean getConfig() {
+        return config;
+    }
+        
+        
+        
+        
 }// class
 

@@ -42,7 +42,7 @@
                 <version>2.5</version>
                 <executions><execution><id>copy-workdir</id><goals><goal>copy-resources</goal></goals><phase>process-resources</phase></execution></executions>
                 <configuration>
-                    <outputDirectory>../workdir</outputDirectory>
+                    <outputDirectory>../workdir/conf</outputDirectory>
                     <resources>
                         <resource>
                             <directory>conf</directory>

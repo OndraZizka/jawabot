@@ -64,7 +64,9 @@ public class JaxbConfigPersister
            InputStreamReader reader = new InputStreamReader( is );
            JAXBContext jc = JAXBContext.newInstance( ConfigBean.class );
            Unmarshaller mc = jc.createUnmarshaller();
+           
            ConfigBean configBean = (ConfigBean) mc.unmarshal( reader );
+           configBean.recreatePluginsMap(); // Plugin ID -> PluginBean
            return configBean;
        }
        catch( /*JAXB*/ Exception ex ) {
@@ -87,7 +89,7 @@ public class JaxbConfigPersister
     * @param bot
     * TODO: Move to the JawaBot class.
     */
-	public void save( ConfigBean configBean ) throws JawaBotIOException {
+   public void save( ConfigBean configBean ) throws JawaBotIOException {
 
 
         // Store it to a XML.
@@ -105,7 +107,7 @@ public class JaxbConfigPersister
             throw new JawaBotIOException( ex );
         }
 
-	}
+   }
 
 
     

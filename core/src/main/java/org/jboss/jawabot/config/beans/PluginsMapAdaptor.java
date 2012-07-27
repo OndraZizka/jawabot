@@ -38,7 +38,7 @@ public class PluginsMapAdaptor extends XmlAdapter<PluginsListBean, Map<String,St
         Map<String,String> map = new HashMap<String,String>();
         
         for ( PluginBean pluginBean : pluginsBean.getPluginBeans() ) {
-            map.put( pluginBean.id, pluginBean.config );
+            map.put( pluginBean.id, pluginBean.configPath );
         }
         return map;
     }

@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
-import org.jboss.jawabot.FromJawaBot;
 import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.JawaBotApp;
 import org.jboss.jawabot.MailData;
@@ -36,7 +35,7 @@ public class ReservService {
 
     //@Inject private JaxbReservPluginConfigPersister configPersister;
     //@Inject @FromJawaBot private ConfigBean jawabotConfig;
-		@Inject private JawaBot jawaBot;
+    @Inject private JawaBot jawaBot;
 
 
     // ResourceManager
@@ -61,21 +60,21 @@ public class ReservService {
    
    
    
-	/**
-    * Init - loads the state (resources reservations) and stores the quit password.
-    */
+    /**
+     * Init - loads the state (resources reservations) and stores the quit password.
+     */
     @PostConstruct
     public synchronized void init() throws JawaBotIOException, UnknownResourceException {
         log.info("Initializing...");
         
         //String configPath = this.jawabotConfig.getPluginsMap().get("reservation");
-				String configPath = this.jawaBot.getConfig().getPluginsMap().get("reservation");
+        String configPath = this.jawaBot.getConfig().getPluginsMap().get("reservation").getConfigPath();
         
         // Config
         JaxbGenericPersister<ReservPluginConfigBean> persister = 
             new JaxbGenericPersister( configPath, ReservPluginConfigBean.class );
         this.config = persister.load();
-				this.applyConfig( this.config );
+        this.applyConfig( this.config );
 
         //String statePath = "conf/JawaBotConfig-plugin-reservation"; // TODO: Take from config!!
         String statePath = this.config.settings.stateFilePath;
@@ -196,13 +195,13 @@ public class ReservService {
 
 
 
-	/**
-	 * Clean up old reservations.
-	 */
-	private void doCleanUp(){
-		log.info("Cleaning up.");
-		this.getResourceManager().purgeOldReservations();
-	}
+    /**
+        * Clean up old reservations.
+        */
+    private void doCleanUp(){
+        log.info("Cleaning up.");
+        this.getResourceManager().purgeOldReservations();
+    }
 
 
 

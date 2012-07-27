@@ -25,17 +25,18 @@ public class ConfigBean implements Serializable {
     public IrcBean irc;
    
    
-    /*@XmlElementWrapper( name="plugins" )
+    // Bare beans, no map.
+    @XmlElementWrapper( name="plugins" )
     @XmlElement( name="plugin" )
     public List<PluginBean> plugins;
     /**/
    
     // Or, as per http://www.mail-archive.com/cxf-user@incubator.apache.org/msg04723.html :
     // Or here: http://stackoverflow.com/questions/3941479/jaxb-how-to-marshall-map-into-keyvalue-key
-    @XmlElement( name = "plugins" )
-    @XmlJavaTypeAdapter( PluginsMapAdaptor.class )
-    private Map<String, String> pluginsMap = new HashMap();
-    public Map<String, String> getPluginsMap() {
+    //@XmlElement( name = "plugins" )
+    //@XmlJavaTypeAdapter( PluginsMapAdaptor.class )
+    private Map<String, PluginBean> pluginsMap = new HashMap();
+    public Map<String, PluginBean> getPluginsMap() {
         return this.pluginsMap;
     }/**/
 
@@ -43,5 +44,13 @@ public class ConfigBean implements Serializable {
    
     @XmlElement
     public UserGroupsBean userGroups;
+
+    
+    public void recreatePluginsMap() {
+        this.pluginsMap = new HashMap<String, PluginBean>();
+        for( PluginBean plugin : this.plugins ) {
+            this.pluginsMap.put( plugin.id, plugin );
+        }
+    }
    
 }// class

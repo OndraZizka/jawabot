@@ -75,19 +75,19 @@ public class JawaBot
       bot.init();
       return bot;
    }
-	
 
-	/** Const - to prevent instantiation from CDI. */
-	private JawaBot( int a ) {
+
+    /** Const - to prevent instantiation from CDI. */
+    private JawaBot( int a ) {
         log.debug("Constructing JawaBot.");
-	}
+    }
 
 
 
-	/**
+   /**
     * Init - loads the state (resources reservations) and stores the quit password.
     */
-	public synchronized void init() throws JawaBotIOException, UnknownResourceException {
+   public synchronized void init() throws JawaBotIOException, UnknownResourceException {
       log.info("Initializing...");
       if( this.initialized )
          log.warn("Already initialized.");
@@ -107,7 +107,7 @@ public class JawaBot
       }
      
       this.initialized = true;
-	}
+   }
 
 
 
@@ -117,10 +117,13 @@ public class JawaBot
     * @param jaxbBeanClass   JAXB class to read options to.
     */
    public <TConfigBean> TConfigBean readCustomConfig( String pluginID, Class<TConfigBean> jaxbBeanClass ) throws JawaBotException  {
-        String configPathStr = this.getConfig().getPluginsMap().get( pluginID );
-        if( configPathStr == null )
-            throw new JawaBotException("No config file defined for plugin ID: " + pluginID);
-        
+        String configPathStr = this.getConfig().getPluginsMap().get( pluginID ).getConfigPath();
+        if( configPathStr == null ){
+            //throw new JawaBotException("No config file defined for plugin ID: " + pluginID);
+            log.info("No config file defined for plugin ID: " + pluginID);
+            return null;
+        }
+            
         
         String configDirStr = StringUtils.defaultIfEmpty( this.configWasReadFrom, "." );
         File configDir = new File( configDirStr ).getParentFile();
@@ -179,9 +182,6 @@ public class JawaBot
    Object shutdown = new Object();
 
 
-
-
-		
 }// class
 
 

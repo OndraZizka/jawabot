@@ -45,7 +45,7 @@
     <!-- Configuration files of plugins, plus simple key-value settings. -->
     <plugins>
         <plugin id="reservation" config="conf/JawaBotConfig-plugin-reservation.xml"></plugin>
-        <plugin id="jira"></plugin>
+        <plugin id="jira" config="conf/JawaBotConfig-plugin-jira.xml"></plugin>
         <plugin id="logger">
             <settings
                 logEnabledByDefault="true"

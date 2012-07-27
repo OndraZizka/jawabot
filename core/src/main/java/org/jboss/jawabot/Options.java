@@ -13,7 +13,7 @@ public class Options {
 
 
    // Load configuration from file at this path.
-   private String configFile = "JawaBotConfig.xml";
+   private String configFile = "conf/JawaBotConfig.xml";
 
    // Options profile - load configuration from JawaBotConfig-<profile>.xml.
    private String profile = null;

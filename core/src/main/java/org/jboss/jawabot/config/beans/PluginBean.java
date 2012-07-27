@@ -12,7 +12,7 @@ public class PluginBean {
     public String id;
 
     @XmlAttribute
-    public String config;
+    public String configPath;
 
     
     
@@ -22,8 +22,13 @@ public class PluginBean {
     /** Used by PluginsMapAdaptor.marshall(). */
     public PluginBean( String id, String config ) {
         this.id = id;
-        this.config = config;
+        this.configPath = config;
     }
 
+    
+    
+    public String getConfigPath() { return configPath; }
+    public String getId() { return id; }
+    
 }// class
 

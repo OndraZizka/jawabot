@@ -48,8 +48,8 @@
    
    <!-- TODO: Not used yet. Will probably point to other file. -->
    <plugins>
-        <plugin id="reservation" configPath="conf/JawaBotConfig-plugin-reservation.xml"></plugin>
-        <plugin id="jira" configPath="conf/JawaBotConfig-plugin-jira.xml"></plugin>
+        <plugin id="reservation" configPath="JawaBotConfig-plugin-reservation.xml"></plugin>
+        <plugin id="jira" configPath="JawaBotConfig-plugin-jira.xml"></plugin>
         <plugin id="logger">
             <settings
                 logEnabledByDefault="true"
