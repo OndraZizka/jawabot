@@ -13,19 +13,25 @@
       leaveOnAsk = "true"
       messageDelay = "200"
       acceptInvitation = "true"
-      announceDefaultChannel = "#some"
-      debugChannel = "#some"
+      announceDefaultChannel = "#jawabot"
+      debugChannel = "#jawabot"
    />
 
    <irc>
-      <defaultNick>JawaBot</defaultNick>
-      <defaultNick2>JawaBot_</defaultNick2>
-      <server host="irc.freenode.org">
-         <autoJoinChannels>
-            ##yourchannel1
-            #jawabot
-         </autoJoinChannels>
-      </server>
+        <defaultNick>JawaBot</defaultNick>
+        <defaultNick2>JawaBot_</defaultNick2>
+        <!--
+        <servers>
+        -->
+            <server host="irc.freenode.org" nick="JawaBot">
+                <autoJoinChannels>
+                    #jawabot
+                    #wicket
+                </autoJoinChannels>
+            </server>
+        <!--
+        </servers>
+        -->
    </irc>
 
    <!-- TODO: Not used yet. -->

@@ -86,7 +86,7 @@
 
 
 
-   <!-- Dependencies -->
+    <!-- Dependencies -->
     <dependencies>
 
         <dependency>
@@ -107,7 +107,7 @@
             <version>${project.version}</version>
         </dependency>
 
-      <!-- Plugins -->
+        <!-- Plugins -->
         <dependency>
             <groupId>org.jboss.jawabot</groupId>
             <artifactId>JawaBot-plugin-jira</artifactId>
