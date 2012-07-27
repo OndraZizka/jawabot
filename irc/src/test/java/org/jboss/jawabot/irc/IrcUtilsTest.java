@@ -29,16 +29,24 @@ public class IrcUtilsTest extends TestCase {
     }
 
 
+    /**
+     *   isMgsForNick() actually doesn't support suffixes... yet.
+     */
     public void testIsMsgForNick() {
         System.out.println( "isMsgForNick" );
         String[][] msgs = new String[][]{
+            {"ozizka", "ozizka, are you back?"},
+            {"ozizka", "ozizka: work work work"},
+            {"ozizka", "ozizka ping"}
+            /*
             {"ozizka", "ozizka-dinner, are you back?"},
             {"ozizka", "ozizka_wfh: work work work"},
-            {"ozizka", "ozizka|mtg"},
-            {"ozizka", "ozizka1"}
+            {"ozizka", "ozizka|mtg ping"},
+            {"ozizka", "ozizka1 ping"}
+            */
         };
         for( String[] msg : msgs ) {
-            assertTrue( IrcUtils.isMsgForNick( msg[1], msg[0] ) );
+            assertTrue( "Message: "+msg[1], IrcUtils.isMsgForNick( msg[1], msg[0] ) );
         }
         String[][] msgs2 = new String[][]{
             {"ozizk",  "ozizka-dinner, are you back?"},

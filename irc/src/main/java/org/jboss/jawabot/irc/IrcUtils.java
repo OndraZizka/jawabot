@@ -43,7 +43,7 @@ public class IrcUtils {
 
         // Skip blank strings.
         msg = msg.trim();
-        msg = nick.trim();
+        nick = nick.trim();
         if( msg.equals("") || nick.equals("") )
             return false;
 
@@ -61,7 +61,7 @@ public class IrcUtils {
         
         // Char after the nick is something that "terminates the nick".
         // Either a space, or comma or colon and space after.
-        if( charAfterNick != ',' || charAfterNick != ':' )
+        if( charAfterNick != ',' && charAfterNick != ':' )
             return false;
             
         return ' ' == msg.charAt( nick.length() + 1 );
