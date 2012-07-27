@@ -23,14 +23,14 @@ public class MemoryMessengerService
 
     
     public synchronized void leaveMessage( IrcEvMessage msg ) {
-				log.debug("   Leaving message for user: " + msg.getRecipient() );
-				assert( msg.getRecipient() != null );
-        
-				List<LeftMessage> userMessages = this.userToMessages.get( msg.getRecipient() );
-				if( null == userMessages )
-						this.userToMessages.put( msg.getRecipient(), userMessages = new LinkedList() );
+        log.debug("   Leaving message for user: " + msg.getRecipient() );
+        assert( msg.getRecipient() != null );
 
-				userMessages.add( new LeftMessage( msg ) );
+        List<LeftMessage> userMessages = this.userToMessages.get( msg.getRecipient() );
+        if( null == userMessages )
+            this.userToMessages.put( msg.getRecipient(), userMessages = new LinkedList() );
+
+        userMessages.add( new LeftMessage( msg ) );
         
     }
     
@@ -42,11 +42,25 @@ public class MemoryMessengerService
         List<LeftMessage> leftMessages = this.userToMessages.get(nick);
         if( null == leftMessages )
             return Collections.EMPTY_LIST;
-				
-				if( delete )
-						this.userToMessages.put( nick, new LinkedList<LeftMessage>() );
-			
+
+        if( delete )
+                this.userToMessages.put( nick, new LinkedList<LeftMessage>() );
+            
         return leftMessages;
+    }
+
+    
+    /**
+     *  Removes those recipients which are blocked from receiving messages.
+     *  Currently static; could be configurable on runtime in the future.
+     * @param recipients 
+     */
+    void removeBlockedRecipients( List<String> recipients ) {
+        recipients.remove("http");
+        recipients.remove("https");
+        recipients.remove("ftp");
+        recipients.remove("mailto");
+        recipients.remove("scp");
     }
 
     

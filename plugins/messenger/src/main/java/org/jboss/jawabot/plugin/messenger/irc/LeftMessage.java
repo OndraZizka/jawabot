@@ -13,19 +13,19 @@ import org.jboss.jawabot.irc.ent.IrcEvMessage;
 @DiscriminatorValue("L")
 public class LeftMessage extends IrcEvMessage {
 
-		public LeftMessage() {
-		}
+    public LeftMessage() {
+    }
 
-		public LeftMessage(String server, String user, String channel, String text, Date when) {
-				super(server, user, channel, text, when);
-		}
+    public LeftMessage(String server, String user, String channel, String text, Date when) {
+        super(server, user, channel, text, when);
+    }
 
-		// Conversion - IrcEvMessage -> LeftMessage.
-		public LeftMessage( IrcEvMessage msg ) {
-				this( msg.getServer(), msg.getUser(), msg.getChannel(), msg.getText(), msg.getWhen() );
-		}
+    // Conversion - IrcEvMessage -> LeftMessage.
+    public LeftMessage( IrcEvMessage msg ) {
+        this( msg.getServer(), msg.getUser(), msg.getChannel(), msg.getText(), msg.getWhen() );
+    }
 
-		
+
 
 }// class
 
