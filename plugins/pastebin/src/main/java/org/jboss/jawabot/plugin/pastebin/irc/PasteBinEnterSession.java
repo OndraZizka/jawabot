@@ -5,8 +5,8 @@ package org.jboss.jawabot.plugin.pastebin.irc;
  *  Started by a command in channel, like:
  *    ozizka: rhusar, paste it
  *    jawabot>>rhusar: Start pasting your text to me. Finish with "." message. I'll take  care of the rest.
- *    rhusar>>jawabot: 	at org.apache.wicket.Page.onRender(Page.java:1594)
- *    rhusar>>jawabot: 	at org.apache.wicket.Component.render(Component.java:2521)
+ *    rhusar>>jawabot:  at org.apache.wicket.Page.onRender(Page.java:1594)
+ *    rhusar>>jawabot:  at org.apache.wicket.Component.render(Component.java:2521)
  *    rhusar>>jawabot: .
  *    jawabot: ozizka, rhusar pasted it here: http://jawabot.qa.jboss.com/pastebin/469
  * 

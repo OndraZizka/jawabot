@@ -12,7 +12,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.enterprise.context.ApplicationScoped;
-import org.jboss.weld.environment.se.jpa.JpaTransactional;
+
 
 /**
  *  Manages PasteBin entries.
