@@ -15,6 +15,7 @@ public class ScrapersManager
     // -- SCRAPERS -- //
     private static final Jira3xScraper SCRAPER_JIRA3X = new Jira3xScraper();
     private static final Jira41Scraper SCRAPER_JIRA41 = new Jira41Scraper();
+    private static final Jira50Scraper SCRAPER_JIRA50 = new Jira50Scraper();
     private static final Bugzilla34xScraper SCRAPER_BUGZILLA34 = new Bugzilla34xScraper();
 
     /**
@@ -27,6 +28,9 @@ public class ScrapersManager
 
        if( "jira41".equals(typeName) )
           return SCRAPER_JIRA41;
+
+       if( "jira50".equals(typeName) )
+          return SCRAPER_JIRA50;
 
        if( "bugzilla34".equals(typeName) )
           return SCRAPER_BUGZILLA34;

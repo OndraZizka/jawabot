@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 
 
 
@@ -92,7 +93,7 @@ public class Jira41Scraper extends HtmlUnitAbstractScraper {
         }
 
          // Finally - create and return the Jira info object.
-         String title = details.get("Title");
+         String title = this.getTitle(pageTitle, details);
          String status = details.get("Status");
          String priority = details.get("Priority");
          String assignee = details.get("Assignee");
@@ -113,6 +114,11 @@ public class Jira41Scraper extends HtmlUnitAbstractScraper {
             throw new ScrapingException("Unknown URL for issue's repo: " + jiraID);
         }
         return url + jiraID;
+    }
+
+    
+    protected String getTitle( String pageTitle, Map<String, String> details ) {
+        return details.get("Title");
     }
 
 
