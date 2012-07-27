@@ -18,60 +18,60 @@ import org.slf4j.LoggerFactory;
  *  @author Ondrej Zizka
  */
 public class ConfigRepositoryCacheLoader implements IRepositoryCacheLoader {
-	private static final Logger log = LoggerFactory.getLogger( ConfigRepositoryCacheLoader.class );
+    private static final Logger log = LoggerFactory.getLogger( ConfigRepositoryCacheLoader.class );
 
-   private JiraPluginConfigBean config;
+    private JiraPluginConfigBean config;
 
-   private Map<String, Site> mappings = new HashMap();
-   private Set<String> ignoredPrefixes = new TreeSet<String>();
-   private Site defaultRepo;
-
-
-   public ConfigRepositoryCacheLoader(JiraPluginConfigBean config) {
-      if( null == config )
-         throw new IllegalArgumentException("Config can't be null.");
-      this.config = config;
-   }
+    private Map<String, Site> mappings = new HashMap();
+    private Set<String> ignoredPrefixes = new TreeSet<String>();
+    private Site defaultRepo;
 
 
+    public ConfigRepositoryCacheLoader(JiraPluginConfigBean config) {
+        if( null == config )
+            throw new IllegalArgumentException("Config can't be null.");
+        this.config = config;
+    }
 
-   @Override public void initialize() throws JiraBotException {
-      // Repositories.
-      for( RepositoryBean repo : this.config.jira.repositories ){
-         for( ProjectBean project : repo.projects ){
-            //results.put("BR", new RepositoryCache.Site("http://jira.openqa.org/browse/BR"));
-            mappings.put( project.id, new RepositoryCache.Site( repo.getUrl() + project.id ));
-         }
-      }
-      // Ignored prefixes.
-      for( String prefix: this.config.jira.ignoredPrefixes )
-         ignoredPrefixes.add(prefix);
 
-      String defaultRepoName = this.config.jira.defaultRepo;
-      defaultRepo = this.mappings.get(defaultRepoName);
-      if( null == defaultRepo )
-         throw new JiraBotException("Default repo '"+defaultRepoName+"' not found in defined repos.");
-   }
 
-   @Override  public Map<String, Site> loadMappings() {
-      return this.mappings;
-   }
+    @Override public void initialize() throws JiraBotException {
+        // Repositories.
+        for( RepositoryBean repo : this.config.jira.repositories ){
+            for( ProjectBean project : repo.projects ){
+                //results.put("BR", new RepositoryCache.Site("http://jira.openqa.org/browse/BR"));
+                mappings.put( project.id, new RepositoryCache.Site( repo.getUrl() + project.id ));
+            }
+        }
+        // Ignored prefixes.
+        for( String prefix: this.config.jira.ignoredPrefixes )
+            ignoredPrefixes.add(prefix);
 
-   @Override  public void storeMappings(Map<String, Site> mappings) {
-      /** Currently no-op. */
-   }
+        String defaultRepoName = this.config.jira.defaultRepo;
+        defaultRepo = this.mappings.get(defaultRepoName);
+        if( null == defaultRepo )
+            throw new JiraBotException("Default repo '"+defaultRepoName+"' not found in defined repos.");
+    }
 
-   @Override  public Set<String> loadIgnoredPrefixes() {
-      for( String prefix: this.config.jira.ignoredPrefixes )
-         ignoredPrefixes.add(prefix);
-      return ignoredPrefixes;
-   }
+    @Override  public Map<String, Site> loadMappings() {
+        return this.mappings;
+    }
 
-   @Override  public void storeIgnoredPrefixes(Set<String> ignoredPrefixes) { }
+    @Override  public void storeMappings(Map<String, Site> mappings) {
+        /** Currently no-op. */
+    }
 
-   @Override
-   public String getDefaultUrlPrefix() {
-      return this.defaultRepo.getUrl();
-   }
+    @Override  public Set<String> loadIgnoredPrefixes() {
+        for( String prefix: this.config.jira.ignoredPrefixes )
+            ignoredPrefixes.add(prefix);
+        return ignoredPrefixes;
+    }
+
+    @Override  public void storeIgnoredPrefixes(Set<String> ignoredPrefixes) { }
+
+    @Override
+    public String getDefaultUrlPrefix() {
+        return this.defaultRepo.getUrl();
+    }
 
 }// class

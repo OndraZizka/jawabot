@@ -9,16 +9,19 @@ import org.jboss.jawabot.ex.JawaBotPluginEx;
  */
 public class JiraBotException extends JawaBotPluginEx {
 
-	public JiraBotException(Throwable cause) {
-		super(cause);
-	}
+    public JiraBotException( Throwable cause ) {
+        super( cause );
+    }
 
-	public JiraBotException(String message, Throwable cause) {
-		super(message, cause);
-	}
 
-	public JiraBotException(String message) {
-		super(message);
-	}
+    public JiraBotException( String message, Throwable cause ) {
+        super( message, cause );
+    }
+
+
+    public JiraBotException( String message ) {
+        super( message );
+    }
+
 
 }// class

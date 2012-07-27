@@ -35,17 +35,17 @@ public interface IRepositoryCacheLoader {
     void storeMappings(Map<String, RepositoryCache.Site> mappings);
 
 
-		Set<String> loadIgnoredPrefixes();
+    Set<String> loadIgnoredPrefixes();
 
-		void storeIgnoredPrefixes(Set<String> ignoredPrefixes);
+    void storeIgnoredPrefixes(Set<String> ignoredPrefixes);
 
 
 
-		/**
-		 * Returns the default URL prefix for projects not matched by any of the
-		 * stored repositories.
-		 * @returns  Something like "https://jira.jboss.org/jira/browse/"
-		 *           used to prepend to JIRA ID to get the URL.
-		 */
-		public String getDefaultUrlPrefix();
+    /**
+     * Returns the default URL prefix for projects not matched by any of the
+     * stored repositories.
+     * @returns  Something like "https://jira.jboss.org/jira/browse/"
+     *           used to prepend to JIRA ID to get the URL.
+     */
+    public String getDefaultUrlPrefix();
 }

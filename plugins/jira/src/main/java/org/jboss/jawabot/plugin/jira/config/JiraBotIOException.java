@@ -9,18 +9,18 @@ import org.jboss.jawabot.plugin.jira.core.JiraBotException;
  */
 public class JiraBotIOException extends JiraBotException {
 
-	public JiraBotIOException(String message) {
-		super(message);
-	}
+    public JiraBotIOException( String message ) {
+        super( message );
+    }
 
-	public JiraBotIOException(String message, Throwable cause) {
-		super(message, cause);
-	}
 
-	public JiraBotIOException(Throwable cause) {
-		super(cause);
-	}
+    public JiraBotIOException( String message, Throwable cause ) {
+        super( message, cause );
+    }
 
-	
+
+    public JiraBotIOException( Throwable cause ) {
+        super( cause );
+    }
 
 }// class
