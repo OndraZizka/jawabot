@@ -48,16 +48,17 @@
       </plugins>
    </build>
 
-
    <distributionManagement>
-     <repository>
-       <id>jboss-qa-brno-releases</id>
-       <url>http://jawa18.mw.lab.eng.brq.redhat.com:1212/nexus/content/repositories/releases</url>
-     </repository>
-     <snapshotRepository>
-       <id>jboss-qa-brno-snapshots</id>
-       <url>http://jawa18.mw.lab.eng.brq.redhat.com:1212/nexus/content/repositories/snapshots</url>
-     </snapshotRepository>
+      <snapshotRepository>
+         <id>jboss-qa-snapshots</id>
+         <name>JBoss QA snapshot repository</name>
+         <url>http://nexus.qa.jboss.com:8081/nexus/content/repositories/snapshots</url>
+      </snapshotRepository>
+      <repository>
+         <id>jboss-qa-releases</id>
+         <name>JBoss QA release repository</name>
+         <url>http://nexus.qa.jboss.com:8081/nexus/content/repositories/releases</url>
+      </repository>
    </distributionManagement>
 
 
