@@ -1,8 +1,6 @@
 
 package org.jboss.jawabot.irc;
 
-import com.google.common.collect.Collections2;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -21,9 +19,9 @@ public class IrcUtils {
     */
    public static String normalizeUserNick( String nick ){
 
-      int nonAlnum = StringUtils.indexOfAnyBut(nick, "abcdefghijklmnopqrstuvwxyz");
-      if( nonAlnum < 1 ) return nick;
-		return nick.substring(0, nonAlnum);
+        int nonAlnum = StringUtils.indexOfAnyBut(nick, "abcdefghijklmnopqrstuvwxyz");
+        if( nonAlnum < 1 ) return nick;
+        return nick.substring(0, nonAlnum);
 
    }
 
@@ -39,42 +37,62 @@ public class IrcUtils {
     * TODO: Return the position of the end of the prolog (start of the actual message).
     */
    public static boolean isMsgForNick( String msg, String nick ) {
-      if( null == msg || msg.equals("") || null == nick || nick.equals("") )
-         return false;
+        
+        if( null == msg || null == nick )
+            return false;
 
-      return msg.toLowerCase().startsWith( nick.toLowerCase() )
-          // At least one char besides the nick.
-          && msg.length() > nick.length() + 2
-          // Char after the nick is something that "terminates the nick".
-          && StringUtils.contains(" ,:", msg.charAt( nick.length() ) );
+        // Skip blank strings.
+        msg = msg.trim();
+        msg = nick.trim();
+        if( msg.equals("") || nick.equals("") )
+            return false;
+
+        // Message starts with nick?
+        if( ! msg.toLowerCase().startsWith( nick.toLowerCase() ) )
+            return false;
+
+        // At least one char besides the nick.
+        if( msg.length() <= nick.length() + 2 )
+            return false;
+
+        char charAfterNick = msg.charAt( nick.length() );
+        if( charAfterNick == ' ' )
+            return true;
+        
+        // Char after the nick is something that "terminates the nick".
+        // Either a space, or comma or colon and space after.
+        if( charAfterNick != ',' || charAfterNick != ':' )
+            return false;
+            
+        return ' ' == msg.charAt( nick.length() + 1 );
    }
    
    
-   /**
-    * @returns  0 if the message is not for given nick,
-    *           or position of start of the message after nick.
-    * TODO:  Support multiple nicks:  "ozizka, pskopek: Msg."
-    */
-   public static int getMsgStartAfterNick( String msg, String nick ) {
-      if( null == msg || msg.equals("") || null == nick || nick.equals("") )
-         return 0;
+    /**
+     * @returns  0 if the message is not for given nick,
+     *           or position of start of the message after nick.
+     * TODO:  Support multiple nicks:  "ozizka, pskopek: Msg."
+     */
+    public static int getMsgStartAfterNick( String msg, String nick ) {
+        if( null == msg || msg.equals("") || null == nick || nick.equals("") )
+            return 0;
 
-      if( ! msg.toLowerCase().startsWith( nick.toLowerCase() ) )
-          return 0;
-      
-      int nickLen = nick.length();
-      
-      // At least one char besides the nick.
-      if( msg.length() <= nickLen + 2 )
-          return 0;
-      
-      // Char after the nick is something that "terminates the nick".
-      if( ! StringUtils.contains(" ,:", msg.charAt( nickLen ) ) )
-          return 0;
-      
-      String afterNick = msg.substring( nickLen );
-      return nickLen + StringUtils.indexOfAnyBut( afterNick, " ,:");          
-   }
+        if( ! msg.toLowerCase().startsWith( nick.toLowerCase() ) )
+            return 0;
+
+        int nickLen = nick.length();
+
+        // At least one char besides the nick.
+        if( msg.length() <= nickLen + 2 )
+            return 0;
+
+        // Char after the nick is something that "terminates the nick".
+        if( ! StringUtils.contains(" ,:", msg.charAt( nickLen ) ) )
+            return 0;
+
+        String afterNick = msg.substring( nickLen );
+        return nickLen + StringUtils.indexOfAnyBut( afterNick, " ,:");          
+    }
 
 
    
