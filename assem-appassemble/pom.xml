@@ -35,6 +35,22 @@
       
      
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <executions><execution><id>copy-workdir</id><goals><goal>copy-resources</goal></goals><phase>process-resources</phase></execution></executions>
+                <configuration>
+                    <outputDirectory>../workdir</outputDirectory>
+                    <resources>
+                        <resource>
+                            <directory>conf</directory>
+                            <filtering>false</filtering>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
          
             <!-- Appassembly plugin - makes it ready for .zip
                  http://mojo.codehaus.org/appassembler/appassembler-maven-plugin/assemble-mojo.html

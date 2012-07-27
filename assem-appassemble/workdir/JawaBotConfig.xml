@@ -48,25 +48,25 @@
    
    <!-- TODO: Not used yet. Will probably point to other file. -->
    <plugins>
-        <plugin id="reservation" configPath="conf/JawaBotConfig-plugin-reservation.xml"></plugin>
-        <plugin id="jira" configPath="conf/JawaBotConfig-plugin-jira.xml"></plugin>
-        <plugin id="logger">
-            <settings
-                logEnabledByDefault="true"
-            />
-        </plugin>
-        <plugin id="whereis">
-            <settings
-                scanPeriodMin="30"
-            />
-        </plugin>
-        <plugin id="autoop">
-            <settings
-                begForOpPeriod="0"
-            />
-            <nicks>ozizka</nicks>
-        </plugin>
-        <plugin id="messenger"></plugin>
+      <plugin name="reservation"></plugin>
+      <plugin name="jira"></plugin>
+      <plugin name="logger">
+         <settings
+            logEnabledByDefault="true"
+         />
+      </plugin>
+      <plugin name="whereis">
+         <settings
+            scanPeriodMin="30"
+         />
+      </plugin>
+      <plugin name="autoop">
+         <settings
+            begForOpPeriod="0"
+         />
+         <nicks>ozizka</nicks>
+      </plugin>
+      <plugin name="messenger"></plugin>
    </plugins>
 
 
