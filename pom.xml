@@ -45,9 +45,20 @@
             <artifactId>maven-dependency-plugin</artifactId>
             <version>2.4</version>
          </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-plugin</artifactId>
+            <version>1.7</version>
+         </plugin>
       </plugins>
    </build>
 
+   <scm>
+      <connection>scm:git:https://dynawest@code.google.com/p/jawabot/</connection>
+      <developerConnection>scm:git:https://dynawest@code.google.com/p/jawabot/</developerConnection>
+      <url>http://code.google.com/p/jawabot/</url>
+   </scm>
+  
    <distributionManagement>
       <snapshotRepository>
          <id>jboss-qa-snapshots</id>
@@ -65,8 +76,6 @@
    <!-- Dependencies -->
    <dependencies>
       
-
-
       <!-- Commons -->
       <dependency>
         <groupId>commons-lang</groupId>
@@ -76,7 +85,6 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
       </dependency>
-      
 
       <!-- Logging -->
       <dependency>
