@@ -38,7 +38,7 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 
 
     //final String JIRA_KEY_REGEX = "([A-Z]{2,}\\-[0-9]+)";
-    private static final String JIRA_KEY_REGEX = "((?<![-_.A-Z])[A-Z]{$minChars,}-[0-9]++)(?!(-|\\.[0-9A-Za-z]))";
+    private static final String JIRA_KEY_REGEX = "((?<![-_.A-Z])[A-Z0-9]{$minChars,}-[0-9]++)(?!(-|\\.[0-9A-Za-z]))";
     private static final int MIN_ISSUE_PREFIX_LEN = 2;
     private static Pattern JIRA_KEY_PATTERN = Pattern.compile( JIRA_KEY_REGEX.replace("$minChars",  "" + MIN_ISSUE_PREFIX_LEN) );
     //private static Pattern JIRA_KEY_PATTERN = Pattern.compile("([A-Z]{3,}\\-[0-9]+(?!\\.))"); // Not followed by "." -> Bug: "ABC-123." treated as "ABC-12".
@@ -72,8 +72,8 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
      */
     @Override
     public void initModule(Object initObject) throws JawaBotException {
-                    super.initModule(initObject);
-                    this.applyConfig();
+        super.initModule(initObject);
+        this.applyConfig();
     }
 
 
