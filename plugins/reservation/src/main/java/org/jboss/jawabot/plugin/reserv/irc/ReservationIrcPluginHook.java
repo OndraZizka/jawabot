@@ -15,28 +15,23 @@ import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.jboss.jawabot.plugin.reserv.bus.ReservUtils;
 import org.jboss.jawabot.MailData;
 import org.jboss.jawabot.JawaBotApp;
-import org.jboss.jawabot.MailUtils;
 import org.jboss.jawabot.irc.CommandContext;
 import org.jboss.jawabot.irc.CommandReply;
 import org.jboss.jawabot.irc.CommandReplyMessage;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.plugin.reserv.config.beans.ReservPluginConfigBean;
 import org.jboss.jawabot.plugin.reserv.bus.ReservService;
-import org.jboss.jawabot.plugin.reserv.bus.ReservationWrap;
-import org.jboss.jawabot.plugin.reserv.bus.Resource;
-import org.jboss.jawabot.plugin.reserv.bus.ResourceManager.ReservationsBookingResult;
 
 
 /**
- *  Automatically ops everyone in the channel.
- *  Also asks for operator if not having it.
+ *  Resource reservation plugin (original purpose of JawaBot).
+ *  Reacts to commands take, leave, list, free.
  * 
  *  @author Ondrej Zizka
  */
-@ApplicationScoped
+//@ApplicationScoped
 public class ReservationIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHook<Object> {
     private static final Logger log = LoggerFactory.getLogger( ReservationIrcPluginHook.class );
 

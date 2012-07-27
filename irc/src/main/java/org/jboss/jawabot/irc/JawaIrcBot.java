@@ -3,8 +3,6 @@ package org.jboss.jawabot.irc;
 import cz.dynawest.util.plugin.cdi.CdiPluginUtils;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
-import org.jboss.jawabot.ex.UnknownResourceException;
-import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.util.*;
 import java.util.concurrent.DelayQueue;

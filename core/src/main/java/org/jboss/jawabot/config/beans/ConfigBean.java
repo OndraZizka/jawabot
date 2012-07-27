@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 
 /**
  *
@@ -46,6 +46,9 @@ public class ConfigBean implements Serializable {
     public UserGroupsBean userGroups;
 
     
+    /**
+     *  Goes through the list of plugins and creates a map ID -> PluginBean.
+     */
     public void recreatePluginsMap() {
         this.pluginsMap = new HashMap<String, PluginBean>();
         for( PluginBean plugin : this.plugins ) {

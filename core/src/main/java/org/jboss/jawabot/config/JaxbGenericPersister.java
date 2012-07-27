@@ -14,6 +14,7 @@ import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
  *
  * @author Ondrej Zizka
@@ -46,7 +47,7 @@ public class JaxbGenericPersister<T>
     */
    public T load() throws JawaBotIOException
    {
-       log.info( "Looking for config: " + this.filePath );
+       log.info( "Looking for config: " + this.filePath + "  Workdir: " + System.getProperty("user.dir") );
 
        try {
            // Try filesystem, then classpath.
@@ -55,7 +56,7 @@ public class JaxbGenericPersister<T>
                log.info( "    Found in filesystem." );
                is = new FileInputStream( this.filePath );
            } else {
-               log.info( "    Loading config from classpath." );
+               log.info( "    Trying to load config from classpath." );
                is = JaxbGenericPersister.class.getClassLoader().getResourceAsStream( this.filePath );
            }
            if( null == is ) {
@@ -88,7 +89,7 @@ public class JaxbGenericPersister<T>
     * @param bot
     * TODO: Move to the JawaBot class.
     */
-	public void save( T configBean ) throws JawaBotIOException {
+   public void save( T configBean ) throws JawaBotIOException {
 
 
         // Store it to a XML.
@@ -109,14 +110,14 @@ public class JaxbGenericPersister<T>
             throw new JawaBotIOException( ex );
         }
 
-	}
+   }
 
 
     
     
    /** The given writer will be used when writing via JAXB. */
-    public void setWriter( Writer writer ) {
-        this.writer = writer;
-    }
+   public void setWriter( Writer writer ) {
+       this.writer = writer;
+   }
     
 }// class

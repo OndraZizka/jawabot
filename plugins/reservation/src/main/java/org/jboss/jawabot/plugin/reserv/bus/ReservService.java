@@ -151,6 +151,7 @@ public class ReservService {
 
    /**
     * Sends a mail announcement about user's action.
+    * TODO: Move SMTP config to core.
     */
    private void sendMail( String fromUser, MailData mail ) throws JawaBotException {
 

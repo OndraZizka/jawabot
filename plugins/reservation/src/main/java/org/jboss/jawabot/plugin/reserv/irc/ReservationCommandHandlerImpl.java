@@ -178,34 +178,34 @@ public class ReservationCommandHandlerImpl implements ReservationCommandHandler
 
 
 
-   /**
+    /**
     * Parboiled mail - created from given booking result and comment.
     * TBD: Make private when not used from JawaBot (after moving is done).
     */
-   /*private*/ static MailData createTakeAnnouncementMail( ReservationsBookingResult bookingResult, String customComment ) {
-      
-      String subject = ReservUtils.formatReservationInfoLine( bookingResult );
+    /*private*/ static MailData createTakeAnnouncementMail( ReservationsBookingResult bookingResult, String customComment ) {
 
-      // Message body.
+        String subject = ReservUtils.formatReservationInfoLine( bookingResult );
 
-      // Custom comment.
-      StringBuilder mailBodySB = new StringBuilder();
-      if( null != customComment )
-         mailBodySB.append(customComment).append("\n");
+        // Message body.
 
-      // List the reservations.
-      if( bookingResult.resultingReservations.size() > 1 ){
-         for( ReservationWrap resvWrap : bookingResult.resultingReservations ){
+        // Custom comment.
+        StringBuilder mailBodySB = new StringBuilder();
+        if( null != customComment )
+            mailBodySB.append(customComment).append("\n");
+
+        // List the reservations.
+        if( bookingResult.resultingReservations.size() > 1 ){
+            for( ReservationWrap resvWrap : bookingResult.resultingReservations ){
             mailBodySB.append( ReservUtils.formatReservationInfoLine(resvWrap.resourceName, resvWrap) );
             mailBodySB.append("\n");
-         }
-      }
+            }
+        }
 
-      String messageBody = mailBodySB.toString();
+        String messageBody = mailBodySB.toString();
 
-      return new MailData( subject, messageBody );
+        return new MailData( subject, messageBody );
 
-   }
+    }
 
 
 
