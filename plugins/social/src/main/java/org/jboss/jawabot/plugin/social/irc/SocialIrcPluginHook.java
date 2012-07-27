@@ -1,4 +1,4 @@
-package org.jboss.jawabot.plugin.autoop.irc;
+package org.jboss.jawabot.plugin.social.irc;
 
 import java.util.Random;
 import org.jboss.jawabot.irc.IIrcPluginHook;

@@ -133,6 +133,21 @@
             <artifactId>JawaBot-plugin-reservation</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-autoop</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-social</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-plugin-pastebin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!--
         <dependency>
             <groupId>org.jboss.jawabot</groupId>

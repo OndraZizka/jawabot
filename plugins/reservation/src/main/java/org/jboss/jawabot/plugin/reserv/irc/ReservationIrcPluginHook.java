@@ -31,7 +31,7 @@ import org.jboss.jawabot.plugin.reserv.bus.ReservService;
  * 
  *  @author Ondrej Zizka
  */
-//@ApplicationScoped
+@ApplicationScoped
 public class ReservationIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHook<Object> {
     private static final Logger log = LoggerFactory.getLogger( ReservationIrcPluginHook.class );
 
