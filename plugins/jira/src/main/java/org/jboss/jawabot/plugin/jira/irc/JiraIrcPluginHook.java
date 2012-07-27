@@ -35,8 +35,8 @@ import org.slf4j.LoggerFactory;
 public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHook<Object> {
     private static final Logger log = LoggerFactory.getLogger( JiraIrcPluginHook.class );
 
-		
-		
+
+
     //final String JIRA_KEY_REGEX = "([A-Z]{2,}\\-[0-9]+)";
     private static final String JIRA_KEY_REGEX = "((?<![-_.A-Z])[A-Z]{$minChars,}-[0-9]++)(?!(-|\\.[0-9A-Za-z]))";
     private static final int MIN_ISSUE_PREFIX_LEN = 2;
@@ -49,90 +49,90 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 
 
     //@Inject private JiraPluginConfigBean config = null;
-		//@Inject private JawaBot jawaBot;
-		
-		/**
-		 * This will receive app-scoped plugin bean which keeps the loaded config.
-		 */
-		@Inject JiraPlugin jiraPlugin;		
-		
-	 
+    //@Inject private JawaBot jawaBot;
+
+    /**
+     * This will receive app-scoped plugin bean which keeps the loaded config.
+     */
+    @Inject JiraPlugin jiraPlugin;
+
+
     private final RepositoriesManager repoManager = new RepositoriesManager();
 
     private final ChannelsStatusStore channelStatusStore = new ChannelsStatusStore();
 
     private final TimeoutCache<IssueInfo> issueCache = new TimeoutCache( DEFAULT_CACHED_ISSUES_TIMEOUT_MINUTES * 60 * 1000 /**/ );
 
-		
-		
-		
-
-		/**
-		 *   Trigger applyConfig() on init.
-		 */
-		@Override
-		public void initModule(Object initObject) throws JawaBotException {
-				super.initModule(initObject);
-				this.applyConfig();
-		}
-	 
-		
-		
-		
-		
-
-		/**
-		*   Apply the data from the config to this JiraBot.
-		*   That means, join to channels not currently joined, etc.
-		*/
-		private void applyConfig() {
-
-				JiraPluginConfigBean config = this.jiraPlugin.getConfig();
-
-				JIRA_KEY_PATTERN = Pattern.compile( JIRA_KEY_REGEX.replace("$minChars", ""+config.settings.minJiraPrefixLength) );
 
 
-				// Cache timeout.
-				this.issueCache.setTimeoutMS( config.settings.cacheTimeoutMinutes * 60 * 1000 );
 
 
-				//this.repoManager.setMinJiraPrefixLength( config.settings.minJiraPrefixLength );///
-				this.repoManager.setIgnoredPrefixes( config.jira.ignoredPrefixes );
+    /**
+     *   Trigger applyConfig() on init.
+     */
+    @Override
+    public void initModule(Object initObject) throws JawaBotException {
+                    super.initModule(initObject);
+                    this.applyConfig();
+    }
 
-				// Ignored prefixes.
-				this.repoManager.setIgnoredPrefixes( config.jira.ignoredPrefixes );
 
-				// Default repository type.
-				this.repoManager.setDefaultRepoType( config.jira.defaultType );
 
-				// (Re-)create prefix -> repository map.
-				this.repoManager.clearRepos();
 
-				//  <repository name="redhat-bugzilla" url="https://bugzilla.redhat.com/show_bug.cgi?id=" type="bugzilla34">
-				for( RepositoryBean repo : config.jira.repositories ){
 
-						log.debug("Processing repo: "+ repo);
 
-						// Default type config.jira.
-						if( repo.getType() == null )
-						repo.setType( this.repoManager.getDefaultRepoType() );
+    /**
+     *   Apply the data from the config to this JiraBot.
+     *   That means, join to channels not currently joined, etc.
+     */
+    private void applyConfig() {
 
-						// Scraper
-						repo.setScraper( ScrapersManager.getScraperForRepoType( repo.getType() ) );
+        JiraPluginConfigBean config = this.jiraPlugin.getConfig();
 
-						// Add the repo.
-						this.repoManager.addRepo(repo);
+        JIRA_KEY_PATTERN = Pattern.compile( JIRA_KEY_REGEX.replace("$minChars", ""+config.settings.minJiraPrefixLength) );
 
-						log.debug("  Processed repo: "+ repo);
-				}
 
-		}// applyConfig()
-		
-		
-		
-		
-		
-		
+        // Cache timeout.
+        this.issueCache.setTimeoutMS( config.settings.cacheTimeoutMinutes * 60 * 1000 );
+
+
+        //this.repoManager.setMinJiraPrefixLength( config.settings.minJiraPrefixLength );///
+        this.repoManager.setIgnoredPrefixes( config.jira.ignoredPrefixes );
+
+        // Ignored prefixes.
+        this.repoManager.setIgnoredPrefixes( config.jira.ignoredPrefixes );
+
+        // Default repository type.
+        this.repoManager.setDefaultRepoType( config.jira.defaultType );
+
+        // (Re-)create prefix -> repository map.
+        this.repoManager.clearRepos();
+
+        //  <repository name="redhat-bugzilla" url="https://bugzilla.redhat.com/show_bug.cgi?id=" type="bugzilla34">
+        for( RepositoryBean repo : config.jira.repositories ){
+
+            log.debug("Processing repo: "+ repo);
+
+            // Default type config.jira.
+            if( repo.getType() == null )
+            repo.setType( this.repoManager.getDefaultRepoType() );
+
+            // Scraper
+            repo.setScraper( ScrapersManager.getScraperForRepoType( repo.getType() ) );
+
+            // Add the repo.
+            this.repoManager.addRepo(repo);
+
+            log.debug("  Processed repo: "+ repo);
+        }
+
+    }// applyConfig()
+
+
+
+
+
+
     // IRC stuff.
 
 
@@ -178,11 +178,11 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 
 
 
-		
-		
-		
-		
-		
+
+
+
+
+
    /**
     * Searches for Jira IDs in the message and replies with the Jira info.
     *
@@ -238,7 +238,7 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
    /**
     * Hanles single issue ID encountered in a chat.
     * @param issueID
-		* TODO: Sanitize params.
+    * TODO: Sanitize params.
     */
    private void handleIssueId( String issueID, String from, String request,
            boolean isChannel, boolean skipCache, boolean noURL,
