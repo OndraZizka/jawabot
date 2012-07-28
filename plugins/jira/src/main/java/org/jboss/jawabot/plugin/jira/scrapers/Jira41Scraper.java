@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 
 
 
@@ -20,20 +19,24 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Jira41Scraper extends HtmlUnitAbstractScraper {
 
-    private static final String[][] issueProperties = new String[][] {
-       {"Title", "issue_header_summary"},
-       {"Key", "key-val"},
-       {"Type", "type-val"},
-       {"Status", "status-val"},
-       {"Priority", "priority-val"},
-       {"Assignee", "assignee-val"},
-       {"Reporter", "reporter-val"},
-       {"Votes", "votes-val"},
-       {"Watchers", "watchers-val"}
-    };
+    /**
+     *  IDs of HTML elements containing parts of jira info.
+     */
+    private static final Map<String, String> ISSUE_PROPERTY_IDS = new HashMap();
+    {
+        ISSUE_PROPERTY_IDS.put( "Title", "issue_header_summary");
+        ISSUE_PROPERTY_IDS.put( "Key", "key-val");
+        ISSUE_PROPERTY_IDS.put( "Type", "type-val");
+        ISSUE_PROPERTY_IDS.put( "Status", "status-val");
+        ISSUE_PROPERTY_IDS.put( "Priority", "priority-val");
+        ISSUE_PROPERTY_IDS.put( "Assignee", "assignee-val");
+        ISSUE_PROPERTY_IDS.put( "Reporter", "reporter-val");
+        ISSUE_PROPERTY_IDS.put( "Votes", "votes-val");
+        ISSUE_PROPERTY_IDS.put( "Watchers", "watchers-val");
+    }
 
-   @Override
-   public IssueInfo scrapeIssueInfo( RepositoryBean repo, String jiraID ) throws ScrapingException {
+    @Override
+    public IssueInfo scrapeIssueInfo( RepositoryBean repo, String jiraID ) throws ScrapingException {
 
         String[] parts = jiraID.split("-");
         if (parts.length != 2) {
@@ -52,20 +55,20 @@ public class Jira41Scraper extends HtmlUnitAbstractScraper {
             throw new ScrapingException( "Problem communicating with " + url + " for " + jiraID + ": " + ex );
         }
 
-        String pageTitle = page.getTitleText();
+        /*String pageTitle = page.getTitleText();
         // TODO: Something smarter.
         pageTitle = pageTitle.replace(" - RHQ Project JIRA", "");
         pageTitle = pageTitle.replace(" - jboss.org JIRA", "");
-        pageTitle = pageTitle.replace(" - JBoss Issue Tracker", "");
+        pageTitle = pageTitle.replace(" - JBoss Issue Tracker", ""); /**/
 
 
         // Login Required.
-        if (pageTitle.toUpperCase().contains("LOGIN REQUIRED")) {
+        if( this.isLoginPage( page ) ) {
             // DON'T DO: Login and re-download. Said to be a security threat.
-            throw new ScrapingException( "JIRA issue " + jiraID + " is secured. I can't login to see this issue." );
+            throw new ScrapingException( "Issue " + jiraID + " is secured. I can't login. " + url );
         }
         // Does not exist.
-        else if (pageTitle.toUpperCase().contains("ISSUE DOES NOT EXIST")) {
+        else if ( this.isNonExistentIssue(page) ) {
             try {
                 String hostName = new URL(url).getHost();
                 throw new ScrapingException( "Jira at " + hostName + " reports that " + jiraID + " does not exist." );
@@ -80,28 +83,24 @@ public class Jira41Scraper extends HtmlUnitAbstractScraper {
         //if( !pageTitle.toUpperCase().startsWith("[#" + jiraID + "]") )
         //   throw new ScrapingException("Weird page title: "+pageTitle);
 
-
         Map<String, String> details = new HashMap<String, String>();
-        for( String[] propPair : issueProperties ) {
-            //String xPath = String.format(CELL_XPATH_PATTERN, propPair[1]);
-            //HtmlTableCell td = primaryDiv.getFirstByXPath(xPath);
-            HtmlElement valElm = page.getElementById(propPair[1]);
-            if (null == valElm) {
-                continue;
-            }
-            details.put(propPair[0], valElm.getTextContent().trim());
+
+        for( Map.Entry<String,String> propPair : ISSUE_PROPERTY_IDS.entrySet() ) {
+            HtmlElement valElm = page.getElementById( propPair.getValue() );
+            if (null == valElm)  continue;
+            details.put( propPair.getKey(), valElm.getTextContent().trim() );
         }
+        
+        // Finally - create and return the Jira info object.
+        String title = this.getTitle( page, details );
+        String status = details.get("Status");
+        String priority = details.get("Priority");
+        String assignee = details.get("Assignee");
+        IssueInfo iinfo = new IssueInfo(jiraID, title, priority, assignee, status);
+        iinfo.setUrl( url );
+        return iinfo;
 
-         // Finally - create and return the Jira info object.
-         String title = this.getTitle(pageTitle, details);
-         String status = details.get("Status");
-         String priority = details.get("Priority");
-         String assignee = details.get("Assignee");
-         IssueInfo iinfo = new IssueInfo(jiraID, title, priority, assignee, status);
-         iinfo.setUrl( url );
-         return iinfo;
-
-   }
+    }
 
 
     /**
@@ -117,8 +116,24 @@ public class Jira41Scraper extends HtmlUnitAbstractScraper {
     }
 
     
-    protected String getTitle( String pageTitle, Map<String, String> details ) {
+    
+    /**
+     *  IDs of HTML elements containing parts of jira info.
+     */
+    protected Map<String,String> getIssuePropertyIDs(){
+        return ISSUE_PROPERTY_IDS;
+    }
+    
+    protected boolean isLoginPage( HtmlPage page ){
+        return page.getTitleText().toUpperCase().contains("LOGIN REQUIRED");
+    }
+    
+    protected String getTitle( HtmlPage page, Map<String, String> details ) {
         return details.get("Title");
+    }
+
+    protected boolean isNonExistentIssue( HtmlPage page ) {
+        return page.getTitleText().toUpperCase().contains("ISSUE DOES NOT EXIST");
     }
 
 

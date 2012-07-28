@@ -69,7 +69,7 @@
                     <copyConfigurationDirectory>true</copyConfigurationDirectory>
                     
                     <!-- Where to put .jar's. -->
-                    <assembleDirectory>${project.build.directory}/dist</assembleDirectory>
+                    <assembleDirectory>${project.build.directory}/JawaBot-${project.version}-dist-rh</assembleDirectory>
                     <repositoryLayout>flat</repositoryLayout>
                     <repositoryName>lib</repositoryName>
                     <programs>

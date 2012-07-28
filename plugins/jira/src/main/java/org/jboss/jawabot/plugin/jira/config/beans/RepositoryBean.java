@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.jboss.jawabot.plugin.jira.scrapers.IssueInfo;
-import org.jboss.jawabot.plugin.jira.scrapers.IssueScraper;
+import org.jboss.jawabot.plugin.jira.scrapers.IIssueScraper;
 import org.jboss.jawabot.plugin.jira.scrapers.ScrapingException;
 
 /**
@@ -35,10 +35,10 @@ public class RepositoryBean {
    public void setProjects(List<ProjectBean> projects) {      this.projects = projects;   }
 
    /**  Issue scraper for this repository. */
-   private IssueScraper scraper;
+   private IIssueScraper scraper;
    @XmlTransient
-   public IssueScraper getScraper() {      return scraper;   }
-   public void setScraper(IssueScraper scraper) {      this.scraper = scraper;   }
+   public IIssueScraper getScraper() {      return scraper;   }
+   public void setScraper(IIssueScraper scraper) {      this.scraper = scraper;   }
 
    /** 
     * Convenience for repo.getScraper().scrapeIssueInfo(repo, issueID);

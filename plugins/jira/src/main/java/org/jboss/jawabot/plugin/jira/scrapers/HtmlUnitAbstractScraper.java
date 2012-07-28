@@ -9,7 +9,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
  *
  * @author Ondrej Zizka
  */
-public abstract class HtmlUnitAbstractScraper implements IssueScraper {
+public abstract class HtmlUnitAbstractScraper implements IIssueScraper {
 
    protected final WebClient wc;
 

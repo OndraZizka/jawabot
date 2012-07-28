@@ -2,7 +2,6 @@
 package org.jboss.jawabot.plugin.jira.scrapers;
 
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 
 
 
@@ -13,10 +12,13 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Jira50Scraper extends Jira41Scraper {
 
-    @Override
-    protected String getTitle( String pageTitle, Map<String, String> details ) {
-        String title = StringUtils.substringAfter( pageTitle, "]" ).trim();
-        return title;
+    private static final Map<String, String> ISSUE_PROPERTY_IDS = new Jira41Scraper().getIssuePropertyIDs();
+    {
+        ISSUE_PROPERTY_IDS.put( "Title", "summary-val");
+    }
+
+    protected Map<String,String> getIssuePropertyIDs(){
+        return ISSUE_PROPERTY_IDS;
     }
 
 }

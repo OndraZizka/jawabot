@@ -50,7 +50,7 @@
          <repository name="redhat-bugzilla" url="https://bugzilla.redhat.com/show_bug.cgi?id=" type="bugzilla34">
             <project id="BZ" name="Red Hat bugs"/>
          </repository>
-         <repository name="jboss" url="https://issues.jboss.org/browse/" type="jira50">
+         <repository name="jboss" url="https://issues.jboss.org/browse/" type="jira50-jboss">
             <!-- Catch-all -->
             <project id="AS7" name="JBoss AS 7"/>
             <project id="CONTENT" name="jboss.org content"/>
@@ -245,22 +245,32 @@
             <project id="RHQ" />
          </repository>
          -->
-         <repository name="hudson" url="http://issues.hudson-ci.org/browse/">
+         <repository name="hudson" type="jira50" url="http://issues.hudson-ci.org/browse/">
             <project id="HUDSON" />
          </repository>
-         <repository name="hibernate" url="http://opensource.atlassian.com/projects/hibernate/browse/">
+         <repository name="jenkins" type="jira50" url="https://issues.jenkins-ci.org/browse/">
+            <project id="JENKINS" />
+         </repository>
+         <repository name="hibernate" type="jira50" url="https://hibernate.onjira.com/browse/">
             <project id="HHH"/>
             <project id="BVAL"/>
+            <project id="BVTCK"/>
             <project id="ANN"/>
             <project id="HCANN"/>
+            <project id="STYLE"/>
+            <project id="METAGEN"/>
+            <project id="OGM"/>
+            <project id="WEBSITE"/>
+            <project id="JPA"/>
             <project id="EJB"/>
             <project id="HSEARCH"/>
             <project id="HSHARDS"/>
             <project id="HBX"/>
             <project id="HV"/>
             <project id="HBI"/>
+            <project id="VAL"/>
          </repository>
-         <repository name="openqa" url="http://jira.openqa.org/browse/">
+         <repository name="openqa" type="jira41" url="http://jira.openqa.org/browse/">
             <project id="BR"/>
             <project id="CT"/>
             <project id="FLOYD"/>
@@ -279,7 +289,7 @@
             <project id="WTRREC"/>
             <project id="WET"/>
          </repository>
-         <repository name="apache" url="https://issues.apache.org/jira/browse/">
+         <repository name="apache" type="jira50" url="https://issues.apache.org/jira/browse/">
             <project id="IVY" name="Ivy"/>
             <project id="IVYDE" name="IvyDE"/>
             <project id="COMDEV" name="Community Development"/>
@@ -577,7 +587,7 @@
             <project id="WINK" name="Wink"/>
             <project id="XW" name="XWork"/>
          </repository>
-         <repository name="codehaus" url="http://jira.codehaus.org/browse/">
+         <repository name="codehaus" url="http://jira.codehaus.org/browse/" type="jira50">
             <project id="AJLIB" name="ajlib incubator"/>
             <project id="AW" name="AspectWerkz"/>
             <project id="AWARE" name="AWare"/>

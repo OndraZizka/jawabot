@@ -8,7 +8,7 @@ import org.jboss.jawabot.plugin.jira.config.beans.RepositoryBean;
  *
  * @author Ondrej Zizka
  */
-public interface IssueScraper {
+public interface IIssueScraper {
 
    /**
     *  Responsible for creating and populating the IssueInfo object.
@@ -22,8 +22,7 @@ public interface IssueScraper {
     */
    public String createUrlForIssueID( RepositoryBean repo, String jiraID ) throws ScrapingException;
 
-}// interface
-
+}
 
 
 
