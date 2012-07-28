@@ -53,14 +53,30 @@ public class MemoryMessengerService
     /**
      *  Removes those recipients which are blocked from receiving messages.
      *  Currently static; could be configurable on runtime in the future.
-     * @param recipients 
      */
     void removeBlockedRecipients( List<String> recipients ) {
+        
+        // Protocols
         recipients.remove("http");
         recipients.remove("https");
         recipients.remove("ftp");
         recipients.remove("mailto");
         recipients.remove("scp");
+        
+        // Logging levels
+        recipients.remove("builderror");
+        recipients.remove("error");
+        recipients.remove("warning");
+        recipients.remove("info");
+        recipients.remove("debug");
+        recipients.remove("trace");
+        recipients.remove("fatal");
+        recipients.remove("fine");
+        recipients.remove("finer");
+        recipients.remove("finest");
+        
+        
+        recipients.remove("fyi");
     }
 
     

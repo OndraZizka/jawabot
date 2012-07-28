@@ -57,7 +57,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
 
     @Override
     public void onMessage( IrcEvMessage msg, IrcBotProxy bot ) throws IrcPluginException {
-        if( ! msg.getText().startsWith("whereis") || ! msg.getText().startsWith("seen") )
+        if( ( !msg.getText().startsWith("whereis")) || (!msg.getText().startsWith("seen")) )
             return;
         
         // Remove "seen" or "whereis" from the beginning of msg.
@@ -125,8 +125,8 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         ChannelInfoHandler handler = new ChannelInfoHandler() {
             public void onChannelInfo( String channel, int userCount, String topic ) {
                 //scanChannel( channel, bot );
-								if( userCount >= MIN_USER_COUNT_TO_SCAN_CHANNEL )
-										scanQueue.add( new ChannelInfo(channel, userCount, topic) );
+                if( userCount >= MIN_USER_COUNT_TO_SCAN_CHANNEL )
+                    scanQueue.add( new ChannelInfo(channel, userCount, topic) );
             }
         };
         bot.listChannels( handler );
