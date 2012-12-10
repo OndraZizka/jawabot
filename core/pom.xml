@@ -26,7 +26,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.1</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -37,7 +37,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.6</version>
                 <executions>
                     <execution><id>copy-config</id><goals><goal>copy-resources</goal></goals><phase>process-resources</phase>
                         <configuration>
@@ -86,7 +86,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-email</artifactId>
-            <version>1.2</version>
+            <version>1.3.1</version>
         </dependency>
 
 
@@ -94,7 +94,7 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.2.3</version>
+            <version>2.2.9</version>
         </dependency>
 
         <dependency>
@@ -127,13 +127,13 @@
       <dependency>
          <groupId>org.jboss.weld.se</groupId>
          <artifactId>weld-se-core</artifactId>
-         <version>1.1.1.Final</version>
+         <version>1.1.13.Final</version>
       </dependency>
       <!-- weld-se-core brings these.
       <dependency>
          <groupId>org.jboss.weld</groupId>
          <artifactId>weld-core</artifactId>
-         <version>1.1.1.Final</version>
+         <version>1.1.10.Final</version>
       </dependency>
       <dependency>
          <groupId>org.javassist</groupId>
@@ -152,19 +152,19 @@
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-entitymanager</artifactId>
-         <version>3.6.6.Final</version>
+         <version>3.6.10.Final</version>
       </dependency>
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-core</artifactId>
-         <version>3.6.6.Final</version>
+         <version>3.6.10.Final</version>
       </dependency>
 
       <!-- MySQL -->
       <dependency>
          <groupId>mysql</groupId>
          <artifactId>mysql-connector-java</artifactId>
-         <version>5.1.16</version>
+         <version>5.1.25</version>
           <!-- <scope>runtime</scope>  we need exceptions -->
       </dependency>
 
