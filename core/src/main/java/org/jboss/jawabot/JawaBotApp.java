@@ -9,7 +9,8 @@ import javax.inject.Singleton;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.ex.JawaBotException;
-import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.config.JaxbConfigPersister;
 import org.jboss.jawabot.usermgr.UserManager;
 import org.jboss.weld.environment.se.Weld;
@@ -24,7 +25,7 @@ import org.jboss.weld.environment.se.jpa.EntityManagerStore;
  *  Bootstraps CDI.
  *  Creates JawaBot, initializes it, configures it,
  *  
- * @author ondra
+ * @author Ondrej Zizka
  */
 @Singleton
 public class JawaBotApp
