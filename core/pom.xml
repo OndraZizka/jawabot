@@ -26,18 +26,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
+                <configuration> <source>1.6</source> <target>1.6</target> </configuration>
             </plugin>
             
             <!-- TODO: Move to "root" module. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
                 <executions>
                     <execution><id>copy-config</id><goals><goal>copy-resources</goal></goals><phase>process-resources</phase>
                         <configuration>
@@ -141,6 +136,11 @@
          <version>3.14.0-GA</version>
       </dependency>
       -->
+      <dependency>
+         <groupId>org.jboss.logmanager</groupId>
+         <artifactId>jboss-logmanager</artifactId>
+      </dependency>
+
 
         
       <!-- Hibernate -->

@@ -36,7 +36,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.5</version>
                 <executions>
                     <execution>
                         <id>copy-workdir</id><goals><goal>copy-resources</goal></goals><phase>process-resources</phase>
