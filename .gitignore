@@ -2,3 +2,4 @@ workdir/
 target/
 
 JawaBotConfig-redhat.xml
+/core/JawaBot.log
