@@ -40,7 +40,7 @@ public class JawaBot
    }
    private ConfigBean config;
 
-   public String configWasReadFrom;
+   String configWasReadFrom;
    
    private final MailUtils mailUtils = new MailUtils( this.config );
    @Produces @FromJawaBot public MailUtils getMailUtils() { return this.mailUtils; }
