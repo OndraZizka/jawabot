@@ -25,6 +25,12 @@ public class PluginBean {
         this.configPath = config;
     }
 
+    @Override
+    public String toString() {
+        return "PluginBean{" + "#" + id + " configPath: " + configPath + '}';
+    }
+
+    
     
     
     public String getConfigPath() { return configPath; }
