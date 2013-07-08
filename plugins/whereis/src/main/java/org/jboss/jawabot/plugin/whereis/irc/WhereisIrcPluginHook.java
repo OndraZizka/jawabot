@@ -45,10 +45,11 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
 
 
     private static final int MIN_USER_COUNT_TO_SCAN_CHANNEL = 10;
+    private static final int MAX_CHANNELS_TO_SCAN = 10; // Make configurable.
     
 
     // TODO: Prevent multiple scanning over this.
-    Set<String> channelsBeingScanned = new ConcurrentSkipListSet();
+    final Set<String> channelsBeingScanned = new ConcurrentSkipListSet();
     
     
     
@@ -120,7 +121,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         log.info(" onConnect();  Will now scan all channels.");
         
         // Create a queue for channels, sorted by user count.
-        final Queue<ChannelInfo> scanQueue = new PriorityQueue<ChannelInfo>(800, ChannelInfo.USER_COUNT_COMPARATOR );
+        final PriorityQueue<ChannelInfo> scanQueue = new PriorityQueue<ChannelInfo>(800, ChannelInfo.USER_COUNT_COMPARATOR );
         
         ChannelInfoHandler handler = new ChannelInfoHandler() {
             public void onChannelInfo( String channel, int userCount, String topic ) {
@@ -131,14 +132,22 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         };
         bot.listChannels( handler );
         
+        
         // Schedule channel scanning in other thread.
         final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         Runnable scanJob =
             new Runnable() {
+                // Limit to few biggest channels, by number.
+                int countDown = MAX_CHANNELS_TO_SCAN; // TODO: Read from options.
+                
                 public void run() {
                     ChannelInfo chi = scanQueue.poll();
                     if( null == chi ){
                         logScan.debug("  No more channels in scan queue. ");
+                        executor.shutdown();
+                    }
+                    else if( countDown-- == 0 ){
+                        logScan.debug("  Maximum # of channels was scanned, terminating. ");
                         executor.shutdown();
                     }
                     else {
