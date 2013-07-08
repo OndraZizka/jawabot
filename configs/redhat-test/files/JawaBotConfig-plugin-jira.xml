@@ -1,0 +1,1083 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample JiraBot XML config file -->
+<jiraPluginConfig>
+   <settings
+      maxJirasPerRequest = "3"
+      minJiraPrefixLength = "2"
+
+      joinOnInvite = "true"
+      allowJoinCommand = "true"
+      repeatDelay = "666"
+      verbose = "true"
+      unsecuredShutdown = "false"
+      acceptInvitation = "true"
+      leaveOnAsk = "true"
+      adminUser = "ozizka"
+      smtpHost = "smtp.corp.redhat.com"
+      debugChannel = "#some"
+
+      debug = "true"
+   />
+
+   <irc>
+        <!-- TODO, maybe in DB.
+        <disabledInChannels>
+        </disabledInChannels>
+        -->
+   </irc>
+
+   <jira defaultRepo="jboss" defaultType="jira41"> <!-- TODO: Use repositories/@defaultType -->
+      <ignoredPrefixes>
+         <!-- Repositories which need login. -->
+         JBQA
+
+         <!-- Not Jira repositories, but used in ABC-123 format, too: -->
+         RHEL
+         AS
+         DOC
+         CVE
+         JDK
+         SLES
+         JON
+         EP
+         EAP
+         JPP
+         GMT
+         BZ
+         <!-- not yet -->
+      </ignoredPrefixes>
+      <repositories defaultType="jira41">
+         <repository name="redhat-bugzilla" url="https://bugzilla.redhat.com/show_bug.cgi?id=" type="bugzilla34">
+            <project id="BZ" name="Red Hat bugs"/>
+         </repository>
+         <repository name="jboss" url="https://issues.jboss.org/browse/" type="jira50-jboss">
+            <!-- Catch-all -->
+            <project id="AS7" name="JBoss AS 7"/>
+            <project id="CONTENT" name="jboss.org content"/>
+            <project id="ORG" name="jboss.org development"/>
+            <project id="DESIGN" name="Visual Design"/>
+            <project id="GTNCOMMON" name="GateIn Common"/>
+            <project id="GTNMAVEN" name="GateIn Maven"/>
+            <project id="GTNMOP" name="GateIn Model Object for Portal"/>
+            <project id="GTNPORTAL" name="GateIn Portal"/>
+            <project id="GTNPC" name="GateIn Portlet Container"/>
+            <project id="GTNWCI" name="GateIn Web Container Integration"/>
+            <project id="GTNWSRP" name="GateIn WSRP"/>
+            <project id="JBBLOG" name="JBoss Blog"/>
+            <project id="JBFORUMS" name="JBoss Forums"/>
+            <project id="JBPORTAL" name="JBoss Portal"/>
+            <project id="JBWIKI" name="JBoss Wiki"/>
+            <project id="PBR" name="Portlet Bridge"/>
+            <project id="SWAP" name="PortletSwap"/>
+            <project id="RF" name="RichFaces"/>
+            <project id="RFPL" name="RichFaces Planning"/>
+            <project id="CDITCK" name="CDI TCK"/>
+            <project id="JBINTER" name="Common JBoss Interceptors Library"/>
+            <project id="EJBTHREE" name="EJB 3.0"/>
+            <project id="ERRAI" name="Errai"/>
+            <project id="ERPL" name="Errai Planning"/>
+            <project id="JBAOP" name="JBoss AOP"/>
+            <project id="JBASPECT" name="JBoss Aspects"/>
+            <project id="JBESB" name="JBoss ESB"/>
+            <project id="RAILO" name="Railo"/>
+            <project id="RSMSG" name="rest-star-messaging"/>
+            <project id="RSTX" name="rest-star-transactions"/>
+            <project id="RESTEASY" name="RESTEasy"/>
+            <project id="JBSEAM" name="Seam"/>
+            <project id="SEAMDROOLS" name="Seam Drools"/>
+            <project id="SEAMFACES" name="Seam Faces"/>
+            <project id="SEAMINTL" name="Seam i18n"/>
+            <project id="SEAMREMOTING" name="Seam Remoting"/>
+            <project id="SEAMSECURITY" name="Seam Security"/>
+            <project id="SEAMSERVLET" name="Seam Servlet"/>
+            <project id="SEAMXML" name="Seam XML Bean Config"/>
+            <project id="TORQUE" name="TorqueBox"/>
+            <project id="WELD" name="Weld"/>
+            <project id="WELDX" name="Weld Extensions"/>
+            <project id="JBRULES" name="Drools"/>
+            <project id="EXOJCR" name="eXo-JCR"/>
+            <project id="HORNETQ" name="HornetQ"/>
+            <project id="ISPN" name="Infinispan"/>
+            <project id="JASSIST" name="Javassist"/>
+            <project id="JBCACHE" name="JBoss Cache"/>
+            <project id="JBSSO" name="JBoss Federated SSO"/>
+            <project id="JBID" name="JBoss Identity"/>
+            <project id="JBJAAE" name="JBoss JAAE (JBoss Application Authorization Engine)"/>
+            <project id="JAXR" name="JBoss JAXR"/>
+            <project id="JBJPA" name="JBoss JPA"/>
+            <project id="JBMAR" name="JBoss Marshalling"/>
+            <project id="JBMESSAGING" name="JBoss Messaging"/>
+            <project id="JBNAME" name="JBoss Naming"/>
+            <project id="PCACHE" name="JBoss POJO Cache"/>
+            <project id="JBREM" name="JBoss Remoting"/>
+            <project id="JBSER" name="JBoss Serialization"/>
+            <project id="JBTM" name="JBoss Transaction Manager"/>
+            <project id="JBWS" name="JBoss Web Services"/>
+            <project id="JBXB" name="JBoss XML Binding (JBossXB)"/>
+            <project id="JBPM" name="jBPM"/>
+            <project id="BPEL" name="jBPM BPEL"/>
+            <project id="GPD" name="jBPM GPD"/>
+            <project id="JGRP" name="JGroups"/>
+            <project id="LOGTOLOG" name="Log2Log"/>
+            <project id="NETTY" name="Netty"/>
+            <project id="SECURITY" name="PicketBox (JBoss Security and Identity Management)"/>
+            <project id="PLINK" name="PicketLink"/>
+            <project id="PLFED" name="PicketLink Federated Identity"/>
+            <project id="PLIDM" name="PicketLink IDM"/>
+            <project id="RIFTSAW" name="RiftSaw"/>
+            <project id="TOHU" name="Tohu"/>
+            <project id="WISE" name="Wise"/>
+            <project id="XNIO" name="XNIO"/>
+            <project id="EMBJOPR" name="Embedded Jopr"/>
+            <project id="HIBERNATE" name="Hibernate Integration"/>
+            <project id="JBADMCON" name="JBoss Admin Console"/>
+            <project id="JBAS" name="JBoss Application Server"/>
+            <project id="JBASMP" name="JBoss AS Maven Plugins"/>
+            <project id="JBASM" name="JBoss AS Server Manager"/>
+            <project id="JBBOOT" name="JBoss Bootstrap"/>
+            <project id="JBCLUSTER" name="JBoss Clustering"/>
+            <project id="EMB" name="JBoss Embedded"/>
+            <project id="JBEE" name="JBoss JavaEE APIs"/>
+            <project id="JBJCA" name="JBoss JCA"/>
+            <project id="JBJMX" name="JBoss JMX"/>
+            <project id="JBMETA" name="JBoss Metadata"/>
+            <project id="JBPROFILE" name="JBoss Profile Service"/>
+            <project id="RELOADED" name="JBoss Reloaded"/>
+            <project id="JBMX" name="JBossMX"/>
+            <project id="JDCOM" name="jDCOM"/>
+            <project id="SVCBIND" name="Service Binding Manager"/>
+            <project id="SNOWDROP" name="Snowdrop"/>
+            <project id="WELDINT" name="Weld Integration"/>
+            <project id="JBAPACHE" name="Apache Project Integration Issues"/>
+            <project id="JBGENETIC" name="JBoss Genetic"/>
+            <project id="JBNATIVE" name="JBoss Native"/>
+            <project id="JBREFLEX" name="JBoss Reflex"/>
+            <project id="JBWEB" name="JBoss Web"/>
+            <project id="MODCLUSTER" name="mod_cluster"/>
+            <project id="CLASSPOOL" name="ClassPool"/>
+            <project id="FRESH" name="Fresh"/>
+            <project id="JBCL" name="JBoss ClassLoader"/>
+            <project id="JBDEPLOY" name="JBoss Deployers"/>
+            <project id="JBKERNEL" name="JBoss Kernel"/>
+            <project id="JBMAN" name="JBoss Managed"/>
+            <project id="JBMDR" name="JBoss MetaData Repository"/>
+            <project id="JBMICROCONT" name="JBoss Microcontainer"/>
+            <project id="JBMCINT" name="JBoss Microcontainer Integration"/>
+            <project id="JBMCSCAN" name="JBoss Microcontainer Scanning"/>
+            <project id="JBMCTOOL" name="JBoss Microcontainer Tools"/>
+            <project id="JBOSGI" name="JBoss OSGi"/>
+            <project id="JBREFLECT" name="JBoss Reflection"/>
+            <project id="JBREL" name="JBoss Reliance"/>
+            <project id="JBTHR" name="JBoss Threads"/>
+            <project id="JBVFS" name="JBoss VFS"/>
+            <project id="CLOUD" name="JBoss Cloud"/>
+            <project id="TEIID" name="Teiid"/>
+            <project id="ANDIAMO" name="Andiamo"/>
+            <project id="BPMC" name="BPM Console"/>
+            <project id="DNA" name="DNA"/>
+            <project id="GUVNOR" name="Guvnor"/>
+            <project id="GUVNORSOA" name="Guvnor SOA"/>
+            <project id="JOPR" name="Jopr"/>
+            <project id="MODE" name="ModeShape"/>
+            <project id="SOAG" name="Overlord"/>
+            <project id="SAVARA" name="Savara"/>
+            <project id="SAM" name="Service Activity Monitoring"/>
+            <project id="BG" name="BoxGrinder"/>
+            <project id="BGBUILD" name="BoxGrinder Build"/>
+            <project id="BGREST" name="BoxGrinder REST"/>
+            <project id="CANTIERE" name="Cantiere"/>
+            <project id="CIRRAS" name="CirrAS"/>
+            <project id="COOLINGTOWER" name="CoolingTower"/>
+            <project id="SFOLIO" name="StormFolio"/>
+            <project id="SG" name="StormGrind"/>
+            <project id="ARQ" name="Arquillian"/>
+            <project id="BYTEMAN" name="Byteman"/>
+            <project id="DTF" name="Distributed Test Framework"/>
+            <project id="MASS" name="JBoss Mass"/>
+            <project id="JBPROFILER" name="JBoss Profiler"/>
+            <project id="JBTEST" name="JBoss Test"/>
+            <project id="JSFUNIT" name="JSFUnit"/>
+            <project id="SHRINKWRAP" name="ShrinkWrap"/>
+            <project id="TTALE" name="Tattletale"/>
+            <project id="TEIIDDES" name="Teiid Designer"/>
+            <project id="JBIDE" name="Tools (JBoss Tools)"/>
+            <project id="APIVIZ" name="APIviz"/>
+            <project id="JBDOCS" name="Documentation"/>
+            <project id="JBBUILD" name="JBoss Build System"/>
+            <project id="JBCOMMON" name="JBoss Common"/>
+            <project id="JBLOGGING" name="JBoss Logging"/>
+            <project id="JBTP" name="JBoss Translation Project"/>
+            <project id="JBUNIT" name="JBoss Unit"/>
+            <project id="MPJDOCBOOK" name="maven-jdocbook-plugin"/>
+            <project id="JDOCBOOKSTYLE" name="maven-jdocbook-style-plugin"/>
+            <project id="JBANN" name="Papaki"/>
+            <project id="PRESSGANG" name="PressGang"/>
+            <project id="DAVCACHE" name="DavCache"/>
+            <project id="GRAVEL" name="Gravel"/>
+            <project id="KOSMOS" name="Kosmos"/>
+            <project id="JBREPORT" name="Reporting Services"/>
+            <project id="JBSHOTOKU" name="Shotoku"/>
+            <project id="JBDS" name="Developer Studio (JBoss Developer Studio)"/>
+            <project id="JBPAPP" name="JBoss Enterprise Application Platform"/>
+            <project id="JBEBPM" name="JBoss Enterprise BPM Platform"/>
+            <project id="BRMS" name="JBoss Enterprise BRMS Platform"/>
+            <project id="JBEPP" name="JBoss Enterprise Portal Platform"/>
+            <project id="SOA" name="JBoss Enterprise SOA Platform"/>
+            <project id="ASPATCH" name="JBoss AS Patches"/>
+            <project id="JBBENCH" name="JBoss Benchmarking"/>
+            <project id="AJSF" name="Ajax4jsf"/>
+            <project id="WBTCK" name="CDI TCK (legacy project)"/>
+            <project id="EJBBOOK" name="EJB Book Examples"/>
+            <project id="ENVERS" name="Envers"/>
+            <project id="JBLAB" name="JBoss Labs"/>
+            <project id="JBMAIL" name="JBoss Mail ** Closed - moved to http://buni.org **"/>
+            <project id="JBTPL" name="JBoss Project Template"/>
+            <project id="JBINSTALL" name="JEMS Installer"/>
+            <project id="MTAJZR" name="Metajizer"/>
+            <project id="RHM" name="Red Hat Messaging"/>
+            <project id="SEAMFP" name="Seam Feature Pack - CLOSED"/>
+            <project id="WBRI" name="Web Beans (legacy project)"/>
+            <project id="WBX" name="Web Beans Extensions (legacy project)"/>
+            <project id="WBINT" name="Web Beans Integration (legacy project)"/>
+         </repository>
+         <!--
+         <repository name="rhq" url="http://jira.rhq-project.org/browse/">
+            <project id="RHQ" />
+         </repository>
+         -->
+         <repository name="hudson" type="jira50" url="http://issues.hudson-ci.org/browse/">
+            <project id="HUDSON" />
+         </repository>
+         <repository name="jenkins" type="jira50" url="https://issues.jenkins-ci.org/browse/">
+            <project id="JENKINS" />
+         </repository>
+         <repository name="hibernate" type="jira50" url="https://hibernate.onjira.com/browse/">
+            <project id="HHH"/>
+            <project id="BVAL"/>
+            <project id="BVTCK"/>
+            <project id="ANN"/>
+            <project id="HCANN"/>
+            <project id="STYLE"/>
+            <project id="METAGEN"/>
+            <project id="OGM"/>
+            <project id="WEBSITE"/>
+            <project id="JPA"/>
+            <project id="EJB"/>
+            <project id="HSEARCH"/>
+            <project id="HSHARDS"/>
+            <project id="HBX"/>
+            <project id="HV"/>
+            <project id="HBI"/>
+            <project id="VAL"/>
+         </repository>
+         <repository name="openqa" type="jira41" url="http://jira.openqa.org/browse/">
+            <project id="BR"/>
+            <project id="CT"/>
+            <project id="FLOYD"/>
+            <project id="FKS"/>
+            <project id="JTC"/>
+            <project id="QQA"/>
+            <project id="PWA"/>
+            <project id="SEL"/>
+            <project id="SEDOC"/>
+            <project id="GRID"/>
+            <project id="SIDE"/>
+            <project id="SOR"/>
+            <project id="SRC"/>
+            <project id="ST"/>
+            <project id="WTR"/>
+            <project id="WTRREC"/>
+            <project id="WET"/>
+         </repository>
+         <repository name="apache" type="jira50" url="https://issues.apache.org/jira/browse/">
+            <project id="IVY" name="Ivy"/>
+            <project id="IVYDE" name="IvyDE"/>
+            <project id="COMDEV" name="Community Development"/>
+            <project id="ATTIC" name="Attic"/>
+            <project id="INFRA" name="Infrastructure"/>
+            <project id="LEGAL" name="Legal Discuss"/>
+            <project id="PRC" name="Public Relations"/>
+            <project id="AVNSHARP" name="Avalon Castle"/>
+            <project id="RUNTIME" name="Avalon Merlin Runtime"/>
+            <project id="STUDIO" name="Avalon Merlin Studio"/>
+            <project id="CENTRAL" name="Avalon Metro Central"/>
+            <project id="PLANET" name="Avalon Metro Planet"/>
+            <project id="TOOLS" name="Avalon Metro Tools"/>
+            <project id="PNIX" name="Phoenix"/>
+            <project id="AXIS" name="Axis"/>
+            <project id="AXISCPP" name="Axis-C++"/>
+            <project id="AXIS2" name="Axis2"/>
+            <project id="AXIS2C" name="Axis2-C"/>
+            <project id="BUILDR" name="Buildr"/>
+            <project id="STDCXX" name="C++ Standard Library"/>
+            <project id="CAY" name="Cayenne"/>
+            <project id="CLK" name="Click"/>
+            <project id="CLKE" name="Click Eclipse"/>
+            <project id="COCOON" name="Cocoon"/>
+            <project id="COCOON3" name="Cocoon 3"/>
+            <project id="COMMONSSITE" name="Commons All"/>
+            <project id="ATTRIBUTES" name="Commons Attributes"/>
+            <project id="BEANUTILS" name="Commons BeanUtils"/>
+            <project id="BETWIXT" name="Commons Betwixt"/>
+            <project id="CHAIN" name="Commons Chain"/>
+            <project id="CLI" name="Commons CLI"/>
+            <project id="CODEC" name="Commons Codec"/>
+            <project id="COLLECTIONS" name="Commons Collections"/>
+            <project id="COMPRESS" name="Commons Compress"/>
+            <project id="CONFIGURATION" name="Commons Configuration"/>
+            <project id="DAEMON" name="Commons Daemon"/>
+            <project id="DBCP" name="Commons Dbcp"/>
+            <project id="DBUTILS" name="Commons DbUtils"/>
+            <project id="DIGESTER" name="Commons Digester"/>
+            <project id="DISCOVERY" name="Commons Discovery"/>
+            <project id="DORMANT" name="Commons Dormant"/>
+            <project id="EL" name="Commons EL"/>
+            <project id="EMAIL" name="Commons Email"/>
+            <project id="EXEC" name="Commons Exec"/>
+            <project id="FILEUPLOAD" name="Commons FileUpload"/>
+            <project id="IO" name="Commons IO"/>
+            <project id="JCI" name="Commons JCI"/>
+            <project id="JELLY" name="Commons Jelly"/>
+            <project id="JEXL" name="Commons JEXL"/>
+            <project id="JXPATH" name="Commons JXPath"/>
+            <project id="LANG" name="Commons Lang"/>
+            <project id="LAUNCHER" name="Commons Launcher"/>
+            <project id="LOGGING" name="Commons Logging"/>
+            <project id="MATH" name="Commons Math"/>
+            <project id="MODELER" name="Commons Modeler"/>
+            <project id="NET" name="Commons Net"/>
+            <project id="POOL" name="Commons Pool"/>
+            <project id="PRIMITIVES" name="Commons Primitives"/>
+            <project id="PROXY" name="Commons Proxy"/>
+            <project id="RESOURCES" name="Commons Resources"/>
+            <project id="SANDBOX" name="Commons Sandbox"/>
+            <project id="SANSELAN" name="Commons Sanselan"/>
+            <project id="SCXML" name="Commons SCXML"/>
+            <project id="TRANSACTION" name="Commons Transaction"/>
+            <project id="VALIDATOR" name="Commons Validator"/>
+            <project id="VFS" name="Commons VFS"/>
+            <project id="COUCHDB" name="CouchDB"/>
+            <project id="CXF" name="CXF"/>
+            <project id="DOSGI" name="CXF Distributed OSGi"/>
+            <project id="DDLUTILS" name="DdlUtils"/>
+            <project id="DERBY" name="Derby"/>
+            <project id="JDO" name="JDO"/>
+            <project id="OJB" name="OJB"/>
+            <project id="TORQUE" name="Torque"/>
+            <project id="TORQUEOLD" name="Torque issues (old)"/>
+            <project id="DIR" name="Directory"/>
+            <project id="DIRSERVER" name="Directory ApacheDS"/>
+            <project id="DIRAPI" name="Directory client API"/>
+            <project id="DIRGROOVY" name="Directory Groovy LDAP"/>
+            <project id="DIRKRB" name="Directory Kerberos"/>
+            <project id="DIRNAMING" name="Directory Naming"/>
+            <project id="DIRSHARED" name="Directory Shared"/>
+            <project id="DIRSTUDIO" name="Directory Studio"/>
+            <project id="DIRTSEC" name="Triplesec"/>
+            <project id="AVALON" name="Avalon"/>
+            <project id="EXLBR" name="Excalibur Components"/>
+            <project id="FORTRESS" name="Excalibur Fortress"/>
+            <project id="FELIX" name="Felix"/>
+            <project id="FELIXM2" name="Felix M2 Plugin"/>
+            <project id="FOR" name="Forrest"/>
+            <project id="DAYTRADER" name="DayTrader"/>
+            <project id="GBUILD" name="GBuild"/>
+            <project id="GERONIMO" name="Geronimo"/>
+            <project id="GERONIMODEVTOOLS" name="Geronimo-Devtools"/>
+            <project id="GSHELL" name="GShell"/>
+            <project id="XBEAN" name="XBean"/>
+            <project id="YOKO" name="Yoko - CORBA Server"/>
+            <project id="GUMP" name="Gump"/>
+            <project id="AVRO" name="Avro"/>
+            <project id="CHUKWA" name="Hadoop Chukwa"/>
+            <project id="HADOOP" name="Hadoop Common"/>
+            <project id="HBASE" name="Hadoop HBase"/>
+            <project id="HDFS" name="Hadoop HDFS"/>
+            <project id="HIVE" name="Hadoop Hive"/>
+            <project id="MAPREDUCE" name="Hadoop Map/Reduce"/>
+            <project id="PIG" name="Pig"/>
+            <project id="ZOOKEEPER" name="Zookeeper"/>
+            <project id="HARMONY" name="Harmony"/>
+            <project id="MODPYTHON" name="mod_python"/>
+            <project id="HTTPCLIENT" name="HttpComponents HttpClient"/>
+            <project id="HTTPCORE" name="HttpComponents HttpCore"/>
+            <project id="IBATISNET" name="iBatis for .NET"/>
+            <project id="IBATIS" name="iBatis for Java"/>
+            <project id="RBATIS" name="iBATIS for Ruby"/>
+            <project id="ACE" name="Ace"/>
+            <project id="ARIES" name="Aries"/>
+            <project id="BLUESKY" name="Bluesky"/>
+            <project id="CASSANDRA" name="Cassandra"/>
+            <project id="CMIS" name="Chemistry"/>
+            <project id="CLEREZZA" name="Clerezza"/>
+            <project id="DROIDS" name="Droids"/>
+            <project id="EMPIREDB" name="Empire-DB"/>
+            <project id="ESME" name="ESME"/>
+            <project id="ETCH" name="Etch"/>
+            <project id="HAMA" name="Hama"/>
+            <project id="HISE" name="HISE"/>
+            <project id="IMPERIUS" name="Imperius"/>
+            <project id="INCUBATOR" name="Incubator"/>
+            <project id="JSEC" name="JSecurity"/>
+            <project id="JSPWIKI" name="JSPWiki"/>
+            <project id="KATO" name="Kato"/>
+            <project id="KI" name="Ki"/>
+            <project id="LIBCLOUD" name="Libcloud"/>
+            <project id="CONNECTORS" name="Lucene Connector Framework"/>
+            <project id="OLIO" name="Olio"/>
+            <project id="OODT" name="OODT"/>
+            <project id="PHOTARK" name="PhotArk"/>
+            <project id="RAT" name="RAT"/>
+            <project id="RIVER" name="River"/>
+            <project id="SHIRO" name="Shiro"/>
+            <project id="STONEHENGE" name="Stonehenge"/>
+            <project id="TASHI" name="Tashi"/>
+            <project id="THRIFT" name="Thrift"/>
+            <project id="TS" name="Traffic Server"/>
+            <project id="UIMA" name="UIMA"/>
+            <project id="VCL" name="VCL"/>
+            <project id="WOOKIE" name="Wookie"/>
+            <project id="JCR" name="Jackrabbit Content Repository"/>
+            <project id="JCRBENCH" name="Jackrabbit JCR Benchmark"/>
+            <project id="JCRCL" name="Jackrabbit JCR Classloader"/>
+            <project id="JCRSERVLET" name="Jackrabbit JCR Servlets"/>
+            <project id="JCRTCK" name="Jackrabbit JCR Tests"/>
+            <project id="JCRRMI" name="Jackrabbit JCR-RMI"/>
+            <project id="OCM" name="Jackrabbit OCM"/>
+            <project id="JCRSITE" name="Jackrabbit Site"/>
+            <project id="BSF" name="BSF"/>
+            <project id="CACTUS" name="Cactus"/>
+            <project id="ECS" name="ECS"/>
+            <project id="JCS" name="JCS"/>
+            <project id="MAILETBASE" name="JAMES Basic Mailet Toolkit"/>
+            <project id="MAILETCRYPTO" name="JAMES Crytography Mailets"/>
+            <project id="IMAP" name="JAMES Imap"/>
+            <project id="JSIEVE" name="JAMES jSieve"/>
+            <project id="JSPF" name="JAMES jSPF"/>
+            <project id="MAILETDOCS" name="JAMES MailetDocs Maven Plugin"/>
+            <project id="MIME4J" name="JAMES Mime4j"/>
+            <project id="MPT" name="JAMES MPT"/>
+            <project id="POSTAGE" name="JAMES Postage"/>
+            <project id="JAMES" name="JAMES Server"/>
+            <project id="MAILETSTANDARD" name="JAMES Standard Mailets"/>
+            <project id="MAILET" name="Mailet"/>
+            <project id="LABS" name="Labs"/>
+            <project id="HTTPDRAFT" name="Labs WebArch draft-fielding-http"/>
+            <project id="LOGCXX" name="Log4cxx"/>
+            <project id="LOG4J2" name="Log4j 2"/>
+            <project id="LOG4NET" name="Log4net"/>
+            <project id="LOG4PHP" name="Log4php"/>
+            <project id="LUCENE" name="Lucene - Java"/>
+            <project id="LUCENENET" name="Lucene.Net"/>
+            <project id="LUCY" name="Lucy"/>
+            <project id="MAHOUT" name="Mahout"/>
+            <project id="NUTCH" name="Nutch"/>
+            <project id="ORP" name="Open Relevance Project "/>
+            <project id="PYLUCENE" name="PyLucene"/>
+            <project id="SOLR" name="Solr"/>
+            <project id="TIKA" name="Tika"/>
+            <project id="ASYNCWEB" name="Asyncweb"/>
+            <project id="FTPSERVER" name="FtpServer"/>
+            <project id="DIRMINA" name="MINA"/>
+            <project id="SSHD" name="MINA SSHD"/>
+            <project id="VYSPER" name="VYSPER"/>
+            <project id="MYFACESTEST" name="Apache MyFaces Test"/>
+            <project id="ADFFACES" name="MyFaces ADF-Faces"/>
+            <project id="EXTCDI" name="MyFaces CODI"/>
+            <project id="MFCOMMONS" name="MyFaces Commons"/>
+            <project id="MYFACES" name="MyFaces Core"/>
+            <project id="EXTSCRIPT" name="MyFaces Extensions Scripting"/>
+            <project id="EXTVAL" name="MyFaces Extensions Validator"/>
+            <project id="ORCHESTRA" name="MyFaces Orchestra"/>
+            <project id="PORTLETBRIDGE" name="MyFaces Portlet Bridge"/>
+            <project id="TOBAGO" name="MyFaces Tobago"/>
+            <project id="TOMAHAWK" name="MyFaces Tomahawk"/>
+            <project id="TRINIDAD" name="MyFaces Trinidad"/>
+            <project id="RCF" name="RCF"/>
+            <project id="ODE" name="ODE"/>
+            <project id="OFBIZ" name="OFBiz"/>
+            <project id="OPENEJB" name="OpenEJB"/>
+            <project id="OEP" name="OpenEJB Eclipse Plugin"/>
+            <project id="OPENJPA" name="OpenJPA"/>
+            <project id="OWB" name="OpenWebBeans"/>
+            <project id="PDFBOX" name="PDFBox"/>
+            <project id="PIVOT" name="Pivot"/>
+            <project id="JS1" name="Jetspeed"/>
+            <project id="JS2" name="Jetspeed 2"/>
+            <project id="PLUTO" name="Pluto"/>
+            <project id="PORTALS" name="Portals"/>
+            <project id="APA" name="Portals Apps"/>
+            <project id="PB" name="Portals Bridges"/>
+            <project id="AGILA" name=" Agila"/>
+            <project id="ADDR" name="Addressing"/>
+            <project id="ARMI" name="AltRMI"/>
+            <project id="BEEHIVE" name="Beehive"/>
+            <project id="FEEDPARSER" name="Commons FeedParser"/>
+            <project id="DEPOT" name="Depot"/>
+            <project id="EWS" name="ews"/>
+            <project id="GRFT" name="Graffito"/>
+            <project id="HERALDRY" name="Heraldry"/>
+            <project id="HIVEMIND" name="HiveMind"/>
+            <project id="LOKAHI" name="Lokahi"/>
+            <project id="LCN4C" name="Lucene4c"/>
+            <project id="MIRAE" name="Mirae"/>
+            <project id="HERMES" name="Pubscribe"/>
+            <project id="SHALE" name="Shale"/>
+            <project id="SOAP" name="SOAP"/>
+            <project id="TRIPLES" name="TripleSoup"/>
+            <project id="TSIK" name="TSIK"/>
+            <project id="WADI" name="WADI"/>
+            <project id="APOLLO" name="WSRF"/>
+            <project id="XAP" name="XAP"/>
+            <project id="ROL" name="Roller"/>
+            <project id="SHINDIG" name="Shindig"/>
+            <project id="SLING" name="Sling"/>
+            <project id="STR" name="Struts 1"/>
+            <project id="WW" name="Struts 2"/>
+            <project id="SB" name="Struts Sandbox"/>
+            <project id="SITE" name="Struts Shared Resources"/>
+            <project id="SYNAPSE" name="Synapse"/>
+            <project id="TAPESTRY" name="Tapestry"/>
+            <project id="TAP5" name="Tapestry 5"/>
+            <project id="TILES" name="Tiles"/>
+            <project id="TILESSB" name="Tiles Sandbox"/>
+            <project id="TILESSHARED" name="Tiles Shared Resources"/>
+            <project id="TILESSHOW" name="Tiles Showcase"/>
+            <project id="TRB" name="Turbine"/>
+            <project id="ANAKIA" name="Anakia"/>
+            <project id="DBF" name="DocBook Framework"/>
+            <project id="DVSL" name="Dvsl"/>
+            <project id="TEXEN" name="Texen"/>
+            <project id="VELOCITY" name="Velocity"/>
+            <project id="VELTOOLS" name="Velocity Tools"/>
+            <project id="WSIF" name="Axis-WSIF"/>
+            <project id="JAXME" name="JaxMe"/>
+            <project id="JUDDI" name="jUDDI"/>
+            <project id="KAND" name="Kandula"/>
+            <project id="MUSE" name="Muse"/>
+            <project id="RAMPART" name="Rampart"/>
+            <project id="RAMPARTC" name="Rampart/C"/>
+            <project id="SAND" name="Sandesha"/>
+            <project id="SANDESHA2" name="Sandesha2"/>
+            <project id="SANDESHA2C" name="Sandesha2/C"/>
+            <project id="SAVAN" name="Savan"/>
+            <project id="SCOUT" name="Scout"/>
+            <project id="TUSCANY" name="Tuscany"/>
+            <project id="WODEN" name="Woden"/>
+            <project id="WSCOMMONS" name="WS-Commons"/>
+            <project id="WSRP4J" name="WSRP4J"/>
+            <project id="WSS" name="WSS4J"/>
+            <project id="XMLRPC" name="XML-RPC"/>
+            <project id="WICKET" name="Wicket"/>
+            <project id="JUICE" name="JuiCE"/>
+            <project id="XALANC" name="XalanC"/>
+            <project id="XALANJ" name="XalanJ2"/>
+            <project id="XERCESC" name="Xerces-C++"/>
+            <project id="XERCESP" name="Xerces-P"/>
+            <project id="XERCESJ" name="Xerces2-J"/>
+            <project id="XMLBEANS" name="XMLBeans"/>
+            <project id="ABDERA" name="Abdera"/>
+            <project id="HUPA" name="JAMES Hupa"/>
+            <project id="JDKIM" name="JAMES jDKIM"/>
+            <project id="PROTOCOLS" name="JAMES Protocols"/>
+            <project id="QPID" name="Qpid"/>
+            <project id="SIS" name="Spatial Information Systems"/>
+            <project id="TST" name="Test Project"/>
+            <project id="VXQUERY" name="VXQuery"/>
+            <project id="WINK" name="Wink"/>
+            <project id="XW" name="XWork"/>
+         </repository>
+         <repository name="codehaus" url="http://jira.codehaus.org/browse/" type="jira50">
+            <project id="AJLIB" name="ajlib incubator"/>
+            <project id="AW" name="AspectWerkz"/>
+            <project id="AWARE" name="AWare"/>
+            <project id="NAN" name="nanning"/>
+            <project id="OSLO" name="oslo"/>
+            <project id="DNA" name="dna"/>
+            <project id="EOB" name="Enterprise Object Broker"/>
+            <project id="GRAILS" name="Grails"/>
+            <project id="JCT" name="JContainer"/>
+            <project id="LOOM" name="loom"/>
+            <project id="NANO" name="NanoContainer"/>
+            <project id="PICO" name="PicoContainer"/>
+            <project id="PLX" name="Plexus"/>
+            <project id="PLXCOMP" name="Plexus Components"/>
+            <project id="PLXUTILS" name="Plexus Utils"/>
+            <project id="DISPL" name="DisplayTag"/>
+            <project id="GBEAN" name="GBean"/>
+            <project id="LIVETRIBE" name="LiveTribe"/>
+            <project id="GEO" name="GeoAPI"/>
+            <project id="GEOS" name="GeoServer"/>
+            <project id="GEOT" name="GeoTools"/>
+            <project id="UDIG" name="uDIG"/>
+            <project id="BOO" name="Boo"/>
+            <project id="GROOVY" name="groovy"/>
+            <project id="MMLD" name="Marmalade"/>
+            <project id="MPABBOT" name="Maven 1.x Abbot Plugin"/>
+            <project id="MPANNOUNCEMENT" name="Maven 1.x Announcement Plugin"/>
+            <project id="MPANT" name="Maven 1.x Ant Plugin"/>
+            <project id="MPANTLR" name="Maven 1.x Antlr Plugin"/>
+            <project id="MPGENAPP" name="Maven 1.x Application Generation Plugin"/>
+            <project id="MPAPPSERVER" name="Maven 1.x AppServer Plugin"/>
+            <project id="MPARTIFACT" name="Maven 1.x Artifact Plugin"/>
+            <project id="MPASHKELON" name="Maven 1.x Ashkelon Plugin"/>
+            <project id="MPASPECTJ" name="Maven 1.x AspectJ Plugin"/>
+            <project id="MPASPECTWERKZ" name="Maven 1.x AspectWerkz Plugin"/>
+            <project id="MPCALLER" name="Maven 1.x Caller Plugin"/>
+            <project id="MPCASTOR" name="Maven 1.x Castor Plugin"/>
+            <project id="MPCHANGELOG" name="Maven 1.x Changelog Plugin"/>
+            <project id="MPCHANGES" name="Maven 1.x Changes Plugin"/>
+            <project id="MPCHECKSTYLE" name="Maven 1.x Checkstyle Plugin"/>
+            <project id="MPCLEAN" name="Maven 1.x Clean Plugin"/>
+            <project id="MPCLOVER" name="Maven 1.x Clover Plugin"/>
+            <project id="MPCONSOLE" name="Maven 1.x Console Plugin"/>
+            <project id="MPCRUISECONTROL" name="Maven 1.x CruiseControl Plugin"/>
+            <project id="MPDASHBOARD" name="Maven 1.x Dashboard Plugin"/>
+            <project id="MPDEVACTIVITY" name="Maven 1.x Developer Activity Plugin"/>
+            <project id="MPDIST" name="Maven 1.x Distribution Plugin"/>
+            <project id="MPDOCBOOK" name="Maven 1.x DocBook Plugin"/>
+            <project id="MPEAR" name="Maven 1.x Ear Plugin"/>
+            <project id="MPECLIPSE" name="Maven 1.x Eclipse Plugin"/>
+            <project id="MPEJB" name="Maven 1.x EJB Plugin"/>
+            <project id="MPFAQ" name="Maven 1.x FAQ Plugin"/>
+            <project id="MPFILEACTIVITY" name="Maven 1.x File Activity Plugin"/>
+            <project id="MPGUMP" name="Maven 1.x Gump Plugin"/>
+            <project id="MPHIBERNATE" name="Maven 1.x Hibernate Plugin"/>
+            <project id="MPHTMLXDOC" name="Maven 1.x Html2XDoc Plugin"/>
+            <project id="MPIDEA" name="Maven 1.x IDEA Plugin"/>
+            <project id="MPJEE" name="Maven 1.x J2EE Plugin"/>
+            <project id="MPJALOPY" name="Maven 1.x Jalopy Plugin"/>
+            <project id="MPJAR" name="Maven 1.x Jar Plugin"/>
+            <project id="MPJAVA" name="Maven 1.x Java Plugin"/>
+            <project id="MPJAVACC" name="Maven 1.x JavaCC Plugin"/>
+            <project id="MPJAVADOC" name="Maven 1.x Javadoc Plugin"/>
+            <project id="MPJBOSS" name="Maven 1.x JBoss Plugin"/>
+            <project id="MPJBUILDER" name="Maven 1.x JBuilder Plugin"/>
+            <project id="MPJCOVERAGE" name="Maven 1.x JCoverage Plugin"/>
+            <project id="MPJDEE" name="Maven 1.x JDEE Plugin"/>
+            <project id="MPJDEPEND" name="Maven 1.x JDepend Plugin"/>
+            <project id="MPJDEVELOPER" name="Maven 1.x JDeveloper Plugin"/>
+            <project id="MPJDIFF" name="Maven 1.x JDiff Plugin"/>
+            <project id="MPJELLYDOC" name="Maven 1.x JellyDoc Plugin"/>
+            <project id="MPJETTY" name="Maven 1.x Jetty Plugin"/>
+            <project id="MPJIRA" name="Maven 1.x JIRA Plugin"/>
+            <project id="MPJNLP" name="Maven 1.x JNLP Plugin"/>
+            <project id="MPJUNITREPORT" name="Maven 1.x JUnit Report Plugin"/>
+            <project id="MPJUNITDOCLET" name="Maven 1.x JUnitDoclet Plugin"/>
+            <project id="MPJXR" name="Maven 1.x JXR Plugin"/>
+            <project id="MPLATEX" name="Maven 1.x Latex Plugin"/>
+            <project id="MPLATKA" name="Maven 1.x Latka Plugin"/>
+            <project id="MPLICENSE" name="Maven 1.x License Plugin"/>
+            <project id="MPLINKCHECK" name="Maven 1.x LinkCheck Plugin"/>
+            <project id="MPMODELLO" name="Maven 1.x Modello Plugin"/>
+            <project id="MPMULTIPROJECT" name="Maven 1.x Multi-Project Plugin"/>
+            <project id="MPMULTICHANGES" name="Maven 1.x MultiChanges Plugin"/>
+            <project id="MPNATIVE" name="Maven 1.x Native Plugin"/>
+            <project id="MPNSIS" name="Maven 1.x NSIS Plugin"/>
+            <project id="MPPDF" name="Maven 1.x PDF Plugin"/>
+            <project id="MPPLUGIN" name="Maven 1.x Plugin Plugin"/>
+            <project id="MPPMD" name="Maven 1.x PMD Plugin"/>
+            <project id="MPPOM" name="Maven 1.x POM Plugin"/>
+            <project id="MPRAR" name="Maven 1.x RAR Plugin"/>
+            <project id="MPRELEASE" name="Maven 1.x Release Plugin"/>
+            <project id="MPREPO" name="Maven 1.x Repository Plugin"/>
+            <project id="MPSCM" name="Maven 1.x SCM Plugin"/>
+            <project id="MPSHELL" name="Maven 1.x Shell Plugin"/>
+            <project id="MPSIMIAN" name="Maven 1.x Simian Plugin"/>
+            <project id="MPSITE" name="Maven 1.x Site Plugin"/>
+            <project id="MPSOURCE" name="Maven 1.x Source Plugin"/>
+            <project id="MPSTRUTS" name="Maven 1.x Struts Plugin"/>
+            <project id="MPTASKLIST" name="Maven 1.x Tasklist Plugin"/>
+            <project id="MPTEST" name="Maven 1.x Test Plugin"/>
+            <project id="MPTJDO" name="Maven 1.x TJDO Plugin"/>
+            <project id="MPUBERJAR" name="Maven 1.x UberJar Plugin"/>
+            <project id="MPVDOCLET" name="Maven 1.x VDoclet Plugin"/>
+            <project id="MPWAR" name="Maven 1.x War Plugin"/>
+            <project id="MPWEBSERVER" name="Maven 1.x Webserver Plugin"/>
+            <project id="MPWIZARD" name="Maven 1.x Wizard Plugin"/>
+            <project id="MPXDOC" name="Maven 1.x XDoc Plugin"/>
+            <project id="GMAVEN" name="GMaven"/>
+            <project id="MGROOVY" name="GMaven (OLD... DO NOT USE)"/>
+            <project id="MANT" name="Maven 2.x Ant Plugin"/>
+            <project id="MANTLR" name="Maven 2.x Antlr Plugin"/>
+            <project id="MANTLRTHREE" name="Maven 2.x Antlr3 Plugin"/>
+            <project id="MANTRUN" name="Maven 2.x Antrun Plugin"/>
+            <project id="MASSEMBLY" name="Maven 2.x Assembly Plugin"/>
+            <project id="MAXISTOOLS" name="Maven 2.x Axis Tools Plugin"/>
+            <project id="MBUILDHELPER" name="Maven 2.x Build Helper Plugin"/>
+            <project id="MCASTOR" name="Maven 2.x Castor Plugin"/>
+            <project id="MCHANGELOG" name="Maven 2.x Changelog Plugin"/>
+            <project id="MCHANGES" name="Maven 2.x Changes Plugin"/>
+            <project id="MCHECKSTYLE" name="Maven 2.x Checkstyle Plugin"/>
+            <project id="MCLEAN" name="Maven 2.x Clean Plugin"/>
+            <project id="MCLIRR" name="Maven 2.x Clirr Plugin"/>
+            <project id="MCOBERTURA" name="Maven 2.x Cobertura Plugin"/>
+            <project id="MCOMATTR" name="Maven 2.x Commons Attributes Plugin"/>
+            <project id="MCOMPILER" name="Maven 2.x Compiler Plugin"/>
+            <project id="MIDLJ" name="Maven 2.x CORBA IDL Compiler Plugin"/>
+            <project id="MDEP" name="Maven 2.x Dependency Plugin"/>
+            <project id="MDEPLOY" name="Maven 2.x Deploy Plugin"/>
+            <project id="MDOAP" name="Maven 2.x DOAP Plugin"/>
+            <project id="MDOCCK" name="Maven 2.x Documentation Checker Plugin"/>
+            <project id="MEAR" name="Maven 2.x Ear Plugin"/>
+            <project id="MECLIPSE" name="Maven 2.x Eclipse Plugin"/>
+            <project id="MEJB" name="Maven 2.x EJB Plugin"/>
+            <project id="MENFORCER" name="Maven 2.x Enforcer Plugin"/>
+            <project id="MEXEC" name="Maven 2.x Exec Plugin"/>
+            <project id="MFINDBUGS" name="Maven 2.x FindBugs Plugin"/>
+            <project id="MFIT" name="Maven 2.x FIT Plugin"/>
+            <project id="MFITNESSE" name="Maven 2.x Fitnesse Plugin"/>
+            <project id="MGAE" name="Maven 2.x GAE Plugin"/>
+            <project id="MGPG" name="Maven 2.x GPG Plugin"/>
+            <project id="MGWT" name="Maven 2.x GWT Plugin"/>
+            <project id="MPH" name="Maven 2.x Help Plugin"/>
+            <project id="MHIBERNATE" name="Maven 2.x Hibernate Plugin"/>
+            <project id="MIDEA" name="Maven 2.x IDEA Plugin"/>
+            <project id="MINSTALL" name="Maven 2.x Install Plugin"/>
+            <project id="MINVOKER" name="Maven 2.x Invoker Plugin"/>
+            <project id="MJAR" name="Maven 2.x Jar Plugin"/>
+            <project id="MJARSIGNER" name="Maven 2.x Jar Signer Plugin"/>
+            <project id="MJAVACC" name="Maven 2.x JavaCC Plugin"/>
+            <project id="MJAVADOC" name="Maven 2.x Javadoc Plugin"/>
+            <project id="MJNCSS" name="Maven 2.x JavaNCSS Plugin"/>
+            <project id="MJAXB" name="Maven 2.x JAXB 2.1 Plugin"/>
+            <project id="MJBOSSPACK" name="Maven 2.x JBoss Packaging Plugin"/>
+            <project id="MJBOSS" name="Maven 2.x JBoss Plugin"/>
+            <project id="MJDIFF" name="Maven 2.x JDiff Plugin"/>
+            <project id="MJPOX" name="Maven 2.x JPox Plugin"/>
+            <project id="MJSPC" name="Maven 2.x JSPC Plugin"/>
+            <project id="MKEYTOOL" name="Maven 2.x Keytool Plugin"/>
+            <project id="MNETBEANSFREEFORM" name="Maven 2.x Netbeans Freeform Plugin"/>
+            <project id="MNBMODULE" name="Maven 2.x Netbeans Module Plugin"/>
+            <project id="MONE" name="Maven 2.x One Plugin"/>
+            <project id="MOUNCE" name="Maven 2.x Ounce Plugin"/>
+            <project id="MPATCH" name="Maven 2.x Patch Plugin"/>
+            <project id="MPDF" name="Maven 2.x PDF Plugin"/>
+            <project id="MPLUGIN" name="Maven 2.x Plugin Tools"/>
+            <project id="MPMD" name="Maven 2.x PMD Plugin"/>
+            <project id="MPIR" name="Maven 2.x Project Info Reports Plugin"/>
+            <project id="MRAR" name="Maven 2.x Rar Plugin"/>
+            <project id="MREACTOR" name="Maven 2.x Reactor Plugin"/>
+            <project id="MRELEASE" name="Maven 2.x Release Plugin"/>
+            <project id="MRRESOURCES" name="Maven 2.x Remote Resources Plugin"/>
+            <project id="MREPOSITORY" name="Maven 2.x Repository Plugin"/>
+            <project id="MRESOURCES" name="Maven 2.x Resources Plugin"/>
+            <project id="MRETRO" name="Maven 2.x Retrotranslator Plugin"/>
+            <project id="MRMIC" name="Maven 2.x RMIC Plugin"/>
+            <project id="MSABLECC" name="Maven 2.x SableCC Plugin"/>
+            <project id="MSCMCHGLOG" name="Maven 2.x SCM Changelog Plugin"/>
+            <project id="MSELENIUM" name="Maven 2.x Selenium Plugin"/>
+            <project id="MSHADE" name="Maven 2.x Shade Plugin"/>
+            <project id="MSHITTY" name="Maven 2.x SHITTY Plugin"/>
+            <project id="MSITE" name="Maven 2.x Site Plugin"/>
+            <project id="MSOURCES" name="Maven 2.x Source Plugin"/>
+            <project id="MSQL" name="Maven 2.x SQL Plugin"/>
+            <project id="MSTAGE" name="Maven 2.x Stage Plugin"/>
+            <project id="MTAGLIST" name="Maven 2.x Taglist Plugin"/>
+            <project id="MTOOLCHAINS" name="Maven 2.x Toolchains Plugin"/>
+            <project id="MVERIFIER" name="Maven 2.x Verifier Plugin"/>
+            <project id="MVERSIONS" name="Maven 2.x Versions Plugin"/>
+            <project id="MWAR" name="Maven 2.x WAR Plugin"/>
+            <project id="MWAS" name="Maven 2.x WebSphere 6 Plugin"/>
+            <project id="MWEBSTART" name="Maven 2.x Webstart Plugin"/>
+            <project id="MXMLBEANS" name="Maven 2.x Xmlbeans Plugin"/>
+            <project id="MJS" name="Maven Javascript Tools"/>
+            <project id="MOJO" name="Mojo"/>
+            <project id="MANIMALSNIFFER" name="Mojo Animal Sniffer"/>
+            <project id="MAPPASM" name="Mojo AppAssembler Plugin"/>
+            <project id="MASPECTJ" name="Mojo AspectJ Plugin"/>
+            <project id="CBUILDS" name="Mojo C Builds"/>
+            <project id="MEMMA" name="Mojo EMMA Plugin"/>
+            <project id="MLATEX" name="Mojo Latex Maven Plugin"/>
+            <project id="MRPM" name="Mojo RPM Plugin"/>
+            <project id="MSQLJ" name="Mojo SQLJ Plugin"/>
+            <project id="MSYSDEO" name="Mojo Sysdeo Tomcat Plugin"/>
+            <project id="MNGBOOK" name="m2book"/>
+            <project id="MNGSITE" name="Maven 2 Project Web Site"/>
+            <project id="MEV" name="Maven Evangelism"/>
+            <project id="MNGFAQ" name="Maven FAQ"/>
+            <project id="MPA" name="Maven Project Administration"/>
+            <project id="MAVENUPLOAD" name="Maven Upload Requests"/>
+            <project id="MRM" name="Archiva"/>
+            <project id="MAVEN" name="Maven 1"/>
+            <project id="MNG" name="Maven 2 &amp; 3"/>
+            <project id="MANTTASKS" name="Maven 2.x Ant Tasks"/>
+            <project id="MPLUGINTESTING" name="Maven 2.x Plugin Testing"/>
+            <project id="MSANDBOX" name="Maven 2.x Sandbox"/>
+            <project id="ARCHETYPE" name="Maven Archetype"/>
+            <project id="DOXIA" name="Maven Doxia"/>
+            <project id="DOXIASITETOOLS" name="Maven Doxia Sitetools"/>
+            <project id="MNGECLIPSE" name="Maven Integration for Eclipse"/>
+            <project id="JXR" name="Maven JXR"/>
+            <project id="SCM" name="Maven SCM"/>
+            <project id="MSHARED" name="Maven Shared Components"/>
+            <project id="MSKINS" name="Maven Skins"/>
+            <project id="SUREFIRE" name="Maven Surefire"/>
+            <project id="WAGON" name="Maven Wagon"/>
+            <project id="MAVENPROXY" name="maven-proxy"/>
+            <project id="MERCURY" name="Mercury"/>
+            <project id="MEVENIDE" name="mevenide"/>
+            <project id="MNGTEST" name="MNG Test"/>
+            <project id="NMAVEN" name="NMaven (Retired)"/>
+            <project id="PROFICIO" name="Proficio"/>
+            <project id="CASTOR" name="castor"/>
+            <project id="DATAFORGE" name="dataforge"/>
+            <project id="JIBX" name="JiBX"/>
+            <project id="PRV" name="prevayler"/>
+            <project id="XSTR" name="XStream"/>
+            <project id="XPR" name="xplanner"/>
+            <project id="ASH" name="Ashcroft"/>
+            <project id="CONTINUUM" name="Continuum"/>
+            <project id="DC" name="DamageControl"/>
+            <project id="JBEHAVE" name="JBehave"/>
+            <project id="QUILT" name="Quilt"/>
+            <project id="SONAR" name="Sonar"/>
+            <project id="SYSUNIT" name="sysunit"/>
+            <project id="FAQBOT" name="Faqbot"/>
+            <project id="OXYD" name="Oxyd"/>
+            <project id="XDOCLET" name="XDoclet 2"/>
+            <project id="XDP" name="XDoclet 2 Plugins"/>
+            <project id="AWN" name="adarwin"/>
+            <project id="VIXTORY" name="Agile Requirements Management"/>
+            <project id="STORIES" name="Agile Stories"/>
+            <project id="AGILIFIER" name="Agilifier"/>
+            <project id="ANNOGEN" name="Annogen"/>
+            <project id="ANTOMOLOGY" name="Antomology"/>
+            <project id="ATOMSERVER" name="AtomServer"/>
+            <project id="BP" name="backport175"/>
+            <project id="BENJI" name="Benji"/>
+            <project id="BERKANO" name="Berkano"/>
+            <project id="BLISSED" name="blissed"/>
+            <project id="BRUCE" name="Bruce"/>
+            <project id="BTM" name="BTM"/>
+            <project id="CAKE" name="Cake"/>
+            <project id="CARGO" name="Cargo"/>
+            <project id="CHEN" name="ChenilleKit"/>
+            <project id="CLASSWORLDS" name="classworlds"/>
+            <project id="COCONUT" name="Coconut"/>
+            <project id="COCACHE" name="Coconut Cache"/>
+            <project id="COM" name="Codehaus commons"/>
+            <project id="CJCOOK" name="Common Java Cookbook"/>
+            <project id="MAP" name="Community Mapbuilder"/>
+            <project id="CONSTELLATION" name="Constellation"/>
+            <project id="CUANTO" name="Cuanto"/>
+            <project id="DACCO" name="DACCO"/>
+            <project id="DAVOS" name="Davos"/>
+            <project id="DENTAKU" name="Dentaku"/>
+            <project id="DFORMS" name="DForms"/>
+            <project id="DIMPLE" name="Dimple"/>
+            <project id="DW" name="domainWorkbench"/>
+            <project id="DRONE" name="Drone"/>
+            <project id="DROOLS" name="drools-legacy"/>
+            <project id="DROOLSDOTNET" name="DroolsDotNet"/>
+            <project id="DH" name="Duck Hawk"/>
+            <project id="EASYOVF" name="easy OVF"/>
+            <project id="EDUS" name="Eclipse Dynamic Update Server"/>
+            <project id="EINSTEIN" name="Einstein"/>
+            <project id="ENUNCIATE" name="Enunciate"/>
+            <project id="ESPER" name="Esper"/>
+            <project id="FABRICTHREE" name="Fabric3"/>
+            <project id="FEST" name="FEST"/>
+            <project id="FITWEB" name="Fitnesse Web"/>
+            <project id="FOCI" name="Foci"/>
+            <project id="GABRIEL" name="Gabriel"/>
+            <project id="GANT" name="Gant"/>
+            <project id="GEMS" name="Gems"/>
+            <project id="GENCORE" name="genCore"/>
+            <project id="GRA" name="Generama"/>
+            <project id="GREPO" name="Generic Repository"/>
+            <project id="GEOBATCH" name="GeoBatch"/>
+            <project id="GEOTRACING" name="GeoTracing"/>
+            <project id="GLDP" name="Gldapo"/>
+            <project id="GPARS" name="gpars (Groovy Parallel Systems)"/>
+            <project id="GP" name="GParsec"/>
+            <project id="GRADLE" name="Gradle"/>
+            <project id="GFS" name="Grails Flex Scaffold"/>
+            <project id="GLOG" name="Grails Log"/>
+            <project id="GRAILSPLUGINS" name="Grails Plugins"/>
+            <project id="GRECLIPSE" name="GRECLIPSE"/>
+            <project id="GREENMAIL" name="GreenMail"/>
+            <project id="GRIFFON" name="Griffon"/>
+            <project id="GCIDE" name="Groovy Commons IDE"/>
+            <project id="GMOD" name="Groovy Modules"/>
+            <project id="GRUPLE" name="Gruple"/>
+            <project id="GUESSENC" name="GuessEncoding"/>
+            <project id="GUFF" name="Guff"/>
+            <project id="GUMTREE" name="GumTree"/>
+            <project id="GWTOPENLAYERS" name="GWT OpenLayers plugin"/>
+            <project id="HAUS" name="Haus Chores"/>
+            <project id="HAUSMOB" name="Hausmob"/>
+            <project id="HTCJ" name="HTTP Cache For Java"/>
+            <project id="HYDRACACHE" name="Hydra Cache"/>
+            <project id="HJ" name="Hyperjaxb3"/>
+            <project id="IDEACLEARCASE" name="idea-clearcase-plugin"/>
+            <project id="IDEAJUNIT" name="idea-junit-plugin"/>
+            <project id="IOKE" name="Ioke"/>
+            <project id="IUI" name="iUI Plugin"/>
+            <project id="IVYNET" name="Ivy.NET"/>
+            <project id="IZPACK" name="IzPack"/>
+            <project id="JSQL" name="j4sql"/>
+            <project id="JACKSON" name="Jackson JSON Processor"/>
+            <project id="JANINO" name="Janino"/>
+            <project id="JASKELL" name="Jaskell"/>
+            <project id="VG" name="Java Vector Graphics"/>
+            <project id="JAVANCSS" name="JavaNCSS"/>
+            <project id="JAVASIM" name="JavaSim"/>
+            <project id="JAXBITTY" name="JAX-Bitty"/>
+            <project id="JAXEN" name="jaxen"/>
+            <project id="JW" name="JayWalker"/>
+            <project id="JBL" name="JBloglines"/>
+            <project id="JCSP" name="JCSP"/>
+            <project id="JDBI" name="jDBI"/>
+            <project id="JDBM" name="jdbm"/>
+            <project id="JEDI" name="Jedi"/>
+            <project id="JEQUEL" name="JEQUEL"/>
+            <project id="JET" name="JET"/>
+            <project id="JETTISON" name="Jettison"/>
+            <project id="JETTY" name="Jetty"/>
+            <project id="JFDI" name="JFDI"/>
+            <project id="JGEOCODER" name="JGeocoder - Free Java Geocoder"/>
+            <project id="JIBE" name="jibe"/>
+            <project id="JMOCK" name="jMock"/>
+            <project id="JPARSEC" name="JParsec"/>
+            <project id="JR" name="JRemoting"/>
+            <project id="JRUBY" name="JRuby"/>
+            <project id="JSEC" name="JSecurity"/>
+            <project id="JTESTME" name="JTestMe"/>
+            <project id="JTESTR" name="JtestR"/>
+            <project id="JTSTAND" name="jtstand"/>
+            <project id="JVALIDATIONS" name="jvalidations"/>
+            <project id="KEWLANG" name="kew"/>
+            <project id="KEYMG" name="KeyMG"/>
+            <project id="KOLJA" name="Kolja"/>
+            <project id="LABSNG" name="Labs NG"/>
+            <project id="LAREX" name="Larex"/>
+            <project id="LINGO" name="Lingo"/>
+            <project id="LITHA" name="Litha-Paint"/>
+            <project id="LOGICABYSS" name="Logic Abyss"/>
+            <project id="MAPFACES" name="MapFaces"/>
+            <project id="MARCH" name="March"/>
+            <project id="MARNET" name="Marionette"/>
+            <project id="MNGIDEA" name="Maven 2.x IDEA Integration"/>
+            <project id="MOPENJPA" name="Maven 2.x OpenJPA Plugin"/>
+            <project id="MTOMCAT" name="Maven 2.x Tomcat Plugin"/>
+            <project id="MUNIX" name="Maven 2.x Unix Plugin"/>
+            <project id="MVNBLAME" name="maven blame plugin"/>
+            <project id="MDBUNIT" name="Maven DbUnit Plugin"/>
+            <project id="MAVENENTERPRISE" name="Maven Enterprise"/>
+            <project id="PSEUDOTRANS" name="Maven Pseudo L10n Plugin"/>
+            <project id="MDWEB" name="MDweb"/>
+            <project id="MSR" name="Messenger"/>
+            <project id="METAPP" name="Meta++"/>
+            <project id="MRP" name="Metacircular Research Platform"/>
+            <project id="META" name="MetaClass"/>
+            <project id="MICRO" name="MicroContainer"/>
+            <project id="MICROMEETING" name="MicroMeeting"/>
+            <project id="MIDDLEGEN" name="middlegen3"/>
+            <project id="MILYN" name="Milyn"/>
+            <project id="MINGLYN" name="Minglyn"/>
+            <project id="MOCKINJECT" name="MockInject"/>
+            <project id="MODFORJ" name="Mod4j: Modeling for Java using Domain Specific Languages"/>
+            <project id="MODELLO" name="Modello"/>
+            <project id="MWEBLOGIC" name="Mojo WebLogic Plugin"/>
+            <project id="MULTIVERSE" name="Multiverse"/>
+            <project id="MVEL" name="MVEL"/>
+            <project id="MVFLEX" name="MVFLEX"/>
+            <project id="MYTIMES" name="myTimes"/>
+            <project id="NANOIOC" name="NanoContainer IoC"/>
+            <project id="NANOWAR" name="NanoContainer NanoWar"/>
+            <project id="NANOPERSISTENCE" name="NanoContainer Persistence"/>
+            <project id="NANOREMOTING" name="NanoContainer Remoting"/>
+            <project id="NANOSANDBOX" name="NanoContainer Sandbox"/>
+            <project id="NANOTOOLS" name="NanoContainer Tools"/>
+            <project id="NEO" name="Neo"/>
+            <project id="NEST" name="NEST"/>
+            <project id="OAUTHSS" name="OAuth for Spring Security"/>
+            <project id="OORT" name="oort"/>
+            <project id="OPENEMPI" name="Open Source Master Patient Index"/>
+            <project id="OPENEJB" name="OpenEJB"/>
+            <project id="OPENIM" name="OpenIM"/>
+            <project id="OPENPIPELINE" name="OpenPipeline"/>
+            <project id="OPENXMA" name="openXMA"/>
+            <project id="OXFJORD" name="oxfjord"/>
+            <project id="PARANAMER" name="Paranamer"/>
+            <project id="PASSERELLE" name="Passerelle"/>
+            <project id="PERFFORJ" name="Perf4J"/>
+            <project id="PERPETUUM" name="Perpetuum"/>
+            <project id="PHYSIOME" name="Physiome"/>
+            <project id="PICOBOOK" name="PicoContainer Book"/>
+            <project id="PICOPLUGINS" name="PicoContainer Plugins"/>
+            <project id="PICOUNIT" name="PicoUnit"/>
+            <project id="PININ" name="Pinin"/>
+            <project id="PLJ" name="PL-J"/>
+            <project id="PLATYPUS" name="platypus"/>
+            <project id="PLXASRVR" name="Plexus Application Server"/>
+            <project id="POLYMAP" name="POLYMAP"/>
+            <project id="PREON" name="Preon"/>
+            <project id="PROM" name="Prometheus"/>
+            <project id="PROPHIT" name="Prophit"/>
+            <project id="PTOYS" name="ProxyToys"/>
+            <project id="PUZZLEGIS" name="Puzzle GIS"/>
+            <project id="QDOX" name="QDox"/>
+            <project id="QIXWEB" name="qixweb"/>
+            <project id="QUAERE" name="Quaere"/>
+            <project id="REDBACK" name="Redback"/>
+            <project id="RUBYRULES" name="Ruby Rules"/>
+            <project id="RVM" name="RVM"/>
+            <project id="SVNA" name="Savana"/>
+            <project id="SCRUMTIME" name="Scrum Time"/>
+            <project id="SENRO" name="Senro"/>
+            <project id="SERVICECONDUIT" name="Service Conduit"/>
+            <project id="SERVICESTUDIO" name="ServiceStudio"/>
+            <project id="SETPOINT" name="SetPoint"/>
+            <project id="SHOCKS" name="Shocks"/>
+            <project id="SIMJP" name="Simple Java Profiler"/>
+            <project id="SSSO" name="Simple SSO"/>
+            <project id="SXC" name="Simple XML Compiler"/>
+            <project id="SIPO" name="sippedout"/>
+            <project id="SONARIDE" name="Sonar IDE"/>
+            <project id="SONARPLUGINS" name="Sonar Plugins"/>
+            <project id="SOT" name="Soter"/>
+            <project id="SPICE" name="Spice"/>
+            <project id="SQUIGGLE" name="Squiggle"/>
+            <project id="STAX" name="StAX"/>
+            <project id="STAXMATE" name="StaxMate"/>
+            <project id="STOMP" name="Stomp"/>
+            <project id="SVNJ" name="SVN4J"/>
+            <project id="SWIBY" name="Swiby "/>
+            <project id="SWIZZLE" name="Swizzle"/>
+            <project id="SYMMETRICDS" name="SymmetricDS"/>
+            <project id="TEST" name="test"/>
+            <project id="TESTORIENTED" name="Test-Oriented Development and Debugging"/>
+            <project id="TESTDOX" name="TestDox"/>
+            <project id="TIX" name="Timeindexing"/>
+            <project id="TIMTAM" name="TimTam"/>
+            <project id="TRAILS" name="Trails"/>
+            <project id="TQL" name="TranQL"/>
+            <project id="TYNAMO" name="Tynamo"/>
+            <project id="UISPEC" name="UISpec4J"/>
+            <project id="WADI" name="WADI"/>
+            <project id="WAFFLE" name="Waffle"/>
+            <project id="WERKFLOW" name="werkflow"/>
+            <project id="WERKZ" name="werkz"/>
+            <project id="WSTX" name="Woodstox"/>
+            <project id="XTENLANG" name="X10"/>
+            <project id="XB" name="XBean"/>
+            <project id="XDASJ" name="xdas4j"/>
+            <project id="XFIRE" name="XFire"/>
+            <project id="XHARNESS" name="XHarness"/>
+            <project id="XJB" name="XJB"/>
+            <project id="XLITE" name="Xlite"/>
+            <project id="XEVPP" name="XML Events Verbatim Pull-Push"/>
+            <project id="XSITE" name="XSite"/>
+            <project id="XULUX" name="xulux"/>
+            <project id="XWIRE" name="XWire"/>
+            <project id="YAGLL" name="Yagll"/>
+            <project id="YAN" name="Yan"/>
+            <project id="YFACES" name="YFaces"/>
+            <project id="YUMAFRAMEWORK" name="yuma framework"/>
+         </repository>
+      </repositories>
+   </jira>
+
+</jiraPluginConfig>
