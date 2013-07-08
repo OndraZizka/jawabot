@@ -23,7 +23,7 @@
    <build>
 
         <plugins>
-            <!-- Copy configuration files to workdir/ -->
+            <!-- Copy configuration files to workdir/ - enabling the template from root. -->
             <plugin>
                <artifactId>maven-dependency-plugin</artifactId>
                <executions>
@@ -35,7 +35,7 @@
                </executions>
             </plugin>
 
-            <!-- TODO: Move to "root" module. -->
+            <!-- TODO: Move to "root" module. 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -49,6 +49,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
         </plugins>
         
         <!-- Plugins' tests need test classes. TODO: Create standalone "testbase" package. -->

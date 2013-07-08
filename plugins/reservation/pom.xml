@@ -22,33 +22,36 @@
 
     <build>
 
-      <resources>
-         <resource>
-            <directory>src/main/java</directory>
-            <includes> <include>**/*.xml</include> <include>**/*.properties</include> </includes>
-         </resource>
-         <resource>
-            <directory>conf</directory>
-            <excludes><exclude>**/*</exclude></excludes>
-         </resource>
-      </resources>
+        <resources>
+           <resource>
+              <directory>src/main/java</directory>
+              <includes> <include>**/*.xml</include> <include>**/*.properties</include> </includes>
+           </resource>
+           <!--
+           <resource>
+              <directory>conf</directory>
+              <excludes><exclude>**/*</exclude></excludes>
+           </resource>
+           -->
+        </resources>
 
-      <testResources>
-         <testResource>
-            <directory>src/test/resources</directory>
-         </testResource>
-      </testResources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
       
       
+        <!--
         <plugins>
             <plugin> <artifactId>maven-antrun-plugin</artifactId>
                 <executions> <execution> <phase>compile</phase>  <goals><goal>run</goal></goals> <configuration> <tasks>
-                    <!-- For running in NetBeans. -->
+                    <!- - For running in NetBeans. - ->
                     <copy todir="workdir/conf">
                         <fileset dir="conf" includes="**" />
                         <fileset dir="../../core/src/main/conf" includes="**" />
                     </copy>
-                    <!-- For tests. -->
+                    <!- - For tests. - ->
                     <copy todir="target/workdir/conf">
                         <fileset dir="conf" includes="**" />
                         <fileset dir="../../core/src/main/conf" includes="**" />
@@ -56,6 +59,7 @@
                 </tasks> </configuration> </execution> </executions>
             </plugin>
         </plugins>
+        -->
 
 
     </build>

@@ -19,6 +19,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mainClass>org.jboss.jawabot.JawaBotApp</mainClass>
+        
+        <!-- Override root's default (workdir). -->
+        <confOutputDir>workdir/conf</confOutputDir>
     </properties>
 
 
@@ -33,6 +36,7 @@
      
         <plugins>
 
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -52,7 +56,21 @@
                     </execution>
                 </executions>
             </plugin>
-         
+            -->
+
+            <!-- Copy configuration files to workdir/ - enabling the template from root. -->
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>config.copyToWorkdir</id>
+                        <phase>process-test-resources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+                              
             <!-- Appassembly plugin - makes it ready for .zip
                  http://mojo.codehaus.org/appassembler/appassembler-maven-plugin/assemble-mojo.html
             -->
@@ -63,13 +81,13 @@
                 <executions><execution><id>appassemble</id><goals><goal>assemble</goal></goals><phase>package</phase></execution></executions>
                 <configuration>
                     <!-- Config files of the app. -->
-                    <configurationSourceDirectory>conf</configurationSourceDirectory>
+                    <configurationSourceDirectory>workdir/conf</configurationSourceDirectory>
                     <configurationDirectory>conf</configurationDirectory>
                     <copyConfigurationDirectory>true</copyConfigurationDirectory>
                     
                     <!-- Where to put .jar's. -->
                     <assembleDirectory>${project.build.directory}/JawaBot-${project.version}-dist-rh</assembleDirectory>
-                    <repositoryLayout>flat</repositoryLayout>
+                    <repositoryLayout>flat</repositoryLayout> <!-- or "default" for maven. -->
                     <repositoryName>lib</repositoryName>
                     <programs>
                         <program>
