@@ -56,16 +56,16 @@ public class RunInJetty
          staticDir = new File(staticDirPath);
       }
       else {
-         // Use classes path as default
+         // Use class' path as default
          URL staticDirURL = RunInJetty.class.getResource("/org/jboss/jawabot/web/RunInJetty.class");
          try {
             staticDir = new File( staticDirURL.toURI() );
          } catch( URISyntaxException ex ) {
-            log.error("  Can't read a file from URI: " + staticDirURL + " >> " + ex );
+            log.warn("  Can't read a file from URI:\n    " + staticDirURL + "\n    " + ex );
             log.debug("  ", ex );
             staticDir = new File("");
          } catch( IllegalArgumentException ex ) {
-            log.error("  Can't read a file from URI: " + staticDirURL + " >> " + ex );
+            log.warn("  Can't read a file from URI:\n    " + staticDirURL + "\n    " + ex );
             log.debug("  ", ex );
             staticDir = new File("");
          }

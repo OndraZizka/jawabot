@@ -69,6 +69,8 @@ public class ReservService {
         
         //String configPath = this.jawabotConfig.getPluginsMap().get("reservation");
         String configPath = this.jawaBot.getConfig().getPluginsMap().get("reservation").getConfigPath();
+        if( null == configPath )
+            throw new IllegalStateException("Config path is not set for the reservation plugin.");
         
         // Config
         JaxbGenericPersister<ReservPluginConfigBean> persister = 

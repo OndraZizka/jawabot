@@ -33,7 +33,9 @@ public class JaxbGenericPersister<T>
     *  @param filePath  The path to be used by load() and write().
     */
    public JaxbGenericPersister( String filePath, Class<T> cls ) {
-      assert( filePath != null );
+      //assert( filePath != null );
+      if( filePath == null )
+          throw new IllegalArgumentException("filePath can't be null.");
       this.filePath = filePath;
       this.cls = cls;
    }
