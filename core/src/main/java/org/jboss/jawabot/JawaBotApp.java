@@ -95,7 +95,6 @@ public class JawaBotApp
       try {
          ConfigBean cb = new JaxbConfigPersister( options.getConfigFile() ).load();
          JawaBotApp.jawaBot = JawaBot.create( cb );
-         JawaBotApp.jawaBot.configWasReadFrom = options.getConfigFile();
          
          // TODO: Move to JawaBot.
          CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, JawaBotApp.jawaBot, JawaBotException.class);

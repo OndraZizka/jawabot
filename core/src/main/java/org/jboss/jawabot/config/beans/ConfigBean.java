@@ -1,6 +1,7 @@
 
 package org.jboss.jawabot.config.beans;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -9,14 +10,18 @@ import javax.xml.bind.annotation.*;
 
 
 /**
- *
- * @author Ondrej Zizka
+ *  JAXB bean for config loaded from JawaBot-config.xml.
+ * 
+ *  @author Ondrej Zizka
  */
 @XmlRootElement(name="jawabotConfig"
     //factoryClass=org.jboss.jawabot.config.ConfigBeanFactory.class
     //factoryMethod=""
 )
 public class ConfigBean implements Serializable {
+    
+    /** Serves to determine where to load plugin config files from. */
+    private File readFrom = null;
 
     @XmlElement
     public SettingsBean settings;
@@ -54,6 +59,16 @@ public class ConfigBean implements Serializable {
         for( PluginBean plugin : this.plugins ) {
             this.pluginsMap.put( plugin.id, plugin );
         }
+    }
+
+    
+    // get/set
+    
+    public File getReadFrom() { return readFrom; }
+    public void setReadFrom(File readFrom) { this.readFrom = readFrom; }
+
+    public String forPlugin(String reservation) {
+        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
     }
    
 }// class

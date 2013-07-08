@@ -11,7 +11,7 @@ public class PluginBean {
     @XmlAttribute
     public String id;
 
-    @XmlAttribute
+    @XmlAttribute(name = "config")
     public String configPath;
 
     
@@ -30,8 +30,9 @@ public class PluginBean {
         return "PluginBean{" + "#" + id + " configPath: " + configPath + '}';
     }
 
+
     
-    
+    // get/set
     
     public String getConfigPath() { return configPath; }
     public String getId() { return id; }

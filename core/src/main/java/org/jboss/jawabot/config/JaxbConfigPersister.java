@@ -48,24 +48,29 @@ public class JaxbConfigPersister
        log.info( "Looking for config: " + this.filePath );
 
        try {
+           File readFrom = new File( this.filePath );
+           
            // Try filesystem, then classpath.
            InputStream is;
-           if( new File( this.filePath ).exists() ) {
+           if( readFrom.exists() ) {
                log.info( "    Found in filesystem." );
                is = new FileInputStream( this.filePath );
            } else {
                log.info( "    Loading config from classpath." );
                is = JaxbConfigPersister.class.getClassLoader().getResourceAsStream( this.filePath );
+               readFrom = null;
            }
            if( null == is ) {
-               throw new JawaBotIOException( "Can't find '" + this.filePath + "'" );
+               throw new JawaBotIOException( "Can't find '" + this.filePath + "' in filesystem nor classpath." );
            }
 
+           // JAXB load
            InputStreamReader reader = new InputStreamReader( is );
            JAXBContext jc = JAXBContext.newInstance( ConfigBean.class );
            Unmarshaller mc = jc.createUnmarshaller();
-           
            ConfigBean configBean = (ConfigBean) mc.unmarshal( reader );
+           configBean.setReadFrom( readFrom );
+           
            configBean.recreatePluginsMap(); // Plugin ID -> PluginBean
            return configBean;
        }
@@ -91,7 +96,6 @@ public class JaxbConfigPersister
     */
    public void save( ConfigBean configBean ) throws JawaBotIOException {
 
-
         // Store it to a XML.
         try {
             Writer writer = this.writer;
@@ -106,7 +110,6 @@ public class JaxbConfigPersister
         catch(/*JAXB*/ Exception ex ) {
             throw new JawaBotIOException( ex );
         }
-
    }
 
 

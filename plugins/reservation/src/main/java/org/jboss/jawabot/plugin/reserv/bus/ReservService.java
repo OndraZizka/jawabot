@@ -1,5 +1,6 @@
 package org.jboss.jawabot.plugin.reserv.bus;
 
+import java.io.File;
 import org.jboss.jawabot.ex.UnknownResourceException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
@@ -64,17 +65,15 @@ public class ReservService {
      * Init - loads the state (resources reservations) and stores the quit password.
      */
     @PostConstruct
-    public synchronized void init() throws JawaBotIOException, UnknownResourceException {
+    public synchronized void init() throws JawaBotException, UnknownResourceException {
         log.info("Initializing...");
         
         //String configPath = this.jawabotConfig.getPluginsMap().get("reservation");
-        String configPath = this.jawaBot.getConfig().getPluginsMap().get("reservation").getConfigPath();
-        if( null == configPath )
-            throw new IllegalStateException("Config path is not set for the reservation plugin.");
+        File configFile = this.jawaBot.getConfigFileForPlugin("reservation");
         
         // Config
         JaxbGenericPersister<ReservPluginConfigBean> persister = 
-            new JaxbGenericPersister( configPath, ReservPluginConfigBean.class );
+            new JaxbGenericPersister( configFile.getPath(), ReservPluginConfigBean.class );
         this.config = persister.load();
         this.applyConfig( this.config );
 
