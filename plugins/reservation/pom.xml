@@ -42,8 +42,8 @@
         </testResources>
       
       
-        <!--
         <plugins>
+            <!--
             <plugin> <artifactId>maven-antrun-plugin</artifactId>
                 <executions> <execution> <phase>compile</phase>  <goals><goal>run</goal></goals> <configuration> <tasks>
                     <!- - For running in NetBeans. - ->
@@ -58,9 +58,20 @@
                     </copy>
                 </tasks> </configuration> </execution> </executions>
             </plugin>
+            -->
+            
+            <!-- Copy configuration files to workdir/ - enabling the template from root. -->
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>config.copyToWorkdir</id>
+                        <phase>process-resources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            
         </plugins>
-        -->
-
 
     </build>
 

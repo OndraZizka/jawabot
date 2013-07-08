@@ -31,7 +31,7 @@
       <!-- Config profile - see configs/ for available profiles. -->
       <configProfile>redhat-test</configProfile>
       
-      <confOutputDir>workdir</confOutputDir>
+      <confOutputDir>workdir/conf</confOutputDir>
    </properties>
 
 
@@ -95,7 +95,7 @@
                <!-- Copy a profile specified in ${configProfile} to workdir/ -->
                <execution>
                   <id>config.copyToWorkdir</id>
-                  <phase>none</phase><!-- Override in submodules to process-test-resources to enable. -->
+                  <phase>none</phase><!-- Override in submodules to process-resources to enable. -->
                   <goals><goal>unpack</goal></goals>
                   <configuration>
                      <artifactItems>
@@ -113,25 +113,25 @@
                <!-- Copy all profiles to workdir/<profile>/ -->
                <execution>
                   <id>config.copyToWorkdir-profiles</id>
-                  <phase>none</phase><!-- Override in submodules to process-test-resources to enable. -->
+                  <phase>none</phase><!-- Override in submodules to process-resources to enable. -->
                   <goals><goal>unpack</goal></goals>
                   <configuration>
                      <artifactItems>
                         <artifactItem>
                            <groupId>org.jboss.jawabot.configs</groupId> <artifactId>JawaBot-config-redhat-test</artifactId><version>${project.version}</version>
-                           <outputDirectory>workdir/redhat-test</outputDirectory>
+                           <outputDirectory>${confOutputDir}/redhat-test</outputDirectory>
                         </artifactItem>
                         <artifactItem>
                            <groupId>org.jboss.jawabot.configs</groupId> <artifactId>JawaBot-config-redhat-prod</artifactId><version>${project.version}</version>
-                           <outputDirectory>workdir/redhat-prod</outputDirectory>
+                           <outputDirectory>${confOutputDir}/redhat-prod</outputDirectory>
                         </artifactItem>
                         <artifactItem>
                            <groupId>org.jboss.jawabot.configs</groupId> <artifactId>JawaBot-config-freenode-test</artifactId><version>${project.version}</version>
-                           <outputDirectory>workdir/freenode-test</outputDirectory>
+                           <outputDirectory>${confOutputDir}/freenode-test</outputDirectory>
                         </artifactItem>
                         <artifactItem>
                            <groupId>org.jboss.jawabot.configs</groupId> <artifactId>JawaBot-config-freenode-prod</artifactId><version>${project.version}</version>
-                           <outputDirectory>workdir/freenode-prod</outputDirectory>
+                           <outputDirectory>${confOutputDir}/freenode-prod</outputDirectory>
                         </artifactItem>
                      </artifactItems>
                   </configuration>
