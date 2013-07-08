@@ -1,64 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-   <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-   </properties>
+    <properties>
+       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-   <groupId>org.jboss.jawabot</groupId>
-   <artifactId>JawaBot-plugin-jira</artifactId>
-   <packaging>jar</packaging>
+    <groupId>org.jboss.jawabot</groupId>
+    <artifactId>JawaBot-plugin-jira</artifactId>
+    <packaging>jar</packaging>
 
-   <name>JawaBot 2.0 plugin jira</name>
-   <url>https://docspace.corp.redhat.com/clearspace/docs/DOC-20386</url>
+    <name>JawaBot 2.0 plugin jira</name>
+    <url>https://docspace.corp.redhat.com/clearspace/docs/DOC-20386</url>
 
-   <parent>
-      <groupId>org.jboss.jawabot</groupId>
-      <artifactId>JawaBot-plugins</artifactId>
-      <version>2.0.0.GA-SNAPSHOT</version>
-   </parent>
+    <parent>
+       <groupId>org.jboss.jawabot</groupId>
+       <artifactId>JawaBot-plugins</artifactId>
+       <version>2.0.0.GA-SNAPSHOT</version>
+    </parent>
 
-   <build>
+    <build>
 
-      <resources>
-         <resource>
-            <directory>src/main/java</directory>
-            <includes><include>**/*</include></includes>
-            <excludes><exclude>**/*.java</exclude></excludes>
-         </resource>
-      </resources>
+        <plugins>
+             <!-- Copy configuration files to workdir/ - enabling the template from root. -->
+             <plugin>
+                 <artifactId>maven-dependency-plugin</artifactId>
+                 <executions>
+                     <execution>
+                         <id>config.copyToWorkdir</id>
+                         <phase>process-resources</phase>
+                     </execution>
+                 </executions>
+             </plugin>
+        </plugins>
 
-      <testResources>
-         <testResource>
-            <directory>src/test/resources</directory>
-         </testResource>
-      </testResources>
+       
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes><include>**/*</include></includes>
+                <excludes><exclude>**/*.java</exclude></excludes>
+            </resource>
+        </resources>
 
-   </build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+
+    </build>
 
 
 
-   <!-- Dependencies -->
-   <dependencies>
+    <!-- Dependencies -->
+    <dependencies>
 
-      <dependency>
-         <groupId>org.jboss.jawabot</groupId>
-         <artifactId>JawaBot-irc</artifactId>
-      </dependency>
-      
-      <dependency>
-        <groupId>commons-lang</groupId>
-        <artifactId>commons-lang</artifactId>
-      </dependency>
-      
-      <dependency>
-         <groupId>net.sourceforge.htmlunit</groupId>
-         <artifactId>htmlunit</artifactId>
-         <scope>compile</scope>
-         <version>2.10</version>
-      </dependency>
+        <dependency>
+            <groupId>org.jboss.jawabot</groupId>
+            <artifactId>JawaBot-irc</artifactId>
+        </dependency>
 
-   </dependencies>
-   
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <scope>compile</scope>
+            <version>2.10</version>
+        </dependency>
+
+    </dependencies>
+
 </project>
