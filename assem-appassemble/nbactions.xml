@@ -9,7 +9,7 @@
             <properties>
                 <exec.classpathScope>runtime</exec.classpathScope>
                 <exec.workingdir>../workdir</exec.workingdir>
-                <exec.args>-Dconfig=conf/redhat/JawaBotConfig-redhat.xml -classpath %classpath org.jboss.jawabot.JawaBotApp</exec.args>
+                <exec.args>-Dconfig=conf/redhat/JawaBotConfig.xml -classpath %classpath org.jboss.jawabot.JawaBotApp</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
@@ -22,7 +22,7 @@
             <properties>
                 <exec.classpathScope>runtime</exec.classpathScope>
                 <exec.workingdir>../workdir</exec.workingdir>
-                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Dconfig=conf/redhat/JawaBotConfig-redhat.xml -classpath %classpath org.jboss.jawabot.JawaBotApp</exec.args>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Dconfig=conf/redhat/JawaBotConfig.xml -classpath %classpath org.jboss.jawabot.JawaBotApp</exec.args>
                 <jpda.listen>true</jpda.listen>
                 <exec.executable>java</exec.executable>
             </properties>
@@ -34,7 +34,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.1.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>${profiler.args} -Dconfig=conf/redhat/JawaBotConfig-redhat.xml -classpath %classpath org.jboss.jawabot.JawaBotApp</exec.args>
+                <exec.args>${profiler.args} -Dconfig=conf/redhat/JawaBotConfig.xml -classpath %classpath org.jboss.jawabot.JawaBotApp</exec.args>
                 <exec.workingdir>../workdir</exec.workingdir>
                 <profiler.action>profile</profiler.action>
                 <exec.executable>${profiler.java}</exec.executable>
