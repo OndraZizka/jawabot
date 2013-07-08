@@ -20,19 +20,32 @@
 
    <build>
 
-      <resources>
-         <resource>
-            <directory>src/main/java</directory>
-            <includes> <include>**/*</include> </includes>
-            <excludes><exclude>**/*.java</exclude></excludes>
-         </resource>
-      </resources>
+        <plugins>
+             <!-- Copy configuration files to workdir/ - enabling the template from root. -->
+             <plugin>
+                 <artifactId>maven-dependency-plugin</artifactId>
+                 <executions>
+                     <execution>
+                         <id>config.copyToWorkdir</id>
+                         <phase>process-resources</phase>
+                     </execution>
+                 </executions>
+             </plugin>
+        </plugins>
+        
+        <resources>
+           <resource>
+              <directory>src/main/java</directory>
+              <includes> <include>**/*</include> </includes>
+              <excludes><exclude>**/*.java</exclude></excludes>
+           </resource>
+        </resources>
 
-      <testResources>
-         <testResource>
-            <directory>src/test/resources</directory>
-         </testResource>
-      </testResources>
+        <testResources>
+           <testResource>
+              <directory>src/test/resources</directory>
+           </testResource>
+        </testResources>
 
    </build>
 
