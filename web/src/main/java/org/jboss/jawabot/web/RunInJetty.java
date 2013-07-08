@@ -66,7 +66,8 @@ public class RunInJetty
             staticDir = new File("");
          } catch( IllegalArgumentException ex ) {
             log.warn("  Can't read a file from URI:\n    " + staticDirURL + "\n    " + ex );
-            log.debug("  ", ex );
+            if( ! ex.getMessage().contains("hierarchical") )
+               log.debug("  ", ex );
             staticDir = new File("");
          }
       }
