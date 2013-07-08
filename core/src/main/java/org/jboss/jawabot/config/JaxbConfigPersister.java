@@ -61,7 +61,7 @@ public class JaxbConfigPersister
                readFrom = null;
            }
            if( null == is ) {
-               throw new JawaBotIOException( "Can't find '" + this.filePath + "' in filesystem nor classpath." );
+               throw new JawaBotIOException( "Can't find '" + this.filePath + "' in classpath nor filesystem. CWD: " + new File(".").getAbsolutePath() );
            }
 
            // JAXB load
