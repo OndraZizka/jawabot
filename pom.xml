@@ -103,9 +103,7 @@
                            <version>${project.version}</version>
                            <overWrite>true</overWrite>
                            <outputDirectory>workdir</outputDirectory>
-                           <excludes>
-                              <exclude>META-INF</exclude>
-                           </excludes>
+                           <excludes>META-INF</excludes> <!-- Comma separated list of file filters. -->
                         </artifactItem>
                      </artifactItems>
                   </configuration>
