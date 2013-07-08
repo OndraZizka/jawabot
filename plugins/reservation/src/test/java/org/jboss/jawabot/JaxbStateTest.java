@@ -1,11 +1,13 @@
 
 package org.jboss.jawabot;
 
+import java.io.File;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.ex.JawaBotException;
 import java.io.IOException;
 import javax.xml.bind.JAXBException;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.util.Date;
 import org.apache.commons.lang.time.DateUtils;
 import org.jboss.jawabot.plugin.reserv.bus.Resource;
@@ -13,6 +15,7 @@ import org.jboss.jawabot.plugin.reserv.bus.ResourceManager;
 import org.jboss.jawabot.plugin.reserv.state.JaxbStatePersister;
 import org.jboss.jawabot.plugin.reserv.state.beans.ReservationBean;
 import org.jboss.jawabot.plugin.reserv.state.beans.StateBean;
+import org.jboss.jawabot.testbase.ClassUtils;
 import org.jboss.jawabot.testbase.JawaBotTestBase;
 import org.jboss.jawabot.testbase.SoutCopyingFileWriter;
 
@@ -50,11 +53,15 @@ public class JaxbStateTest extends JawaBotTestBase {
    }
 
 
-   static String SAMPLE_STATE_XML = "src/test/resources/JawaBotState-sample.xml";
+   static String SAMPLE_STATE_XML = "JawaBotState-sample.xml";
 
+   
    public void testJaxbRead() throws JawaBotIOException, JawaBotException, IOException, JAXBException
    {
-      JaxbStatePersister sp = new JaxbStatePersister( SAMPLE_STATE_XML );
+      File tmpDir = Files.createTempDirectory("JawaBot-tmp").toFile();
+      File sampleStateXmlFile = ClassUtils.copyResourceToDir( null, SAMPLE_STATE_XML, tmpDir );
+      
+      JaxbStatePersister sp = new JaxbStatePersister( sampleStateXmlFile.getPath() );
       StateBean state = sp.load();
       assertEquals( 2, state.reservations.size() );
       assertEquals( "ozizka", state.reservations.get(0).forUser );
@@ -64,9 +71,13 @@ public class JaxbStateTest extends JawaBotTestBase {
       assertEquals( "pslavice", state.reservations.get(1).forUser );
    }
 
+   
    public void testJaxbReadWrite() throws JawaBotIOException, JawaBotException, IOException, JAXBException
    {
-      JaxbStatePersister sp = new JaxbStatePersister( SAMPLE_STATE_XML );
+      File tmpDir = Files.createTempDirectory("JawaBot-tmp").toFile();
+      File stateFile = ClassUtils.copyResourceToDir( null, SAMPLE_STATE_XML, tmpDir );
+      
+      JaxbStatePersister sp = new JaxbStatePersister( stateFile.getPath() );
       StateBean state = sp.load();
 
       sp.setWriter( new SoutCopyingFileWriter("target/testJaxbReadWrite.xml") );
@@ -82,7 +93,6 @@ public class JaxbStateTest extends JawaBotTestBase {
       assertEquals( resBean.from, newResBean.from );
       assertEquals( resBean.to, newResBean.to );
       assertEquals( resBean.resources.size(), newResBean.resources.size() );
-
    }
 
 
