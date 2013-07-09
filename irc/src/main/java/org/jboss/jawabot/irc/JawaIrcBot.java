@@ -168,26 +168,25 @@ public class JawaIrcBot extends PircBot
         /* PircBot only supports one server connection.
         // Connect to all servers.
         List<Exception> exs = new ArrayList();
-        for( ServerBean server : cnf.irc.servers ){
-        try{
-        // Connect to the server
-        this.connect( server.host ); // Red Hat
-        
-        // Join the default channels
-        for( String channel : server.autoJoinChannels ){
-        this.joinChannel(channel); // debugging
+        for( ServerBean server : cnf.irc.servers ) {
+            try {
+                // Connect to the server
+                this.connect( server.host ); // Red Hat
+
+                // Join the default channels
+                for( String channel : server.autoJoinChannels ) {
+                    this.joinChannel( channel ); // debugging
+                }
+            } catch( Exception ex ) {
+                String msg = "Exception when connecting to the server " + server.host + ": " + ex;
+                log.error( msg );
+                exs.add( new JawaBotException( msg, ex ) );
+            }
         }
-        }
-        catch( Exception ex ){
-        String msg = "Exception when connecting to the server "+server.host+": "+ex;
-        log.error( msg );
-        exs.add( new JawaBotException(msg, ex));
-        }
-        }
-        
+
         // All connections failed.
         if( cnf.irc.servers.size() == exs.size() )
-        throw new JawaBotException("Connecting to all servers failed, see previous messages.");
+            throw new JawaBotException("Connecting to all servers failed, see previous messages.");
          */
 
         if( cnf.irc.servers.size() == 0 )
@@ -277,23 +276,6 @@ public class JawaIrcBot extends PircBot
         String msgNorm = msgText.trim().toLowerCase();
 
         // Check for presence of bot nick prolog.
-        /**
-        boolean startsWithUsualNick = IrcUtils.isMsgForNick( msgNorm, USUAL_NICK );
-        boolean startsWithBotNick = IrcUtils.isMsgForNick( msgNorm, this.getNick() );
-        
-        // If the prolog is present,
-        if( startsWithUsualNick || startsWithBotNick ) {
-
-            // remove it,
-            int prologEnd;
-            if( startsWithUsualNick && startsWithBotNick ) {
-                prologEnd = Math.max(USUAL_NICK.length(), this.getNick().length());
-            }
-            else {
-                prologEnd = startsWithUsualNick ? USUAL_NICK.length() : this.getNick().length();
-            }
-         */
-
         int prologEnd = Math.max(
               IrcUtils.getMsgStartAfterNick( msgNorm, USUAL_NICK ),
               IrcUtils.getMsgStartAfterNick( msgNorm, this.getNick() ) );
@@ -306,7 +288,7 @@ public class JawaIrcBot extends PircBot
             command = StringUtils.removeStart( command, ",").trim();
 
             // and process the command.
-            wasCommand = handleJawaBotCommand(channel, sender, command);
+            wasCommand = this.handleJawaBotCoreCommand( channel, sender, command );
         }
 
 
@@ -339,7 +321,7 @@ public class JawaIrcBot extends PircBot
     protected void onPrivateMessage( String sender, String login, String hostname, String msgText ) {
 
         // If it's a core command, don't pass it to  plugins.
-        if (handleJawaBotCommand(null, sender, msgText.trim())) {
+        if (handleJawaBotCoreCommand(null, sender, msgText.trim())) {
             return;
         }
 
@@ -405,7 +387,7 @@ public class JawaIrcBot extends PircBot
      * 
      *  TODO:  Move reservation stuff to a plugin.
      */
-    private boolean handleJawaBotCommand(String fromChannel, String fromUser, final String commandOrig) {
+    private boolean handleJawaBotCoreCommand(String fromChannel, String fromUser, final String commandOrig) {
         log.debug(String.format("%s %s %s", fromChannel, fromUser, commandOrig));
 
 
@@ -469,7 +451,7 @@ public class JawaIrcBot extends PircBot
         }
 
 
-				// About or Help.
+        // About or Help.
         else if( command.startsWith( "about" ) || command.startsWith( "help" ) ) {
             wasValidCommand = true;
             reply = commandHandler.onHelp( ctx, command );
@@ -544,6 +526,7 @@ public class JawaIrcBot extends PircBot
 
     /**
      * Tries to send a mail; eventual failure is announced on the given channel.
+     * TODO: Move to some MailService.
      */
     private void trySendMail( MailData mail, String fromUser, String fallbackErrorMsgChannel ) {
         try {
@@ -561,6 +544,7 @@ public class JawaIrcBot extends PircBot
 
     /**
      * Sends a mail announcement about user's action.
+     * TODO: Move to some MailService.
      */
     private void sendMail( String fromUser, MailData mail ) throws JawaBotException {
 
@@ -579,7 +563,6 @@ public class JawaIrcBot extends PircBot
         mail.fromName = fromUser + " via JawaBot";
 
         this.jawaBot.getMailUtils().sendMail( mail );
-
     }
 
    
