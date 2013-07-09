@@ -2,6 +2,10 @@ package org.jboss.jawabot.irc;
 
 import java.util.List;
 import junit.framework.TestCase;
+import static junit.framework.TestCase.assertEquals;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -9,6 +13,8 @@ import junit.framework.TestCase;
  * @author ondra
  */
 public class IrcUtilsTest extends TestCase {
+    private static final Logger log = LoggerFactory.getLogger(IrcUtilsTest.class);
+
     
     public IrcUtilsTest( String testName ) {
         super( testName );
@@ -89,4 +95,43 @@ public class IrcUtilsTest extends TestCase {
         fail( "The test case is a prototype." );
     }
 
-}
+    public void testParsePayloadAndRecipients_simple() {
+        // (:?([a-zA-Z][-_|=~+a-zA-Z0-9]*), ?)+[:,] (.*)
+        String msg = "gpark: how are you today?";
+        List parts = IrcUtils.parsePayloadAndRecipients( msg, false );
+        assertEquals("2 parts returned", 2, parts.size() );
+        assertEquals("1st part is the message", "how are you today?", parts.get(0) );
+        assertEquals("2nd part is the nick", "gpark", parts.get(1) );
+    }
+
+    public void testParsePayloadAndRecipients_noNick() {
+        String msg = "how are you today?";
+        List parts = IrcUtils.parsePayloadAndRecipients( msg, false );
+
+        log.info( msg + " ==> " + StringUtils.join( parts, " | ") );
+        assertEquals("1 part returned", 1, parts.size() );
+        assertEquals("1st part is the message", "how are you today?", parts.get(0) );
+    }
+
+    public void testParsePayloadAndRecipients_comma() {
+        String msg = "gpark, how are you today?";
+        List parts = IrcUtils.parsePayloadAndRecipients( msg, false );
+
+        log.info( msg + " ==> " + StringUtils.join( parts, " | ") );
+        assertEquals("2 parts returned", 2, parts.size() );
+        assertEquals("1st part is the message", "how are you today?", parts.get(0) );
+        assertEquals("2nd part is the nick", "gpark", parts.get(1) );
+    }
+
+    public void testParsePayloadAndRecipients_multipleNicks() {
+        String msg = "gpark, ozizka: how are you today?";
+        List parts = IrcUtils.parsePayloadAndRecipients( msg, false );
+        
+        log.info( msg + " ==> " + StringUtils.join( parts, " | ") );
+        assertEquals("3 parts returned", 3, parts.size() );
+        assertEquals("1st part is the message", "how are you today?", parts.get(0) );
+        assertEquals("2nd part is the nick", "gpark", parts.get(1) );
+        assertEquals("3rd part is the nick", "ozizka", parts.get(2) );
+    }
+
+}// class

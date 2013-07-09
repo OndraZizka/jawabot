@@ -1,17 +1,23 @@
 
 package org.jboss.jawabot.irc;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Ondrej Zizka
  */
 public class IrcUtils {
+    private static final Logger log = LoggerFactory.getLogger(IrcUtils.class);
+    
 
    /**
     * Use only first part consisting of lowercase latin alphabetic chars as user name.
@@ -113,7 +119,7 @@ public class IrcUtils {
         if( msg.equals("") )
             return Collections.EMPTY_LIST;
         
-        Matcher mat = ( onlyColon ? MESSAGE_AFTER_NICK_COLON_PATTERN : MESSAGE_AFTER_NICK_PATTERN ).matcher(msg);
+        Matcher mat = ( onlyColon ? PAT_MSG_AFTER_NICK_COLON : PAT_MSG_AFTER_NICK ).matcher(msg);
         if( !mat.matches() )
             return Collections.EMPTY_LIST;
         
@@ -121,8 +127,44 @@ public class IrcUtils {
         return Collections.singletonList(nick);
    }
    
-   private static final Pattern MESSAGE_AFTER_NICK_PATTERN = Pattern.compile("([a-zA-Z][-_|=~+a-zA-Z0-9]*)[:,] .*");
-   private static final Pattern MESSAGE_AFTER_NICK_COLON_PATTERN = Pattern.compile("([a-zA-Z][-_|=~+a-zA-Z0-9]*): .*");
+   /**
+    *  TODO: Does not support multiple nicks (yet).
+    * 
+    *  @returns  A list of nicks given message is for.
+    */
+   public static List<String> parsePayloadAndRecipients( String msg, boolean onlyColon ) {
+        assert (msg != null);
+        if( msg.equals( "" ) )
+            return Collections.EMPTY_LIST;
 
+        Matcher mat = (onlyColon ? PAT_MSG_AFTER_NICKS_COLON : PAT_MSG_AFTER_NICKS).matcher( msg );
+        
+        log.debug("  Pattern: " + mat.pattern().toString() );
+        
+        // No nicks recognized.
+        if( !mat.matches() )
+            return Collections.singletonList( msg );
+
+        // Some nicksfound.
+        List<String> parts = new LinkedList();
+        parts.add( mat.group( 3 ) ); // Payload
+        parts.add( mat.group( 1 ) ); // First nick
+        
+        // Other nicks
+        final String nicks = mat.group(2);
+        if( null == nicks ) return parts;
+        
+        //parts.addAll( Arrays.asList( nicks.split(", ?") ) );
+        parts.addAll( Arrays.asList( StringUtils.split( nicks, ", ") ) );
+        
+        return parts;
+    }
+   
+   // (:?([a-zA-Z][-_|=~+a-zA-Z0-9]*), ?)+[:,] (.*)
+   private static final String NICK = "[a-zA-Z][-_|=~+a-zA-Z0-9]*";
+   private static final Pattern PAT_MSG_AFTER_NICK        = Pattern.compile("($N)[:,] .*".replace("$N", NICK));
+   private static final Pattern PAT_MSG_AFTER_NICK_COLON  = Pattern.compile("($N): .*"   .replace("$N", NICK));
+   private static final Pattern PAT_MSG_AFTER_NICKS       = Pattern.compile("($N)(, ?(?:$N))*[:,] (.*)".replace("$N", NICK));
+   private static final Pattern PAT_MSG_AFTER_NICKS_COLON = Pattern.compile("($N)(, ?(?:$N))*: (.*)"   .replace("$N", NICK));
 
 }// class
