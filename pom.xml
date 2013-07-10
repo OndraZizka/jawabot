@@ -125,13 +125,15 @@
                            <groupId>org.jboss.jawabot.configs</groupId> <artifactId>JawaBot-config-redhat-prod</artifactId><version>${project.version}</version>
                            <outputDirectory>${confOutputDir}/redhat-prod</outputDirectory>
                         </artifactItem>
+                        <!--
                         <artifactItem>
                            <groupId>org.jboss.jawabot.configs</groupId> <artifactId>JawaBot-config-freenode-test</artifactId><version>${project.version}</version>
                            <outputDirectory>${confOutputDir}/freenode-test</outputDirectory>
                         </artifactItem>
+                        -->
                         <artifactItem>
-                           <groupId>org.jboss.jawabot.configs</groupId> <artifactId>JawaBot-config-freenode-prod</artifactId><version>${project.version}</version>
-                           <outputDirectory>${confOutputDir}/freenode-prod</outputDirectory>
+                           <groupId>org.jboss.jawabot.configs</groupId> <artifactId>JawaBot-config-freenode-dist</artifactId><version>${project.version}</version>
+                           <outputDirectory>${confOutputDir}/freenode-dist</outputDirectory>
                         </artifactItem>
                      </artifactItems>
                   </configuration>

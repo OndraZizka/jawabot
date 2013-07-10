@@ -17,9 +17,9 @@
 
    <modules>
       <module>redhat-test</module>
-      <!--
       <module>redhat-prod</module>
-      <module>freenode-test</module>
+      <module>freenode-dist</module>
+      <!--
       <module>freenode-prod</module>
       -->
    </modules>
