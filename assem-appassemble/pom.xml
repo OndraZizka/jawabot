@@ -62,14 +62,8 @@
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <execution>
-                        <id>config.copyToWorkdir</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>config.copyToWorkdir-profiles</id>
-                        <phase>process-resources</phase>
-                    </execution>
+                    <execution> <id>config.copyToWorkdir</id> <phase>none</phase> </execution>
+                    <execution> <id>config.copyToWorkdir-profiles</id> <phase>process-resources</phase> </execution>
                 </executions>
             </plugin>
 

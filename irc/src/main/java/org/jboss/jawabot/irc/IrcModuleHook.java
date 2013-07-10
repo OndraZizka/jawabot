@@ -2,7 +2,6 @@
 package org.jboss.jawabot.irc;
 
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import org.jboss.jawabot.IModuleHook;
 import org.jboss.jawabot.config.beans.ConfigBean;
@@ -22,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class IrcModuleHook implements IModuleHook<JawaBot, JawaBotException>
 {
    private static final Logger log = LoggerFactory.getLogger(IrcModuleHook.class);
-    
+   
    
    
    private JawaIrcBot ircBot;
@@ -76,6 +75,14 @@ public class IrcModuleHook implements IModuleHook<JawaBot, JawaBotException>
       ircBot.disconnect();
    }
 
-   
+
+   /**
+    *  Adds an IRC appender to root logger.
+    *
+   private void resetIrcAppender() {
+       final IrcAppender ircAppender = new IrcAppender( ircBot );
+       ircAppender.setLayout( new PatternLayout("%d{HH:mm:ss.SSS} %-5p [%t] %c  %m%n") );
+       org.apache.log4j.Logger.getRootLogger().addAppender( ircAppender);
+   }/**/
     
 }// class
