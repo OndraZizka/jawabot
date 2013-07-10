@@ -3,8 +3,11 @@ package org.jboss.jawabot.irc.ent;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import org.jboss.jawabot.irc.IrcUtils;
 
 
@@ -19,11 +22,12 @@ import org.jboss.jawabot.irc.IrcUtils;
  */
 @Entity
 @DiscriminatorValue("M")
+@Access(AccessType.PROPERTY)
 public class IrcEvMessage extends IrcEvent {
 
     public IrcEvMessage( String server, String channel, String fromUser, String text, Date when ) {
         super( server, channel, fromUser, text, when );
-        this.initRecipientAndPayload();
+        this.parseRecipientAndPayload();
     }
 
     public IrcEvMessage() {
@@ -34,7 +38,7 @@ public class IrcEvMessage extends IrcEvent {
     protected String       payload    = null;
 
     
-    private void initRecipientAndPayload() {
+    private void parseRecipientAndPayload() {
         //List<String> recp = IrcUtils.whoIsThisMsgFor( this.getText() );
         //if( ! recp.isEmpty() )
         //    this.setRecipient( recp.get(0) );
@@ -46,9 +50,12 @@ public class IrcEvMessage extends IrcEvent {
 
 
     //<editor-fold defaultstate="collapsed" desc="get/set">
+    @Transient
     public List<String> getRecipients() { return recipients; }
-    public String getPayload() { return payload; }
     
+    @Transient
+    public String getPayload() { return payload; }
+        
     public String getRecipient() {
         return recipients.get(0);
     }
@@ -59,4 +66,3 @@ public class IrcEvMessage extends IrcEvent {
     //</editor-fold>
 
 }// class
-
