@@ -53,192 +53,192 @@
          <repository name="jboss" url="https://issues.jboss.org/browse/" type="jira50-jboss">
             <!-- Catch-all -->
             <project id="AS7" name="JBoss AS 7"/>
+            <project id="AJSF" name="Ajax4jsf"/>
+            <project id="ANDIAMO" name="Andiamo"/>
+            <project id="APIVIZ" name="APIviz"/>
+            <project id="ARQ" name="Arquillian"/>
+            <project id="ASPATCH" name="JBoss AS Patches"/>
+            <project id="BG" name="BoxGrinder"/>
+            <project id="BGBUILD" name="BoxGrinder Build"/>
+            <project id="BGREST" name="BoxGrinder REST"/>
+            <project id="BPEL" name="jBPM BPEL"/>
+            <project id="BPMC" name="BPM Console"/>
+            <project id="BRMS" name="JBoss Enterprise BRMS Platform"/>
+            <project id="BYTEMAN" name="Byteman"/>
+            <project id="CANTIERE" name="Cantiere"/>
+            <project id="CDITCK" name="CDI TCK"/>
+            <project id="CIRRAS" name="CirrAS"/>
+            <project id="CLASSPOOL" name="ClassPool"/>
+            <project id="CLOUD" name="JBoss Cloud"/>
             <project id="CONTENT" name="jboss.org content"/>
-            <project id="ORG" name="jboss.org development"/>
+            <project id="COOLINGTOWER" name="CoolingTower"/>
+            <project id="DAVCACHE" name="DavCache"/>
             <project id="DESIGN" name="Visual Design"/>
+            <project id="DNA" name="DNA"/>
+            <project id="DTF" name="Distributed Test Framework"/>
+            <project id="EJBBOOK" name="EJB Book Examples"/>
+            <project id="EJBTHREE" name="EJB 3.0"/>
+            <project id="EMB" name="JBoss Embedded"/>
+            <project id="EMBJOPR" name="Embedded Jopr"/>
+            <project id="ENVERS" name="Envers"/>
+            <project id="ERPL" name="Errai Planning"/>
+            <project id="ERRAI" name="Errai"/>
+            <project id="EXOJCR" name="eXo-JCR"/>
+            <project id="FRESH" name="Fresh"/>
+            <project id="GPD" name="jBPM GPD"/>
+            <project id="GRAVEL" name="Gravel"/>
             <project id="GTNCOMMON" name="GateIn Common"/>
             <project id="GTNMAVEN" name="GateIn Maven"/>
             <project id="GTNMOP" name="GateIn Model Object for Portal"/>
-            <project id="GTNPORTAL" name="GateIn Portal"/>
             <project id="GTNPC" name="GateIn Portlet Container"/>
+            <project id="GTNPORTAL" name="GateIn Portal"/>
             <project id="GTNWCI" name="GateIn Web Container Integration"/>
             <project id="GTNWSRP" name="GateIn WSRP"/>
+            <project id="GUVNOR" name="Guvnor"/>
+            <project id="GUVNORSOA" name="Guvnor SOA"/>
+            <project id="HIBERNATE" name="Hibernate Integration"/>
+            <project id="HORNETQ" name="HornetQ"/>
+            <project id="ISPN" name="Infinispan"/>
+            <project id="JASSIST" name="Javassist"/>
+            <project id="JAXR" name="JBoss JAXR"/>
+            <project id="JBADMCON" name="JBoss Admin Console"/>
+            <project id="JBANN" name="Papaki"/>
+            <project id="JBAOP" name="JBoss AOP"/>
+            <project id="JBAPACHE" name="Apache Project Integration Issues"/>
+            <project id="JBAS" name="JBoss Application Server"/>
+            <project id="JBASM" name="JBoss AS Server Manager"/>
+            <project id="JBASMP" name="JBoss AS Maven Plugins"/>
+            <project id="JBASPECT" name="JBoss Aspects"/>
+            <project id="JBBENCH" name="JBoss Benchmarking"/>
             <project id="JBBLOG" name="JBoss Blog"/>
+            <project id="JBBOOT" name="JBoss Bootstrap"/>
+            <project id="JBBUILD" name="JBoss Build System"/>
+            <project id="JBCACHE" name="JBoss Cache"/>
+            <project id="JBCL" name="JBoss ClassLoader"/>
+            <project id="JBCLUSTER" name="JBoss Clustering"/>
+            <project id="JBCOMMON" name="JBoss Common"/>
+            <project id="JBDEPLOY" name="JBoss Deployers"/>
+            <project id="JBDOCS" name="Documentation"/>
+            <project id="JBDS" name="Developer Studio (JBoss Developer Studio)"/>
+            <project id="JBEBPM" name="JBoss Enterprise BPM Platform"/>
+            <project id="JBEE" name="JBoss JavaEE APIs"/>
+            <project id="JBEPP" name="JBoss Enterprise Portal Platform"/>
+            <project id="JBESB" name="JBoss ESB"/>
             <project id="JBFORUMS" name="JBoss Forums"/>
+            <project id="JBGENETIC" name="JBoss Genetic"/>
+            <project id="JBID" name="JBoss Identity"/>
+            <project id="JBIDE" name="Tools (JBoss Tools)"/>
+            <project id="JBINSTALL" name="JEMS Installer"/>
+            <project id="JBINTER" name="Common JBoss Interceptors Library"/>
+            <project id="JBJAAE" name="JBoss JAAE (JBoss Application Authorization Engine)"/>
+            <project id="JBJCA" name="JBoss JCA"/>
+            <project id="JBJMX" name="JBoss JMX"/>
+            <project id="JBJPA" name="JBoss JPA"/>
+            <project id="JBKERNEL" name="JBoss Kernel"/>
+            <project id="JBLAB" name="JBoss Labs"/>
+            <project id="JBLOGGING" name="JBoss Logging"/>
+            <project id="JBMAIL" name="JBoss Mail ** Closed - moved to http://buni.org **"/>
+            <project id="JBMAN" name="JBoss Managed"/>
+            <project id="JBMAR" name="JBoss Marshalling"/>
+            <project id="JBMCINT" name="JBoss Microcontainer Integration"/>
+            <project id="JBMCSCAN" name="JBoss Microcontainer Scanning"/>
+            <project id="JBMCTOOL" name="JBoss Microcontainer Tools"/>
+            <project id="JBMDR" name="JBoss MetaData Repository"/>
+            <project id="JBMESSAGING" name="JBoss Messaging"/>
+            <project id="JBMETA" name="JBoss Metadata"/>
+            <project id="JBMICROCONT" name="JBoss Microcontainer"/>
+            <project id="JBMX" name="JBossMX"/>
+            <project id="JBNAME" name="JBoss Naming"/>
+            <project id="JBNATIVE" name="JBoss Native"/>
+            <project id="JBOSGI" name="JBoss OSGi"/>
+            <project id="JBPAPP" name="JBoss Enterprise Application Platform"/>
+            <project id="JBPM" name="jBPM"/>
             <project id="JBPORTAL" name="JBoss Portal"/>
+            <project id="JBPROFILE" name="JBoss Profile Service"/>
+            <project id="JBPROFILER" name="JBoss Profiler"/>
+            <project id="JBREFLECT" name="JBoss Reflection"/>
+            <project id="JBREFLEX" name="JBoss Reflex"/>
+            <project id="JBREL" name="JBoss Reliance"/>
+            <project id="JBREM" name="JBoss Remoting"/>
+            <project id="JBREPORT" name="Reporting Services"/>
+            <project id="JBRULES" name="Drools"/>
+            <project id="JBSEAM" name="Seam"/>
+            <project id="JBSER" name="JBoss Serialization"/>
+            <project id="JBSHOTOKU" name="Shotoku"/>
+            <project id="JBSSO" name="JBoss Federated SSO"/>
+            <project id="JBTEST" name="JBoss Test"/>
+            <project id="JBTHR" name="JBoss Threads"/>
+            <project id="JBTM" name="JBoss Transaction Manager"/>
+            <project id="JBTP" name="JBoss Translation Project"/>
+            <project id="JBTPL" name="JBoss Project Template"/>
+            <project id="JBUNIT" name="JBoss Unit"/>
+            <project id="JBVFS" name="JBoss VFS"/>
+            <project id="JBWEB" name="JBoss Web"/>
             <project id="JBWIKI" name="JBoss Wiki"/>
+            <project id="JBWS" name="JBoss Web Services"/>
+            <project id="JBXB" name="JBoss XML Binding (JBossXB)"/>
+            <project id="JDCOM" name="jDCOM"/>
+            <project id="JDOCBOOKSTYLE" name="maven-jdocbook-style-plugin"/>
+            <project id="JGRP" name="JGroups"/>
+            <project id="JOPR" name="Jopr"/>
+            <project id="JSFUNIT" name="JSFUnit"/>
+            <project id="KOSMOS" name="Kosmos"/>
+            <project id="LOGTOLOG" name="Log2Log"/>
+            <project id="MASS" name="JBoss Mass"/>
+            <project id="MODCLUSTER" name="mod_cluster"/>
+            <project id="MODE" name="ModeShape"/>
+            <project id="MPJDOCBOOK" name="maven-jdocbook-plugin"/>
+            <project id="MTAJZR" name="Metajizer"/>
+            <project id="NETTY" name="Netty"/>
+            <project id="ORG" name="jboss.org development"/>
             <project id="PBR" name="Portlet Bridge"/>
-            <project id="SWAP" name="PortletSwap"/>
+            <project id="PCACHE" name="JBoss POJO Cache"/>
+            <project id="PLFED" name="PicketLink Federated Identity"/>
+            <project id="PLIDM" name="PicketLink IDM"/>
+            <project id="PLINK" name="PicketLink"/>
+            <project id="PRESSGANG" name="PressGang"/>
+            <project id="RAILO" name="Railo"/>
+            <project id="RELOADED" name="JBoss Reloaded"/>
+            <project id="RESTEASY" name="RESTEasy"/>
             <project id="RF" name="RichFaces"/>
             <project id="RFPL" name="RichFaces Planning"/>
-            <project id="CDITCK" name="CDI TCK"/>
-            <project id="JBINTER" name="Common JBoss Interceptors Library"/>
-            <project id="EJBTHREE" name="EJB 3.0"/>
-            <project id="ERRAI" name="Errai"/>
-            <project id="ERPL" name="Errai Planning"/>
-            <project id="JBAOP" name="JBoss AOP"/>
-            <project id="JBASPECT" name="JBoss Aspects"/>
-            <project id="JBESB" name="JBoss ESB"/>
-            <project id="RAILO" name="Railo"/>
+            <project id="RHM" name="Red Hat Messaging"/>
+            <project id="RIFTSAW" name="RiftSaw"/>
             <project id="RSMSG" name="rest-star-messaging"/>
             <project id="RSTX" name="rest-star-transactions"/>
-            <project id="RESTEASY" name="RESTEasy"/>
-            <project id="JBSEAM" name="Seam"/>
+            <project id="SAM" name="Service Activity Monitoring"/>
+            <project id="SAVARA" name="Savara"/>
             <project id="SEAMDROOLS" name="Seam Drools"/>
             <project id="SEAMFACES" name="Seam Faces"/>
+            <project id="SEAMFP" name="Seam Feature Pack - CLOSED"/>
             <project id="SEAMINTL" name="Seam i18n"/>
             <project id="SEAMREMOTING" name="Seam Remoting"/>
             <project id="SEAMSECURITY" name="Seam Security"/>
             <project id="SEAMSERVLET" name="Seam Servlet"/>
             <project id="SEAMXML" name="Seam XML Bean Config"/>
-            <project id="TORQUE" name="TorqueBox"/>
-            <project id="WELD" name="Weld"/>
-            <project id="WELDX" name="Weld Extensions"/>
-            <project id="JBRULES" name="Drools"/>
-            <project id="EXOJCR" name="eXo-JCR"/>
-            <project id="HORNETQ" name="HornetQ"/>
-            <project id="ISPN" name="Infinispan"/>
-            <project id="JASSIST" name="Javassist"/>
-            <project id="JBCACHE" name="JBoss Cache"/>
-            <project id="JBSSO" name="JBoss Federated SSO"/>
-            <project id="JBID" name="JBoss Identity"/>
-            <project id="JBJAAE" name="JBoss JAAE (JBoss Application Authorization Engine)"/>
-            <project id="JAXR" name="JBoss JAXR"/>
-            <project id="JBJPA" name="JBoss JPA"/>
-            <project id="JBMAR" name="JBoss Marshalling"/>
-            <project id="JBMESSAGING" name="JBoss Messaging"/>
-            <project id="JBNAME" name="JBoss Naming"/>
-            <project id="PCACHE" name="JBoss POJO Cache"/>
-            <project id="JBREM" name="JBoss Remoting"/>
-            <project id="JBSER" name="JBoss Serialization"/>
-            <project id="JBTM" name="JBoss Transaction Manager"/>
-            <project id="JBWS" name="JBoss Web Services"/>
-            <project id="JBXB" name="JBoss XML Binding (JBossXB)"/>
-            <project id="JBPM" name="jBPM"/>
-            <project id="BPEL" name="jBPM BPEL"/>
-            <project id="GPD" name="jBPM GPD"/>
-            <project id="JGRP" name="JGroups"/>
-            <project id="LOGTOLOG" name="Log2Log"/>
-            <project id="NETTY" name="Netty"/>
             <project id="SECURITY" name="PicketBox (JBoss Security and Identity Management)"/>
-            <project id="PLINK" name="PicketLink"/>
-            <project id="PLFED" name="PicketLink Federated Identity"/>
-            <project id="PLIDM" name="PicketLink IDM"/>
-            <project id="RIFTSAW" name="RiftSaw"/>
-            <project id="TOHU" name="Tohu"/>
-            <project id="WISE" name="Wise"/>
-            <project id="XNIO" name="XNIO"/>
-            <project id="EMBJOPR" name="Embedded Jopr"/>
-            <project id="HIBERNATE" name="Hibernate Integration"/>
-            <project id="JBADMCON" name="JBoss Admin Console"/>
-            <project id="JBAS" name="JBoss Application Server"/>
-            <project id="JBASMP" name="JBoss AS Maven Plugins"/>
-            <project id="JBASM" name="JBoss AS Server Manager"/>
-            <project id="JBBOOT" name="JBoss Bootstrap"/>
-            <project id="JBCLUSTER" name="JBoss Clustering"/>
-            <project id="EMB" name="JBoss Embedded"/>
-            <project id="JBEE" name="JBoss JavaEE APIs"/>
-            <project id="JBJCA" name="JBoss JCA"/>
-            <project id="JBJMX" name="JBoss JMX"/>
-            <project id="JBMETA" name="JBoss Metadata"/>
-            <project id="JBPROFILE" name="JBoss Profile Service"/>
-            <project id="RELOADED" name="JBoss Reloaded"/>
-            <project id="JBMX" name="JBossMX"/>
-            <project id="JDCOM" name="jDCOM"/>
-            <project id="SVCBIND" name="Service Binding Manager"/>
-            <project id="SNOWDROP" name="Snowdrop"/>
-            <project id="WELDINT" name="Weld Integration"/>
-            <project id="JBAPACHE" name="Apache Project Integration Issues"/>
-            <project id="JBGENETIC" name="JBoss Genetic"/>
-            <project id="JBNATIVE" name="JBoss Native"/>
-            <project id="JBREFLEX" name="JBoss Reflex"/>
-            <project id="JBWEB" name="JBoss Web"/>
-            <project id="MODCLUSTER" name="mod_cluster"/>
-            <project id="CLASSPOOL" name="ClassPool"/>
-            <project id="FRESH" name="Fresh"/>
-            <project id="JBCL" name="JBoss ClassLoader"/>
-            <project id="JBDEPLOY" name="JBoss Deployers"/>
-            <project id="JBKERNEL" name="JBoss Kernel"/>
-            <project id="JBMAN" name="JBoss Managed"/>
-            <project id="JBMDR" name="JBoss MetaData Repository"/>
-            <project id="JBMICROCONT" name="JBoss Microcontainer"/>
-            <project id="JBMCINT" name="JBoss Microcontainer Integration"/>
-            <project id="JBMCSCAN" name="JBoss Microcontainer Scanning"/>
-            <project id="JBMCTOOL" name="JBoss Microcontainer Tools"/>
-            <project id="JBOSGI" name="JBoss OSGi"/>
-            <project id="JBREFLECT" name="JBoss Reflection"/>
-            <project id="JBREL" name="JBoss Reliance"/>
-            <project id="JBTHR" name="JBoss Threads"/>
-            <project id="JBVFS" name="JBoss VFS"/>
-            <project id="CLOUD" name="JBoss Cloud"/>
-            <project id="TEIID" name="Teiid"/>
-            <project id="ANDIAMO" name="Andiamo"/>
-            <project id="BPMC" name="BPM Console"/>
-            <project id="DNA" name="DNA"/>
-            <project id="GUVNOR" name="Guvnor"/>
-            <project id="GUVNORSOA" name="Guvnor SOA"/>
-            <project id="JOPR" name="Jopr"/>
-            <project id="MODE" name="ModeShape"/>
-            <project id="SOAG" name="Overlord"/>
-            <project id="SAVARA" name="Savara"/>
-            <project id="SAM" name="Service Activity Monitoring"/>
-            <project id="BG" name="BoxGrinder"/>
-            <project id="BGBUILD" name="BoxGrinder Build"/>
-            <project id="BGREST" name="BoxGrinder REST"/>
-            <project id="CANTIERE" name="Cantiere"/>
-            <project id="CIRRAS" name="CirrAS"/>
-            <project id="COOLINGTOWER" name="CoolingTower"/>
             <project id="SFOLIO" name="StormFolio"/>
             <project id="SG" name="StormGrind"/>
-            <project id="ARQ" name="Arquillian"/>
-            <project id="BYTEMAN" name="Byteman"/>
-            <project id="DTF" name="Distributed Test Framework"/>
-            <project id="MASS" name="JBoss Mass"/>
-            <project id="JBPROFILER" name="JBoss Profiler"/>
-            <project id="JBTEST" name="JBoss Test"/>
-            <project id="JSFUNIT" name="JSFUnit"/>
             <project id="SHRINKWRAP" name="ShrinkWrap"/>
-            <project id="TTALE" name="Tattletale"/>
-            <project id="TEIIDDES" name="Teiid Designer"/>
-            <project id="JBIDE" name="Tools (JBoss Tools)"/>
-            <project id="APIVIZ" name="APIviz"/>
-            <project id="JBDOCS" name="Documentation"/>
-            <project id="JBBUILD" name="JBoss Build System"/>
-            <project id="JBCOMMON" name="JBoss Common"/>
-            <project id="JBLOGGING" name="JBoss Logging"/>
-            <project id="JBTP" name="JBoss Translation Project"/>
-            <project id="JBUNIT" name="JBoss Unit"/>
-            <project id="MPJDOCBOOK" name="maven-jdocbook-plugin"/>
-            <project id="JDOCBOOKSTYLE" name="maven-jdocbook-style-plugin"/>
-            <project id="JBANN" name="Papaki"/>
-            <project id="PRESSGANG" name="PressGang"/>
-            <project id="DAVCACHE" name="DavCache"/>
-            <project id="GRAVEL" name="Gravel"/>
-            <project id="KOSMOS" name="Kosmos"/>
-            <project id="JBREPORT" name="Reporting Services"/>
-            <project id="JBSHOTOKU" name="Shotoku"/>
-            <project id="JBDS" name="Developer Studio (JBoss Developer Studio)"/>
-            <project id="JBPAPP" name="JBoss Enterprise Application Platform"/>
-            <project id="JBEBPM" name="JBoss Enterprise BPM Platform"/>
-            <project id="BRMS" name="JBoss Enterprise BRMS Platform"/>
-            <project id="JBEPP" name="JBoss Enterprise Portal Platform"/>
+            <project id="SNOWDROP" name="Snowdrop"/>
             <project id="SOA" name="JBoss Enterprise SOA Platform"/>
-            <project id="ASPATCH" name="JBoss AS Patches"/>
-            <project id="JBBENCH" name="JBoss Benchmarking"/>
-            <project id="AJSF" name="Ajax4jsf"/>
-            <project id="WBTCK" name="CDI TCK (legacy project)"/>
-            <project id="EJBBOOK" name="EJB Book Examples"/>
-            <project id="ENVERS" name="Envers"/>
-            <project id="JBLAB" name="JBoss Labs"/>
-            <project id="JBMAIL" name="JBoss Mail ** Closed - moved to http://buni.org **"/>
-            <project id="JBTPL" name="JBoss Project Template"/>
-            <project id="JBINSTALL" name="JEMS Installer"/>
-            <project id="MTAJZR" name="Metajizer"/>
-            <project id="RHM" name="Red Hat Messaging"/>
-            <project id="SEAMFP" name="Seam Feature Pack - CLOSED"/>
-            <project id="WBRI" name="Web Beans (legacy project)"/>
-            <project id="WBX" name="Web Beans Extensions (legacy project)"/>
+            <project id="SOAG" name="Overlord"/>
+            <project id="SVCBIND" name="Service Binding Manager"/>
+            <project id="SWAP" name="PortletSwap"/>
+            <project id="TEIID" name="Teiid"/>
+            <project id="TEIIDDES" name="Teiid Designer"/>
+            <project id="TOHU" name="Tohu"/>
+            <project id="TORQUE" name="TorqueBox"/>
+            <project id="TTALE" name="Tattletale"/>
             <project id="WBINT" name="Web Beans Integration (legacy project)"/>
+            <project id="WBRI" name="Web Beans (legacy project)"/>
+            <project id="WBTCK" name="CDI TCK (legacy project)"/>
+            <project id="WBX" name="Web Beans Extensions (legacy project)"/>
+            <project id="WELD" name="Weld"/>
+            <project id="WELDINT" name="Weld Integration"/>
+            <project id="WELDX" name="Weld Extensions"/>
+            <project id="WISE" name="Wise"/>
+            <project id="XNIO" name="XNIO"/>
          </repository>
          <!--
          <repository name="rhq" url="http://jira.rhq-project.org/browse/">
