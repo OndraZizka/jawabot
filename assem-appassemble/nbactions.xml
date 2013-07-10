@@ -8,7 +8,7 @@
             </goals>
             <properties>
                 <exec.classpathScope>runtime</exec.classpathScope>
-                <exec.workingdir>../workdir</exec.workingdir>
+                <exec.workingdir>workdir</exec.workingdir>
                 <exec.args>-Dconfig=conf/redhat/JawaBotConfig.xml -classpath %classpath org.jboss.jawabot.JawaBotApp</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
@@ -21,7 +21,7 @@
             </goals>
             <properties>
                 <exec.classpathScope>runtime</exec.classpathScope>
-                <exec.workingdir>../workdir</exec.workingdir>
+                <exec.workingdir>workdir</exec.workingdir>
                 <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Dconfig=conf/redhat/JawaBotConfig.xml -classpath %classpath org.jboss.jawabot.JawaBotApp</exec.args>
                 <jpda.listen>true</jpda.listen>
                 <exec.executable>java</exec.executable>
@@ -35,7 +35,7 @@
             </goals>
             <properties>
                 <exec.args>${profiler.args} -Dconfig=conf/redhat/JawaBotConfig.xml -classpath %classpath org.jboss.jawabot.JawaBotApp</exec.args>
-                <exec.workingdir>../workdir</exec.workingdir>
+                <exec.workingdir>workdir</exec.workingdir>
                 <profiler.action>profile</profiler.action>
                 <exec.executable>${profiler.java}</exec.executable>
             </properties>
