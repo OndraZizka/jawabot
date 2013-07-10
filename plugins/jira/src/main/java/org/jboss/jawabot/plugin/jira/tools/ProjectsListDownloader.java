@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 public class ProjectsListDownloader {
     private static final Logger log = LoggerFactory.getLogger( ProjectsListDownloader.class );
 
-    List<Project> downloadProjectList() throws IOException, JSONException {
+    List<Project> downloadProjectList( String baseUrl ) throws IOException, JSONException {
         
-        String url = "https://issues.jboss.org/rest/api/2/project";
+        String url = baseUrl + "rest/api/2/project";
         String projJson = downloadJson( url );
         JSONArray array = new JSONArray( projJson );
         
@@ -60,10 +60,17 @@ public class ProjectsListDownloader {
     }
     
     public static void main( String[] args ) throws IOException, JSONException {
-        List<Project> projects = new ProjectsListDownloader().downloadProjectList();
+        // https://issues.jboss.org/
+        // https://issues.apache.org/jira/
+        // http://jira.codehaus.org/
+
+        
+        //System.out.println("<repository name=\"%s\" url=\"%s\" type=\"jira50\">");
+        List<Project> projects = new ProjectsListDownloader().downloadProjectList("http://jira.codehaus.org/");
         for( Project project : projects ) {
             System.out.println(String.format("<project id=\"%s\" name=\"%s\"/>", project.prefix, project.name));
         }
+        //System.out.println("</repository>");
     }
 
 }// class
