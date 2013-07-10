@@ -31,7 +31,21 @@
       <module>pastebin</module>
    </modules>
 
-
+   <build>
+        <plugins>
+             <!-- Copy configuration files to workdir/ - enabling the template from root. -->
+             <plugin>
+                 <artifactId>maven-dependency-plugin</artifactId>
+                 <executions>
+                     <execution>
+                         <id>config.copyToWorkdir</id>
+                         <phase>process-resources</phase>
+                     </execution>
+                 </executions>
+             </plugin>
+        </plugins>
+   </build>
+   
 
    <!-- Dependencies -->
    <dependencyManagement>

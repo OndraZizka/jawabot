@@ -6,7 +6,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.jawabot.JawaBot;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;

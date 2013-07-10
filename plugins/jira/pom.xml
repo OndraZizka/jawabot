@@ -43,12 +43,6 @@
             </resource>
         </resources>
 
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
-
     </build>
 
 
@@ -69,8 +63,6 @@
         <dependency>
             <groupId>net.sourceforge.htmlunit</groupId>
             <artifactId>htmlunit</artifactId>
-            <scope>compile</scope>
-            <version>2.10</version>
         </dependency>
 
     </dependencies>
