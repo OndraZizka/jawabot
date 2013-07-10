@@ -1033,7 +1033,7 @@
             <project id="MMOCKRM" name="Mojo's Mock Repository Manager"/>
             <project id="MNBMODULE" name="Maven NetBeans Module Plugin"/>
             <project id="MNETBEANSFREEFORM" name="Maven 2.x Netbeans Freeform Plugin (retired)"/>
-            <project id="MNG" name="Maven 2 & 3"/>
+            <project id="MNG" name="Maven 2 &amp; 3"/>
             <project id="MNGBOOK" name="m2book"/>
             <project id="MNGECLIPSE" name="Maven Integration for Eclipse"/>
             <project id="MNGFAQ" name="Maven FAQ"/>
