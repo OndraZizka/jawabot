@@ -14,9 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ *  A tool class for updating the projects in Jira plugin config.
  *  @author Ondrej Zizka, ozizka at redhat.com
  */
+//@javax.enterprise.inject.Vetoed
 public class ProjectsListDownloader {
     private static final Logger log = LoggerFactory.getLogger( ProjectsListDownloader.class );
 
