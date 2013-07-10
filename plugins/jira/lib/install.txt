@@ -1,0 +1,6 @@
+mvn install:install-file  -Dfile=/home/ondra/work/TOOLS/JawaBot/plugins/jira/lib/jira-rest-java-client-core-2.0.0-m19.jar \
+                          -DgroupId=com.atlassian.jira.restClient \
+                          -DartifactId=JiraRestClient-core \
+                          -Dversion=2.0.0-m19 \
+                          -Dpackaging=jar \
+                          #-DlocalRepositoryPath=
