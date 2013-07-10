@@ -4,7 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.jboss.jawabot.JawaBot;
-import org.jboss.jawabot.config.JaxbGenericPersister;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.jboss.jawabot.ex.JawaBotIOException;
 import org.jboss.jawabot.plugin.IJaxbConfigurablePlugin;
@@ -16,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * In this class, I'm testing a new concept:
  * Some plugins have more complex configuration, which doesn't fit into the main configuration file.
- * Since JAXB isn't excensible top-down (children types are listed in parents),
+ * Since JAXB isn't extensible top-down (children types are listed in parents),
  * I have to split that config to different file and read it into another JAXB tree.
  * 
  * This is intended to be a CDI Bean which will get JawaBot, get pluginName -> configFile map,
@@ -26,10 +25,9 @@ import org.slf4j.LoggerFactory;
  */
 @ApplicationScoped
 public class JiraPlugin implements IJaxbConfigurablePlugin<JiraPluginConfigBean> {
-        
     private static final Logger log = LoggerFactory.getLogger( JiraPlugin.class );
 
-    public static final String JIRA_PLUGIN_NAME = "jira";
+    private static final String JIRA_PLUGIN_NAME = "jira";
 
 
     @Inject private JawaBot jawaBot;
@@ -74,12 +72,7 @@ public class JiraPlugin implements IJaxbConfigurablePlugin<JiraPluginConfigBean>
     }
 
 
-    public JiraPluginConfigBean getConfig() {
-        return config;
-    }
-        
-        
-        
+    public JiraPluginConfigBean getConfig() { return config; }
         
 }// class
 
