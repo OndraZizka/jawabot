@@ -5,14 +5,14 @@
    <groupId>org.jboss.jawabot</groupId>
    <artifactId>JawaBot-web</artifactId>
    <packaging>jar</packaging>
-   <version>2.0.0.Final</version>
+   <version>2.0.1-SNAPSHOT</version>
 
    <name>JawaBot 2.0 web</name>
 
    <parent>
       <groupId>org.jboss.jawabot</groupId>
       <artifactId>JawaBot-root</artifactId>
-      <version>2.0.0.Final</version>
+      <version>2.0.1-SNAPSHOT</version>
    </parent>
 
    <properties>
@@ -84,7 +84,7 @@
       <dependency>
          <groupId>org.jboss.jawabot</groupId>
          <artifactId>JawaBot-core</artifactId>
-         <version>2.0.0.Final</version>
+         <version>2.0.1-SNAPSHOT</version>
       </dependency>
 
 
