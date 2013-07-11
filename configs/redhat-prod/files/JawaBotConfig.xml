@@ -28,15 +28,22 @@
    <!-- TODO: Move to <irc ... > -->
 
    <irc>
-      <defaultNick>JawaBot-beta</defaultNick>
-      <defaultNick2>JawaBot-beta_</defaultNick2>
+      <defaultNick>JawaBot2</defaultNick>
+      <defaultNick2>JawaBot2_</defaultNick2>
       <server host="porky.stuttgart.redhat.com">
          <autoJoinChannels>
             #some
-            <!--
-            #jboss-qa-brno
+            #jbossas
+            #jbossqa
             #jbosssoaqa
-            -->
+            #devstudio-qa
+            #devstudio-doc
+            #devstudio-f2f
+            #devstudio
+            #jboss-on
+            #jbds-pm-meeting
+            #edg
+            #infinispan-internal
          </autoJoinChannels>
       </server>
    </irc>
