@@ -33,7 +33,7 @@ public class MemoryWhereIsService
     }
     
     public synchronized void updateUserInfo( String channel, String nick, Date now ) {
-        log.debug("   Updating info about user: " + nick );
+        if( log.isTraceEnabled() )  log.trace("   Updating info about user: " + nick );
         
         // User -> channels/when mapping.
         {
