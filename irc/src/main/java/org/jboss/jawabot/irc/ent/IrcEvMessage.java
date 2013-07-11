@@ -16,7 +16,7 @@ import org.jboss.jawabot.irc.IrcUtils;
  * 
  * Those parts follow the typical formatting of an IRC message for someone.
  * 
- *    <recipient>: <payload>
+ *    <recipient>[, <recipient>]: <payload>
  * 
  *  @author Ondrej Zizka
  */
@@ -55,8 +55,13 @@ public class IrcEvMessage extends IrcEvent {
     
     @Transient
     public String getPayload() { return payload; }
-        
+    
+    /**
+     *  Returns the first recipient of the message, or null if there were none.
+     */
     public String getRecipient() {
+        if( recipients == null || recipients.size() == 0 )
+            return null;
         return recipients.get(0);
     }
     
