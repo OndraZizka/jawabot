@@ -185,6 +185,7 @@
             <version>2.4.1</version>
             <configuration>
                <autoVersionSubmodules>true</autoVersionSubmodules>
+               <tagNameFormat>@{project.version}</tagNameFormat> <!--@{project.artifactId}-@{project.version}-->
             </configuration>
          </plugin>
       </plugins>
