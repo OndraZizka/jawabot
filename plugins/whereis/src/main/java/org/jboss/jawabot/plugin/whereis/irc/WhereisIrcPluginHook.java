@@ -57,33 +57,33 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
 
     @Override
     public void onMessage( IrcEvMessage msg, IrcBotProxy bot ) throws IrcPluginException {
-        if( ( !msg.getText().startsWith("whereis")) || (!msg.getText().startsWith("seen")) )
+        if( ( !msg.getPayload().startsWith("whereis")) || (!msg.getPayload().startsWith("seen")) )
             return;
         
         // Remove "seen" or "whereis" from the beginning of msg.
-        String pattern = StringUtils.removeStart( msg.getText(), "whereis").trim();
+        String pattern = StringUtils.removeStart( msg.getPayload(), "whereis").trim();
         pattern = StringUtils.removeStart( pattern, "seen").trim();
         
         
         // No wildcards -> search exact nick.
         if( !pattern.contains("*") ){
             List<SeenInfo> occurrences = this.whereIsService.whereIsUser( pattern );
-            if( occurrences.size() == 0 ){
-                bot.sendMessage( msg.getUser(), msg.getChannel(), "Sorry, no traces of "+pattern+".");
+            if( occurrences.isEmpty() ){
+                bot.sendReplyTo( msg, "Sorry, no traces of "+pattern+".");
             }
             else{
-                bot.sendMessage( msg.getUser(), msg.getChannel(), this.informAbout( pattern, occurrences ) );
+                bot.sendReplyTo( msg, this.informAbout( pattern, occurrences ) );
             }
         }
         // Wildcards, list all matching nicks.
         else{
             Map<String, Set<SeenInfo>> users = this.whereIsService.searchUser( pattern );
-            if( users.size() == 0 ){
-                bot.sendMessage( msg.getUser(), msg.getChannel(), "Sorry, no traces of "+pattern+".");
+            if( users.isEmpty() ){
+                bot.sendReplyTo( msg, "Sorry, no traces of "+pattern+".");
             }
             else{
                 for( Map.Entry<String, Set<SeenInfo>> entry : users.entrySet() ) {
-                    bot.sendMessage( msg.getUser(), msg.getChannel(), this.informAbout( entry.getKey(), new ArrayList(entry.getValue()) ) );
+                    bot.sendReplyTo( msg, this.informAbout( entry.getKey(), new ArrayList(entry.getValue()) ) );
                 }
             }
         }
