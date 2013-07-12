@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.jboss.jawabot</groupId>
         <artifactId>JawaBot-root</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>2.0.1</version>
     </parent>
 
 
@@ -150,11 +150,10 @@
                         <goals> <goal>run</goal> </goals>  <phase>package</phase>
                         <configuration>
                             <target>
-                                <echo message="${project.build.directory}"/>
-                                <mkdir dir="${project.build.directory}"/>
-                                <zip destfile="${project.build.directory}/JawaBot-${project.version}-dist.zip"
-                                    basedir="target/" includes="JawaBot-${project.version}-dist-rh/**">
-                                    <!-- <fileset dir="target/JawaBot-${project.version}-dist-rh"/> -->
+                                <echo message="${project.build.directory}" />
+                                <mkdir dir="${project.build.directory}" />
+                                <zip destfile="${project.build.directory}/JawaBot-${project.version}-dist.zip" basedir="target/" includes="JawaBot-${project.version}-dist-rh/**">
+                                    <!-- <fileset dir="target/JawaBot-${project.version}-dist-rh" /> -->
                                 </zip>
                             </target>
                         </configuration>
