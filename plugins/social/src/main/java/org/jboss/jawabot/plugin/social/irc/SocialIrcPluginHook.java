@@ -25,7 +25,7 @@ public class SocialIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
     public void onMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
 
         //  Is it for us?
-        if( ! bot.getNick().equals( message.getRecipient() ) ) 
+        if( ! bot.getNick().equals( message.getRecipient() ) || message.getText().contains( bot.getNick() ) ) 
             return;
         
         String msgNorm = message.getPayload().toLowerCase();
