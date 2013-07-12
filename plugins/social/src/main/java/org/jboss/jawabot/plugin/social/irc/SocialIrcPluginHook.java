@@ -34,8 +34,9 @@ public class SocialIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
         // Thanks.
         if(        msgNorm.contains("thanks")
                 || msgNorm.contains("thank you")
+                || msgNorm.contains("thx")
         ){
-            reply = new String[]{"You're welcome", "welcome", "HTH", "yw"}[new Random().nextInt(4)];
+            reply = new String[]{"You're welcome", "welcome", "HTH", "yw", "For you, any time.", "Happy to help."}[new Random().nextInt(6)];
         }
         
         // Hi, hello and such.
@@ -43,7 +44,7 @@ public class SocialIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
                 || msgNorm.startsWith("hello")
                 || msgNorm.startsWith("ping")
         ){
-            reply = new String[]{"hi", "hello", "hey"}[new Random().nextInt(3)];
+            reply = new String[]{"hi", "hello", "hey", "hm?", "Awaiting orders.", "Asus ordenes."}[new Random().nextInt(6)];
         }
         
         // Bye.
