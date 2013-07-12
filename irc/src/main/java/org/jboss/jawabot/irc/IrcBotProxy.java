@@ -42,6 +42,10 @@ public class IrcBotProxy {
         }
     }
     
+    /**
+     *  Sends given message to event's user and channel.
+     *  Equivalent to <code>this.sendMessage( evt.getUser(), evt.getChannel(), text );<code>
+     */
     public void sendReplyTo( IrcEvent evt, String text ){
         this.sendMessage( evt.getUser(), evt.getChannel(), text );
     }
