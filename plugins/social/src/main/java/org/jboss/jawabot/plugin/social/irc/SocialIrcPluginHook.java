@@ -28,7 +28,7 @@ public class SocialIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
         if( ! bot.getNick().equals( message.getRecipient() ) ) 
             return;
         
-        String msgNorm = message.getText().toLowerCase();
+        String msgNorm = message.getPayload().toLowerCase();
         String reply = null;
         
         // Thanks.
