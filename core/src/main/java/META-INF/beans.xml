@@ -7,9 +7,9 @@
           http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
              
              
-   <interceptors>
-      <class>org.jboss.weld.environment.se.jpa.JpaTransactionInterceptor</class>
-   </interceptors>
+    <interceptors>
+        <class>org.jboss.weld.environment.se.jpa.JpaTransactionInterceptor</class>
+    </interceptors>
              
 
     <!--

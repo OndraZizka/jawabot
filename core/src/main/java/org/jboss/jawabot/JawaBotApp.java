@@ -25,7 +25,7 @@ import org.jboss.weld.environment.se.jpa.EntityManagerStore;
  *  Bootstraps CDI.
  *  Creates JawaBot, initializes it, configures it,
  *  
- * @author Ondrej Zizka
+ *  @author Ondrej Zizka
  */
 @Singleton
 public class JawaBotApp
@@ -44,7 +44,7 @@ public class JawaBotApp
         try { version = JawaBotApp.class.getPackage().getImplementationVersion(); } catch( Throwable ex ){ }
         if( version == null ) version = "";
         VERSION = StringUtils.defaultString( version, "" );
-     }
+    }
    
    
     //public static final String PROJECT_DOC_URL = "https://docspace.corp.redhat.com/clearspace/docs/DOC-29621";
@@ -66,59 +66,56 @@ public class JawaBotApp
 
    
    
-   /**
-    * Instantiates JawaBotApp through CDI/Weld and calls it's run().
-    */
-   public static void main(String[] args) throws JawaBotException {
+    /**
+     * Instantiates JawaBotApp through CDI/Weld and calls it's run().
+     */
+    public static void main(String[] args) throws JawaBotException {
 
-      WeldContainer weld = new Weld().initialize();
-      JawaBotApp jawaBotApp = weld.instance().select(JawaBotApp.class).get();
-      JawaBotApp.beanManager = weld.getBeanManager();
-      weld.event().select( ContainerInitialized.class ).fire( new ContainerInitialized() );
-      
-      jawaBotApp.run(args);
-   }
+        WeldContainer weld = new Weld().initialize();
+        JawaBotApp jawaBotApp = weld.instance().select( JawaBotApp.class ).get();
+        JawaBotApp.beanManager = weld.getBeanManager();
+        weld.event().select( ContainerInitialized.class ).fire( new ContainerInitialized() );
+
+        jawaBotApp.run( args );
+    }
 
 
-   /**
-    *  * Reads the options
-    *  * Creates jawabot
-    *  * Applies options on it
-    *  * Initializes the plugins
-    *  * and last, waits for JawaBot to notify shutting down.
-    */
-   public void run(String[] args) throws JawaBotException {
-      log.debug( JawaBotApp.class.getSimpleName() + "#main() start.");
-      
-      Options options = new Options().applySysProps().applyAppParams(args).validate();
+    /**
+     *  * Reads the options
+     *  * Creates jawabot
+     *  * Applies options on it
+     *  * Initializes the plugins
+     *  * and last, waits for JawaBot to notify shutting down.
+     */
+    public void run(String[] args) throws JawaBotException {
+        log.debug( JawaBotApp.class.getSimpleName() + "#main() start.");
 
-      try {
-         ConfigBean cb = new JaxbConfigPersister( options.getConfigFile() ).load();
-         JawaBotApp.jawaBot = JawaBot.create( cb );
-         
-         // TODO: Move to JawaBot.
-         CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, JawaBotApp.jawaBot, JawaBotException.class);
-         
-         // Wait for shutdown (the rest of the app runs in other threads).
-         JawaBotApp.jawaBot.waitForShutdown();
-      } catch ( JawaBotException ex ) {
-         log.error( "Error during JawaBot initialization", ex );
-      }
+        // Command-line and sys props options.
+        Options options = new Options().applySysProps().applyAppParams(args).validate();
 
-      log.debug( JawaBotApp.class.getSimpleName() + "#main() end.");
-   }
+        try {
+            // Read the config.
+            ConfigBean cb = new JaxbConfigPersister( options.getConfigFile() ).load();
+            JawaBotApp.jawaBot = JawaBot.create( cb );
+
+            // TODO: Move to JawaBot.
+            CdiPluginUtils.initAndStartPlugins( this.moduleHookInstances, JawaBotApp.jawaBot, JawaBotException.class );
+
+            // Wait for shutdown (the rest of the app runs in other threads).
+            JawaBotApp.jawaBot.waitForShutdown();
+        } catch ( JawaBotException ex ) {
+            log.error( "Error during JawaBot initialization", ex );
+        }
+
+        log.debug( JawaBotApp.class.getSimpleName() + "#main() end.");
+    }
    
    
    
-   
-   
-   
-   /**
-    *  This is here for JawaBotAppBeanManagerProvider.
-    */
-   public static BeanManager getBeanManager() { return beanManager; }
-   private static BeanManager beanManager;
-   
-  
+    /**
+     *  This is here for JawaBotAppBeanManagerProvider.
+     */
+    public static BeanManager getBeanManager() { return beanManager; }
+    private static BeanManager beanManager;
 
 }// class

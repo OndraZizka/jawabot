@@ -9,12 +9,12 @@ import java.util.Collection;
  */
 public interface IEntitiesPackagesProvider {
 
-   /**
-    *  @returns  A list of packages to search for entities.
-    */
-   public Collection<String> getEntityPackages();
-   
-   public Collection<Class> getEntityClasses();
+    /**
+     *  @returns  A list of packages to search for entities.
+     */
+    public Collection<String> getEntityPackages();
+
+    public Collection<Class> getEntityClasses();
    
 }// class
 
