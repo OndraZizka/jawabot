@@ -89,7 +89,7 @@ public class EntityManagerStoreImpl implements EntityManagerStore
         EmfProperties emfProperties = JawaBotApp.getJawaBot().getEntityManagerFactoryProperties();
         for( String name : emfProperties.stringPropertyNames() ) {
             final String val = emfProperties.getProperty( name );
-            log.debug("Setting EMF property: %s => %s", name, val);
+            log.debug("Setting EMF property: {} => {}", name, val);
             ejbConf.setProperty( name, val);
         }
 
