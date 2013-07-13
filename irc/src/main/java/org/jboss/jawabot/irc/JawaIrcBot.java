@@ -28,17 +28,9 @@ import org.jibble.pircbot.beans.User;
 import org.jibble.pircbot.ex.NickAlreadyInUseException;
 import org.jibble.pircbot.handlers.IrcProtocolEventHandler;
 
-
-
-
-
-
 /**
  *  JawaBot IRC module.
  * 
- *  TODO: Move resource reservation stuff to a plugin.
- *        Clean up.
- *
  *  @author Ondrej Zizka
  */
 @Dependent
