@@ -198,26 +198,34 @@
          </plugin>
 
       </plugins>
+      
+      <extensions>
+          <extension>
+              <groupId>org.apache.maven.wagon</groupId>
+              <artifactId>wagon-ssh</artifactId>
+              <version>2.4</version>
+          </extension>
+      </extensions>
    </build>
 
    <scm>
       <connection>scm:git:https://code.google.com/p/jawabot/</connection>
       <developerConnection>scm:git:https://code.google.com/p/jawabot/</developerConnection>
       <url>http://code.google.com/p/jawabot/</url>
-     <tag>HEAD</tag>
-  </scm>
+      <tag>HEAD</tag>
+   </scm>
   
    <distributionManagement>
-      <snapshotRepository>
-         <id>jboss-qa-snapshots</id>
-         <name>JBoss QA snapshot repository</name>
-         <url>http://nexus.qa.jboss.com:8081/nexus/content/repositories/snapshots</url>
-      </snapshotRepository>
-      <repository>
-         <id>jboss-qa-releases</id>
-         <name>JBoss QA release repository</name>
-         <url>http://nexus.qa.jboss.com:8081/nexus/content/repositories/releases</url>
-      </repository>
+       <snapshotRepository>
+           <id>jboss-qa-snapshots</id>
+           <name>JBoss QA snapshot repository</name>
+           <url>http://nexus.qa.jboss.com:8081/nexus/content/repositories/snapshots</url>
+       </snapshotRepository>
+       <repository>
+           <id>jboss-qa-releases</id>
+           <name>JBoss QA release repository</name>
+           <url>http://nexus.qa.jboss.com:8081/nexus/content/repositories/releases</url>
+       </repository>
    </distributionManagement>
 
 
@@ -330,5 +338,5 @@
       <!-- PLJ filter, PircBot 1.5.0 -->
       <repository><id>ondrazizka-googlecode</id><url>http://ondrazizka.googlecode.com/svn/maven</url></repository>
    </repositories>
-
+   
 </project>
