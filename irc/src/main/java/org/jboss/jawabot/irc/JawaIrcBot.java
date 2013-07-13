@@ -345,38 +345,6 @@ public class JawaIrcBot extends IrcProtocolEventHandler
 
     }
 
-   
-    /**
-     *  Decorator to save me handling exceptions everywhere.
-     *  TODO: Filter repeated exceptions.
-     */
-    private static abstract class ExceptionHandlerDecorator {
-
-        public void handle( /*IIrcPluginHook plugin,*/ IrcEvMessage msg, IrcBotProxy pircBotProxy ) {
-            try {
-                this.doIt( msg, pircBotProxy );
-            }
-            //catch( IrcPluginException ex ) {
-            catch( NullPointerException ex ) {
-                log.error( "Plugin misbehaved: " + ex, ex );
-            }
-            catch ( Throwable ex ) {
-                if( System.getProperty("bot.irc.plugins.noStackTraces") == null ) {
-                    log.error("Plugin misbehaved: " + ex.getMessage(), ex);
-                } else {
-                    log.error("Plugin misbehaved: " + ex);
-                    if (ex.getCause() != null) {
-                        log.error("  Cause: " + ex.getCause());
-                    }
-                }
-            }
-        }
-
-        public abstract void doIt(IrcEvMessage msg, IrcBotProxy pircBotProxy) throws Throwable;
-    }
-
-
-
 
 
     /**
