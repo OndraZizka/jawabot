@@ -108,6 +108,7 @@
                   <phase>process-resources</phase><!-- Override in submodules to process-resources to enable. -->
                   <goals><goal>unpack</goal></goals>
                   <configuration>
+                     <skip>${config.skipCopy}</skip>
                      <artifactItems>
                         <artifactItem>
                            <groupId>org.jboss.jawabot.configs</groupId>

@@ -5,6 +5,8 @@
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.version>2.0.0-SNAPSHOT</project.version>
+
+      <config.skipCopy>false</config.skipCopy>
    </properties>
 
    <groupId>org.jboss.jawabot</groupId>
