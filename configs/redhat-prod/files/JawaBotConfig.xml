@@ -1,52 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
-    Document   : JawaBotConfig.xml
-    Created on : 12. listopad 2009, 13:19
-    Author     : ondra
-    Description:
-        Purpose of the document follows.
+    JawaBot core configuration.
+    Configures the irc and web modules, plus persistence.
+    Plugin configurations are refered as paths relative to this file.
+    For documentation, see http://code.google.com/p/jawabot/wiki/Configuration .
 -->
-
 <jawabotConfig>
 
-   <settings
-      unsecuredShutdown = "false"
-      adminUser = "ozizka"
+    <settings
+        unsecuredShutdown = "false"
+        adminUser = "ozizka"
 
-      smtpHost = "smtp.corp.redhat.com"
-      announceEmailTo = "jboss-qa-brno@redhat.com"
-      announceEmailFrom = "jawabot-no-reply@redhat.com"
-      
-      verbose = "false"
-      leaveOnAsk = "true"
-      messageDelay = "200"
-      acceptInvitation = "true"
-      announceDefaultChannel = "#jbosssoaqa"
-      debugChannel = "#some"
-   />
-   <!-- TODO: Move to <irc ... > -->
+        smtpHost = "smtp.corp.redhat.com"
+        announceEmailTo = "jboss-qa-brno@redhat.com"
+        announceEmailFrom = "jawabot-no-reply@redhat.com"
 
-   <irc>
-      <defaultNick>JawaBot2</defaultNick>
-      <defaultNick2>JawaBot2_</defaultNick2>
-      <server host="porky.stuttgart.redhat.com">
-         <autoJoinChannels>
-            #some
-            #jbossas
-            #jbossqa
-            #jbosssoaqa
-            #devstudio-qa
-            #devstudio-doc
-            #devstudio-f2f
-            #devstudio
-            #jboss-on
-            #jbds-pm-meeting
-            #edg
-            #infinispan-internal
-         </autoJoinChannels>
-      </server>
-   </irc>
+        verbose = "false"
+        leaveOnAsk = "true"
+        messageDelay = "200"
+        acceptInvitation = "true"
+        announceDefaultChannel = "#jbosssoaqa"
+        debugChannel = "#some"
+    />
+    <!-- TODO: Move to <irc ... > -->
+   
+    <!-- TODO: Not used yet (taken from PU). -->
+    <persistence scanForEntities="false" 
+                 cacheProvider="org.hibernate.cache.NoCacheProvider"
+                 dialect="org.hibernate.dialect.MySQL5Dialect">
+        <jdbc user="jawabot" pass="jawabot" driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/jawabot?autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"
+        />
+    </persistence>
+    
+    <!-- IRC -->
+    <irc>
+        <defaultNick>JawaBot2</defaultNick>
+        <defaultNick2>JawaBot2_</defaultNick2>
+        <server host="porky.stuttgart.redhat.com">
+            <autoJoinChannels>
+                #some
+                #jbossas
+                #jbossqa
+                #jbosssoaqa
+                #devstudio-qa
+                #devstudio-doc
+                #devstudio-f2f
+                #devstudio
+                #jboss-on
+                #jbds-pm-meeting
+                #edg
+                #infinispan-internal
+            </autoJoinChannels>
+        </server>
+    </irc>
 
 
     <!-- Configuration files of plugins, plus simple key-value settings. -->
@@ -74,12 +81,12 @@
     </plugins>
 
 
-   <!-- User groups. -->
-   <userGroups>
-      <group name="soa">lpetrovi jpechane mvecera</group>
-      <group name="seam">oskutka jharting lfryc</group>
-      <group name="eap">ozizka rhusar pslavice istudens</group>
-      <group name="openjdk">ptisnovs</group>
-   </userGroups>
+    <!-- User groups. -->
+    <userGroups>
+        <group name="soa">lpetrovi jpechane mvecera</group>
+        <group name="seam">oskutka jharting lfryc</group>
+        <group name="eap">ozizka rhusar pslavice istudens</group>
+        <group name="openjdk">ptisnovs</group>
+    </userGroups>
 
 </jawabotConfig>

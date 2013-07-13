@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Created on : 2009-11-12, 19:19
-    Author     : ondra
-    
-    Config file of the core.
+    JawaBot core configuration.
     Configures the irc and web modules, plus persistence.
     Plugin configurations are refered as paths relative to this file.
+    For documentation, see http://code.google.com/p/jawabot/wiki/Configuration .
 -->
 <jawabotConfig>
 
@@ -16,7 +14,7 @@
         smtpHost = "smtp.corp.redhat.com"
         announceEmailTo = "ozizka@redhat.com"
         announceEmailFrom = "jawabot-no-reply@redhat.com"
-      
+
         verbose = "false"
         leaveOnAsk = "true"
         messageDelay = "200"
@@ -25,6 +23,17 @@
         debugChannel = "#some"
     />
 
+    
+    <!-- TODO: Not used yet (taken from PU). -->
+    <persistence scanForEntities="false" 
+                 cacheProvider="org.hibernate.cache.NoCacheProvider"
+                 dialect="org.hibernate.dialect.MySQL5Dialect">
+        <jdbc user="jawabot" pass="jawabot" driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/jawabot?autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"
+        />
+    </persistence>
+
+    <!-- IRC -->
     <irc>
         <defaultNick>gpark</defaultNick>
         <defaultNick2>JawaBot-debug_</defaultNick2>

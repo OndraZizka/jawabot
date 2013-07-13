@@ -25,6 +25,9 @@ public class ConfigBean implements Serializable {
 
     @XmlElement
     public SettingsBean settings;
+    
+    @XmlElement
+    public PersistenceBean persistence;
 
     @XmlElement
     public IrcBean irc;

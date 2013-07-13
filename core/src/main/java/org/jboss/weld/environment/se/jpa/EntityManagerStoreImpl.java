@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,8 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.Entity;
 import org.hibernate.ejb.Ejb3Configuration;
+import org.jboss.jawabot.JawaBot;
+import org.jboss.jawabot.JawaBotApp;
 import org.jboss.weld.environment.se.jpa.scan.ClassScanner;
 
 /**
@@ -55,6 +59,9 @@ public class EntityManagerStoreImpl implements EntityManagerStore
 
     @Inject 
     private CdiPluginEntitiesPackagesProvider entPackProv;
+    
+    //@Inject @QEmfProperties // Unused, can't make CDI work correctly.
+    //private EmfProperties emfProperties;
 
 
     @PostConstruct
@@ -75,6 +82,16 @@ public class EntityManagerStoreImpl implements EntityManagerStore
         Ejb3Configuration ejbConf = new Ejb3Configuration();
 
         ejbConf.configure("TestPU", null); // TODO: Externalize or use first PU from  persistence.xml.
+
+        // Set URL, user and pass, and other properties.
+        // Usually resides in persitence.xml, but we need to externalize it.
+        //ejbConf.setProperties( emfProperties ); // This seems to reset properties altogether.
+        EmfProperties emfProperties = JawaBotApp.getJawaBot().getEntityManagerFactoryProperties();
+        for( String name : emfProperties.stringPropertyNames() ) {
+            final String val = emfProperties.getProperty( name );
+            log.debug("Setting EMF property: %s => %s", name, val);
+            ejbConf.setProperty( name, val);
+        }
 
         // Scan packages.
         // https://hibernate.onjira.com/browse/EJB-252 and HHH-6466

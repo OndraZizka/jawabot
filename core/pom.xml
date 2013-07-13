@@ -109,14 +109,6 @@
 
       <!-- These are referenced in the code, but not used. -->
       
-      <!-- Spring 
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring</artifactId>
-          <version>2.5.6</version>
-      </dependency>
-      -->
-
       <!-- Playing with CDI in a Standalone app. -->
       <!-- Replacing this bundle with bunch of artifacts: http://seamframework.org/Community/WeldSEAndSlf4j
       <dependency>
@@ -129,7 +121,8 @@
       <dependency>
          <groupId>org.jboss.weld.se</groupId>
          <artifactId>weld-se-core</artifactId>
-         <version>1.1.13.Final</version>
+         <!-- Not 2.0.x - see SOLDER-339 -->
+         <version>1.1.13.Final</version> 
       </dependency>
       <!-- weld-se-core brings these.
       <dependency>

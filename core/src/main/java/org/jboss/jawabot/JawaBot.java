@@ -15,17 +15,14 @@ import org.jboss.jawabot.config.beans.ConfigBean;
 import org.jboss.jawabot.config.beans.PluginBean;
 import org.slf4j.Logger; import org.slf4j.LoggerFactory; 
 import org.jboss.jawabot.groupmgr.GroupManager;
+import org.jboss.weld.environment.se.jpa.EmfProperties;
+import org.jboss.weld.environment.se.jpa.QEmfProperties;
 
 
 
 /**
- * JawaBot implementation.
+ * JawaBot core.
  *
- * TODO: Move actions from handleCommand() to some CommandHandlerImpl?
- * 
- * Created by splitting JavaIrcBot.java - separating IRC "front-end" stuff and backend stuff.
- * 
- * 
  * @author Ondrej Zizka
  */
 @ApplicationScoped
@@ -35,15 +32,35 @@ public class JawaBot
 
 
 
+    // Config
     @Produces @FromJawaBot
     public ConfigBean getConfig() {
         return config;
     }
     private ConfigBean config;
-
+    
+    
+    // MailUtils
     private final MailUtils mailUtils = new MailUtils( this.config );
     @Produces @FromJawaBot public MailUtils getMailUtils() { return this.mailUtils; }
 
+    
+    // EMF properties. CDI doesn't work in EntityManagerStoreImpl.
+    @Produces @QEmfProperties @ApplicationScoped public EmfProperties getEntityManagerFactoryProperties(){
+        final EmfProperties props = new EmfProperties();
+        if( config.persistence == null || config.persistence.jdbc == null ){
+            log.warn("No persistence JDBC config found, using defaults - MySQL, localhost:3306, jawabot/jawabot");
+        }
+        else {
+            props.setProperty("hibernate.connection.url", config.persistence.jdbc.url );
+            props.setProperty("hibernate.connection.username", config.persistence.jdbc.user );
+            props.setProperty("hibernate.connection.password", config.persistence.jdbc.pass );
+            props.setProperty("hibernate.connection.driver_class", config.persistence.jdbc.driver );
+        }
+        return props;
+    }
+    
+    
     private boolean initialized = false;
     public boolean isInitialized() {      return initialized;   }
 

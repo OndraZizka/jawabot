@@ -105,7 +105,7 @@
                <!-- Copy a profile specified in ${configProfile} to workdir/ -->
                <execution>
                   <id>config.copyToWorkdir</id>
-                  <phase>none</phase><!-- Override in submodules to process-resources to enable. -->
+                  <phase>process-resources</phase><!-- Override in submodules to process-resources to enable. -->
                   <goals><goal>unpack</goal></goals>
                   <configuration>
                      <artifactItems>

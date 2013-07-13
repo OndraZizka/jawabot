@@ -1,88 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JawaBot core configuration.
+    Configures the irc and web modules, plus persistence.
+    Plugin configurations are refered as paths relative to this file.
+    For documentation, see http://code.google.com/p/jawabot/wiki/Configuration .
+-->
 <jawabotConfig>
 
-   <settings
-      unsecuredShutdown = "false"
-      adminUser = "yournick"
+    <settings
+       unsecuredShutdown = "false"
+       adminUser = "yournick"
 
-      smtpHost = "###########"
-      announceEmailTo = "your@example.com"
-      announceEmailFrom = "jawabot-no-reply@example.com"
-      
-      verbose = "false"
-      leaveOnAsk = "true"
-      messageDelay = "200"
-      acceptInvitation = "true"
-      announceDefaultChannel = "#jawabot"
-      debugChannel = "#jawabot"
-   />
+       smtpHost = "###########"
+       announceEmailTo = "your@example.com"
+       announceEmailFrom = "jawabot-no-reply@example.com"
 
-   <irc>
-        <defaultNick>JawaBot</defaultNick>
-        <defaultNick2>JawaBot_</defaultNick2>
-        <!--
-        <servers>
-        -->
-            <server host="irc.freenode.org" nick="JawaBot">
-                <autoJoinChannels>
-                    #jawabot
-                    #wicket
-                </autoJoinChannels>
-            </server>
-        <!--
-        </servers>
-        -->
-   </irc>
+       verbose = "false"
+       leaveOnAsk = "true"
+       messageDelay = "200"
+       acceptInvitation = "true"
+       announceDefaultChannel = "#jawabot"
+       debugChannel = "#jawabot"
+    />
 
-   <!-- TODO: Not used yet. -->
-   <web
-      bind="0.0.0.0"
-      port="8080"
-      path="/"
-   />
-   
-   <!-- TODO: Not used yet (taken from PU). -->
-   <persistence
-         scanForEntities="false"
-      >
-      <jdbc
-         user="jawabot" pass="jawabot" driver="com.mysql.jdbc.Driver" dialect="org.hibernate.dialect.MySQL5Dialect"
-         url="jdbc:mysql://localhost:3306/jawabot?autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"
-         cacheProvider="org.hibernate.cache.NoCacheProvider"
-      />
-   </persistence>
-   
-   <!-- TODO: Not used yet. Will probably point to other file. -->
-   <plugins>
-        <plugin id="reservation" configPath="JawaBotConfig-plugin-reservation.xml"></plugin>
-        <plugin id="jira" configPath="JawaBotConfig-plugin-jira.xml"></plugin>
-        <plugin id="logger">
-            <settings
-                logEnabledByDefault="true"
-            />
-        </plugin>
-        <plugin id="whereis">
-            <settings
-                scanPeriodMin="30"
-            />
-        </plugin>
-        <plugin id="autoop">
-            <settings
-                begForOpPeriod="0"
-            />
-            <nicks>ozizka</nicks>
-        </plugin>
-        <plugin id="messenger"></plugin>
-        <plugin id="social"></plugin>
-        <plugin id="pastebin"></plugin>
-   </plugins>
+    <!-- TODO: Not used yet (taken from PU). -->
+    <persistence scanForEntities="false">
+       <jdbc
+          user="jawabot" pass="jawabot" driver="com.mysql.jdbc.Driver" dialect="org.hibernate.dialect.MySQL5Dialect"
+          url="jdbc:mysql://localhost:3306/jawabot?autoReconnect=true&amp;autoReconnectForPools=true&amp;zeroDateTimeBehavior=convertToNull"
+          cacheProvider="org.hibernate.cache.NoCacheProvider"
+       />
+    </persistence>
+
+    <!-- IRC -->
+    <irc>
+         <defaultNick>JawaBot</defaultNick>
+         <defaultNick2>JawaBot_</defaultNick2>
+         <!--
+         <servers>
+         -->
+             <server host="irc.freenode.org" nick="JawaBot">
+                 <autoJoinChannels>
+                     #jawabot
+                     #wicket
+                 </autoJoinChannels>
+             </server>
+         <!--
+         </servers>
+         -->
+    </irc>
+
+    <!-- TODO: Not used yet. -->
+    <web
+        bind="0.0.0.0"
+        port="8080"
+        path="/"
+    />
+
+    <!-- Configuration files of plugins, plus simple key-value settings. -->
+    <plugins>
+         <plugin id="reservation" configPath="JawaBotConfig-plugin-reservation.xml"></plugin>
+         <plugin id="jira" configPath="JawaBotConfig-plugin-jira.xml"></plugin>
+         <plugin id="logger">
+             <settings
+                 logEnabledByDefault="true"
+             />
+         </plugin>
+         <plugin id="whereis">
+             <settings
+                 scanPeriodMin="30"
+             />
+         </plugin>
+         <plugin id="autoop">
+             <settings
+                 begForOpPeriod="0"
+             />
+             <nicks>ozizka</nicks>
+         </plugin>
+         <plugin id="messenger"></plugin>
+         <plugin id="social"></plugin>
+         <plugin id="pastebin"></plugin>
+    </plugins>
 
 
-   <userGroups>
-      <group name="soa">lpetrovi jpechane mvecera</group>
-      <group name="seam">oskutka jharting lfryc</group>
-      <group name="eap">ozizka rhusar</group>
-      <group name="openjdk">ptisnovs</group>
-   </userGroups>
+    <userGroups>
+       <group name="soa">lpetrovi jpechane mvecera</group>
+       <group name="seam">oskutka jharting lfryc</group>
+       <group name="eap">ozizka rhusar</group>
+       <group name="openjdk">ptisnovs</group>
+    </userGroups>
 
 </jawabotConfig>
