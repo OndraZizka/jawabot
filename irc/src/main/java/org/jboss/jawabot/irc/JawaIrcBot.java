@@ -23,6 +23,7 @@ import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.irc.ent.IrcEvNickChange;
 import org.jboss.jawabot.irc.ent.IrcEvPart;
+import org.jboss.jawabot.mail.MailSender;
 import org.jibble.pircbot.IrcServerConnection;
 import org.jibble.pircbot.beans.User;
 import org.jibble.pircbot.ex.NickAlreadyInUseException;
@@ -491,9 +492,6 @@ public class JawaIrcBot extends IrcProtocolEventHandler
 
 
 
-
-
-   
  
 
     /**
@@ -503,7 +501,7 @@ public class JawaIrcBot extends IrcProtocolEventHandler
     private void trySendMail( MailData mail, String fromUser, String fallbackErrorMsgChannel ) {
         try {
             // Send the mail announcement.
-            sendMail( fromUser, mail );
+            new MailSender(this.jawaBot).sendMail( fromUser, mail );
         }
         catch( JawaBotException ex ) {
             String excMessage = ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage();
@@ -514,9 +512,6 @@ public class JawaIrcBot extends IrcProtocolEventHandler
     }
 
 
-
-
-   
    
 
     /**
