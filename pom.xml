@@ -171,6 +171,7 @@
          </plugin>
          
          
+         <!-- Compile, Git, Release, Deployment. -->
          <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration> <source>1.6</source> <target>1.6</target> </configuration>
@@ -188,6 +189,13 @@
                <tagNameFormat>@{project.version}</tagNameFormat> <!--@{project.artifactId}-@{project.version}-->
             </configuration>
          </plugin>
+         <!-- Don't deploy all artifacts. Overridden in submodules. -->         
+         <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-deploy-plugin</artifactId>
+             <executions> <execution> <id>default-deploy</id> <phase>none</phase> </execution></executions>
+         </plugin>
+
       </plugins>
    </build>
 

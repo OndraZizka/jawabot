@@ -188,14 +188,20 @@
                     <execution>
                         <id>uploadDistJar</id>
                         <goals> <goal>deploy</goal> </goals>
-                        <configuration>
-                            
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
             -->
+            
+            <!-- Enable deploy for this submodule. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <executions> <execution> <id>default-deploy</id> <phase>deploy</phase> </execution></executions>
+            </plugin>
+            
         </plugins>
+        
     </build>
 
 
