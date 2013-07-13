@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pluginConfig>
+
+   <settings
+      smtpHost = "smtp.corp.redhat.com"
+      announceEmailTo = "ozizka@redhat.com"
+      announceEmailFrom = "jawabot-no-reply@redhat.com"
+      announceDefaultChannel = "#some"
+      
+      stateFilePath = "conf/JawaBotState.xml"
+   />
+   <!-- State will be persisted to a DB later. -->
+
+
+   <resources>
+        <resource name="jawa01" note="EAP"/>
+        <resource name="jawa02" note="EAP"/>
+        <resource name="jawa03" note="EAP"/>
+        <resource name="jawa04" note="EAP"/>
+        <resource name="mike" note="EAP"/>
+        <resource name="boo" note="EAP"/>
+        <resource name="sully" note="EAP"/>
+        <resource name="randall" note="EAP"/>
+   </resources>
+
+   <resourceGroups>
+      <group name="brno" channel="#brno" mail="brno@example.com"
+      > jawa01 jawa02 jawa03 jawa04</group>
+      <group name="boston">mike boo sully randall</group>
+   </resourceGroups>
+
+   <userGroups>
+      <group name="dev">ozizka jharting lfryc</group>
+      <group name="qa">lpetrovi jpechane mvecera</group>
+   </userGroups>
+
+</pluginConfig>
