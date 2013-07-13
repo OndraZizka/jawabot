@@ -89,13 +89,11 @@ public class CommandHandlerImpl implements CommandHandler
       CommandReply reply = new CommandReply();
       reply.wasSuccessful = true;
 
-      reply.addReply("Hi, I'm an universal IRC bot with web interface. Version: "+JawaBotApp.VERSION);
-      reply.addReply("If you want me in your channel, type 'join #my-channel', or type '/invite " + this.getIrcBot().getNick() + "' in that channel.");
-      reply.addReply("If you don't like me, kick me off. Or say '"+this.getIrcBot().getNick()+" please leave'.");
-      //reply.addReply("Basic usage: list [<resource>] ");
-      //reply.addReply("             find [<from-date> [<to-date>]] ");
-      //reply.addReply("             ( take | keep ) <resource[,resource]> [<from> [<to-date>]] # <comment to mail>");
-      //reply.addReply("             leave ( <resource[,resource]> | all )");
+      String nick = this.getIrcBot().getNick();
+      reply.addReply("Hi, I'm an universal pluggable IRC bot with a web interface. Version: "+JawaBotApp.VERSION);
+      reply.addReply("If you want me in your channel, type '" + nick + ": join #my-channel',"
+                   + " or type '/invite " + nick + "' in that channel.");
+      reply.addReply("If you don't like me, kick me off. Or say '"+nick+" please leave'.");
       reply.addReply("For more info, see " + JawaBotApp.PROJECT_DOC_URL);
 
       return reply;
