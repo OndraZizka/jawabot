@@ -21,7 +21,7 @@
         <mainClass>org.jboss.jawabot.JawaBotApp</mainClass>
         
         <!-- Override root's default (workdir). -->
-        <confOutputDir>workdir/conf</confOutputDir>
+        <config.outputDir>workdir/conf</config.outputDir>
     </properties>
 
 
