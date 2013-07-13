@@ -1,7 +1,7 @@
 package org.jboss.jawabot.irc;
 
 import org.jboss.jawabot.irc.ent.IrcEvent;
-import org.jibble.pircbot.User;
+import org.jibble.pircbot.beans.User;
 
 /**
  *  Limits possible calls to a set safe to provide to plugins.
@@ -26,7 +26,7 @@ public class IrcBotProxy {
     // ==== Sending. ==== 
     
     public final void sendMessage(String target, String message) {
-        jawaIrcBot.sendMessage(target, message);
+        jawaIrcBot.getConn().sendMessage(target, message);
     }
 
     public final void sendMessage(String user, String channel, String message) {
@@ -34,11 +34,11 @@ public class IrcBotProxy {
             if (user == null) {
                 throw new IllegalArgumentException("Neither user nor channel set, can't send the message: " + message);
             } else {
-                this.jawaIrcBot.sendMessage(user, message);
+                this.jawaIrcBot.getConn().sendMessage(user, message);
             }
         } else {
             String whoFor = (user == null) ? "" : (user + ": ");
-            this.jawaIrcBot.sendMessage(channel, whoFor + message);
+            this.jawaIrcBot.getConn().sendMessage(channel, whoFor + message);
         }
     }
     
@@ -51,61 +51,61 @@ public class IrcBotProxy {
     }
 
     public final void sendNotice(String target, String notice) {
-        jawaIrcBot.sendNotice(target, notice);
+        jawaIrcBot.getConn().sendNotice(target, notice);
     }
 
     public final void sendInvite(String nick, String channel) {
-        jawaIrcBot.sendInvite(nick, channel);
+        jawaIrcBot.getConn().sendInvite(nick, channel);
     }
 
     public final void sendCTCPCommand(String target, String command) {
-        jawaIrcBot.sendCTCPCommand(target, command);
+        jawaIrcBot.getConn().sendCTCPCommand(target, command);
     }
 
     public final void sendAction(String target, String action) {
-        jawaIrcBot.sendAction(target, action);
+        jawaIrcBot.getConn().sendAction(target, action);
     }
 
     
     // ==== Users related. ==== 
     
     public final void op(String channel, String nick) {
-        jawaIrcBot.op(channel, nick);
+        jawaIrcBot.getConn().op(channel, nick);
     }
 
     public final void deOp(String channel, String nick) {
-        jawaIrcBot.deOp(channel, nick);
+        jawaIrcBot.getConn().deOp(channel, nick);
     }
 
     public final void kick(String channel, String nick, String reason) {
-        jawaIrcBot.kick(channel, nick, reason);
+        jawaIrcBot.getConn().kick(channel, nick, reason);
     }
 
     public final void kick(String channel, String nick) {
-        jawaIrcBot.kick(channel, nick);
+        jawaIrcBot.getConn().kick(channel, nick);
     }
 
     public final void voice(String channel, String nick) {
-        jawaIrcBot.voice(channel, nick);
+        jawaIrcBot.getConn().voice(channel, nick);
     }
 
     public final void deVoice(String channel, String nick) {
-        jawaIrcBot.deVoice(channel, nick);
+        jawaIrcBot.getConn().deVoice(channel, nick);
     }
 
     public final void ban(String channel, String hostmask) {
-        jawaIrcBot.ban(channel, hostmask);
+        jawaIrcBot.getConn().ban(channel, hostmask);
     }
 
     public final void unBan(String channel, String hostmask) {
-        jawaIrcBot.unBan(channel, hostmask);
+        jawaIrcBot.getConn().unBan(channel, hostmask);
     }
 
     
     // ==== Channel related. ==== 
     
     public final User[] getUsers(String channel) {
-        return jawaIrcBot.getUsers(channel);
+        return jawaIrcBot.getConn().getUsers(channel);
     }
     
     public boolean isUserInChannel( String channel, String user ){
@@ -132,34 +132,34 @@ public class IrcBotProxy {
     }
 
     public final void setTopic(String channel, String topic) {
-        jawaIrcBot.setTopic(channel, topic);
+        jawaIrcBot.getConn().setTopic(channel, topic);
     }
 
     public final void setMode(String channel, String mode) {
-        jawaIrcBot.setMode(channel, mode);
+        jawaIrcBot.getConn().setMode(channel, mode);
     }
 
     public final void partChannel(String channel, String reason) {
-        jawaIrcBot.partChannel(channel, reason);
+        jawaIrcBot.getConn().partChannel(channel, reason);
     }
 
     public final void partChannel(String channel) {
-        jawaIrcBot.partChannel(channel);
+        jawaIrcBot.getConn().partChannel(channel);
     }
 
     public final void joinChannel(String channel, String key) {
-        jawaIrcBot.joinChannel(channel, key);
+        jawaIrcBot.getConn().joinChannel(channel, key);
     }
 
     public final void joinChannel(String channel) {
-        jawaIrcBot.joinChannel(channel);
+        jawaIrcBot.getConn().joinChannel(channel);
     }
 
     
     //  ==== Bot- and connection-related. ====
     
     public final String[] getChannels() {
-        return jawaIrcBot.getChannels();
+        return jawaIrcBot.getConn().getChannels();
     }
     
     public final void listChannels( ChannelInfoHandler channelInfoHandler ) {
@@ -181,27 +181,27 @@ public class IrcBotProxy {
     }*/
 
     public final String getVersion() {
-        return jawaIrcBot.getVersion();
+        return jawaIrcBot.getConn().getVersion();
     }
 
     public final String getServer() {
-        return jawaIrcBot.getServer();
+        return jawaIrcBot.getConn().getServer();
     }
 
     public final int getPort() {
-        return jawaIrcBot.getPort();
+        return jawaIrcBot.getConn().getPort();
     }
 
     public String getNick() {
-        return jawaIrcBot.getNick();
+        return jawaIrcBot.getConn().getNick();
     }
 
     public final String getName() {
-        return jawaIrcBot.getName();
+        return jawaIrcBot.getConn().getName();
     }
 
     public final String getLogin() {
-        return jawaIrcBot.getLogin();
+        return jawaIrcBot.getConn().getLogin();
     }
 
 

@@ -12,7 +12,6 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.jawabot.config.beans.ConfigBean;
-import org.jibble.pircbot.PircBot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jboss.jawabot.JawaBot;
@@ -24,8 +23,15 @@ import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.irc.ent.IrcEvNickChange;
 import org.jboss.jawabot.irc.ent.IrcEvPart;
-import org.jibble.pircbot.NickAlreadyInUseException;
-import org.jibble.pircbot.User;
+import org.jibble.pircbot.IrcServerConnection;
+import org.jibble.pircbot.beans.User;
+import org.jibble.pircbot.ex.NickAlreadyInUseException;
+import org.jibble.pircbot.handlers.IrcProtocolEventHandler;
+
+
+
+
+
 
 /**
  *  JawaBot IRC module.
@@ -36,17 +42,22 @@ import org.jibble.pircbot.User;
  *  @author Ondrej Zizka
  */
 @Dependent
-public class JawaIrcBot extends PircBot
+public class JawaIrcBot extends IrcProtocolEventHandler
 {
     private static final Logger log = LoggerFactory.getLogger( JawaIrcBot.class );
-
+    
    
     final String USUAL_NICK = "jawabot";
 
-   
+
+    // App's main object.
     private JawaBot jawaBot;
     public JawaBot getJawaBot() { return jawaBot; }
     void setJawaBot(JawaBot jawaBot) { this.jawaBot = jawaBot; }
+
+    // IRC server connection. Formerly, this class extended PircBot.
+    private IrcServerConnection conn;
+    public IrcServerConnection getConn() { return conn; }
     
     
     // Proxy provided to plugins to allow them to send messagesetc.
@@ -101,6 +112,7 @@ public class JawaIrcBot extends PircBot
    
     /** Const. */
     public JawaIrcBot() {
+        super();
         this.pircBotProxy = new IrcBotProxy(this);
     }
 
@@ -160,7 +172,7 @@ public class JawaIrcBot extends PircBot
      */
     public void connectAndJoin() throws JawaBotException {
         log.info("Connecting...");
-        if( this.isConnected() )
+        if( this.conn.isConnected() )
             log.error("Already connected.");
 
         ConfigBean cnf = this.getConfig();
@@ -202,21 +214,21 @@ public class JawaIrcBot extends PircBot
 
         // Connect to the server
         nickTry: try {
-            this.setVerbose(true);
+            this.conn.setVerbose(true);
             int delaySec = INITIAL_DELAY_SEC;
             for( int i = 1; i <= MAX_NICK_TRIES; i++ ) {
                 log.info("Trying nick '" + nickToTry + "'...");
                 try {
-                    this.setName( nickToTry  );
+                    this.conn.setName( nickToTry  );
                     this.intentionalDisconnect = false;
-                    this.connect(server.host);
+                    this.conn.connect(server.host);
                     // Wait for potential "ERROR :Trying to reconnect too fast."
                     log.info("Waiting " + delaySec + " seconds for potential \"ERROR :Trying to reconnect too fast.\"");
                     Thread.sleep( delaySec * 1000 );
                     delaySec += DELAY_SEC_ADD_IN_NEXT_ATTEMPT;
 
                     // On nick clash or when reconnecting too quickly, IRC server disconnects us.
-                    if (this.isConnected()) {
+                    if (this.conn.isConnected()) {
                         log.info("Connected to " + server.host);
                         break nickTry;
                     }
@@ -237,17 +249,17 @@ public class JawaIrcBot extends PircBot
         }
 
 
-        log.info("Joining channels..." + this.isConnected());
+        log.info("Joining channels..." + this.conn.isConnected());
 
         // Join the default channels.
         for (String channel : server.autoJoinChannels) {
             log.info(" * joining '" + channel + "'");
-            this.joinChannel(channel);
+            this.conn.joinChannel(channel);
         }
-        this.joinChannel("#some");
+        this.conn.joinChannel("#some");
 
         log.info("Connecting done.");
-        assert this.isConnected();
+        assert this.conn.isConnected();
 
     }// connectAndJoin()
 
@@ -263,7 +275,7 @@ public class JawaIrcBot extends PircBot
      * calling user's nick and the message.
      */
     @Override
-    protected void onMessage( String channel, String sender, String login, String hostname, String msgText ) {
+    public void onMessage( String channel, String sender, String login, String hostname, String msgText ) {
         if( ! this.isInitialized() ) {
             log.warn("Called onMessage(), but not initialized yet.");
             return;
@@ -278,7 +290,7 @@ public class JawaIrcBot extends PircBot
         // Check for presence of bot nick prolog.
         int prologEnd = Math.max(
               IrcUtils.getMsgStartAfterNick( msgNorm, USUAL_NICK ),
-              IrcUtils.getMsgStartAfterNick( msgNorm, this.getNick() ) );
+              IrcUtils.getMsgStartAfterNick( msgNorm, this.conn.getNick() ) );
         
         if( prologEnd != 0 ){
 
@@ -318,7 +330,7 @@ public class JawaIrcBot extends PircBot
      * Private IRC message - no channel, only from user.
      */
     @Override
-    protected void onPrivateMessage( String sender, String login, String hostname, String msgText ) {
+    public void onPrivateMessage( String sender, String login, String hostname, String msgText ) {
 
         // If it's a core command, don't pass it to  plugins.
         if (handleJawaBotCoreCommand(null, sender, msgText.trim())) {
@@ -425,8 +437,8 @@ public class JawaIrcBot extends PircBot
         // Leave the current channel.
         else if( !isFromPrivateMessage && command.startsWith( "please leave" ) ) {
             wasValidCommand = true;
-            sendMessage( replyTo, "Bye everyone. I'll be around; if you miss me later, /invite me." );
-            this.partChannel( fromChannel, "Persona non grata." );
+            this.conn.sendMessage( replyTo, "Bye everyone. I'll be around; if you miss me later, /invite me." );
+            this.conn.partChannel( fromChannel, "Persona non grata." );
         }
 
             
@@ -438,16 +450,16 @@ public class JawaIrcBot extends PircBot
         ) {
             wasValidCommand = true;
             stateChanged = true;
-            sendMessage( replyTo, "Bye, shutting down." );
+            this.conn.sendMessage( replyTo, "Bye, shutting down." );
             //this.partChannel(from, "Warp core overload."); // From private message.
-            this.disconnect();
+            this.conn.disconnect();
         }
 
       
         // Join a channel.
         if( command.startsWith( "rename " ) ) {
             wasValidCommand = true;
-            this.changeNick( command.substring(7).trim() );
+            this.conn.changeNick( command.substring(7).trim() );
         }
 
 
@@ -480,12 +492,12 @@ public class JawaIrcBot extends PircBot
             for( CommandReplyMessage msg : reply.ircMessages ) {
                 if( msg.isAnnouncement ) {
                     for( String sendTo : reply.additionalAnnounceChannels ) {
-                        sendMessage( sendTo, msg.text );
+                        this.conn.sendMessage( sendTo, msg.text );
                     }
                 }
                 // Prevent duplication: To send this reply, it must not go to the channel where it already was sent to.
                 if( msg.isReply && (noDangerOfReplyDubbing || !msg.isAnnouncement) ) {
-                    sendMessage( replyTo, msg.text );
+                    this.conn.sendMessage( replyTo, msg.text );
                 }
             }
 
@@ -509,7 +521,7 @@ public class JawaIrcBot extends PircBot
 
         // Invalid syntax?
         if( !wasValidSyntax ) {
-            sendMessage( replyTo, "Invalid command syntax, see " + JawaBotApp.PROJECT_DOC_URL );
+            this.conn.sendMessage( replyTo, "Invalid command syntax, see " + JawaBotApp.PROJECT_DOC_URL );
         }
 
         return wasValidCommand;
@@ -537,7 +549,7 @@ public class JawaIrcBot extends PircBot
             String excMessage = ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage();
             String reply = excMessage; //"Unable to send announcement email: "+excMessage;
             log.error( reply );
-            sendMessage( fallbackErrorMsgChannel, reply);
+            this.conn.sendMessage( fallbackErrorMsgChannel, reply);
         }
     }
 
@@ -573,7 +585,7 @@ public class JawaIrcBot extends PircBot
      *  Send it to the appropriate handler - likely given by plugin.
      */
     @Override
-    protected void onChannelInfo( String channel, int userCount, String topic ) {
+    public void onChannelInfo( String channel, int userCount, String topic ) {
       if( this.currentOnChannelInfoHandler == null )
          return;
       this.currentOnChannelInfoHandler.onChannelInfo( channel, userCount, topic );
@@ -593,7 +605,7 @@ public class JawaIrcBot extends PircBot
 
         // PircBot will call onChannelInfo() and we will redirect these calls to the handler.
         // Unfortunatelly, there's no way to recognize when it finished.
-        this.listChannels();
+        this.conn.listChannels();
     }
 
 
@@ -609,7 +621,7 @@ public class JawaIrcBot extends PircBot
      */
     protected void listUsersInChannel( String channel, UserListHandler handler )
     {
-        User[] users = this.getUsers(channel);
+        User[] users = this.conn.getUsers(channel);
         if( users.length != 0 ){
             log.debug("  Already in channel: " + channel);
             handler.setDisconnectFlag( false );
@@ -629,12 +641,12 @@ public class JawaIrcBot extends PircBot
         ChannelToPart channelToPart;
         while( null != (channelToPart = partChannels.poll()) ){
             log.debug( "   Parting temp channel from a part queue: " + channelToPart.getName() );
-            this.partChannel(channelToPart.getName(), "I'm still here?");
+            this.conn.partChannel(channelToPart.getName(), "I'm still here?");
         }
 
         log.debug("  Temporarily joining channel: " + channel);
         handler.setDisconnectFlag( true );
-        this.joinChannel(channel);
+        this.conn.joinChannel(channel);
         // PircBot will (hopefully) call onUserList() and we will redirect these calls to the handler.
         partChannels.add( new ChannelToPart(channel, 10*1000) );
     }
@@ -644,7 +656,7 @@ public class JawaIrcBot extends PircBot
      *  Send it to the appropriate handler - likely given by plugin.
      */
     @Override
-    protected void onUserList( String channel, User[] users ) {
+    public void onUserList( String channel, User[] users ) {
         UserListHandler handler = this.currentOnUserListHandlers.remove(channel);
         if( null == handler ){
             log.debug("  No onUserList() handler for channel: " + channel);
@@ -654,7 +666,7 @@ public class JawaIrcBot extends PircBot
         handler.onUserList( channel, users );
         if( handler.isDisconnectFlag() ){
             log.debug("  Parting temporarily joined channel: " + channel);
-            this.partChannel(channel);
+            this.conn.partChannel(channel);
         }
     }
 
@@ -662,7 +674,7 @@ public class JawaIrcBot extends PircBot
     
     // Action
     @Override
-    protected void onAction( String sender, String login, String hostname, String target, String action ) {
+    public void onAction( String sender, String login, String hostname, String target, String action ) {
         for( final IIrcPluginHook plugin : this.plugins ) {
             plugin.onAction( new IrcEvAction( null, target, sender, action,  new Date() ), this.pircBotProxy );
         }
@@ -671,7 +683,7 @@ public class JawaIrcBot extends PircBot
     
     // Someone joined a channel we're in.
     @Override
-    protected void onJoin( String channel, String sender, String login, String hostname ) {
+    public void onJoin( String channel, String sender, String login, String hostname ) {
         for( final IIrcPluginHook plugin : this.plugins ) {
             plugin.onJoin( new IrcEvJoin( null, channel, sender, login, hostname ), this.pircBotProxy );
         }
@@ -680,8 +692,8 @@ public class JawaIrcBot extends PircBot
 
     //  :JawaBot-debug!~PircBot@vpn1-6-95.ams2.redhat.com PART #frien
     @Override
-    protected void onPart( String channel, String sender, String login, String hostname ) {
-        if( sender.equals( this.getNick() ) )
+    public void onPart( String channel, String sender, String login, String hostname ) {
+        if( sender.equals( this.conn.getNick() ) )
             this.onPartUs( channel );
         else {
             Date now = new Date();
@@ -700,7 +712,7 @@ public class JawaIrcBot extends PircBot
     }
 
     @Override
-    protected void onNickChange( String oldNick, String login, String hostname, String newNick ) {
+    public void onNickChange( String oldNick, String login, String hostname, String newNick ) {
         Date now = new Date();
         for( final IIrcPluginHook plugin : this.plugins ) {
             plugin.onNickChange( new IrcEvNickChange( null, oldNick, newNick, login, hostname, now ), this.pircBotProxy );
@@ -708,21 +720,21 @@ public class JawaIrcBot extends PircBot
     }
 
     @Override
-    protected void onQuit( String sourceNick, String sourceLogin, String sourceHostname, String reason ) {
+    public void onQuit( String sourceNick, String sourceLogin, String sourceHostname, String reason ) {
         // TODO
     }
 
 
     @Override
-    protected void onInvite( String targetNick, String sourceNick, String sourceLogin, String sourceHostname, String channel ) {
+    public void onInvite( String targetNick, String sourceNick, String sourceLogin, String sourceHostname, String channel ) {
         //if( this.getConfig().getSettingBool(SETID_ACCEPT_INVITATION))
-        this.joinChannel( channel );
+        this.conn.joinChannel( channel );
     }
 
     
     
     @Override
-    protected void onConnect() {
+    public void onConnect() {
         for( final IIrcPluginHook plugin : this.plugins ) {
             plugin.onConnect( this.pircBotProxy );
         }
@@ -731,7 +743,7 @@ public class JawaIrcBot extends PircBot
 
 
     @Override
-    protected void onDisconnect() {
+    public void onDisconnect() {
         log.info( "onDisconnect()." );
 
         for( final IIrcPluginHook plugin : this.plugins ) {
@@ -742,7 +754,7 @@ public class JawaIrcBot extends PircBot
         //       See connectAndReconnectOnDisconnect().      
         if( this.isIntentionalDisconnect() ) {
             log.info( "  Intentional disconnect, disposing PircBot." );
-            this.dispose();
+            this.conn.dispose();
         }
         synchronized( this ) {
             log.info( "  notifyAll() on PircBot@" + this.hashCode() );
@@ -760,8 +772,8 @@ public class JawaIrcBot extends PircBot
         //this.config = config;
 
         // Settings.
-        this.setVerbose( config.settings.verbose ); // Enable debugging output.
-        this.setMessageDelay( config.settings.messageDelay );
+        this.conn.setVerbose( config.settings.verbose ); // Enable debugging output.
+        this.conn.setMessageDelay( config.settings.messageDelay );
 
     }
 
@@ -782,16 +794,11 @@ public class JawaIrcBot extends PircBot
 
     /** Send a message to the debug channel. */
     public void sendDebugMessage( String msg ) {
-        this.sendMessage( this.getConfig().settings.debugChannel, msg );
+        this.conn.sendMessage( this.getConfig().settings.debugChannel, msg );
     }
 
 
 }// class
-
-
-
-
-
 /**
  *  Info about channel we should part.
  *  This is needed because PART is not always really done, and the bot stays connected.

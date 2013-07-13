@@ -52,14 +52,14 @@ public class CommandHandlerImpl implements CommandHandler
             channelToJoin = '#'+channelToJoin;
 
          // Already there?
-         if( Arrays.asList( this.getIrcBot().getChannels() ).contains( channelToJoin ) ){
+         if( Arrays.asList( this.getIrcBot().getConn().getChannels() ).contains( channelToJoin ) ){
             reply.addReply( "Already was at "+channelToJoin );
             break;
          }
 
          // Join.
          reply.addReply( "Joining channel: "+channelToJoin );
-         this.getIrcBot().joinChannel( channelToJoin );
+         this.getIrcBot().getConn().joinChannel( channelToJoin );
       }
       while( false );
 
@@ -89,7 +89,7 @@ public class CommandHandlerImpl implements CommandHandler
       CommandReply reply = new CommandReply();
       reply.wasSuccessful = true;
 
-      String nick = this.getIrcBot().getNick();
+      String nick = this.getIrcBot().getConn().getNick();
       reply.addReply("Hi, I'm an universal pluggable IRC bot with a web interface. Version: "+JawaBotApp.VERSION);
       reply.addReply("If you want me in your channel, type '" + nick + ": join #my-channel',"
                    + " or type '/invite " + nick + "' in that channel.");

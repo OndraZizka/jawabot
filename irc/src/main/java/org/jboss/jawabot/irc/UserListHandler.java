@@ -1,6 +1,6 @@
 package org.jboss.jawabot.irc;
 
-import org.jibble.pircbot.User;
+import org.jibble.pircbot.beans.User;
 
 /**
  *  

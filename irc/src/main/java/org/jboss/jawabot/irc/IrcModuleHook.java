@@ -51,7 +51,7 @@ public class IrcModuleHook implements IModuleHook<JawaBot, JawaBotException>
 
    @Override
    public void destroyModule() {
-      this.ircBot.dispose();
+      this.ircBot.getConn().dispose();
    }
     
    
@@ -72,7 +72,7 @@ public class IrcModuleHook implements IModuleHook<JawaBot, JawaBotException>
 
    @Override
    public void stopModule() {
-      ircBot.disconnect();
+      ircBot.getConn().disconnect();
    }
 
 

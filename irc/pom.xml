@@ -54,14 +54,14 @@
         </dependency>
 
         <dependency>
+            <!--
             <groupId>cz.dynawest.third.pircbot</groupId>
             <artifactId>PircBot</artifactId>
             <version>1.5.0</version>
-            <!--
+            -->
             <groupId>cz.dynawest.pircbot</groupId>
             <artifactId>PircBot-core</artifactId>
             <version>1.7.0</version>
-            -->
         </dependency>
 
     </dependencies>
