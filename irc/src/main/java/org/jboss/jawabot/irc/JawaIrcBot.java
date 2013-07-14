@@ -491,7 +491,7 @@ public final class JawaIrcBot {
 
      
      
-    public boolean isUserInChannel( String channel, String user ){
+    public boolean isUserInChannel( String user, String channel ){
         return this.isUserInChannel(channel, user, false);
     }
 
@@ -499,7 +499,7 @@ public final class JawaIrcBot {
      * @param normalize  Whether ozizka-pto matches with ozizka_lunch. Normalization basically removes any suffix after _, -, ~, | etc.
      * @see   IrcUtils.normalizeUserNick()
      */
-    public boolean isUserInChannel( String channel, String nick, boolean normalize ){
+    public boolean isUserInChannel( String nick, String channel, boolean normalize ){
         return IrcUtils.isUserInChannel( this.getConn().getUsers(channel), nick, normalize ) ;
     }
      

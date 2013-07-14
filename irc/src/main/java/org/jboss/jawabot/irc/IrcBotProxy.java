@@ -152,7 +152,7 @@ public class IrcBotProxy {
         if( ! normalize )
             return jawaIrcBot.getConn().isUserInChannel( nick, channel );
         else
-            return jawaIrcBot.isUserInChannel( channel, nick, true );
+            return jawaIrcBot.isUserInChannel( nick, channel, true );
     }
     
     public final void listChannels( ChannelInfoHandler channelInfoHandler ) {

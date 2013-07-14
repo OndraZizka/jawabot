@@ -66,7 +66,7 @@ public class MessengerIrcPluginHook extends IrcPluginHookBase implements IIrcPlu
             if( recipients.isEmpty() )
                 return;
 
-            if( bot.isUserInChannel( msg.getChannel(), recipients.get(0), true ) )
+            if( bot.isUserInChannel( recipients.get(0), msg.getChannel(), true ) )
                 return;
 
             bot.sendReplyTo( msg,  recipients.get(0)+" is not here. Do you want to leave a message? (reply \"yes\")");
