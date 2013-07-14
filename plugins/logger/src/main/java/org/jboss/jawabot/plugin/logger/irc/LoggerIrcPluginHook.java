@@ -91,17 +91,24 @@ public class LoggerIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
      *   Nick change event does not carry channel info.
      *   This method scans channels we're in for given nick.
      *   If found, logs the event in that channel(s).
+     * 
+     *   TBC: Is the new nick is already reflected?
      */
     @Override
     //@JpaTransactional
     public void onNickChange( IrcEvNickChange ev, IrcBotProxy bot ) {
+        
+        // For all channels we are in...
         for( String ch : bot.getChannels() ){
-            //User[] users = bot.getUsers(ch); ///
-            // The new nick is already reflected.?
-            if( !( 
-                    bot.isUserInChannel( ch, ev.getNewNick() )
-                 || bot.isUserInChannel( ch, ev.getUser() ) 
-            ))  continue;
+            
+            Boolean in1 = bot.isUserInChannel( ch, ev.getNewNick() );
+            Boolean in2 = bot.isUserInChannel( ch, ev.getUser() );
+            // null -> We are not in the channel so we don't know. Shouldn't happen, but to be safe.
+            if( in1 == null || in2 == null ) continue;
+            
+            // The user changing nick is not in the channel.
+            if( !( in1 || in2 ))  continue;
+            
             if( ! this.loggerService.isLoggingEnabledForChannel( ch ) ) continue;
             ev.setChannel(ch);
             //log.debug("Saving: " + ev);
