@@ -1,7 +1,7 @@
 package org.jboss.jawabot.irc;
 
 
-import org.jboss.jawabot.irc.ent.IrcEvMessage;
+import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory;
  * 
  *  @author Ondrej Zizka, ozizka at redhat.com
  */
-public abstract class ExceptionHandlerDecorator {
+public abstract class ExceptionHandlerDecorator<T extends IrcEvent> {
     private static final Logger log = LoggerFactory.getLogger( ExceptionHandlerDecorator.class );
 
-    public void handle( /*IIrcPluginHook plugin,*/ IrcEvMessage msg, IrcBotProxy pircBotProxy ) {
+    public void  handle( /*IIrcPluginHook plugin,*/ T evt, IrcBotProxy pircBotProxy ) {
         try {
-            this.doIt( msg, pircBotProxy );
+            this.doIt( evt, pircBotProxy );
         }
         //catch( IrcPluginException ex ) {
         catch( NullPointerException ex ) {
@@ -35,6 +35,6 @@ public abstract class ExceptionHandlerDecorator {
         }
     }
 
-    public abstract void doIt(IrcEvMessage msg, IrcBotProxy pircBotProxy) throws Throwable;    
+    public abstract void doIt( T event, IrcBotProxy pircBotProxy ) throws Throwable;    
 
 }// class

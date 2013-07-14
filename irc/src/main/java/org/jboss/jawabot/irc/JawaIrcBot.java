@@ -23,6 +23,7 @@ import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.irc.ent.IrcEvNickChange;
 import org.jboss.jawabot.irc.ent.IrcEvPart;
+import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.jboss.jawabot.mail.MailSender;
 import org.jibble.pircbot.IrcServerConnection;
 import org.jibble.pircbot.beans.User;
@@ -305,8 +306,8 @@ public final class JawaIrcBot {
             // Pass it to the IRC plugins.
             //for ( Entry<String, IIrcPluginHook> entry : this.pluginsByClass.entrySet() ) {
             for( final IIrcPluginHook plugin : this.plugins ) {
-                new ExceptionHandlerDecorator() {
-                    public void doIt( IrcEvMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
+                new ExceptionHandlerDecorator<IrcEvMessage>() {
+                    public void  doIt( IrcEvMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
                         plugin.onMessage( msg, pircBotProxy );
                     }
                 }.handle( msg, this.pircBotProxy );
@@ -335,8 +336,7 @@ public final class JawaIrcBot {
         IrcEvMessage msg = new IrcEvMessage("not.supported.yet", sender, null, msgText, new Date());
 
         for( final IIrcPluginHook plugin : this.plugins ) {
-            new ExceptionHandlerDecorator() {
-
+            new ExceptionHandlerDecorator<IrcEvMessage>() {
                 public void doIt( IrcEvMessage msg, IrcBotProxy pircBotProxy ) throws Throwable {
                     plugin.onPrivateMessage( msg, pircBotProxy );
                 }
@@ -604,7 +604,10 @@ public final class JawaIrcBot {
     void onUserList( String channel, User[] users ) {
         UserListHandler handler = this.currentOnUserListHandlers.remove(channel);
         if( null == handler ){
-            log.debug("  No onUserList() handler for channel: " + channel);
+            log.debug("  No onUserList() handler for channel, sending to all plugins: " + channel);
+            for( final IIrcPluginHook plugin : this.plugins ) {
+                plugin.onUserList( channel, users, this.pircBotProxy );
+            }
             return;
         }
 
@@ -619,8 +622,9 @@ public final class JawaIrcBot {
     
     // Action
     void onAction( String sender, String login, String hostname, String target, String action ) {
+        final IrcEvAction event = new IrcEvAction( null, target, sender, action,  new Date() );
         for( final IIrcPluginHook plugin : this.plugins ) {
-            plugin.onAction( new IrcEvAction( null, target, sender, action,  new Date() ), this.pircBotProxy );
+            plugin.onAction( event, this.pircBotProxy );
         }
     }
 
