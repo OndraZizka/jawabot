@@ -155,6 +155,12 @@ public class IrcBotProxy {
             return jawaIrcBot.isUserInChannel( nick, channel, true );
     }
     
+    public boolean isUserInChannelSafe( String nick, String channel, boolean normalize ){
+        Boolean isIn = this.isUserInChannel( nick, channel, normalize );
+        if( null == isIn )  return false;
+        return isIn;
+    }
+    
     public final void listChannels( ChannelInfoHandler channelInfoHandler ) {
         jawaIrcBot.listChannels( channelInfoHandler );
     }
