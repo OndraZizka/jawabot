@@ -1,7 +1,6 @@
 package org.jboss.jawabot.irc;
 
 
-import org.jboss.jawabot.JawaBot;
 import org.jibble.pircbot.beans.User;
 import org.jibble.pircbot.handlers.IrcProtocolEventHandler;
 import org.slf4j.Logger;
@@ -21,6 +20,7 @@ public class JawaBotIrcEventHandler extends IrcProtocolEventHandler {
     
     public JawaBotIrcEventHandler( JawaIrcBot jawaIrcBot ) {
         super( jawaIrcBot.getConn() );
+        this.jawaIrcBot = jawaIrcBot;
     }
     
 
