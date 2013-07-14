@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.jboss.jawabot.irc.IrcUtils;
 import org.jibble.pircbot.beans.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,10 +67,23 @@ public class MemoryWhereIsService
     /**
      * @returns  A list of occurrences of given user, with time info, sorted by time.
      */
-    public List<SeenInfo> whereIsUser( String nick ){
-        Set<SeenInfo> seenInfos = this.userToChannels.get(nick);
-        if( null == seenInfos )
-            return Collections.EMPTY_LIST;
+    public List<SeenInfo> whereIsUser( String nick, boolean normalize ){
+        Set<SeenInfo> seenInfos;
+        if( ! normalize ){
+            seenInfos = this.userToChannels.get(nick);
+            if( null == seenInfos )
+                return Collections.EMPTY_LIST;
+        }
+        else {
+            seenInfos = new HashSet();
+            for( String user : this.userToChannels.keySet() ) {
+                user = IrcUtils.normalizeUserNick( user );
+                if( user.equals(nick) )
+                    seenInfos.addAll( this.userToChannels.get(user) );
+            }
+        }
+        
+        // Sort by "age", desceding.
         List list = new ArrayList(seenInfos);
         Collections.sort( list, SeenInfo.WHEN_COMPARATOR );
         return list;
@@ -80,12 +94,14 @@ public class MemoryWhereIsService
      * @returns  A list of occurrences of given user, with time info, sorted by time.
      * @param  nickPattern   Wildcard pattern like  "ozizka*" or "*swaite*"
      */
-    public Map<String, Set<SeenInfo>> searchUser( String nickPattern ){
+    public Map<String, Set<SeenInfo>> searchUser( String nickPattern, boolean normalize ){
         Map<String, Set<SeenInfo>> foundUsers = new HashMap<String, Set<SeenInfo>>();
         
         Pattern pat = Pattern.compile( nickPattern.replace("*", ".*") );
         
         for( String user : this.userToChannels.keySet() ) {
+            if( normalize )
+                user = IrcUtils.normalizeUserNick( user );
             if( pat.matcher(user).matches() )
                 foundUsers.put(user, this.userToChannels.get(user));
         }

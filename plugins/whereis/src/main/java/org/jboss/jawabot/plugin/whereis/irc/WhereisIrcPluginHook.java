@@ -69,7 +69,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         
         // No wildcards -> search exact nick.
         if( !pattern.contains("*") ){
-            List<SeenInfo> occurrences = this.whereIsService.whereIsUser( pattern );
+            List<SeenInfo> occurrences = this.whereIsService.whereIsUser( pattern, true );
             if( occurrences.isEmpty() ){
                 bot.sendReplyTo( msg, "Sorry, no traces of "+pattern+".");
             }
@@ -79,7 +79,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         }
         // Wildcards, list all matching nicks.
         else{
-            Map<String, Set<SeenInfo>> users = this.whereIsService.searchUser( pattern );
+            Map<String, Set<SeenInfo>> users = this.whereIsService.searchUser( pattern, true );
             if( users.isEmpty() ){
                 bot.sendReplyTo( msg, "Sorry, no traces of "+pattern+".");
             }
