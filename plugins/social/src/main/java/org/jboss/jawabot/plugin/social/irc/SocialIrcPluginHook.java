@@ -25,7 +25,8 @@ public class SocialIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
     public void onMessage( IrcEvMessage message, IrcBotProxy bot ) throws IrcPluginException {
 
         //  Is it for us?
-        if( ! bot.getNick().equals( message.getRecipient() ) || message.getText().contains( bot.getNick() ) ) 
+        if(  ! bot.getNick().equals( message.getRecipient() ) 
+          && ! message.getText().contains( bot.getNick() ) ) 
             return;
         
         String msgNorm = message.getPayload().toLowerCase();
@@ -33,10 +34,20 @@ public class SocialIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
         
         // Thanks.
         if(        msgNorm.contains("thanks")
+                || msgNorm.contains("thanx")
                 || msgNorm.contains("thank you")
                 || msgNorm.contains("thx")
         ){
             reply = new String[]{"You're welcome", "welcome", "HTH", "yw", "For you, any time.", "Happy to help."}[new Random().nextInt(6)];
+        }
+        
+        // Thanks, in Czech.
+        if(        msgNorm.contains("dik")
+                || msgNorm.contains("diky")
+                || msgNorm.contains("dík")
+                || msgNorm.contains("díky")
+        ){
+            reply = new String[]{"nz", "Rádo se stalo.", "Není zač.", "Pro tebe kdykoliv."}[new Random().nextInt(4)];
         }
         
         // Hi, hello and such.
