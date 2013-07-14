@@ -45,7 +45,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     
 
     private static final int MIN_USER_COUNT_TO_SCAN_CHANNEL = 10;
-    private static final int MAX_CHANNELS_TO_SCAN = 10; // Make configurable.
+    private static final int MAX_CHANNELS_TO_SCAN = 30; // Make configurable.
     
 
     // TODO: Prevent multiple scanning over this.
