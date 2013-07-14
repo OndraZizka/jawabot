@@ -627,8 +627,15 @@ public final class JawaIrcBot {
     
     // Someone joined a channel we're in.
     void onJoin( String channel, String sender, String login, String hostname ) {
-        for( final IIrcPluginHook plugin : this.plugins ) {
-            plugin.onJoin( new IrcEvJoin( null, channel, sender, login, hostname ), this.pircBotProxy );
+        boolean isUs = this.pircBotProxy.getNick().equals( sender );
+        
+        if( isUs ){
+            for( final IIrcPluginHook plugin : this.plugins )
+                plugin.onBotJoinChannel( channel, pircBotProxy );
+        } else {
+            final IrcEvJoin event = new IrcEvJoin( null, channel, sender, login, hostname );
+            for( final IIrcPluginHook plugin : this.plugins )
+                plugin.onJoin( event, this.pircBotProxy );
         }
     }
 

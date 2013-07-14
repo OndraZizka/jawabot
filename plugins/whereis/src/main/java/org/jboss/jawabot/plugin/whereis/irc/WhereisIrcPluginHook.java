@@ -112,7 +112,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     @Override
     public void onBotJoinChannel( String channel, IrcBotProxy bot ) {
         log.debug("  onBotJoinChannel(): " + channel);
-        this.scanChannelWeAreNotIn( channel, bot );///
+        this.scanChannelWeAreIn( channel, bot );
     }
 
 
@@ -177,7 +177,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         
 
         // 2nd executor - regularly scan channels we are in.
-        // This should be only needed at the beginning as we react to onJoin.
+        // This should be only needed at the beginning as we react to onJoin() and onBotJoin().
         {
             final ScheduledExecutorService executor2 = Executors.newSingleThreadScheduledExecutor();
             
@@ -210,6 +210,14 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     }
     
     
+    
+    
+    /**
+     *  Gets a list of users on given channel and updates info about their occurrences.
+     */
+    private void scanChannelWeAreIn( String channel, final IrcBotProxy bot ) {
+        this.whereIsService.updateUsersInfo( channel, bot.getUsers( channel ) );
+    }
     
     
     /**
