@@ -30,9 +30,6 @@ import org.jibble.pircbot.beans.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
-
 /**
  *  Scans all channels for users, and on request, tells where given user is or was.
  * 
