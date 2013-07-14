@@ -75,11 +75,12 @@ public class MemoryWhereIsService
                 return Collections.EMPTY_LIST;
         }
         else {
+            nick = IrcUtils.normalizeUserNick( nick );
             seenInfos = new HashSet();
-            for( String user : this.userToChannels.keySet() ) {
-                user = IrcUtils.normalizeUserNick( user );
-                if( user.equals(nick) )
-                    seenInfos.addAll( this.userToChannels.get(user) );
+            for( Map.Entry<String, Set<SeenInfo>> e : this.userToChannels.entrySet() ) {
+                String userNorm = IrcUtils.normalizeUserNick( e.getKey() );
+                if( userNorm.equals(nick) )
+                    seenInfos.addAll( e.getValue() );
             }
         }
         
