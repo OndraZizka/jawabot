@@ -27,7 +27,6 @@ import org.jboss.jawabot.mail.MailSender;
 import org.jibble.pircbot.IrcServerConnection;
 import org.jibble.pircbot.beans.User;
 import org.jibble.pircbot.ex.NickAlreadyInUseException;
-import org.jibble.pircbot.handlers.IrcProtocolEventHandler;
 
 /**
  *  JawaBot IRC module.
@@ -35,10 +34,8 @@ import org.jibble.pircbot.handlers.IrcProtocolEventHandler;
  *  @author Ondrej Zizka
  */
 @Dependent
-public class JawaIrcBot extends IrcProtocolEventHandler
-{
+public final class JawaIrcBot {
     private static final Logger log = LoggerFactory.getLogger( JawaIrcBot.class );
-    
    
     final String USUAL_NICK = "jawabot";
 
@@ -48,22 +45,25 @@ public class JawaIrcBot extends IrcProtocolEventHandler
     public JawaBot getJawaBot() { return jawaBot; }
     void setJawaBot(JawaBot jawaBot) { this.jawaBot = jawaBot; }
 
+    
     // IRC server connection. Formerly, this class extended PircBot.
     private IrcServerConnection conn;
     public IrcServerConnection getConn() { return conn; }
     
     
-    // Proxy provided to plugins to allow them to send messagesetc.
+    // A proxy provided to plugins. Prevents them from calling critical methods like disconnect() etc.
     // Will likely be changed to our own API with objects like IrcMessage.
     private IrcBotProxy pircBotProxy;
 
+    
+    
     private volatile boolean initialized = false;
-    private boolean isInitialized() { return initialized; }
+    boolean isInitialized() { return initialized; }
     
     // Because Pircbot won't let us know whether we calleddisconnect() or it came from server.
     // Since we can't even override connect (damn PircBot), we'll have to set and re-set it for every disconnect()/connect().
     private boolean intentionalDisconnect = false;
-    private boolean isIntentionalDisconnect() {      return intentionalDisconnect;   }
+    boolean isIntentionalDisconnect() {      return intentionalDisconnect;   }
     
     // Plugin instances "placeholder".    // TODO:  Change somehow to Weld.instance() or such and move to the method.
     @Inject
@@ -105,8 +105,9 @@ public class JawaIrcBot extends IrcProtocolEventHandler
    
     /** Const. */
     public JawaIrcBot() {
-        super();
         this.pircBotProxy = new IrcBotProxy(this);
+        this.conn = new IrcServerConnection();
+        this.conn.setEventHandler( new JawaBotIrcEventHandler(this) );
     }
 
     /** Not used but should be - to keep initialization safe... how to, with CDI? */
@@ -258,17 +259,16 @@ public class JawaIrcBot extends IrcProtocolEventHandler
 
     
     
-    
-    
-    
+
+
+
     /**
      * Callback to handle a channel message:
      * Checks whether the msg starts with bot's nickname, and if so,
      * calls handleJawaBotCommand(), giving the channel name,
      * calling user's nick and the message.
      */
-    @Override
-    public void onMessage( String channel, String sender, String login, String hostname, String msgText ) {
+    void onMessage( String channel, String sender, String login, String hostname, String msgText ) {
         if( ! this.isInitialized() ) {
             log.warn("Called onMessage(), but not initialized yet.");
             return;
@@ -322,8 +322,7 @@ public class JawaIrcBot extends IrcProtocolEventHandler
     /**
      * Private IRC message - no channel, only from user.
      */
-    @Override
-    public void onPrivateMessage( String sender, String login, String hostname, String msgText ) {
+    void onPrivateMessage( String sender, String login, String hostname, String msgText ) {
 
         // If it's a core command, don't pass it to  plugins.
         if (handleJawaBotCoreCommand(null, sender, msgText.trim())) {
@@ -360,7 +359,7 @@ public class JawaIrcBot extends IrcProtocolEventHandler
      * 
      *  TODO:  Move reservation stuff to a plugin.
      */
-    private boolean handleJawaBotCoreCommand(String fromChannel, String fromUser, final String commandOrig) {
+     boolean handleJawaBotCoreCommand(String fromChannel, String fromUser, final String commandOrig) {
         log.debug(String.format("%s %s %s", fromChannel, fromUser, commandOrig));
 
 
@@ -490,6 +489,20 @@ public class JawaIrcBot extends IrcProtocolEventHandler
     }// handleJiraBotCommand()
 
 
+     
+     
+    public boolean isUserInChannel( String channel, String user ){
+        return this.isUserInChannel(channel, user, false);
+    }
+
+    /**
+     * @param normalize  Whether ozizka-pto matches with ozizka_lunch. Normalization basically removes any suffix after _, -, ~, | etc.
+     * @see   IrcUtils.normalizeUserNick()
+     */
+    public boolean isUserInChannel( String channel, String nick, boolean normalize ){
+        return IrcUtils.isUserInChannel( this.getConn().getUsers(channel), nick, normalize ) ;
+    }
+     
 
 
  
@@ -518,7 +531,6 @@ public class JawaIrcBot extends IrcProtocolEventHandler
      *  Server sent channel info, likely on a plugin's request, or after connect.
      *  Send it to the appropriate handler - likely given by plugin.
      */
-    @Override
     public void onChannelInfo( String channel, int userCount, String topic ) {
       if( this.currentOnChannelInfoHandler == null )
          return;
@@ -589,8 +601,7 @@ public class JawaIrcBot extends IrcProtocolEventHandler
      *  Server sent channel info, likely on a plugin's request, or after connect.
      *  Send it to the appropriate handler - likely given by plugin.
      */
-    @Override
-    public void onUserList( String channel, User[] users ) {
+    void onUserList( String channel, User[] users ) {
         UserListHandler handler = this.currentOnUserListHandlers.remove(channel);
         if( null == handler ){
             log.debug("  No onUserList() handler for channel: " + channel);
@@ -607,8 +618,7 @@ public class JawaIrcBot extends IrcProtocolEventHandler
 
     
     // Action
-    @Override
-    public void onAction( String sender, String login, String hostname, String target, String action ) {
+    void onAction( String sender, String login, String hostname, String target, String action ) {
         for( final IIrcPluginHook plugin : this.plugins ) {
             plugin.onAction( new IrcEvAction( null, target, sender, action,  new Date() ), this.pircBotProxy );
         }
@@ -616,8 +626,7 @@ public class JawaIrcBot extends IrcProtocolEventHandler
 
     
     // Someone joined a channel we're in.
-    @Override
-    public void onJoin( String channel, String sender, String login, String hostname ) {
+    void onJoin( String channel, String sender, String login, String hostname ) {
         for( final IIrcPluginHook plugin : this.plugins ) {
             plugin.onJoin( new IrcEvJoin( null, channel, sender, login, hostname ), this.pircBotProxy );
         }
@@ -625,8 +634,7 @@ public class JawaIrcBot extends IrcProtocolEventHandler
 
 
     //  :JawaBot-debug!~PircBot@vpn1-6-95.ams2.redhat.com PART #frien
-    @Override
-    public void onPart( String channel, String sender, String login, String hostname ) {
+    void onPart( String channel, String sender, String login, String hostname ) {
         if( sender.equals( this.conn.getNick() ) )
             this.onPartUs( channel );
         else {
@@ -642,33 +650,29 @@ public class JawaIrcBot extends IrcProtocolEventHandler
     /**
      *  PircBot has common method for all parts, even our own. This fixes that.
      */
-    private void onPartUs( String channel ) {
+    void onPartUs( String channel ) {
     }
 
-    @Override
-    public void onNickChange( String oldNick, String login, String hostname, String newNick ) {
+    void onNickChange( String oldNick, String login, String hostname, String newNick ) {
         Date now = new Date();
         for( final IIrcPluginHook plugin : this.plugins ) {
             plugin.onNickChange( new IrcEvNickChange( null, oldNick, newNick, login, hostname, now ), this.pircBotProxy );
         }
     }
 
-    @Override
-    public void onQuit( String sourceNick, String sourceLogin, String sourceHostname, String reason ) {
+    void onQuit( String sourceNick, String sourceLogin, String sourceHostname, String reason ) {
         // TODO
     }
 
 
-    @Override
-    public void onInvite( String targetNick, String sourceNick, String sourceLogin, String sourceHostname, String channel ) {
+    void onInvite( String targetNick, String sourceNick, String sourceLogin, String sourceHostname, String channel ) {
         //if( this.getConfig().getSettingBool(SETID_ACCEPT_INVITATION))
         this.conn.joinChannel( channel );
     }
 
     
     
-    @Override
-    public void onConnect() {
+    void onConnect() {
         for( final IIrcPluginHook plugin : this.plugins ) {
             plugin.onConnect( this.pircBotProxy );
         }
@@ -676,8 +680,7 @@ public class JawaIrcBot extends IrcProtocolEventHandler
 
 
 
-    @Override
-    public void onDisconnect() {
+    void onDisconnect() {
         log.info( "onDisconnect()." );
 
         for( final IIrcPluginHook plugin : this.plugins ) {
@@ -729,6 +732,14 @@ public class JawaIrcBot extends IrcProtocolEventHandler
     /** Send a message to the debug channel. */
     public void sendDebugMessage( String msg ) {
         this.conn.sendMessage( this.getConfig().settings.debugChannel, msg );
+    }
+
+
+    /**
+     * @return the plugins
+     */
+    public List<IIrcPluginHook> getPlugins() {
+        return plugins;
     }
 
 

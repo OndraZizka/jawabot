@@ -11,6 +11,8 @@ import org.jibble.pircbot.beans.User;
  *  to overcome some PircBot's limitations like that onChannelInfo() calls 
  *  callback method directly, which would prevent plugins differentiate 
  *  who asked for channel info.
+ * 
+ *  TODO: This should really be just a proxy, we should extend IrcConnection and put most methods there instead.
  *  
  *  @author Ondrej Zizka
  */
@@ -108,28 +110,6 @@ public class IrcBotProxy {
         return jawaIrcBot.getConn().getUsers(channel);
     }
     
-    public boolean isUserInChannel( String channel, String user ){
-        return this.isUserInChannel(channel, user, false);
-    }
-
-    /**
-     * @param normalize  Whether ozizka-pto matches with ozizka_lunch. Normalization basically removes any suffix after _, -, ~, | etc.
-     * @see   IrcUtils.normalizeUserNick()
-     */
-    public boolean isUserInChannel( String channel, String nick, boolean normalize ){
-        assert (nick != null);
-        //if( ! normalize )
-            //return Arrays.asList( this.getUsers(channel) ).contains( nick ); // String != User, and User.equals(String) doesn't apply here.
-
-        if( normalize )
-            nick = IrcUtils.normalizeUserNick(nick);
-        for( User user : this.getUsers(channel) ){
-            if( IrcUtils.normalizeUserNick( user.getNick() ).equals( nick ) )
-                return true;
-        }
-        return false;
-            
-    }
 
     public final void setTopic(String channel, String topic) {
         jawaIrcBot.getConn().setTopic(channel, topic);

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
+import org.jibble.pircbot.beans.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +32,24 @@ public class IrcUtils {
 
    }
 
+    /**
+     * @param normalize  Whether ozizka-pto matches with ozizka_lunch. Normalization basically removes any suffix after _, -, ~, | etc.
+     * @see   IrcUtils.normalizeUserNick()
+     */
+    public static boolean isUserInChannel( User[] users, String nick, boolean normalize ){
+        assert (nick != null);
+        //if( ! normalize )
+            //return Arrays.asList( this.getUsers(channel) ).contains( nick ); // String != User, and User.equals(String) doesn't apply here.
+
+        if( normalize )
+            nick = IrcUtils.normalizeUserNick(nick);
+        for( User user : users ){
+            if( IrcUtils.normalizeUserNick( user.getNick() ).equals( nick ) )
+                return true;
+        }
+        return false;
+    }
+   
    
    /**
     * Does not support multiple nicks.
