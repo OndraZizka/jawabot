@@ -11,7 +11,7 @@ import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.irc.ent.IrcEvNickChange;
 import org.jboss.jawabot.irc.ent.IrcEvPart;
 import org.jboss.weld.environment.se.jpa.JpaTransactional;
-import org.jibble.pircbot.User;
+import org.jibble.pircbot.beans.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +96,7 @@ public class LoggerIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
     //@JpaTransactional
     public void onNickChange( IrcEvNickChange ev, IrcBotProxy bot ) {
         for( String ch : bot.getChannels() ){
-            User[] users = bot.getUsers(ch); ///
+            //User[] users = bot.getUsers(ch); ///
             // The new nick is already reflected.?
             if( !( 
                     bot.isUserInChannel( ch, ev.getNewNick() )

@@ -13,7 +13,7 @@ import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.IrcUtils;
 import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
-import org.jibble.pircbot.User;
+import org.jibble.pircbot.beans.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

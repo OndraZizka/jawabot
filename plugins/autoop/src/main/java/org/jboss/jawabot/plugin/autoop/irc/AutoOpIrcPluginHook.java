@@ -4,7 +4,7 @@ import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
 import org.jboss.jawabot.irc.IrcPluginHookBase;
 import org.jboss.jawabot.irc.ent.IrcEvJoin;
-import org.jibble.pircbot.User;
+import org.jibble.pircbot.beans.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,15 +32,13 @@ public class AutoOpIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
     @Override
     public void onBotJoinChannel( String channel, IrcBotProxy bot ) {
         
-        User[] users = bot.getUsers( channel );
-        for( User user : users ) {
+        for( User user : bot.getUsers( channel ) ) {
             if( user.isOp() )
                 continue;
             if( ! this.isCanHaveOperator( channel, user.getNick() ) )
                 continue;
             bot.op( channel, user.getNick() );
         }
-        
     }
     
     
@@ -52,13 +50,6 @@ public class AutoOpIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
     private boolean isCanHaveOperator( String channel, String user ) {
         return true;
     }
-   
-   
-   
-   
-   
-   
-
    
 }// class
 

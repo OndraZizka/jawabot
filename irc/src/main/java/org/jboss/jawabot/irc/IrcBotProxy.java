@@ -1,5 +1,7 @@
 package org.jboss.jawabot.irc;
 
+import java.util.Arrays;
+import java.util.List;
 import org.jboss.jawabot.irc.ent.IrcEvent;
 import org.jibble.pircbot.beans.User;
 
@@ -106,8 +108,8 @@ public class IrcBotProxy {
     
     // ==== Channel related. ==== 
     
-    public final User[] getUsers(String channel) {
-        return jawaIrcBot.getConn().getUsers(channel);
+    public final List<User> getUsers(String channel) {
+        return Arrays.asList( jawaIrcBot.getConn().getUsers(channel) );
     }
     
 
@@ -140,6 +142,17 @@ public class IrcBotProxy {
     
     public final String[] getChannels() {
         return jawaIrcBot.getConn().getChannels();
+    }
+    
+    public Boolean isUserInChannel( String nick, String channel ){
+        return jawaIrcBot.getConn().isUserInChannel( nick, channel );
+    }
+    
+    public Boolean isUserInChannel( String nick, String channel, boolean normalize ){
+        if( ! normalize )
+            return jawaIrcBot.getConn().isUserInChannel( nick, channel );
+        else
+            return jawaIrcBot.isUserInChannel( channel, nick, true );
     }
     
     public final void listChannels( ChannelInfoHandler channelInfoHandler ) {
