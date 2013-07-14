@@ -28,11 +28,18 @@ public class MemoryWhereIsService
     private final Map<String, Set<SeenInfo>> channelsToUsers = new HashMap();
 
     
-    public synchronized void updateUserInfo( String channel, User user, Date now ) {
+    synchronized void updateUserInfo( String channel, User user, Date now ) {
         this.updateUserInfo( channel, user.getNick(), now );
     }
     
-    public synchronized void updateUserInfo( String channel, String nick, Date now ) {
+    synchronized void updateUsersInfo( String channel, User[] users ) {
+        final Date now = new Date();
+        for( User user : users ) {
+            this.updateUserInfo( channel, user, now );
+        }
+    }
+    
+    synchronized void updateUserInfo( String channel, String nick, Date now ) {
         if( log.isTraceEnabled() )  log.trace("   Updating info about user: " + nick );
         
         // User -> channels/when mapping.
@@ -85,7 +92,6 @@ public class MemoryWhereIsService
         
         return foundUsers;
     }
-    
-    
+
 }// class
 

@@ -57,7 +57,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
 
     @Override
     public void onMessage( IrcEvMessage msg, IrcBotProxy bot ) throws IrcPluginException {
-        if( ( !msg.getPayload().startsWith("whereis")) || (!msg.getPayload().startsWith("seen")) )
+        if( ( ! msg.getPayload().startsWith("whereis")) && ! msg.getPayload().startsWith("seen") )
             return;
         
         // Remove "seen" or "whereis" from the beginning of msg.
@@ -157,8 +157,8 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
             };
 
         // Wait until the channels are downloaded and start scanning them.
-        final int expectedChannelDownloadDurationMs = 3000;
-        final int delayBetweenChannels = 5000;
+        final int expectedChannelDownloadDurationMs = 4000;
+        final int delayBetweenChannels = 2000;
         executor.scheduleWithFixedDelay( scanJob, expectedChannelDownloadDurationMs, delayBetweenChannels, TimeUnit.MILLISECONDS);
     }
     
@@ -170,18 +170,18 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         synchronized (this.channelsBeingScanned) {
             if( this.channelsBeingScanned.contains(channel) ){
                 log.warn("  Already scanning channel: " + channel);
+                return;
             }
             log.debug("  Scanning channel: " + channel);
             this.channelsBeingScanned.add(channel);
         }
         
-        final Date now = new Date();
+        // Assynchronously scan the channel users.
         UserListHandler handler = 
         new UserListHandlerBase() {
             public void onUserList( String channel, User[] users ) {
-                for( User user : users ) {
-                    whereIsService.updateUserInfo( channel, user, now );
-                }
+                whereIsService.updateUsersInfo( channel, users );
+                WhereisIrcPluginHook.this.channelsBeingScanned.remove(channel);
                 //bot.partChannel(channel);
             }
         };
@@ -201,7 +201,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         Date now = new Date();
         Date hours24Ago = DateUtils.addDays(now, -1);
         
-        StringBuilder sb = new StringBuilder(" User " + nick + " was in ");
+        StringBuilder sb = new StringBuilder(" User " + nick + " seen in ");
         for (SeenInfo seenInfo : occurences) {
             sb.append( seenInfo.userOrChannel );
             sb.append( "(" );
