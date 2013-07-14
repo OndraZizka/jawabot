@@ -32,7 +32,7 @@ public class MemoryWhereIsService
         this.updateUserInfo( channel, user.getNick(), now );
     }
     
-    synchronized void updateUsersInfo( String channel, User[] users ) {
+    synchronized void updateUsersInfo( String channel, List<User> users ) {
         final Date now = new Date();
         for( User user : users ) {
             this.updateUserInfo( channel, user, now );

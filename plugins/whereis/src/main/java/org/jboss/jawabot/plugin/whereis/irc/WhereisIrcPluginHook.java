@@ -3,6 +3,7 @@ package org.jboss.jawabot.plugin.whereis.irc;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,9 @@ import org.jibble.pircbot.beans.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+
+
 /**
  *  Scans all channels for users, and on request, tells where given user is or was.
  * 
@@ -41,7 +45,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     private static final Logger logScan = LoggerFactory.getLogger( WhereisIrcPluginHook.class.getName()+".channelScanQueueProcessor" );
     
     @Inject MemoryWhereIsService whereIsService;
-
+    
 
     private static final int MIN_USER_COUNT_TO_SCAN_CHANNEL = 10;
     private static final int MAX_CHANNELS_TO_SCAN = 10; // Make configurable.
@@ -50,13 +54,14 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     // TODO: Prevent multiple scanning over this.
     final Set<String> channelsBeingScanned = new ConcurrentSkipListSet();
     
+    private volatile boolean shuttingDown;
     
     
     // IRC stuff.
 
 
     @Override
-    public void onMessage( IrcEvMessage msg, IrcBotProxy bot ) throws IrcPluginException {
+    public void onMessage( final IrcEvMessage msg, final IrcBotProxy bot ) throws IrcPluginException {
         if( ( ! msg.getPayload().startsWith("whereis")) && ! msg.getPayload().startsWith("seen") )
             return;
         
@@ -107,7 +112,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     @Override
     public void onBotJoinChannel( String channel, IrcBotProxy bot ) {
         log.debug("  onBotJoinChannel(): " + channel);
-        this.scanChannel( channel, bot );
+        this.scanChannelWeAreNotIn( channel, bot );///
     }
 
 
@@ -118,6 +123,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     public void onConnect( final IrcBotProxy bot )
     {
         log.info(" onConnect();  Will now scan all channels.");
+        this.shuttingDown = false;
         
         // Create a queue for channels, sorted by user count.
         final PriorityQueue<ChannelInfo> scanQueue = new PriorityQueue<ChannelInfo>(800, ChannelInfo.USER_COUNT_COMPARATOR );
@@ -133,40 +139,83 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         
         
         // Schedule channel scanning in other thread.
-        final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        Runnable scanJob =
-            new Runnable() {
-                // Limit to few biggest channels, by number.
-                int countDown = MAX_CHANNELS_TO_SCAN; // TODO: Read from options.
-                
-                public void run() {
-                    ChannelInfo chi = scanQueue.poll();
-                    if( null == chi ){
-                        logScan.debug("  No more channels in scan queue. ");
-                        executor.shutdown();
-                    }
-                    else if( countDown-- == 0 ){
-                        logScan.debug("  Maximum # of channels was scanned, terminating. ");
-                        executor.shutdown();
-                    }
-                    else {
-                        logScan.debug("  Scanning " + chi.toString() );
-                        scanChannel(chi.name, bot);
-                    }
-                }
-            };
+        {
+            final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            Runnable scanJob =
+                new Runnable() {
+                    // Limit to few biggest channels, by number.
+                    int countDown = MAX_CHANNELS_TO_SCAN; // TODO: Read from options.
 
-        // Wait until the channels are downloaded and start scanning them.
-        final int expectedChannelDownloadDurationMs = 4000;
-        final int delayBetweenChannels = 2000;
-        executor.scheduleWithFixedDelay( scanJob, expectedChannelDownloadDurationMs, delayBetweenChannels, TimeUnit.MILLISECONDS);
+                    public void run() {
+                        if( WhereisIrcPluginHook.this.shuttingDown ){
+                            executor.shutdown();
+                            return;
+                        }
+                        
+                        ChannelInfo chi = scanQueue.poll();
+                        if( null == chi ){
+                            logScan.debug("  No more channels in scan queue, stopping. ");
+                            executor.shutdown();
+                        }
+                        else if( countDown-- == 0 ){
+                            logScan.debug("  Maximum # of channels was scanned, stopping. ");
+                            executor.shutdown();
+                        }
+                        else {
+                            logScan.debug("  Scanning " + chi.toString() );
+                            scanChannelWeAreNotIn(chi.name, bot);
+                        }
+                    }
+                };
+
+            // Wait until the channels are downloaded and start scanning them.
+            final int expectedChannelDownloadDurationMs = 4000;
+            final int delayBetweenChannels = 2000;
+            log.debug("Launching executor with scanJob for every " + delayBetweenChannels + " seconds.");
+            executor.scheduleWithFixedDelay( scanJob, expectedChannelDownloadDurationMs + 1000, delayBetweenChannels, TimeUnit.MILLISECONDS);
+        }
+        
+
+        // 2nd executor - regularly scan channels we are in.
+        // This should be only needed at the beginning as we react to onJoin.
+        {
+            final ScheduledExecutorService executor2 = Executors.newSingleThreadScheduledExecutor();
+            
+            Runnable jobScanChannelsWeAreIn =
+                new Runnable() {
+                    public void run() {
+                        if( WhereisIrcPluginHook.this.shuttingDown ){
+                            log.debug("Stopping jobScanChannelsWeAreIn.");
+                            executor2.shutdown();
+                            return;
+                        }
+                        
+                        log.debug("Scanning all channels we are in.");
+                        for( String channel : bot.getChannels() ){
+                            whereIsService.updateUsersInfo( channel, bot.getUsers( channel ) );
+                        }
+                    }
+                };
+
+            final int SCAN_INTERVAL = 60;
+            log.debug("Launching executor with jobScanChannelsWeAreIn for every " + SCAN_INTERVAL + " seconds.");
+            executor2.scheduleWithFixedDelay( jobScanChannelsWeAreIn, 4, SCAN_INTERVAL, TimeUnit.SECONDS);
+        }
     }
+
+
+    @Override
+    public void onDisconnect( IrcBotProxy pircBotProxy ) {
+        this.shuttingDown = true;
+    }
+    
+    
     
     
     /**
      *  Gets a list of users on given channel and updates info about their occurrences.
      */
-    private void scanChannel( String channel, final IrcBotProxy bot ) {
+    private void scanChannelWeAreNotIn( String channel, final IrcBotProxy bot ) {
         synchronized (this.channelsBeingScanned) {
             if( this.channelsBeingScanned.contains(channel) ){
                 log.warn("  Already scanning channel: " + channel);
@@ -180,7 +229,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
         UserListHandler handler = 
         new UserListHandlerBase() {
             public void onUserList( String channel, User[] users ) {
-                whereIsService.updateUsersInfo( channel, users );
+                whereIsService.updateUsersInfo( channel, Arrays.asList( users ) );
                 WhereisIrcPluginHook.this.channelsBeingScanned.remove(channel);
                 //bot.partChannel(channel);
             }
@@ -218,9 +267,6 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     
    
 }// class
-
-
-
 /**
  *  Data class.
  */

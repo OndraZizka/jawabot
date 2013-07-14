@@ -69,7 +69,7 @@ public class IrcUtils {
         // Skip blank strings.
         msg = msg.trim();
         nick = nick.trim();
-        if( msg.equals("") || nick.equals("") )
+        if( msg.isEmpty() || nick.isEmpty() )
             return false;
 
         // Message starts with nick?
@@ -158,7 +158,7 @@ public class IrcUtils {
 
         Matcher mat = (onlyColon ? PAT_MSG_AFTER_NICKS_COLON : PAT_MSG_AFTER_NICKS).matcher( msg );
         
-        log.debug("  Pattern: " + mat.pattern().toString() );
+        //if( log.isTraceEnabled() )  log.trace("  Pattern: " + mat.pattern().toString() );
         
         // No nicks recognized.
         if( !mat.matches() )
