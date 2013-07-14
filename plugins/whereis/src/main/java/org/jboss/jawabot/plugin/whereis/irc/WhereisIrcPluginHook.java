@@ -113,6 +113,13 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
     }
 
 
+    @Override
+    public void onUserList( String channel, User[] users, IrcBotProxy bot ) {
+        this.whereIsService.updateUsersInfo( channel, Arrays.asList( users ) );
+    }
+    
+
+
     /**
      *  Scan all channels of the server on connect.
      */
@@ -196,7 +203,7 @@ public class WhereisIrcPluginHook extends IrcPluginHookBase implements IIrcPlugi
 
             final int SCAN_INTERVAL = 60;
             log.debug("Launching executor with jobScanChannelsWeAreIn for every " + SCAN_INTERVAL + " seconds.");
-            executor2.scheduleWithFixedDelay( jobScanChannelsWeAreIn, 4, SCAN_INTERVAL, TimeUnit.SECONDS);
+            //executor2.scheduleWithFixedDelay( jobScanChannelsWeAreIn, 4, SCAN_INTERVAL, TimeUnit.SECONDS);
         }
     }
 
@@ -287,8 +294,7 @@ class ChannelInfo {
     }
 
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "#" + name + "("+userCount+")";
     }
 

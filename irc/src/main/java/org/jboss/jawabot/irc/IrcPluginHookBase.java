@@ -6,6 +6,7 @@ import org.jboss.jawabot.irc.ent.IrcEvJoin;
 import org.jboss.jawabot.irc.ent.IrcEvMessage;
 import org.jboss.jawabot.irc.ent.IrcEvNickChange;
 import org.jboss.jawabot.irc.ent.IrcEvPart;
+import org.jibble.pircbot.beans.User;
 
 /**
  *  Base abstract class to relieve people from writing every method of the interface.
@@ -49,6 +50,12 @@ public abstract class IrcPluginHookBase implements IIrcPluginHook<Object> {
     @Override
     public void onDisconnect(IrcBotProxy pircBotProxy) {
     }
+
+    @Override
+    public void onUserList( String channel, User[] users, IrcBotProxy pircBotProxy ) {
+    }
+    
+    
 
     // Lifecycle.
     @Override
