@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
  *  @author Ondrej Zizka
  */
 public class AutoOpIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHook<Object> {
-   private static final Logger log = LoggerFactory.getLogger( AutoOpIrcPluginHook.class );
+    private static final Logger log = LoggerFactory.getLogger( AutoOpIrcPluginHook.class );
 
    
-   // IRC stuff.
+    // IRC stuff.
 
 
     @Override
@@ -40,7 +40,6 @@ public class AutoOpIrcPluginHook extends IrcPluginHookBase implements IIrcPlugin
             bot.op( channel, user.getNick() );
         }
     }
-    
     
 
 

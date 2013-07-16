@@ -40,6 +40,7 @@ public abstract class IrcPluginHookBase implements IIrcPluginHook<Object> {
     public void onBotJoinChannel(String channel, IrcBotProxy bot) {
     }
     
+    @Override
     public void onNickChange(IrcEvNickChange ev, IrcBotProxy bot){
     }
 

@@ -31,6 +31,7 @@
       <module>reservation</module>
       <module>social</module>
       <module>pastebin</module>
+      <module>jboss-as-cli</module>
    </modules>
 
    <build>
