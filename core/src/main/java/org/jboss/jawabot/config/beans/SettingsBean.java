@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.*;
  */
 public class SettingsBean implements Serializable {
 
+   @XmlAttribute public boolean debug = false;
    @XmlAttribute public boolean verbose = true;
    @XmlAttribute public boolean acceptInvitation = true;
    @XmlAttribute public int messageDelay = 666;

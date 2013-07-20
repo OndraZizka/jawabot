@@ -6,6 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.jawabot.JawaBotApp;
+import org.jboss.jawabot.config.beans.SettingsBean;
 import org.jboss.jawabot.ex.JawaBotException;
 import org.jboss.jawabot.irc.IIrcPluginHook;
 import org.jboss.jawabot.irc.IrcBotProxy;
@@ -33,7 +35,6 @@ import org.slf4j.LoggerFactory;
  */
 public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHook<Object> {
     private static final Logger log = LoggerFactory.getLogger( JiraIrcPluginHook.class );
-
 
 
     //final String JIRA_KEY_REGEX = "([A-Z]{2,}\\-[0-9]+)";
@@ -74,7 +75,6 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
         super.initModule(initObject);
         this.applyConfig();
     }
-
 
 
 
@@ -130,10 +130,7 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 
 
 
-
-
     // IRC stuff.
-
 
     @Override
     public void onMessage( IrcEvMessage ev, IrcBotProxy bot ) throws IrcPluginException {
@@ -158,7 +155,6 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 
             // and process the command.
             wasCommand = handleJiraBotCommand( ev.getChannel(), command, false, bot );
-
         }
 
 
@@ -174,9 +170,6 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
     public void onPrivateMessage(IrcEvMessage ev, IrcBotProxy bot) throws IrcPluginException {
             this.handleJiraBotCommand( ev.getUser(), ev.getText().trim(), true, bot );
     }
-
-
-
 
 
 
@@ -206,8 +199,8 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
 
       // At most X jira requests in one messge.
       //if( jiraIDs.size() > this.jawaBot.getConfig().getPluginsMap().get("jira").settings.repeatDelayMessages ){
-      if( jiraIDs.size() > this.jiraPlugin.getConfig().settings.repeatDelayMessages ){
-         bot.sendMessage(from, "Don't be obnoxious, I'll answer up to " + this.jiraPlugin.getConfig().settings.repeatDelayMessages + " JIRA requests at a time.");
+      if( jiraIDs.size() > this.jiraPlugin.getConfig().settings.maxJirasPerRequest ){
+         bot.sendMessage(from, "Don't be obnoxious, I'll answer up to " + this.jiraPlugin.getConfig().settings.maxJirasPerRequest + " JIRA requests at a time.");
          return;
       }
 
@@ -243,16 +236,11 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
            boolean isChannel, boolean skipCache, boolean noURL,
            IrcBotProxy bot
    ) {
-
-        // TODO: Refactor - repeated in other method.
-        String replyTo = this.jiraPlugin.getConfig().settings.debug ? this.jiraPlugin.getConfig().settings.debugChannel : from;
-
         // Skip Jiras with ignored prefixes.
         if( this.repoManager.hasIgnoredPrefix(issueID) )
             return;
 
         IssueInfo issue = null;
-
       
 
         // Show after at least 15 messages and 3 minutes.
@@ -293,7 +281,7 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
             }
             catch( ScrapingException ex ){
                log.warn( ex.toString() );
-               bot.sendMessage( replyTo, ex.getMessage() );
+               bot.sendMessage( whereToPrint( from ), ex.getMessage() );
                return;
             }
         }
@@ -305,7 +293,7 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
         // Create and send the message.
         String reply = String.format( noURLcur ? "%s" : "%s %s",
             this.formatResponse( issue ), issue.getUrl() );
-        bot.sendMessage( replyTo, reply );
+        bot.sendMessage( whereToPrint( from ), reply );
 
         // Update the cache.
         this.issueCache.putItem( issueID, issue );
@@ -331,17 +319,15 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
      * Handles a command, which is (assumably) sent as PM to the bot.
      *
      * @param replyTo     Nick or channel (#...) from which the message was received.
-     * @param command  The command - the relevant part - i.e. ignoring
-     *                 "jirabot" etc at the beginning of the messagge.
+     * @param command  The command - the relevant part - i.e. ignoring "jirabot" etc at the beginning of the message.
      *
      * @returns  true if the request was valid JiraBot command.
      */
     boolean handleJiraBotCommand( String from, String command, boolean isFromPrivateMessage, IrcBotProxy bot ) {
 
+        String replyTo = whereToPrint( from );
+        
         boolean wasValidCommand = false;
-
-        String replyTo = this.jiraPlugin.getConfig().settings.debug ? this.jiraPlugin.getConfig().settings.debugChannel : from;
-
         command = command.toLowerCase();
 
         // Clear cache.
@@ -362,5 +348,9 @@ public class JiraIrcPluginHook extends IrcPluginHookBase implements IIrcPluginHo
     }// handleJiraBotCommand()
 
 
-}// class
+    private String whereToPrint( String from ) {
+        SettingsBean settings = JawaBotApp.getJawaBot().getConfig().settings;
+        return settings.debug ? settings.debugChannel : from;
+    }
 
+}// class

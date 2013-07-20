@@ -21,6 +21,7 @@
         acceptInvitation = "true"
         announceDefaultChannel = "#some"
         debugChannel = "#some"
+        debug="false"
     />
 
     
@@ -44,6 +45,7 @@
         <server host="porky.stuttgart.redhat.com">
             <autoJoinChannels>
             #some
+            #some2
             <!--
             #devstudio-qa
             #devstudio-doc

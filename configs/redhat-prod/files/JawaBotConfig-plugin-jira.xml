@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Sample JiraBot XML config file -->
+
+<!-- JawaBot Jira plugin config file. -->
 <jiraPluginConfig>
     <settings
         maxJirasPerRequest = "3"
         minJiraPrefixLength = "2"
 
-        joinOnInvite = "true"
-        allowJoinCommand = "true"
         repeatDelay = "666"
-        verbose = "true"
-        unsecuredShutdown = "false"
-        acceptInvitation = "true"
-        leaveOnAsk = "true"
-        adminUser = "ozizka"
-        smtpHost = "smtp.corp.redhat.com"
-        debugChannel = "#some"
-
-        debug = "true"
+        debug = "false"
     />
 
     <irc>
