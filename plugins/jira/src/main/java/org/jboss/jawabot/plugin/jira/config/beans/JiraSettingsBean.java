@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.*;
  *
  * @author Ondrej Zizka
  */
-public class SettingsBean {
+public class JiraSettingsBean {
 
    // JiraBot-related.
    //@XmlAttribute public boolean debug = false;

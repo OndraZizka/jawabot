@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.*;
 public class JiraPluginConfigBean {
 
    @XmlElement
-   public SettingsBean settings;
+   public JiraSettingsBean settings;
 
    @XmlElement
    public JiraBean jira;
