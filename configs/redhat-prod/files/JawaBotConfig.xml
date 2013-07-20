@@ -21,6 +21,7 @@
         acceptInvitation = "true"
         announceDefaultChannel = "#jbosssoaqa"
         debugChannel = "#some"
+        debug="false"
     />
     <!-- TODO: Move to <irc ... > -->
    
